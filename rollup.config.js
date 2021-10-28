@@ -68,7 +68,7 @@ export default {
       },
     }),
     development && userscriptCss(),
-    !development && css(),
+    !development && css({ output: 'bundle.css' }),
 
     // If you have external dependencies installed from
     // npm, you'll most likely need these plugins. In
