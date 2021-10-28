@@ -1,10 +1,15 @@
+import 'leaflet';
 import App from './App.svelte';
 
-const app = new App({
-	target: document.body,
-	props: {
-		name: 'world'
-	}
-});
+import { loadConfig } from './server';
 
-export default app;
+(async () => {
+  (window as any).wasabeewebui = await loadConfig();
+  (window as any).wasabeewebui._updateList = new Map();
+  // @ts-ignore
+  new App({
+    target: document.body,
+  });
+  const footer = document.querySelector('footer');
+  footer.parentElement.appendChild(footer);
+})();
