@@ -2,6 +2,8 @@ import WasabeeMe from './model/me';
 import WasabeeOp from './model/operation';
 import WasabeeMarker from './model/marker';
 
+import { getConfig } from './config';
+
 import type WasabeePortal from './model/portal';
 
 export default function () {
@@ -576,7 +578,7 @@ export function GetWasabeeServer() {
 
 export function GetUpdateList() {
   // @ts-ignore
-  return window.wasabeewebui._updateList;
+  return getConfig()._updateList;
 }
 
 /* The following are for Wasabee-WebUI and not used in Wasabee-IITC */

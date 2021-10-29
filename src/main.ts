@@ -2,10 +2,12 @@ import 'leaflet';
 import App from './App.svelte';
 
 import { loadConfig } from './server';
+import { setConfig } from './config';
 
 (async () => {
-  (window as any).wasabeewebui = await loadConfig();
-  (window as any).wasabeewebui._updateList = new Map();
+  const config = await loadConfig();
+  config._updateList = new Map();
+  setConfig(config);
   // @ts-ignore
   new App({
     target: document.body,

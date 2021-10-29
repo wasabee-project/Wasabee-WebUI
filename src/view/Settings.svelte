@@ -1,9 +1,10 @@
 <script lang="ts">
   import { WasabeeMe } from '../model';
+  import { getConfig } from '../config';
 
   let me: WasabeeMe = WasabeeMe.get();
 
-  let botname: string = (window as any).wasabeewebui.botname;
+  let botname: string = getConfig().botname;
   let vimportmode: string = 'team';
   let sendLocation: boolean = false;
   let analytics: boolean = true;
