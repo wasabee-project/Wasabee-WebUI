@@ -20,7 +20,7 @@
   import Team from './view/Team.svelte';
   import Operation from './view/Operation.svelte';
 
-  import { logoutPromise } from './server';
+  import { loadConfig, logoutPromise } from './server';
 
   import {
     Collapse,
@@ -31,6 +31,7 @@
     NavLink,
   } from 'sveltestrap';
   import { serverMeToMe } from './model/me';
+  import { setConfig } from './config';
 
   const routes = {
     // Exact path
@@ -60,6 +61,7 @@
 
   async function onLogin(ev) {
     me = serverMeToMe(ev.detail);
+    setConfig(await loadConfig());
     await syncOps(me);
     await syncTeams(me);
   }

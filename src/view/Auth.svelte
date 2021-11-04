@@ -2,9 +2,14 @@
   import { SendAccessTokenAsync } from '../server';
   import { createEventDispatcher } from 'svelte';
 
+  import { getServer, setServer } from '../config';
+
   let disabled = true;
 
   const dispatch = createEventDispatcher();
+
+  let server = getServer();
+  $: setServer(server);
 
   function loadAuth2() {
     const options = {
@@ -42,4 +47,5 @@
     on:load={loadAuth2}></script>
 </svelte:head>
 
+<input type="text" bind:value={server} />
 <button class="btn btn-primary" on:click={auth} {disabled}>Login</button>

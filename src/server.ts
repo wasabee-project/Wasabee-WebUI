@@ -2,7 +2,7 @@ import WasabeeMe from './model/me';
 import WasabeeOp from './model/operation';
 import WasabeeMarker from './model/marker';
 
-import { getConfig } from './config';
+import { getConfig, getServer } from './config';
 
 import type WasabeePortal from './model/portal';
 
@@ -573,7 +573,7 @@ async function genericGet(url: string) {
 }
 
 export function GetWasabeeServer() {
-  return 'https://am.wasabee.rocks';
+  return getServer();
 }
 
 export function GetUpdateList() {
