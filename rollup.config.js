@@ -85,6 +85,7 @@ export default {
     json(),
     typescript({
       sourceMap: sourcemap,
+      inlineSource: true,
     }),
 
     // If we're building for production (npm run build

@@ -28,6 +28,7 @@
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@rollup/plugin-typescript": "^8.0.0",
     "@tsconfig/svelte": "^2.0.0",
+    "@types/gapi": "^0.0.41",
     "@types/leaflet": "^1.7.5",
     "leaflet": "^1.7.1",
     "prettier-plugin-svelte": "^2.4.0",
@@ -49,6 +50,7 @@
     "typescript": "^4.0.0"
   },
   "dependencies": {
+    "jwt-decode": "^3.1.2",
     "leaflet.geodesic": "^2.5.5-0",
     "sirv-cli": "^1.0.0"
   }

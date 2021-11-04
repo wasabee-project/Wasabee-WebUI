@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { clearOpsStorage, loadMeAndOps } from './sync';
+  import { clearOpsStorage, loadMeAndOps, syncOps, syncTeams } from './sync';
   import { WasabeeMe } from './model';
 
   let me: WasabeeMe | null;
@@ -8,6 +8,8 @@
   loadMeAndOps().then(() => (me = WasabeeMe.get()));
 
   import Router from 'svelte-spa-router';
+
+  import Auth from './view/Auth.svelte';
 
   import Help from './view/Help.svelte';
   import Operations from './view/Operations.svelte';
@@ -54,31 +56,42 @@
     delete localStorage['sentToServer'];
     window.location.href = '/';
   }
+
+  function onLogin(ev) {
+    me = new WasabeeMe(ev.details);
+    syncOps(me);
+    syncTeams(me);
+  }
 </script>
 
-<header>
-  <Navbar container={false} color="dark" dark expand="lg">
-    <NavbarToggler id="main-toggler" />
-    <Collapse toggler="#main-toggler" navbar expand="lg">
-      <Nav navbar>
-        <NavItem><NavLink href="#/teams">Teams</NavLink></NavItem>
-        <NavItem><NavLink href="#/operations">Operations</NavLink></NavItem>
-        <NavItem
-          ><NavLink href="#/defensivekeys/">Defensive keys</NavLink></NavItem
-        >
-        <NavItem><NavLink href="#/settings">Settings</NavLink></NavItem>
-        <NavItem><NavLink href="#/help">Help</NavLink></NavItem>
-        <NavItem><NavLink href="#/" on:click={logout}>Log out</NavLink></NavItem
-        >
-      </Nav>
-    </Collapse>
-  </Navbar>
-</header>
-<main>
-  {#if me}
-    <Router {routes} />
-  {/if}
-</main>
+{#if !me}
+  <Auth on:login={onLogin} />
+{:else}
+  <header>
+    <Navbar container={false} color="dark" dark expand="lg">
+      <NavbarToggler id="main-toggler" />
+      <Collapse toggler="#main-toggler" navbar expand="lg">
+        <Nav navbar>
+          <NavItem><NavLink href="#/teams">Teams</NavLink></NavItem>
+          <NavItem><NavLink href="#/operations">Operations</NavLink></NavItem>
+          <NavItem
+            ><NavLink href="#/defensivekeys/">Defensive keys</NavLink></NavItem
+          >
+          <NavItem><NavLink href="#/settings">Settings</NavLink></NavItem>
+          <NavItem><NavLink href="#/help">Help</NavLink></NavItem>
+          <NavItem
+            ><NavLink href="#/" on:click={logout}>Log out</NavLink></NavItem
+          >
+        </Nav>
+      </Collapse>
+    </Navbar>
+  </header>
+  <main>
+    {#if me}
+      <Router {routes} />
+    {/if}
+  </main>
+{/if}
 
 <style>
 </style>
