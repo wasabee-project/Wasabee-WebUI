@@ -2,9 +2,11 @@
   import { SendAccessTokenAsync } from '../server';
   import { createEventDispatcher } from 'svelte';
 
+  let disabled = true;
+
   const dispatch = createEventDispatcher();
 
-  function auth() {
+  function loadAuth2() {
     const options = {
       client_id:
         '269534461245-rpgijdorh2v0tdalis1s95fkebok73cl.apps.googleusercontent.com',
@@ -14,17 +16,20 @@
     };
     window.gapi.load('auth2', () => {
       window.gapi.auth2.enableDebugLogs(false);
-      window.gapi.auth2.authorize(options, (response) => {
-        if (response.error) {
-          const err = `error: ${response.error}: ${response.error_subtype}`;
-          alert(err);
-          console.log(err);
-          return;
-        }
-        SendAccessTokenAsync(response.access_token).then((me) =>
-          dispatch('login', me)
-        );
-      });
+      disabled = false;
+    });
+  }
+  function auth() {
+    window.gapi.auth2.authorize(options, (response) => {
+      if (response.error) {
+        const err = `error: ${response.error}: ${response.error_subtype}`;
+        alert(err);
+        console.log(err);
+        return;
+      }
+      SendAccessTokenAsync(response.access_token).then((me) =>
+        dispatch('login', me)
+      );
     });
   }
 </script>
@@ -34,5 +39,7 @@
     src="https://apis.google.com/js/api.js"
     async
     defer
-    on:load={auth}></script>
+    on:load={loadAuth2}></script>
 </svelte:head>
+
+<button class="btn btn-primary" on:click={auth} {disabled}>Login</button>
