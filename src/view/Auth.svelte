@@ -9,9 +9,14 @@
   const dispatch = createEventDispatcher();
 
   let server = getServer();
-  $: setServer(server);
 
   function loadAuth2() {
+    window.gapi.load('auth2', () => {
+      window.gapi.auth2.enableDebugLogs(false);
+      disabled = false;
+    });
+  }
+  async function auth() {
     const options = {
       client_id:
         '269534461245-rpgijdorh2v0tdalis1s95fkebok73cl.apps.googleusercontent.com',
@@ -19,12 +24,6 @@
       response_type: 'id_token permission',
       prompt: 'select_account',
     };
-    window.gapi.load('auth2', () => {
-      window.gapi.auth2.enableDebugLogs(false);
-      disabled = false;
-    });
-  }
-  function auth() {
     window.gapi.auth2.authorize(options, (response) => {
       if (response.error) {
         const err = `error: ${response.error}: ${response.error_subtype}`;
@@ -32,9 +31,14 @@
         console.log(err);
         return;
       }
-      SendAccessTokenAsync(response.access_token).then((me) =>
-        dispatch('login', me)
-      );
+      const oldserver = getServer();
+      setServer(server);
+      SendAccessTokenAsync(response.access_token)
+        .then((me) => dispatch('login', me))
+        .catch(() => {
+          setServer(oldserver);
+          server = oldserver;
+        });
     });
   }
 </script>
