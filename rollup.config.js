@@ -12,11 +12,12 @@ import { createFilter } from '@rollup/pluginutils';
 
 import fs from 'fs';
 
-const production = !process.env.ROLLUP_WATCH && !process.env.DEVELOPMENT;
 const watch = process.env.ROLLUP_WATCH;
 const development = process.env.DEVELOPMENT;
+const userscript = process.env.USERSCRIPT;
+const production = !watch && !development && !userscript;
 
-function userscript() {
+function userscriptAsset() {
   return {
     writeBundle(_, bundle) {
       let out = fs.createWriteStream('wasabee-webui.user.js');
@@ -69,8 +70,8 @@ export default {
         dev: !production,
       },
     }),
-    development && userscriptCss(),
-    !development && css({ output: 'bundle.css' }),
+    userscript && userscriptCss(),
+    !userscript && css({ output: 'bundle.css' }),
 
     // If you have external dependencies installed from
     // npm, you'll most likely need these plugins. In
@@ -92,7 +93,7 @@ export default {
     // instead of npm run dev), minify
     production && terser(),
 
-    development && userscript(),
+    userscript && userscriptAsset(),
 
     watch && serve('public'),
   ],

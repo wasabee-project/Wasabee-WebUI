@@ -17,6 +17,7 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "DEVELOPMENT=1 rollup -c",
+    "userscript": "USERSCRIPT=1 rollup -c",
     "serve": "rollup -c -w",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "format": "prettier --write .",
