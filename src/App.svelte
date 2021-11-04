@@ -57,10 +57,12 @@
     WasabeeMe.purge();
     delete localStorage['sentToServer'];
     //window.location.href = '/';
+    me = null;
   }
 
   async function onLogin(ev) {
     me = serverMeToMe(ev.detail);
+    me.store();
     setConfig(await loadConfig());
     await syncOps(me);
     await syncTeams(me);
