@@ -3,19 +3,19 @@ const agentCache = new Map<GoogleID, WasabeeAgent>();
 export default class WasabeeAgent {
   id: GoogleID;
   name: string;
-  vname?: string;
-  rocksname?: string;
   intelname?: string;
   intelfaction: 'unset' | 'ENLIGHTENED' | 'RESISTANCE';
-  level: number;
-  enlid?: string;
   pic?: string;
-  Vverified: boolean;
-  blacklisted: boolean;
-  rocks: boolean;
   lat: number;
   lng: number;
   date: string;
+  enlid?: string;
+  vname?: string;
+  Vverified: boolean;
+  level: number;
+  blacklisted: boolean;
+  rocksname?: string;
+  rocks: boolean;
 
   ShareWD?: boolean;
   LoadWD?: boolean;
@@ -29,19 +29,25 @@ export default class WasabeeAgent {
     // things which are stable across all teams
     this.id = obj.id;
     this.name = obj.name;
-    this.vname = obj.vname;
-    this.rocksname = obj.rocksname;
-    this.intelname = obj.intelname;
+    this.intelname = obj.intelname !== "unset" ? obj.intelname : "";
     this.intelfaction = obj.intelfaction;
-    this.level = obj.level ? Number(obj.level) : 0;
-    this.enlid = obj.enlid ? obj.enlid : null;
     this.pic = obj.pic ? obj.pic : null;
-    this.Vverified = !!obj.Vverified;
-    this.blacklisted = !!obj.blacklisted;
-    this.rocks = !!obj.rocks;
     this.lat = obj.lat ? obj.lat : 0;
     this.lng = obj.lng ? obj.lng : 0;
     this.date = obj.date ? obj.date : null; // last location sub, not fetched
+    // V
+    this.enlid = obj.enlid ? obj.enlid : null;
+    this.vname = obj.vname;
+    this.Vverified = !!obj.Vverified;
+    this.level = obj.level ? Number(obj.level) : 0;
+    this.blacklisted = !!obj.blacklisted;
+    // rocks
+    this.rocksname = obj.rocksname;
+    this.rocks = !!obj.rocks;
+
+    if (this.Vverified) this.name = this.vname || this.name;
+    else if (this.rocks) this.name = this.rocksname || this.name;
+    else if (this.intelname) this.name = this.intelname + " [!]";
 
     /* what did we decide to do with these?
     this.startlat = obj.startlat ? obj.startlat : 0;
