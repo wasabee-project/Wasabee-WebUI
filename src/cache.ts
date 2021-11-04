@@ -1,5 +1,5 @@
 import WasabeeAgent, { serverAgentToAgent } from './model/agent';
-import WasabeeMe from './model/me';
+import WasabeeMe, { serverMeToMe } from './model/me';
 import WasabeeTeam, { serverTeamToTeam } from './model/team';
 import { agentPromise, mePromise, teamPromise } from './server';
 
@@ -16,7 +16,7 @@ export async function getMe(force = false) {
 
   try {
     const raw = await mePromise();
-    const me = new WasabeeMe(raw);
+    const me = serverMeToMe(raw);
     return me;
   } catch (e) {
     console.log(e);

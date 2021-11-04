@@ -30,6 +30,7 @@
     NavItem,
     NavLink,
   } from 'sveltestrap';
+  import { serverMeToMe } from './model/me';
 
   const routes = {
     // Exact path
@@ -54,13 +55,13 @@
     }
     WasabeeMe.purge();
     delete localStorage['sentToServer'];
-    window.location.href = '/';
+    //window.location.href = '/';
   }
 
-  function onLogin(ev) {
-    me = new WasabeeMe(ev.details);
-    syncOps(me);
-    syncTeams(me);
+  async function onLogin(ev) {
+    me = serverMeToMe(ev.detail);
+    await syncOps(me);
+    await syncTeams(me);
   }
 </script>
 
