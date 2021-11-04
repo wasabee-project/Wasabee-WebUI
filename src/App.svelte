@@ -5,7 +5,7 @@
   let me: WasabeeMe | null;
 
   // initial sync
-  loadMeAndOps().then((m) => (me = WasabeeMe.get()));
+  loadMeAndOps().then(() => (me = WasabeeMe.get()));
 
   import Router from 'svelte-spa-router';
 

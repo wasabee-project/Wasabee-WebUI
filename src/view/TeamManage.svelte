@@ -48,7 +48,7 @@
     );
   }
   function agentSquadChange(agent: WasabeeAgent) {
-    setAgentTeamSquadPromise(agent.id, team.id, agent.squad).then(
+    setAgentTeamSquadPromise(agent.id, team.id, agent.comment).then(
       () => {},
       (reject) => {
         console.log(reject);
@@ -73,8 +73,9 @@
       <tr>
         <th scope="col">&nbsp;</th>
         <th scope="col">Agent</th>
+        <th scope="col">Identity</th>
         <th scope="col">Sharing Location</th>
-        <th scope="col">Squad</th>
+        <th scope="col">Comment</th>
         {#if !team.rc}<th scope="col">&nbsp;</th>{/if}
       </tr>
     </thead>
@@ -85,13 +86,23 @@
           >
           <td>{agent.name}</td>
           <td>
-            {#if agent.state}
+            {[
+              [agent.Vverified, 'V'],
+              [agent.rocks, 'Rocks'],
+              [agent.intelname, 'Intel'],
+            ]
+              .filter((a) => a[0])
+              .map((a) => a[1])
+              .join(' ')}
+          </td>
+          <td>
+            {#if agent.shareLocation}
               <img src={checkmark} alt="sharing location" />
             {/if}
           </td>
           <td>
             <input
-              bind:value={agent.squad}
+              bind:value={agent.comment}
               on:change={() => agentSquadChange(agent)}
             />
           </td>

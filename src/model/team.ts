@@ -1,24 +1,55 @@
-import WasabeeAgent from './agent';
+import WasabeeAgent, { serverAgentToAgent, ServerAgent } from './agent';
 
 const teamCache = new Map<TeamID, WasabeeTeam>();
 
-export default class WasabeeTeam {
-  id: TeamID;
-  fetched: number;
-  name: string;
+interface RocksTeam {
   rc: string;
   rk: string;
-  jlt: string;
+}
+
+interface VTeam {
   vt: string;
   vr: string;
+}
+
+interface ServerTeam extends RocksTeam, VTeam {
+  id: TeamID;
+  name: string;
+  agents: ServerAgent[];
+  jlt: string;
+}
+
+interface Team extends RocksTeam, VTeam {
+  id: TeamID;
+  name: string;
   agents: WasabeeAgent[];
+  jlt: string;
 
-  _a: WasabeeAgent[];
-  cached: boolean;
+  fetched?: number;
+}
 
-  constructor(data: any) {
-    let fromServer = false;
-    if (data.fetched == null) fromServer = true;
+export function serverTeamToTeam(team: ServerTeam) {
+  return new WasabeeTeam({
+    ...team,
+    agents: team.agents.map(serverAgentToAgent),
+  });
+}
+
+export default class WasabeeTeam implements Team {
+  id: TeamID;
+  name: string;
+  agents: WasabeeAgent[];
+  jlt: string;
+  // Rocks
+  rc: string;
+  rk: string;
+  // V
+  vt: string;
+  vr: string;
+
+  fetched: number;
+
+  constructor(data: Team) {
     this.fetched = data.fetched ? data.fetched : Date.now();
 
     this.id = data.id;
@@ -28,32 +59,15 @@ export default class WasabeeTeam {
     this.jlt = data.jlt;
     this.vt = data.vt;
     this.vr = data.vr;
-    this.agents = data.agents; // raw agent data
+    this.agents = data.agents;
 
-    // this block (1) adds agent to agents cache and (2) populates _a
-    // _a is a buffer of pre-built WasabeeAgents we can return via getAgents() w/o having to await
-    this._a = new Array();
-    for (const agent of data.agents) {
-      agent.fetched = this.fetched;
-      this._a.push(new WasabeeAgent(agent)); // add to agent cache
-    }
-
-    if (fromServer) this._updateCache();
-  }
-
-  getAgents() {
-    return this._a;
-  }
-
-  async _updateCache() {
     teamCache.set(this.id, this);
   }
 
   static get(teamID: TeamID) {
     const cached = teamCache.get(teamID);
     if (cached) {
-      const t = new WasabeeTeam(cached);
-      return t;
+      return cached;
     }
     return null;
   }

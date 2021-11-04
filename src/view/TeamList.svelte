@@ -8,19 +8,7 @@
 
   let checkmark = 'https://cdn2.wasabee.rocks/img/checkmark.png';
 
-  $: agents = !team
-    ? []
-    : team.agents.map((agent) => ({
-        id: agent.id,
-        pic: agent.pic,
-        name:
-          !agent.rocks && !agent.Vverified && agent.intelname
-            ? agent.intelname
-            : agent.name,
-        shareLoc: agent.state,
-        shareWD: agent.ShareWD,
-        squad: agent.squad,
-      }));
+  $: agents = !team ? [] : team.agents;
 </script>
 
 {#if team}
@@ -30,9 +18,10 @@
       <tr>
         <th scope="col">&nbsp;</th>
         <th scope="col">Agent</th>
+        <th scope="col">Identity</th>
         <th scope="col">Sharing Location</th>
         <th scope="col">Sharing WD Keys</th>
-        <th scope="col">Squad</th>
+        <th scope="col">Comment</th>
       </tr>
     </thead>
     <tbody id="teamTable">
@@ -42,16 +31,26 @@
           >
           <td>{agent.name}</td>
           <td>
-            {#if agent.shareLoc}
+            {[
+              [agent.Vverified, 'V'],
+              [agent.rocks, 'Rocks'],
+              [agent.intelname, 'Intel'],
+            ]
+              .filter((a) => a[0])
+              .map((a) => a[1])
+              .join(' ')}
+          </td>
+          <td>
+            {#if agent.shareLocation}
               <img src={checkmark} alt="sharing location" />
             {/if}
           </td>
           <td>
-            {#if agent.shareWD}
+            {#if agent.shareWDKeys}
               <img src={checkmark} alt="sharing wd keys" />
             {/if}
           </td>
-          <td>{agent.squad}</td>
+          <td>{agent.comment}</td>
         </tr>
       {/each}
     </tbody>
