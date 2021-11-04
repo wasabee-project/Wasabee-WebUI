@@ -51,17 +51,19 @@ function userscriptCss(options = {}) {
   };
 }
 
+const sourcemap = true; // !production;
+
 export default {
   input: 'src/main.ts',
   output: {
-    sourcemap: true,
+    sourcemap: sourcemap,
     format: 'iife',
     name: 'app',
     file: 'public/build/bundle.js',
   },
   plugins: [
     svelte({
-      preprocess: sveltePreprocess({ sourceMap: !production }),
+      preprocess: sveltePreprocess({ sourceMap: sourcemap }),
       compilerOptions: {
         // enable run-time checks when not in production
         dev: !production,
@@ -82,8 +84,7 @@ export default {
     commonjs(),
     json(),
     typescript({
-      sourceMap: !production,
-      inlineSources: !production,
+      sourceMap: sourcemap,
     }),
 
     // If we're building for production (npm run build
