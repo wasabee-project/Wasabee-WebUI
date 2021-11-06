@@ -1,5 +1,32 @@
 <script lang="ts">
+  import Router from 'svelte-spa-router';
+  import { fade } from 'svelte/transition';
+
+  import {
+    Collapse,
+    Navbar,
+    NavbarToggler,
+    Nav,
+    NavItem,
+    NavLink,
+  } from 'sveltestrap';
+
+  import Help from './view/Help.svelte';
+  import HomePage from './view/HomePage.svelte';
+  import Operations from './view/Operations.svelte';
+  import Settings from './view/Settings.svelte';
+  import Teams from './view/Teams.svelte';
+
+  import DefensiveKeys from './view/DefensiveKeys.svelte';
+  import Operation from './view/Operation.svelte';
+  import Team from './view/Team.svelte';
+
+  import { serverMeToMe } from './model/me';
+  import { setConfig } from './config';
+
   import { clearOpsStorage, loadMeAndOps, syncOps, syncTeams } from './sync';
+  import { loadConfig, logoutPromise } from './server';
+
   import { WasabeeMe } from './model';
 
   let me: WasabeeMe | null;
@@ -17,31 +44,6 @@
     });
 
   $: if (me) loading = false;
-
-  import Router from 'svelte-spa-router';
-
-  import Help from './view/Help.svelte';
-  import Operations from './view/Operations.svelte';
-  import Settings from './view/Settings.svelte';
-  import Teams from './view/Teams.svelte';
-
-  import DefensiveKeys from './view/DefensiveKeys.svelte';
-  import Team from './view/Team.svelte';
-  import Operation from './view/Operation.svelte';
-
-  import { loadConfig, logoutPromise } from './server';
-
-  import {
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    Nav,
-    NavItem,
-    NavLink,
-  } from 'sveltestrap';
-  import { serverMeToMe } from './model/me';
-  import { setConfig } from './config';
-  import HomePage from './view/HomePage.svelte';
 
   const routes = {
     // Exact path
@@ -115,7 +117,7 @@
       </Collapse>
     </Navbar>
   </header>
-  <main>
+  <main in:fade={{ duration: 500 }}>
     <Router {routes} />
   </main>
 {/if}
