@@ -1,9 +1,11 @@
 let config: { [key: string]: any } = null;
 
-let server = 'https://am.wasabee.rocks';
+const SERVER_KEY = 'wasabee-server';
+let server: string = localStorage[SERVER_KEY] || 'https://am.wasabee.rocks';
 
 export function setConfig(c) {
   config = c;
+  config._updateList = new Map();
 }
 
 export function getConfig() {
@@ -12,6 +14,7 @@ export function getConfig() {
 
 export function setServer(s) {
   server = s;
+  localStorage[SERVER_KEY] = s;
 }
 
 export function getServer() {

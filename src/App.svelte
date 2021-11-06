@@ -4,12 +4,21 @@
 
   let me: WasabeeMe | null;
 
-  // initial sync
-  loadMeAndOps().then(() => (me = WasabeeMe.get()));
+  let loading = true;
+
+  // try use last used server
+  loadMeAndOps()
+    .then(() => {
+      me = WasabeeMe.get();
+      loading = false;
+    })
+    .catch(() => {
+      loading = false;
+    });
+
+  $: if (me) loading = false;
 
   import Router from 'svelte-spa-router';
-
-  import Auth from './view/Auth.svelte';
 
   import Help from './view/Help.svelte';
   import Operations from './view/Operations.svelte';
@@ -32,6 +41,7 @@
   } from 'sveltestrap';
   import { serverMeToMe } from './model/me';
   import { setConfig } from './config';
+  import HomePage from './view/HomePage.svelte';
 
   const routes = {
     // Exact path
@@ -60,6 +70,12 @@
     me = null;
   }
 
+  let disabled = true;
+  function loadAuth2() {
+    window.gapi.load('auth2', () => {
+      disabled = false;
+    });
+  }
   async function onLogin(ev) {
     me = serverMeToMe(ev.detail);
     me.store();
@@ -69,8 +85,16 @@
   }
 </script>
 
+<svelte:head>
+  <script
+    src="https://apis.google.com/js/api.js"
+    async
+    defer
+    on:load={loadAuth2}></script>
+</svelte:head>
+
 {#if !me}
-  <Auth on:login={onLogin} />
+  <HomePage on:login={onLogin} {disabled} />
 {:else}
   <header>
     <Navbar container={false} color="dark" dark expand="lg">
@@ -92,11 +116,51 @@
     </Navbar>
   </header>
   <main>
-    {#if me}
-      <Router {routes} />
-    {/if}
+    <Router {routes} />
   </main>
 {/if}
 
+{#if loading}
+  <div id="loading-animation" />
+{/if}
+
+<footer class="mastfoot mx-5 mt-auto">
+  <div class="p-5">
+    <p class="text-muted small">
+      This site uses cookies for authentication purposes. You may opt into
+      location tracking; your location and other information will be shared <strong
+        >only</strong
+      >
+      with members of your teams. Your ENL information is verified with
+      <a href="https://v.enl.one/">V</a> and
+      <a href="https://enl.rocks">.rocks</a>. Please see the
+      <a href="/privacy">Privacy Policy</a> for more information.
+    </p>
+    <p class="text-muted text-right small">
+      Copyright &copy; The Wasabee Team 2021. All Rights Reserved
+    </p>
+  </div>
+</footer>
+
 <style>
+  :global(html),
+  :global(body) {
+    height: 100%;
+  }
+  :global(body) {
+    display: flex;
+    flex-direction: column;
+  }
+  #loading-animation {
+    background-image: url(https://cdn2.wasabee.rocks/img/bee.svg);
+    background-size: cover;
+    background-position-x: 34%;
+    width: 10rem;
+    height: 10rem;
+    animation: spinner-border 0.9s ease infinite;
+    position: absolute;
+    top: calc(50vh - 5rem);
+    left: calc(50vw - 5rem);
+    z-index: 10;
+  }
 </style>

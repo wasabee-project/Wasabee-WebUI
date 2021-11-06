@@ -216,3 +216,9 @@
     </div>
   </div>
 </div>
+
+<style>
+  #teams button {
+    width: 100%;
+  }
+</style>
