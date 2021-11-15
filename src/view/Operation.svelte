@@ -7,6 +7,7 @@
   import OperationManage from './OperationManage.svelte';
   import OperationMap from './OperationMap.svelte';
   import OperationPermissions from './OperationPermissions.svelte';
+  import OperationGraph from './OperationGraph.svelte';
 
   import { wrap } from 'svelte-spa-router/wrap';
   import { writable } from 'svelte/store';
@@ -84,6 +85,12 @@
         opStore: opStore,
       },
     }),
+    '/graph': wrap({
+      component: OperationGraph,
+      props: {
+        opStore: opStore,
+      },
+    }),
   };
 
   function onRouteEvent(event: any) {
@@ -116,6 +123,11 @@
     <li class="nav-item">
       <a class="nav-link" use:active href={'#/operation/' + opid + '/manage'}
         >Manage</a
+      >
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" use:active href={'#/operation/' + opid + '/graph'}
+        >Graph</a
       >
     </li>
     <li class="nav-item">

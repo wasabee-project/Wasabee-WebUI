@@ -9,8 +9,10 @@ type TeamID = string;
 type GoogleID = string;
 type ZoneID = number;
 
+type TaskID = string;
+
 interface Task {
-  ID: string;
+  ID: TaskID;
   order: number;
   zone: number;
   assignedTo?: GoogleID;
@@ -18,6 +20,7 @@ interface Task {
   comment?: string;
   state: 'pending' | 'assigned' | 'acknowledged' | 'completed';
   completed: boolean;
+  dependsOn: TaskID[];
 }
 
 type WDKey = {

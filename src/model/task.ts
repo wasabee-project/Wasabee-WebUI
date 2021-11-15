@@ -1,10 +1,12 @@
 export default class Task {
-  ID: string;
+  ID: TaskID;
   order: number;
   zone: number;
   assignedTo?: GoogleID;
   completedID?: GoogleID;
   comment?: string;
+
+  dependsOn: TaskID[];
 
   _state: 'pending' | 'assigned' | 'acknowledged' | 'completed';
 
@@ -16,6 +18,7 @@ export default class Task {
     this.completedID = obj.completedID ? obj.completedID : null;
     this.comment = obj.comment ? obj.comment : '';
     this.state = obj.state;
+    this.dependsOn = obj.dependsOn || [];
   }
 
   toServer() {
@@ -30,6 +33,7 @@ export default class Task {
       completedID: this.completedID,
       assignedTo: this.assignedTo,
       state: this._state,
+      dependsOn: this.dependsOn,
     };
   }
 
