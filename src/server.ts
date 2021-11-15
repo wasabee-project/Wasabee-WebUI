@@ -1,90 +1,71 @@
 import WasabeeMe from './model/me';
 import WasabeeOp from './model/operation';
-import WasabeeMarker from './model/marker';
-
-import { getConfig, getServer } from './config';
-
+import { ServerError } from './error';
+import type { TaskState } from './model/task';
 import type WasabeePortal from './model/portal';
+import type WasabeeAgent from './model/agent';
+import type WasabeeTeam from './model/team';
+import { WasabeeMarker } from './model';
+
+import { getServer } from './config';
 
 export default function () {
   return GetWasabeeServer();
 }
 
-// removes an op from the server
-export function deleteOpPromise(opID: OpID) {
-  return genericDelete(`/api/v1/draw/${opID}`, new FormData());
+export function GetWasabeeServer() {
+  return getServer();
 }
 
-// returns a promise to op stat from the server
-export function statOpPromise(opID: OpID) {
-  return genericGet(`/api/v1/draw/${opID}/stat`);
+export function GetUpdateList() {
+  // @ts-ignore
+  return getConfig()._updateList;
 }
 
-// returns a promise to a WasabeeTeam -- used only by WasabeeTeam.get
-// use WasabeeTeam.get
-export function teamPromise(teamid: TeamID) {
-  return genericGet(`/api/v1/team/${teamid}`);
+interface IServerStatus {
+  status: string;
 }
 
-// returns a promise to fetch a WasabeeOp
-// local change: If the server's copy is newer than the local copy, otherwise none
-// not generic since 304 result processing and If-Modified-Since header
-export async function opPromise(opID: OpID) {
-  const localop = WasabeeOp.load(opID);
-
-  try {
-    const server = GetWasabeeServer();
-    const headers = {};
-    // ops synced since 0.19: prefer lasteditid if available
-    if (localop && localop.lasteditid)
-      headers['If-None-Match'] = localop.lasteditid;
-    const response = await fetch(server + `/api/v1/draw/${opID}`, {
-      method: 'GET',
-      mode: 'cors',
-      cache: 'default',
-      credentials: 'include',
-      redirect: 'manual',
-      referrerPolicy: 'origin',
-      headers: headers,
-    });
-
-    let raw = null;
-    let newop: WasabeeOp = null; // I hate javascript
-    switch (response.status) {
-      case 200:
-        raw = await response.json();
-        newop = new WasabeeOp(raw);
-        return Promise.resolve(newop);
-      case 304: // If-None-Match or If-Modified-Since replied NotModified
-        console.warn('server copy is older/unmodified, keeping local copy');
-        return Promise.resolve(localop);
-      case 401:
-        WasabeeMe.purge();
-        raw = await response.json();
-        return Promise.reject('not logged in: ' + raw.error);
-      case 403:
-        await WasabeeOp.delete(opID);
-        raw = await response.json();
-        return Promise.reject('permission denied: ' + raw.error);
-      case 410:
-        await WasabeeOp.delete(opID);
-        raw = await response.json();
-        return Promise.reject('permission deleted: ' + raw.error);
-      default:
-        try {
-          const err = await response.json();
-          return Promise.reject(err.error);
-        } catch (e) {
-          console.error(e);
-          raw = await response.text();
-          return Promise.reject(raw);
-        }
-    }
-  } catch (e) {
-    console.error(e);
-    return Promise.reject(e);
-  }
+interface IServerUpdate extends IServerStatus {
+  updateID: string;
 }
+
+/*
+On fail, all promises reject an ServerError { code: number, text: string, error?: string }
+If http code is 401: request Me.purge (fire wasabee:logout)
+On success, it may returns:
+ - the requested data as string
+ - the requested object
+ - true/false (updateOp)
+*/
+
+export function loadConfig() {
+  return genericGet(`/static/wasabee-webui-config.json`);
+}
+
+// returns a promise to /me if the access token is valid
+export function SendAccessTokenAsync(accessToken) {
+  return genericPost(
+    '/aptok',
+    JSON.stringify({ accessToken: accessToken }),
+    'application/json;charset=UTF-8'
+  );
+}
+
+// sets logout status on the server; return value is status code
+export function logoutPromise() {
+  return genericGet('/api/v1/me/logout');
+}
+
+// local change: none // cache: none
+export function oneTimeToken(token) {
+  const url = '/oneTimeToken';
+  const fd = new FormData();
+  fd.append('token', token);
+  return genericPost(url, fd);
+}
+
+/**** me & d ****/
 
 // returns a promise to WasabeeMe -- should be called only by WasabeeMe.waitGet()
 // use WasabeeMe.cacheGet or WasabeeMe.waitGet for caching
@@ -92,31 +73,59 @@ export function mePromise() {
   return genericGet('/api/v1/me');
 }
 
+// returns a promise to a list of defensive keys for all enabled teams
+export function dKeylistPromise() {
+  return genericGet<{
+    DefensiveKeys: WDKey[];
+  }>('/api/v1/d');
+}
+
+// removes the agent from the team; return value is status code
+export function leaveTeamPromise(teamID: TeamID) {
+  return genericDelete(`/api/v1/me/${teamID}`);
+}
+
+// updates an agent's location ; return value is status code
+export function locationPromise(lat: number, lng: number) {
+  return genericGet(`/api/v1/me?lat=${lat}&lon=${lng}`);
+}
+
+export function setIntelID(name: string, faction: string, querytoken: string) {
+  const fd = new FormData();
+  fd.append('name', name);
+  fd.append('faction', faction);
+  fd.append('qt', querytoken);
+  return genericPut(`/api/v1/me/intelid`, fd);
+}
+
+// changes agent's team state on the server; return value is status message
+export function SetTeamState(teamID: TeamID, state: 'On' | 'Off') {
+  return genericGet(`/api/v1/me/${teamID}?state=${state}`);
+}
+
+export function SetTeamShareWD(teamID: TeamID, state: 'On' | 'Off') {
+  return genericGet(`/api/v1/me/${teamID}/wdshare?state=${state}`);
+}
+
+export function SetTeamLoadWD(teamID: TeamID, state: 'On' | 'Off') {
+  return genericGet(`/api/v1/me/${teamID}/wdload?state=${state}`);
+}
+
+// updates an agent's single defensive key
+export function dKeyPromise(json: string) {
+  return genericPost('/api/v1/d', json, 'application/json;charset=UTF-8');
+}
+
+// many d-keys at once
+export function dKeyBulkPromise(json: string) {
+  return genericPost('/api/v1/d/bulk', json, 'application/json;charset=UTF-8');
+}
+
+/* agent */
+
 // returns a promise to get the agent's JSON data from the server -- should be called only by WasabeeAgent.get()
 export function agentPromise(GID: GoogleID) {
-  return genericGet(`/api/v1/agent/${GID}`);
-}
-
-// local change: none // cache: none
-export function assignMarkerPromise(
-  opID: OpID,
-  markerID: string,
-  agentID: GoogleID
-) {
-  const fd = new FormData();
-  fd.append('agent', agentID);
-  return genericPost(`/api/v1/draw/${opID}/marker/${markerID}/assign`, fd);
-}
-
-// performs a link assignment on the server, sending notifications
-export function assignLinkPromise(
-  opID: OpID,
-  linkID: string,
-  agentID: GoogleID
-) {
-  const fd = new FormData();
-  fd.append('agent', agentID);
-  return genericPost(`/api/v1/draw/${opID}/link/${linkID}/assign`, fd);
+  return genericGet<WasabeeAgent>(`/api/v1/agent/${GID}`);
 }
 
 // sends a target (portal) to the server to notify the agent
@@ -138,488 +147,12 @@ export function targetPromise(
   );
 }
 
-// work in progress -- server support not finished
-export function routePromise(agentID: GoogleID, portal: WasabeePortal) {
-  const ll = portal.lat + ',' + portal.lng;
-  const fd = new FormData();
-  fd.append('id', agentID);
-  fd.append('portal', portal.name);
-  fd.append('ll', ll);
-  return genericPost(`/api/v1/agent/${agentID}/route`, fd);
-}
+/* team */
 
-// returns a promise to /me if the access token is valid
-export function SendAccessTokenAsync(accessToken: string) {
-  return genericPost(
-    '/aptok',
-    JSON.stringify({ accessToken: accessToken }),
-    'application/json;charset=UTF-8'
-  );
-}
-
-// changes agent's team state on the server; return value is status message
-export function SetTeamState(teamID: TeamID, state: 'On' | 'Off') {
-  return genericGet(`/api/v1/me/${teamID}?state=${state}`);
-}
-
-export function SetTeamShareWD(teamID: TeamID, state: 'On' | 'Off') {
-  return genericGet(`/api/v1/me/${teamID}/wdshare?state=${state}`);
-}
-
-export function SetTeamLoadWD(teamID: TeamID, state: 'On' | 'Off') {
-  return genericGet(`/api/v1/me/${teamID}/wdload?state=${state}`);
-}
-
-// changes a markers status on the server, sending relevant notifications
-export function SetMarkerState(
-  opID: OpID,
-  markerID: string,
-  state: 'pending' | 'acknowledged' | 'completed'
-) {
-  let action = 'incomplete';
-  switch (state) {
-    case 'acknowledged':
-      action = 'acknowledge';
-      break;
-    case 'pending':
-      action = 'incomplete';
-      break;
-    case 'completed':
-      action = 'complete';
-      break;
-    default:
-      action = 'incomplete';
-  }
-
-  return genericGet(`/api/v1/draw/${opID}/marker/${markerID}/${action}`);
-}
-
-// changes a link's status on the server, sending relevant notifications
-export function SetLinkState(
-  opID: OpID,
-  linkID: string,
-  state: 'pending' | 'acknowledged' | 'completed'
-) {
-  let action = 'incomplete';
-  switch (state) {
-    // no acknowledge for links -- use incomplete
-    case 'pending':
-      action = 'incomplete';
-      break;
-    case 'completed':
-      action = 'complete';
-      break;
-    default:
-      action = 'incomplete';
-  }
-
-  return genericGet(`/api/v1/draw/${opID}/link/${linkID}/${action}`);
-}
-
-// updates an agent's key count, return value is status code
-export function opKeyPromise(
-  opID: OpID,
-  portalID: PortalID,
-  onhand: number,
-  capsule: string
-) {
-  const fd = new FormData();
-  fd.append('count', `${onhand}`);
-  fd.append('capsule', capsule);
-  return genericPost(`/api/v1/draw/${opID}/portal/${portalID}/keyonhand`, fd);
-}
-
-// updates an agent's single defensive key
-export function dKeyPromise(json: string) {
-  return genericPost('/api/v1/d', json, 'application/json;charset=UTF-8');
-}
-
-// many d-keys at once
-export function dKeyBulkPromise(json: string) {
-  return genericPost('/api/v1/d/bulk', json, 'application/json;charset=UTF-8');
-}
-
-// returns a promise to a list of defensive keys for all enabled teams
-export function dKeylistPromise() {
-  return genericGet('/api/v1/d');
-}
-
-// updates an agent's location ; return value is status code
-export function locationPromise(lat: number, lng: number) {
-  return genericGet(`/api/v1/me?lat=${lat}&lon=${lng}`);
-}
-
-// sets logout status on the server; return value is status code
-export function logoutPromise() {
-  return genericGet('/api/v1/me/logout');
-}
-
-// adds a permission to an op; return value is status code
-export function addPermPromise(
-  opID: OpID,
-  teamID: TeamID,
-  role: 'read' | 'write' | 'assignonly',
-  zone: number
-) {
-  const fd = new FormData();
-  fd.append('team', teamID);
-  fd.append('role', role);
-  fd.append('zone', `${zone}`);
-  return genericPost(`/api/v1/draw/${opID}/perms`, fd);
-}
-
-// removes a permission from an op; return value is status code
-export function delPermPromise(
-  opID: OpID,
-  teamID: TeamID,
-  role: 'read' | 'write' | 'assignonly',
-  zone: number
-) {
-  const fd = new FormData();
-  fd.append('team', teamID);
-  fd.append('role', role);
-  fd.append('zone', `${zone}`);
-  return genericDelete(`/api/v1/draw/${opID}/perms`, fd);
-}
-
-// removes the agent from the team; return value is status code
-export function leaveTeamPromise(teamID: TeamID) {
-  return genericDelete(`/api/v1/me/${teamID}`, new FormData());
-}
-
-// removes another agent from an owned team ; return value is status code
-export function removeAgentFromTeamPromise(agentID: GoogleID, teamID: TeamID) {
-  return genericDelete(`/api/v1/team/${teamID}/${agentID}`, new FormData());
-}
-
-// local change: none // cache: none
-export function setAgentTeamSquadPromise(
-  agentID: GoogleID,
-  teamID: TeamID,
-  squad: string
-) {
-  const fd = new FormData();
-  fd.append('squad', squad);
-  return genericPost(`/api/v1/team/${teamID}/${agentID}/squad`, fd);
-}
-
-// local change: none // cache: none
-export function addAgentToTeamPromise(agentID: GoogleID, teamID: TeamID) {
-  return genericPost(`/api/v1/team/${teamID}/${agentID}`, new FormData());
-}
-
-// local change: none // cache: none
-export function renameTeamPromise(teamID: TeamID, name: string) {
-  const fd = new FormData();
-  fd.append('teamname', name);
-  return genericPut(`/api/v1/team/${teamID}/rename`, fd);
-}
-
-// local change: none // cache: none
-export function rocksPromise(
-  teamID: TeamID,
-  community: string,
-  apikey: string
-) {
-  return genericGet(
-    `/api/v1/team/${teamID}/rockscfg?rockscomm=${community}&rockskey=${apikey}`
-  );
-}
-
-// local change: none // cache: none
-export function newTeamPromise(name: string) {
-  return genericGet(`/api/v1/team/new?name=${name}`);
-}
-
-// local change: none // cache: none
-export function deleteTeamPromise(teamID: TeamID) {
-  return genericDelete(`/api/v1/team/${teamID}`, new FormData());
-}
-
-// local change: none // cache: none
-export function oneTimeToken(token: string) {
-  const url = '/oneTimeToken';
-  const fd = new FormData();
-  fd.append('token', token);
-  return genericPost(url, fd);
-}
-
-async function genericPut(
-  url: string,
-  formData: FormData | string,
-  contentType?: string
-) {
-  try {
-    const construct: RequestInit = {
-      method: 'PUT',
-      mode: 'cors',
-      cache: 'default',
-      credentials: 'include',
-      redirect: 'manual',
-      referrerPolicy: 'origin',
-      body: formData,
-    };
-    if (contentType != null) {
-      construct.headers = { 'Content-Type': contentType };
-    }
-    const response = await fetch(GetWasabeeServer() + url, construct);
-
-    switch (response.status) {
-      case 200:
-        try {
-          const obj = await response.json();
-          if (obj.updateID) GetUpdateList().set(obj.updateID, Date.now());
-          return Promise.resolve(obj);
-        } catch (e) {
-          console.error(e);
-          return Promise.reject(e);
-        }
-      // break;
-      case 401:
-        WasabeeMe.purge();
-        try {
-          const err = await response.json();
-          return Promise.reject('not logged in: ' + err.error);
-        } catch (e) {
-          console.error(e);
-          return Promise.reject(e);
-        }
-      // break;
-      default:
-        try {
-          const err = await response.json();
-          return Promise.reject(err.error);
-        } catch (e) {
-          console.error(e);
-          return Promise.reject(e);
-        }
-      // break;
-    }
-  } catch (e) {
-    console.error(e);
-    return Promise.reject(e);
-  }
-}
-
-async function genericPost(
-  url: string,
-  formData: FormData | string,
-  contentType?: string
-) {
-  try {
-    const construct: RequestInit = {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'default',
-      credentials: 'include',
-      redirect: 'manual',
-      referrerPolicy: 'origin',
-      body: formData,
-    };
-    if (contentType != null) {
-      construct.headers = { 'Content-Type': contentType };
-    }
-    const response = await fetch(GetWasabeeServer() + url, construct);
-
-    switch (response.status) {
-      case 200:
-        try {
-          const obj = await response.json();
-          if (obj.updateID) GetUpdateList().set(obj.updateID, Date.now());
-          return Promise.resolve(obj);
-        } catch (e) {
-          console.error(e);
-          return Promise.reject(e);
-        }
-      // break;
-      case 401:
-        WasabeeMe.purge();
-        try {
-          const err = await response.json();
-          return Promise.reject('not logged in: ' + err.error);
-        } catch (e) {
-          console.error(e);
-          return Promise.reject(e);
-        }
-      // break;
-      default:
-        try {
-          const err = await response.json();
-          return Promise.reject(err.error);
-        } catch (e) {
-          console.error(e);
-          return Promise.reject(e);
-        }
-      // break;
-    }
-  } catch (e) {
-    console.error(e);
-    return Promise.reject(e);
-  }
-}
-
-async function genericDelete(
-  url: string,
-  formData: FormData | string,
-  contentType?: string
-) {
-  try {
-    const construct: RequestInit = {
-      method: 'DELETE',
-      mode: 'cors',
-      cache: 'default',
-      credentials: 'include',
-      redirect: 'manual',
-      referrerPolicy: 'origin',
-      body: formData,
-    };
-    if (contentType != null) {
-      construct.headers = { 'Content-Type': contentType };
-    }
-    const response = await fetch(GetWasabeeServer() + url, construct);
-
-    switch (response.status) {
-      case 200:
-        try {
-          const obj = await response.json();
-          if (obj.updateID) GetUpdateList().set(obj.updateID, Date.now());
-          return Promise.resolve(obj);
-        } catch (e) {
-          console.error(e);
-          return Promise.reject(e);
-        }
-      // break;
-      case 401:
-        WasabeeMe.purge();
-        try {
-          const err = await response.json();
-          return Promise.reject('not logged in: ' + err.error);
-        } catch (e) {
-          console.error(e);
-          return Promise.reject(e);
-        }
-      // break;
-      default:
-        try {
-          const err = await response.json();
-          return Promise.reject(err.error);
-        } catch (e) {
-          console.error(e);
-          return Promise.reject(e);
-        }
-      // break;
-    }
-  } catch (e) {
-    console.error(e);
-    return Promise.reject(e);
-  }
-}
-
-async function genericGet(url: string) {
-  try {
-    const response = await fetch(GetWasabeeServer() + url, {
-      method: 'GET',
-      mode: 'cors',
-      cache: 'default',
-      credentials: 'include',
-      redirect: 'manual',
-      referrerPolicy: 'origin',
-    });
-
-    switch (response.status) {
-      case 200:
-        try {
-          const obj = await response.json();
-          if (obj.updateID) GetUpdateList().set(obj.updateID, Date.now());
-          return Promise.resolve(obj);
-        } catch (e) {
-          console.error(e);
-          return Promise.reject(e);
-        }
-      case 401:
-        WasabeeMe.purge();
-        try {
-          const err = await response.json();
-          return Promise.reject('not logged in: ' + err.error);
-        } catch (e) {
-          console.error(e);
-          return Promise.reject(e);
-        }
-      // break;
-      case 403:
-        try {
-          const err = await response.json();
-          return Promise.reject('forbidden: ' + err.error);
-        } catch (e) {
-          console.error(e);
-          return Promise.reject(e);
-        }
-      // break;
-      default:
-        console.log(response);
-        try {
-          const err = await response.json();
-          return Promise.reject(err.error);
-        } catch (e) {
-          console.error(e);
-          return Promise.reject(e);
-        }
-      // break;
-    }
-  } catch (e) {
-    console.error(e);
-    return Promise.reject(e);
-  }
-}
-
-export function GetWasabeeServer() {
-  return getServer();
-}
-
-export function GetUpdateList() {
-  // @ts-ignore
-  return getConfig()._updateList;
-}
-
-/* The following are for Wasabee-WebUI and not used in Wasabee-IITC */
-
-// in the service-worker for IITC
-export function sendTokenToWasabee(token: string) {
-  // no need for a form-data, just send the raw token
-  return genericPost(`/api/v1/me/firebase`, token);
-}
-
-export function getCustomTokenFromServer() {
-  return genericGet(`/api/v1/me/firebase`);
-}
-
-export function loadConfig() {
-  return genericGet(`/static/wasabee-webui-config.json`);
-}
-
-export function changeTeamOwnerPromise(teamID: TeamID, newOwner: GoogleID) {
-  return genericGet(`/api/v1/team/${teamID}/chown?to=${newOwner}`);
-}
-
-export function createJoinLinkPromise(teamID: TeamID) {
-  return genericGet(`/api/v1/team/${teamID}/genJoinKey`);
-}
-
-export function deleteJoinLinkPromise(teamID: TeamID) {
-  return genericGet(`/api/v1/team/${teamID}/delJoinKey`);
-}
-
-export function setAssignmentStatus(
-  op: WasabeeOp,
-  object: Task,
-  completed: boolean
-) {
-  let type = 'link';
-  if (object instanceof WasabeeMarker) type = 'marker';
-  let c = 'incomplete';
-  if (completed) c = 'complete';
-
-  return genericGet(`/api/v1/draw/${op.ID}/${type}/${object.ID}/${c}`);
+// returns a promise to a WasabeeTeam -- used only by WasabeeTeam.get
+// use WasabeeTeam.get
+export function teamPromise(teamid: TeamID) {
+  return genericGet<WasabeeTeam>(`/api/v1/team/${teamid}`);
 }
 
 export function sendAnnounce(teamID: TeamID, message: string) {
@@ -630,44 +163,6 @@ export function sendAnnounce(teamID: TeamID, message: string) {
 
 export function pullRocks(teamID: TeamID) {
   return genericGet(`/api/v1/team/${teamID}/rocks`);
-}
-
-export function reverseLinkDirection(opID: OpID, linkID: string) {
-  return genericGet(`/api/v1/draw/${opID}/link/${linkID}/swap`);
-}
-
-export function setOpInfo(opID: OpID, info: string) {
-  const fd = new FormData();
-  fd.append('info', info);
-  return genericPost(`/api/v1/draw/${opID}/info`, fd);
-}
-
-export function setMarkerComment(
-  opID: OpID,
-  markerID: string,
-  comment: string
-) {
-  const fd = new FormData();
-  fd.append('comment', comment);
-  return genericPost(`/api/v1/draw/${opID}/marker/${markerID}/comment`, fd);
-}
-
-export function setLinkComment(opID: OpID, linkID: string, desc: string) {
-  const fd = new FormData();
-  fd.append('desc', desc);
-  return genericPost(`/api/v1/draw/${opID}/link/${linkID}/desc`, fd);
-}
-
-export function setLinkZone(opID: OpID, linkID: string, zone: number) {
-  const fd = new FormData();
-  fd.append('zone', `${zone}`);
-  return genericPost(`/api/v1/draw/${opID}/link/${linkID}/zone`, fd);
-}
-
-export function setMarkerZone(opID: OpID, markerID: string, zone: number) {
-  const fd = new FormData();
-  fd.append('zone', `${zone}`);
-  return genericPost(`/api/v1/draw/${opID}/marker/${markerID}/zone`, fd);
 }
 
 export function setVAPIkey(v: string) {
@@ -700,4 +195,452 @@ export function configV(
 
 export function importVteams(mode: string) {
   return genericGet(`/api/v1/team/vbulkimport?mode=${mode}`);
+}
+
+// local change: none // cache: none
+export function newTeamPromise(name: string) {
+  return genericGet(`/api/v1/team/new?name=${name}`);
+}
+
+// local change: none // cache: none
+export function renameTeamPromise(teamID: TeamID, name: string) {
+  const fd = new FormData();
+  fd.append('teamname', name);
+  return genericPut(`/api/v1/team/${teamID}/rename`, fd);
+}
+
+// local change: none // cache: none
+export function deleteTeamPromise(teamID: TeamID) {
+  return genericDelete(`/api/v1/team/${teamID}`);
+}
+
+export function changeTeamOwnerPromise(teamID: TeamID, newOwner: GoogleID) {
+  return genericGet(`/api/v1/team/${teamID}/chown?to=${newOwner}`);
+}
+
+// local change: none // cache: none
+export function addAgentToTeamPromise(agentID: GoogleID, teamID: TeamID) {
+  return genericPost(`/api/v1/team/${teamID}/${agentID}`, new FormData());
+}
+
+// removes another agent from an owned team ; return value is status code
+export function removeAgentFromTeamPromise(agentID: GoogleID, teamID: TeamID) {
+  return genericDelete(`/api/v1/team/${teamID}/${agentID}`);
+}
+
+// local change: none // cache: none
+export function rocksPromise(
+  teamID: TeamID,
+  community: string,
+  apikey: string
+) {
+  return genericGet(
+    `/api/v1/team/${teamID}/rockscfg?rockscomm=${community}&rockskey=${apikey}`
+  );
+}
+
+// local change: none // cache: none
+export function setAgentTeamSquadPromise(
+  agentID: GoogleID,
+  teamID: TeamID,
+  squad: string
+) {
+  const fd = new FormData();
+  fd.append('squad', squad);
+  return genericPost(`/api/v1/team/${teamID}/${agentID}/squad`, fd);
+}
+
+export function createJoinLinkPromise(teamID: TeamID) {
+  return genericGet<{ Key: string }>(`/api/v1/team/${teamID}/genJoinKey`);
+}
+
+export function deleteJoinLinkPromise(teamID: TeamID) {
+  return genericGet(`/api/v1/team/${teamID}/delJoinKey`);
+}
+
+// returns a promise to fetch a WasabeeOp
+// local change: If the server's copy is newer than the local copy, otherwise none
+// not generic since 304 result processing and If-Modified-Since header
+export async function opPromise(opID: OpID) {
+  let ims = 'Sat, 29 Oct 1994 19:43:31 GMT'; // the dawn of time...
+  const localop = WasabeeOp.load(opID);
+  if (localop != null && localop.fetched) ims = localop.fetched;
+
+  try {
+    const raw = await generic<WasabeeOp>({
+      url: `/api/v1/draw/${opID}`,
+      method: 'GET',
+      headers: localop
+        ? {
+            'If-None-Match': localop.lasteditid,
+            'If-Modified-Since': localop.lasteditid ? null : ims,
+          }
+        : null,
+    });
+
+    const newop = new WasabeeOp(raw);
+    //newop.localchanged = false;
+    //newop.server = GetWasabeeServer();
+    //newop.fetchedOp = JSON.stringify(raw);
+    return newop;
+  } catch (e) {
+    if (!(e instanceof ServerError)) {
+      // unexpected error
+      console.error(e);
+      return Promise.reject(
+        new ServerError({
+          code: -1,
+          text: `Unexpected error: ${e}`,
+        })
+      );
+    }
+    switch (e.code) {
+      case 304:
+        //localop.server = GetWasabeeServer();
+        return localop;
+      case 403:
+      // fallthrough
+      case 410:
+        WasabeeOp.delete(opID);
+      // fallthrough
+      default:
+        return Promise.reject(e);
+    }
+  }
+}
+
+// sends a changed op to the server
+export async function updateOpPromise(operation: WasabeeOp) {
+  const json = JSON.stringify(operation);
+
+  try {
+    const update = await generic<IServerUpdate>({
+      url: `/api/v1/draw/${operation.ID}`,
+      method: 'PUT',
+      body: json,
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        'If-Match': operation.lasteditid || null,
+      },
+    });
+    operation.lasteditid = update.updateID;
+    //operation.remoteChanged = false;
+    operation.fetched = new Date().toUTCString();
+    //operation.fetchedOp = JSON.stringify(operation);
+    return true;
+  } catch (e) {
+    if (!(e instanceof ServerError)) {
+      // unexpected error
+      console.error(e);
+      return Promise.reject(
+        new ServerError({
+          code: -1,
+          text: `Unexpected error: ${e}`,
+        })
+      );
+    }
+    switch (e.code) {
+      case 412:
+        return false;
+      // break;
+      case 410:
+        WasabeeOp.delete(operation.ID);
+      // fallthrough
+      default:
+        return Promise.reject(e);
+    }
+  }
+}
+
+// removes an op from the server
+export function deleteOpPromise(opID: OpID) {
+  return genericDelete(`/api/v1/draw/${opID}`);
+}
+
+export function setOpInfo(opID: OpID, info: string) {
+  const fd = new FormData();
+  fd.append('info', info);
+  return genericPost(`/api/v1/draw/${opID}/info`, fd);
+}
+
+// adds a permission to an op; return value is status code
+export function addPermPromise(
+  opID: OpID,
+  teamID: TeamID,
+  role: string,
+  zone: ZoneID
+) {
+  const fd = new FormData();
+  fd.append('team', teamID);
+  fd.append('role', role);
+  fd.append('zone', `${zone}`);
+  return genericPost(`/api/v1/draw/${opID}/perms`, fd);
+}
+
+// removes a permission from an op; return value is status code
+export function delPermPromise(
+  opID: OpID,
+  teamID: TeamID,
+  role: string,
+  zone: ZoneID
+) {
+  const fd = new FormData();
+  fd.append('team', teamID);
+  fd.append('role', role);
+  fd.append('zone', `${zone}`);
+  return genericDelete(`/api/v1/draw/${opID}/perms`, fd);
+}
+
+// local change: none // cache: none
+export function assignMarkerPromise(
+  opID: OpID,
+  markerID: MarkerID,
+  agentID: GoogleID
+) {
+  const fd = new FormData();
+  fd.append('agent', agentID);
+  return genericPost(`/api/v1/draw/${opID}/marker/${markerID}/assign`, fd);
+}
+
+// performs a link assignment on the server, sending notifications
+export function assignLinkPromise(opID: OpID, linkID: LinkID, agentID) {
+  const fd = new FormData();
+  fd.append('agent', agentID);
+  return genericPost(`/api/v1/draw/${opID}/link/${linkID}/assign`, fd);
+}
+
+// changes a markers status on the server, sending relevant notifications
+export function SetMarkerState(
+  opID: OpID,
+  markerID: MarkerID,
+  state: TaskState
+) {
+  let action: 'incomplete' | 'acknowledge' | 'complete' = 'incomplete';
+  switch (state) {
+    case 'acknowledged':
+      action = 'acknowledge';
+      break;
+    case 'pending':
+      action = 'incomplete';
+      break;
+    case 'completed':
+      action = 'complete';
+      break;
+    default:
+      action = 'incomplete';
+  }
+
+  return genericGet(`/api/v1/draw/${opID}/marker/${markerID}/${action}`);
+}
+
+// changes a link's status on the server, sending relevant notifications
+export function SetLinkState(opID: OpID, linkID: LinkID, state: TaskState) {
+  let action: 'incomplete' | 'acknowledge' | 'complete' = 'incomplete';
+  switch (state) {
+    // no acknowledge for links -- use incomplete
+    case 'pending':
+      action = 'incomplete';
+      break;
+    case 'completed':
+      action = 'complete';
+      break;
+    default:
+      action = 'incomplete';
+  }
+
+  return genericGet(`/api/v1/draw/${opID}/link/${linkID}/${action}`);
+}
+
+export function setAssignmentStatus(
+  op: WasabeeOp,
+  object: Task,
+  completed: boolean
+) {
+  let type = 'link';
+  if (object instanceof WasabeeMarker) type = 'marker';
+  let c = 'incomplete';
+  if (completed) c = 'complete';
+
+  return genericGet(`/api/v1/draw/${op.ID}/${type}/${object.ID}/${c}`);
+}
+
+export function reverseLinkDirection(opID: OpID, linkID: LinkID) {
+  return genericGet(`/api/v1/draw/${opID}/link/${linkID}/swap`);
+}
+
+export function setMarkerComment(
+  opID: OpID,
+  markerID: MarkerID,
+  comment: string
+) {
+  const fd = new FormData();
+  fd.append('comment', comment);
+  return genericPost(`/api/v1/draw/${opID}/marker/${markerID}/comment`, fd);
+}
+
+export function setLinkComment(opID: OpID, linkID: LinkID, desc: string) {
+  const fd = new FormData();
+  fd.append('desc', desc);
+  return genericPost(`/api/v1/draw/${opID}/link/${linkID}/desc`, fd);
+}
+
+export function setLinkZone(opID: OpID, linkID: LinkID, zone: ZoneID) {
+  const fd = new FormData();
+  fd.append('zone', `${zone}`);
+  return genericPost(`/api/v1/draw/${opID}/link/${linkID}/zone`, fd);
+}
+
+export function setMarkerZone(opID: OpID, markerID: MarkerID, zone: ZoneID) {
+  const fd = new FormData();
+  fd.append('zone', `${zone}`);
+  return genericPost(`/api/v1/draw/${opID}/marker/${markerID}/zone`, fd);
+}
+
+// updates an agent's key count, return value is status code
+export function opKeyPromise(
+  opID: OpID,
+  portalID: PortalID,
+  onhand: number,
+  capsule: string
+) {
+  const fd = new FormData();
+  fd.append('count', `${onhand}`);
+  fd.append('capsule', capsule);
+  return genericPost(`/api/v1/draw/${opID}/portal/${portalID}/keyonhand`, fd);
+}
+
+export function sendTokenToWasabee(token: string) {
+  // no need for a form-data, just send the raw token
+  return genericPost(`/api/v1/me/firebase`, token);
+}
+
+export function getCustomTokenFromServer() {
+  return generic({
+    url: `/api/v1/me/firebase`,
+    method: 'GET',
+    raw: true,
+  });
+}
+
+/* generic method */
+/**
+ * Generic fetch method against wasabee server
+ */
+async function generic<T>(request: {
+  url: string;
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  body?: FormData | string;
+  headers?: HeadersInit;
+  raw?: boolean;
+  retried?: boolean;
+}): Promise<T> {
+  const requestInit: RequestInit = {
+    method: request.method,
+    mode: 'cors',
+    cache: 'default',
+    credentials: 'include',
+    redirect: 'manual',
+    referrerPolicy: 'origin',
+  };
+  if (request.body) requestInit.body = request.body;
+  if (request.headers) requestInit.headers = request.headers;
+
+  try {
+    const response = await fetch(GetWasabeeServer() + request.url, requestInit);
+    /** @type Object | string */
+    const payload: string = await response.text();
+
+    let jsonPayload;
+    if (!request.raw) {
+      if (!payload && !request.retried && response.ok) {
+        // server shouldn't reply empty string
+        console.warn(
+          `server answers is empty on[${request.url}], retry once, just in case `
+        );
+        return generic<T>({ ...request, retried: true });
+      }
+      try {
+        jsonPayload = JSON.parse(payload);
+      } catch {
+        if (response.ok)
+          return Promise.reject(
+            new ServerError({
+              code: -1,
+              text: 'unexpected server answer',
+            })
+          );
+      }
+    }
+
+    switch (response.status) {
+      case 200:
+        if (!request.raw && jsonPayload.updateID)
+          GetUpdateList().set(jsonPayload.updateID, Date.now());
+        return Promise.resolve((request.raw ? payload : jsonPayload) as T);
+      // break;
+      case 401:
+        WasabeeMe.purge();
+      // fallthrough;
+      case 403: // forbidden
+      // fallthrough
+      case 410: // Gone
+      // fallthrough
+      case 412: // mismatch etag
+      // fallthrough
+      case 304: // If-None-Match or If-Modified-Since replied NotModified
+      // fallthrough;
+      default:
+        return Promise.reject(
+          new ServerError({
+            code: response.status,
+            text: response.statusText,
+            error: jsonPayload ? jsonPayload.error : null,
+          })
+        );
+    }
+  } catch (e) {
+    console.error(e);
+    return Promise.reject(
+      new ServerError({
+        code: -1,
+        text: 'Network error',
+      })
+    );
+  }
+}
+
+function genericGet<T>(url: string) {
+  return generic<T>({
+    method: 'GET',
+    url: url,
+  });
+}
+
+function genericPost<T>(
+  url: string,
+  formData: FormData | string,
+  contentType?: string
+) {
+  return generic<T>({
+    url: url,
+    method: 'POST',
+    body: formData,
+    headers: contentType ? { 'Content-Type': contentType } : null,
+  });
+}
+
+function genericPut<T>(url: string, formData: FormData) {
+  return generic<T>({
+    url: url,
+    method: 'PUT',
+    body: formData,
+  });
+}
+
+function genericDelete<T>(url: string, formData?: FormData) {
+  return generic<T>({
+    url: url,
+    method: 'DELETE',
+    body: formData,
+  });
 }

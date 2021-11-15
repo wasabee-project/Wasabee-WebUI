@@ -10,6 +10,8 @@ type GoogleID = string;
 type ZoneID = number;
 
 type TaskID = string;
+type LinkID = TaskID;
+type MarkerID = TaskID;
 
 interface Task {
   ID: TaskID;

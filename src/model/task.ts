@@ -1,3 +1,5 @@
+export type TaskState = 'pending' | 'assigned' | 'acknowledged' | 'completed';
+
 export default class Task {
   ID: TaskID;
   order: number;
@@ -8,7 +10,7 @@ export default class Task {
 
   dependsOn: TaskID[];
 
-  _state: 'pending' | 'assigned' | 'acknowledged' | 'completed';
+  _state: TaskState;
 
   constructor(obj: any) {
     this.ID = obj.ID;
