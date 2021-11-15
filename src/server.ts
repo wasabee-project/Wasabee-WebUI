@@ -268,12 +268,15 @@ export async function opPromise(opID: OpID) {
   try {
     const raw = await generic<WasabeeOp>({
       url: `/api/v1/draw/${opID}`,
-      method: 'GET',
+      method: "GET",
       headers: localop
-        ? {
-            'If-None-Match': localop.lasteditid,
-            'If-Modified-Since': localop.lasteditid ? null : ims,
-          }
+        ? localop.lasteditid
+          ? {
+              "If-None-Match": localop.lasteditid,
+            }
+          : {
+              "If-Modified-Since": ims,
+            }
         : null,
     });
 
@@ -310,17 +313,21 @@ export async function opPromise(opID: OpID) {
 
 // sends a changed op to the server
 export async function updateOpPromise(operation: WasabeeOp) {
-  const json = JSON.stringify(operation);
+  const json = JSON.stringify(operation.toServer());
 
   try {
     const update = await generic<IServerUpdate>({
       url: `/api/v1/draw/${operation.ID}`,
-      method: 'PUT',
+      method: "PUT",
       body: json,
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-        'If-Match': operation.lasteditid || null,
-      },
+      headers: operation.lasteditid
+        ? {
+            "Content-Type": "application/json;charset=UTF-8",
+            "If-Match": operation.lasteditid,
+          }
+        : {
+            "Content-Type": "application/json;charset=UTF-8",
+          },
     });
     operation.lasteditid = update.updateID;
     //operation.remoteChanged = false;
