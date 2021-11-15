@@ -33,14 +33,17 @@
   let loading = true;
 
   // try use last used server
-  loadMeAndOps()
-    .then(() => {
-      me = WasabeeMe.get();
-      loading = false;
-    })
-    .catch(() => {
-      loading = false;
-    });
+  (async () => {
+    setConfig(await loadConfig());
+    loadMeAndOps()
+      .then(async () => {
+        me = WasabeeMe.get();
+        loading = false;
+      })
+      .catch(() => {
+        loading = false;
+      });
+  })();
 
   $: if (me) loading = false;
 
