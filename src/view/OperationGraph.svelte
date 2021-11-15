@@ -6,6 +6,7 @@
   import PortalLink from './PortalLink.svelte';
 
   import { WasabeeOp, WasabeeMarker, WasabeeLink } from '../model';
+  import { updateOpPromise } from '../server';
 
   export let opStore: Writable<WasabeeOp>;
   let operation: WasabeeOp = null;
@@ -89,6 +90,9 @@
 
 <div class="card mb-2">
   <div class="card-header" id="opName">{operation.name}</div>
+  <button class="btn btn-primary" on:click={() => updateOpPromise(operation)}
+    >Upload</button
+  >
 </div>
 
 <div class="row">
@@ -109,7 +113,7 @@
             on:click={() => {
               selectedTask = step;
             }}
-            animate:flip={{duration: 1000}}
+            animate:flip={{ duration: 1000 }}
           >
             <td>{step.order}</td>
 
@@ -152,7 +156,7 @@
             class:table-danger={selectedTask &&
               step.dependsOn.includes(selectedTask.ID)}
             on:click={() => toggleDepend(step.ID)}
-            animate:flip={{duration: 1000}}
+            animate:flip={{ duration: 1000 }}
           >
             <td>{step.order}</td>
 
