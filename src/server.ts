@@ -7,7 +7,7 @@ import type WasabeeAgent from './model/agent';
 import type WasabeeTeam from './model/team';
 import { WasabeeMarker } from './model';
 
-import { getServer } from './config';
+import { getConfig, getServer } from './config';
 
 export default function () {
   return GetWasabeeServer();
@@ -18,7 +18,6 @@ export function GetWasabeeServer() {
 }
 
 export function GetUpdateList() {
-  // @ts-ignore
   return getConfig()._updateList;
 }
 
