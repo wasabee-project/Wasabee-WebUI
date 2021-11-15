@@ -50,14 +50,14 @@ interface Agent extends BaseAgent, RockAgent, VAgent, TeamAgent {
 }
 
 // convert agent in server model to client model
-export function serverAgentToAgent(agent: ServerAgent) {
-  return new WasabeeAgent({
+function serverAgentToAgent(agent: ServerAgent) {
+  return {
     ...agent,
     shareWDKeys: agent.ShareWD,
     loadWDKeys: agent.LoadWD,
     shareLocation: agent.state,
     comment: agent.squad,
-  });
+  };
 }
 
 export default class WasabeeAgent implements Agent {
@@ -90,6 +90,9 @@ export default class WasabeeAgent implements Agent {
   fetched: number;
 
   constructor(obj: Agent) {
+    if ('ShareWD' in obj) {
+      obj = serverAgentToAgent(obj);
+    }
     // things which are stable across all teams
     this.id = obj.id;
     this.name = obj.name;

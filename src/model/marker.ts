@@ -52,19 +52,11 @@ export default class WasabeeMarker extends Task {
     this.type = obj.type;
   }
 
-  toJSON(): any {
-    return {
-      ID: this.ID,
-      zone: Number(this.zone),
-      order: Number(this.order),
-      completedID: this.completedID,
-      assignedTo: this.assignedTo,
-      state: this._state,
-
+  toJSON() {
+    return Object.assign(super.toJSON(), {
       portalId: this.portalId,
       type: this.type,
-      comment: this.comment,
-    };
+    });
   }
 
   get friendlyType() {

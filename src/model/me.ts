@@ -1,5 +1,5 @@
 // very different from IITC version
-import WasabeeAgent, { serverAgentToAgent } from './agent';
+import WasabeeAgent from './agent';
 
 const AGENT_INFO_KEY = 'me';
 
@@ -23,13 +23,6 @@ interface MeOp {
   IsOwner: boolean;
   Color: string; // ??
   TeamID: TeamID;
-}
-
-export function serverMeToMe(me) {
-  return new WasabeeMe({
-    ...me,
-    ...serverAgentToAgent(me),
-  });
 }
 
 export class WasabeeMe extends WasabeeAgent {

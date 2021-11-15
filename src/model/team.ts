@@ -1,4 +1,4 @@
-import WasabeeAgent, { serverAgentToAgent, ServerAgent } from './agent';
+import WasabeeAgent, { ServerAgent } from './agent';
 
 const teamCache = new Map<TeamID, WasabeeTeam>();
 
@@ -28,13 +28,6 @@ interface Team extends RocksTeam, VTeam {
   fetched?: number;
 }
 
-export function serverTeamToTeam(team: ServerTeam) {
-  return new WasabeeTeam({
-    ...team,
-    agents: team.agents.map(serverAgentToAgent),
-  });
-}
-
 export default class WasabeeTeam implements Team {
   id: TeamID;
   name: string;
@@ -59,7 +52,7 @@ export default class WasabeeTeam implements Team {
     this.jlt = data.jlt;
     this.vt = data.vt;
     this.vr = data.vr;
-    this.agents = data.agents;
+    this.agents = data.agents.map(a => new WasabeeAgent(a));
 
     teamCache.set(this.id, this);
   }

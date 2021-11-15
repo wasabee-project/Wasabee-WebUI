@@ -21,7 +21,6 @@
   import Operation from './view/Operation.svelte';
   import Team from './view/Team.svelte';
 
-  import { serverMeToMe } from './model/me';
   import { setConfig } from './config';
 
   import { clearOpsStorage, loadMeAndOps, syncOps, syncTeams } from './sync';
@@ -79,7 +78,7 @@
     });
   }
   async function onLogin(ev) {
-    me = serverMeToMe(ev.detail);
+    me = new WasabeeMe(ev.detail);
     me.store();
     setConfig(await loadConfig());
     await syncOps(me);

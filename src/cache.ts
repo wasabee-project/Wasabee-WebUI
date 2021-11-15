@@ -1,6 +1,6 @@
-import WasabeeAgent, { serverAgentToAgent } from './model/agent';
-import WasabeeMe, { serverMeToMe } from './model/me';
-import WasabeeTeam, { serverTeamToTeam } from './model/team';
+import WasabeeAgent from './model/agent';
+import WasabeeMe from './model/me';
+import WasabeeTeam from './model/team';
 import { agentPromise, mePromise, teamPromise } from './server';
 
 export async function getMe(force = false) {
@@ -16,7 +16,7 @@ export async function getMe(force = false) {
 
   try {
     const raw = await mePromise();
-    const me = serverMeToMe(raw);
+    const me = new WasabeeMe(raw);
     return me;
   } catch (e) {
     console.log(e);
@@ -30,7 +30,7 @@ export async function getAgent(gid: GoogleID) {
 
   try {
     const result = await agentPromise(gid);
-    const newagent = serverAgentToAgent(result);
+    const newagent = new WasabeeAgent(result);
     return newagent;
   } catch (e) {
     console.log(e);
@@ -50,7 +50,7 @@ export async function getTeam(teamID: TeamID, maxAgeSeconds = 60) {
 
   try {
     const t = await teamPromise(teamID);
-    return serverTeamToTeam(t);
+    return new WasabeeTeam(t);
   } catch (e) {
     console.error(e);
   }

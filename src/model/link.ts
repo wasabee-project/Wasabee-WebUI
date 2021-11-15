@@ -8,34 +8,35 @@ export default class WasabeeLink extends Task {
   color: string;
 
   constructor(obj: any) {
+    // convert server link task
+    if ('throwOrderPos' in obj) {
+      obj.order = obj.throwOrderPos;
+      obj.state = 'pending';
+      obj.completedID = obj.completed ? obj.assignedTo : null;
+      if (obj.completedID) obj.state = 'completed';
+      else if (obj.assignedTo) obj.state = 'assigned';
+    }
     super(obj);
     this.fromPortalId = obj.fromPortalId;
     this.toPortalId = obj.toPortalId;
     this.color = obj.color ? obj.color : 'main';
   }
 
-  static fromServer(obj: any) {
-    // convert link task
-    obj.order = obj.throwOrderPos;
-    obj.state = 'pending';
-    obj.completedID = obj.completed ? obj.assignedTo : null;
-    if (obj.completedID) obj.state = 'completed';
-    else if (obj.assignedTo) obj.state = 'assigned';
-    return new WasabeeLink(obj);
-  }
-
   // build object to serialize
   toJSON() {
-    return {
-      ID: this.ID,
-      throwOrderPos: Number(this.order),
-      zone: Number(this.zone),
-      assignedTo: this.assignedTo,
-      completed: !!this.completedID, // !! forces a boolean value
+    return Object.assign(super.toJSON(), {
       fromPortalId: this.fromPortalId,
       toPortalId: this.toPortalId,
       color: this.color,
-    };
+    });
+  }
+
+  toServer() {
+    return Object.assign(this.toJSON(), {
+      // rename
+      throwOrderPos: Number(this.order),
+      completed: !!this.completedID, // !! forces a boolean value
+    });
   }
 
   setOrder(o: number | string) {
