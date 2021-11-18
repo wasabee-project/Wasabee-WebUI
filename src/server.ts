@@ -5,7 +5,7 @@ import type { TaskState } from './model/task';
 import type WasabeePortal from './model/portal';
 import type WasabeeAgent from './model/agent';
 import type WasabeeTeam from './model/team';
-import { WasabeeMarker } from './model';
+import { WasabeeLink, WasabeeMarker } from './model';
 
 import { getConfig, getServer } from './config';
 
@@ -27,6 +27,16 @@ interface IServerStatus {
 
 interface IServerUpdate extends IServerStatus {
   updateID: string;
+}
+
+export async function updateOpIDOnSuccess(
+  operation: WasabeeOp,
+  promise: Promise<IServerUpdate>
+) {
+  const update = await promise;
+  operation.lasteditid = update.updateID;
+  operation.store();
+  return update;
 }
 
 /*
@@ -268,14 +278,14 @@ export async function opPromise(opID: OpID) {
   try {
     const raw = await generic<WasabeeOp>({
       url: `/api/v1/draw/${opID}`,
-      method: "GET",
+      method: 'GET',
       headers: localop
         ? localop.lasteditid
           ? {
-              "If-None-Match": localop.lasteditid,
+              'If-None-Match': localop.lasteditid,
             }
           : {
-              "If-Modified-Since": ims,
+              'If-Modified-Since': ims,
             }
         : null,
     });
@@ -318,22 +328,22 @@ export async function updateOpPromise(operation: WasabeeOp) {
   try {
     const update = await generic<IServerUpdate>({
       url: `/api/v1/draw/${operation.ID}`,
-      method: "PUT",
+      method: 'PUT',
       body: json,
       headers: operation.lasteditid
         ? {
-            "Content-Type": "application/json;charset=UTF-8",
-            "If-Match": operation.lasteditid,
+            'Content-Type': 'application/json;charset=UTF-8',
+            'If-Match': operation.lasteditid,
           }
         : {
-            "Content-Type": "application/json;charset=UTF-8",
+            'Content-Type': 'application/json;charset=UTF-8',
           },
     });
     operation.lasteditid = update.updateID;
     //operation.remoteChanged = false;
     operation.fetched = new Date().toUTCString();
     //operation.fetchedOp = JSON.stringify(operation);
-    return true;
+    return update;
   } catch (e) {
     if (!(e instanceof ServerError)) {
       // unexpected error
@@ -346,9 +356,6 @@ export async function updateOpPromise(operation: WasabeeOp) {
       );
     }
     switch (e.code) {
-      case 412:
-        return false;
-      // break;
       case 410:
         WasabeeOp.delete(operation.ID);
       // fallthrough
@@ -502,6 +509,44 @@ export function setMarkerZone(opID: OpID, markerID: MarkerID, zone: ZoneID) {
   return genericPost(`/api/v1/draw/${opID}/marker/${markerID}/zone`, fd);
 }
 
+export function addTaskDepend(opID: OpID, task: Task, dep: TaskID) {
+  if (task instanceof WasabeeMarker) return addMarkerDepend(opID, task.ID, dep);
+  if (task instanceof WasabeeLink) return addLinkDepend(opID, task.ID, dep);
+}
+export function deleteTaskDepend(opID: OpID, task: Task, dep: TaskID) {
+  if (task instanceof WasabeeMarker)
+    return deleteMarkerDepend(opID, task.ID, dep);
+  if (task instanceof WasabeeLink) return deleteLinkDepend(opID, task.ID, dep);
+}
+
+export function addMarkerDepend(opID: OpID, markerID: MarkerID, dep: TaskID) {
+  return genericPut<IServerUpdate>(
+    `/api/v1/draw/${opID}/marker/${markerID}/depend/${dep}`
+  );
+}
+
+export function deleteMarkerDepend(
+  opID: OpID,
+  markerID: MarkerID,
+  dep: TaskID
+) {
+  return genericDelete<IServerUpdate>(
+    `/api/v1/draw/${opID}/marker/${markerID}/depend/${dep}`
+  );
+}
+
+export function addLinkDepend(opID: OpID, linkID: LinkID, dep: TaskID) {
+  return genericPut<IServerUpdate>(
+    `/api/v1/draw/${opID}/link/${linkID}/depend/${dep}`
+  );
+}
+
+export function deleteLinkDepend(opID: OpID, markerID: LinkID, dep: TaskID) {
+  return genericDelete<IServerUpdate>(
+    `/api/v1/draw/${opID}/link/${markerID}/depend/${dep}`
+  );
+}
+
 // updates an agent's key count, return value is status code
 export function opKeyPromise(
   opID: OpID,
@@ -635,7 +680,7 @@ function genericPost<T>(
   });
 }
 
-function genericPut<T>(url: string, formData: FormData) {
+function genericPut<T>(url: string, formData?: FormData) {
   return generic<T>({
     url: url,
     method: 'PUT',

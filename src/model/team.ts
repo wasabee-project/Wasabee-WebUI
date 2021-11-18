@@ -52,7 +52,7 @@ export default class WasabeeTeam implements Team {
     this.jlt = data.jlt;
     this.vt = data.vt;
     this.vr = data.vr;
-    this.agents = data.agents.map(a => new WasabeeAgent(a));
+    this.agents = data.agents.map((a) => new WasabeeAgent(a));
 
     teamCache.set(this.id, this);
   }

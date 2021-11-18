@@ -1,6 +1,7 @@
 <script lang="ts">
   import Router from 'svelte-spa-router';
   import { fade } from 'svelte/transition';
+  import { ToastContainer, FlatToast } from 'svelte-toasts';
 
   import {
     Collapse,
@@ -120,6 +121,9 @@
     </Navbar>
   </header>
   <main in:fade={{ duration: 500 }}>
+    <ToastContainer let:data>
+      <FlatToast {data} />
+    </ToastContainer>
     <Router {routes} />
   </main>
 {/if}
