@@ -22,6 +22,7 @@
     setAssignmentStatus,
     reverseLinkDirection,
   } from '../server';
+  import { flip } from 'svelte/animate';
 
   const dispatch = createEventDispatcher();
   function refresh() {
@@ -58,26 +59,6 @@
     });
     steps = ts;
   }
-  // function setSteps(value) {
-  //   const order = value.map((step) => step.ID);
-  //   const xhr = new XMLHttpRequest();
-  //   xhr.open(
-  //     "POST",
-  //     `/api/v1/draw/${operation.ID}/order`
-  //   );
-  //   xhr.setRequestHeader(
-  //     "Content-Type",
-  //     "application/x-www-form-urlencoded"
-  //   );
-  //   xhr.onload = () => {
-  //     if (xhr.status === 200) {
-  //       refresh();
-  //     } else {
-  //       console.log(xhr.responseText);
-  //     }
-  //   };
-  //   xhr.send(encodeURI("order=" + order));
-  // }
 
   function fourthroot(a: number) {
     return Math.pow(Math.E, Math.log(a) / 4.0);
@@ -150,6 +131,83 @@
       }
     );
   }
+
+  // DRAG AND DROP
+  let enableDrag = false;
+  let isOver: number | boolean = false;
+  let isDragged: number | boolean = false;
+  const getDraggedParent = (node: HTMLElement): DOMStringMap =>
+    node.dataset && node.dataset.index
+      ? node.dataset
+      : getDraggedParent(node.parentElement);
+  function dragstart(ev: DragEvent) {
+    const el = ev.target as HTMLTableRowElement;
+    ev.dataTransfer.effectAllowed = 'move';
+    ev.dataTransfer.setData('source', el.dataset.index);
+    isDragged = +el.dataset.index;
+  }
+  function dragover(ev: DragEvent) {
+    ev.preventDefault();
+    let dragged = getDraggedParent(ev.target as HTMLElement);
+    if (isOver !== +dragged.index) {
+      isOver = +dragged.index;
+      console.log(isDragged, isOver);
+    }
+  }
+  const dragleave = (ev: DragEvent) => {
+    console.log(ev);
+    // let dragged = getDraggedParent(ev.target as HTMLElement);
+    // if (isOver === +dragged.index) isOver = false;
+  };
+  function drop(ev: DragEvent) {
+    console.log(ev.target);
+    isOver = false;
+    isDragged = false;
+    ev.preventDefault();
+    let dragged = getDraggedParent(ev.target as HTMLElement);
+    let from = +ev.dataTransfer.getData('source');
+    let to = +dragged.index;
+    reorder(from, to);
+  }
+  function dragend(ev: DragEvent) {
+    ev.preventDefault();
+    isDragged = false;
+    if (isOver === false) return;
+    let from = +ev.dataTransfer.getData('source');
+    let to = +isOver;
+    isOver = false;
+    reorder(from, to);
+  }
+
+  function reorder(from: number, to: number) {
+    if (from < to) {
+      steps[from].order = steps[to].order + 1;
+      let shift = 0;
+      if (to + 1 < steps.length)
+        shift = 2 + steps[to].order - steps[to + 1].order;
+      if (shift > 0)
+        for (let i = to + 1; i < steps.length; i++) steps[i].order += shift;
+    } else if (from > to) {
+      steps[from].order = steps[to].order - 1;
+      let shift = 0;
+      if (to - 1 >= 0) shift = 2 + steps[to - 1].order - steps[to].order;
+      if (shift > 0) for (let i = to - 1; i >= 0; i--) steps[i].order -= shift;
+    } else return;
+    operation = operation;
+  }
+
+  function incrOrder() {
+    shiftOrder(1);
+  }
+  function decrOrder() {
+    shiftOrder(-1);
+  }
+  function shiftOrder(v: number) {
+    for (const s of steps) {
+      s.order += v;
+    }
+    steps = steps;
+  }
 </script>
 
 <!-- eslint-disable vue/no-mutating-props -->
@@ -159,13 +217,25 @@
     <ul class="list-group list-group-flush">
       <textarea bind:value={operation.comment} class="form-control" />
     </ul>
+    <button on:click={incrOrder} class="btn btn-success">Order +1</button>
+    <button on:click={decrOrder} class="btn btn-danger">Order -1</button>
   </div>
 </div>
 
 <table class="table table-striped" id="optable">
   <thead>
     <tr>
-      <th scope="col">&nbsp;</th>
+      <th class="pl-0 pr-0" scope="col"
+        ><div class="custom-control custom-switch">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            bind:checked={enableDrag}
+            id="enableDrag"
+          />
+          <label class="custom-control-label" for="enableDrag" />
+        </div></th
+      >
       <th scope="col">Order</th>
       <th scope="col">Portal</th>
       <th scope="col">&nbsp;</th>
@@ -178,11 +248,22 @@
     </tr>
   </thead>
   <tbody id="opSteps">
-    {#each steps as step (step.ID)}
-      <tr>
-        <td class="handle" />
+    {#each steps as step, i (step.ID)}
+      <tr
+        draggable={enableDrag}
+        data-index={i}
+        on:dragstart={dragstart}
+        on:dragover={dragover}
+        on:dragleave={dragleave}
+        on:dragend={dragend}
+        on:drop={drop}
+        animate:flip
+        class:shiftBottom={isOver <= i && i < isDragged}
+        class:shiftTop={isDragged < i && i <= isOver}
+      >
+        <td class:handle={enableDrag} />
 
-        <td>{step.order}</td>
+        <td class="text-right">{step.order}</td>
         {#if step instanceof WasabeeMarker}
           <td>
             <PortalLink portalId={step.portalId} {operation} />
@@ -248,3 +329,16 @@
     {/each}
   </tbody>
 </table>
+
+<style>
+  #opSteps tr {
+    transition: translate 0.3s;
+  }
+
+  tr.shiftTop {
+    translate: 0 -100%;
+  }
+  tr.shiftBottom {
+    translate: 0 100%;
+  }
+</style>
