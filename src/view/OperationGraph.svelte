@@ -6,7 +6,12 @@
   import PortalLink from './PortalLink.svelte';
 
   import { WasabeeOp, WasabeeMarker, WasabeeLink } from '../model';
-  import { addTaskDepend, deleteTaskDepend, updateOpPromise } from '../server';
+  import {
+    addTaskDepend,
+    deleteTaskDepend,
+    updateOpPromise,
+    opPromise,
+  } from '../server';
   import { notifyOnError } from '../notify';
 
   export let opStore: Writable<WasabeeOp>;
@@ -56,13 +61,26 @@
         for (; j < ts.length && ts[j].order == o; j++) {}
         if (j == ts.length) break;
         o = ts[j].order;
-        for (; j < ts.length && ts[j].order == o; j++)
-          ts[j].dependsOn.push(ts[i].ID);
+        for (; j < ts.length && ts[j].order == o; j++) {
+          if (!ts[j].dependsOn.includes(ts[i].ID))
+            ts[j].dependsOn.push(ts[i].ID);
+        }
       }
     }
     operation.store();
     [order, graphStartTime, graphEndTime, strongComponents] =
       computeOrderAndComponents(operation);
+  }
+
+  function orderTaskBy(order: Map<TaskID, number>) {
+    for (const m of operation.markers) {
+      m.order = order.get(m.ID);
+    }
+    for (const l of operation.links) {
+      l.order = order.get(l.ID);
+    }
+    operation.store();
+    steps = steps;
   }
 
   function toggleDepend(id: TaskID) {
@@ -80,14 +98,37 @@
     // update graph/order
     [order, graphStartTime, graphEndTime, strongComponents] =
       computeOrderAndComponents(operation);
-    for (const m of operation.markers) {
-      m.order = order.get(m.ID);
-    }
-    for (const l of operation.links) {
-      l.order = order.get(l.ID);
-    }
-    // store new order&depends
+    // store new depends
     operation.store();
+  }
+
+  async function uploadOrderAnDepends() {
+    const op = await opPromise(operation.ID);
+    if (op !== operation) {
+      const n = new Map<TaskID, Task>();
+      for (const m of operation.markers) {
+        n.set(m.ID, m);
+      }
+      for (const l of operation.links) {
+        n.set(l.ID, l);
+      }
+      const p: Task[] = [];
+      for (const m of op.markers) {
+        p.push(m);
+      }
+      for (const l of op.links) {
+        p.push(l);
+      }
+      for (const t of p) {
+        const nt = n.get(t.ID);
+        if (!nt) continue;
+        t.order = nt.order;
+        t.dependsOn = nt.dependsOn;
+      }
+    }
+    await notifyOnError(updateOpPromise(op));
+    op.store();
+    $opStore = op;
   }
 
   function computeOrderAndComponents(operation: WasabeeOp) {
@@ -207,10 +248,6 @@
 <div class="card mb-2">
   <div class="card-header" id="opName">
     {operation.name}
-    <button
-      class="btn btn-primary"
-      on:click={() => notifyOnError(updateOpPromise(operation))}>Upload</button
-    >
     <button class="btn btn-primary" on:click={() => (showGraph = !showGraph)}
       >Toggle diagram</button
     >
@@ -219,6 +256,18 @@
     >
     <button class="btn btn-primary" on:click={() => guessDepends()}
       >Guess from order</button
+    >
+    <button class="btn btn-primary" on:click={() => orderTaskBy(order)}
+      >Order strict</button
+    >
+    <button class="btn btn-primary" on:click={() => orderTaskBy(graphStartTime)}
+      >Order by start</button
+    >
+    <button class="btn btn-primary" on:click={() => orderTaskBy(graphEndTime)}
+      >Order by end</button
+    >
+    <button class="btn btn-primary" on:click={() => uploadOrderAnDepends()}
+      >Upload order</button
     >
   </div>
 </div>

@@ -141,7 +141,7 @@
   <button class="btn btn-primary" on:click={() => refresh()}>↻</button>
 </ul>
 
-<div class="container">
+<div class="container-fluid">
   {#if operation}
     <Router {prefix} {routes} on:routeEvent={onRouteEvent} />
   {/if}
