@@ -81,7 +81,7 @@
       disabled = false;
     });
   }
-  async function onLogin(ev) {
+  async function onLogin(ev: { detail: any }) {
     me = new WasabeeMe(ev.detail);
     me.store();
     setConfig(await loadConfig());

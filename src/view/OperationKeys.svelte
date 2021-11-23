@@ -199,10 +199,10 @@
     maxNativeZoom: 19,
     attribution: '© OpenStreetMap contributors',
   };
-  const iconOpt: Partial<L.BaseIconOptions> = {
-    iconSize: [24, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [-1, -48],
+  const iconOpt: L.IconOptions = {
+    iconSize: [24, 41] as L.PointTuple,
+    iconAnchor: [12, 41] as L.PointTuple,
+    popupAnchor: [-1, -48] as L.PointTuple,
     iconUrl:
       'https://cdn2.wasabee.rocks/img/markers/wasabee_markers_key_done.svg',
   };

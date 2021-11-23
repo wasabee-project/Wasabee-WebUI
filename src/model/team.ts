@@ -1,4 +1,4 @@
-import WasabeeAgent, { ServerAgent } from './agent';
+import WasabeeAgent from './agent';
 
 const teamCache = new Map<TeamID, WasabeeTeam>();
 
@@ -12,12 +12,12 @@ interface VTeam {
   vr: string;
 }
 
-interface ServerTeam extends RocksTeam, VTeam {
-  id: TeamID;
-  name: string;
-  agents: ServerAgent[];
-  jlt: string;
-}
+// interface ServerTeam extends RocksTeam, VTeam {
+//   id: TeamID;
+//   name: string;
+//   agents: ServerAgent[];
+//   jlt: string;
+// }
 
 interface Team extends RocksTeam, VTeam {
   id: TeamID;

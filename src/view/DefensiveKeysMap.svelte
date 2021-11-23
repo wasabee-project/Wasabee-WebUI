@@ -3,7 +3,7 @@
   import { Icon } from 'leaflet';
   import { LeafletMap, Marker, TileLayer } from 'svelte-leafletjs';
 
-  const mapOptions = {
+  const mapOptions: L.MapOptions = {
     center: [0, 0],
     zoom: 3,
   };
@@ -14,7 +14,7 @@
     maxNativeZoom: 19,
     attribution: '© OpenStreetMap contributors',
   };
-  const iconOpt: Partial<L.BaseIconOptions> = {
+  const iconOpt: L.IconOptions = {
     iconUrl:
       'https://cdn2.wasabee.rocks/img/markers/wasabee_markers_key_done.svg',
     iconSize: [24, 41],

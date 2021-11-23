@@ -3,7 +3,7 @@ let config: { [key: string]: any } = null;
 const SERVER_KEY = 'wasabee-server';
 let server: string = localStorage[SERVER_KEY] || 'https://am.wasabee.rocks';
 
-export function setConfig(c) {
+export function setConfig(c: any) {
   config = c;
   config._updateList = new Map();
 }
@@ -12,7 +12,7 @@ export function getConfig() {
   return config;
 }
 
-export function setServer(s) {
+export function setServer(s: string) {
   server = s;
   localStorage[SERVER_KEY] = s;
 }

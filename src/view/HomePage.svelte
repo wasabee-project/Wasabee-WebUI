@@ -28,7 +28,7 @@
 
   const disabledServer: { [url: string]: true } = {};
 
-  function promiseLogin(options) {
+  function promiseLogin(options: gapi.auth2.AuthorizeConfig) {
     const promise = new Promise<string>((resolve, reject) => {
       window.gapi.auth2.authorize(options, (response) => {
         if (response.error) {

@@ -4,7 +4,7 @@
   import { Icon } from 'leaflet';
   import { LeafletMap, Marker, TileLayer, Popup } from 'svelte-leafletjs';
 
-  const mapOptions = {
+  const mapOptions: L.MapOptions = {
     center: [0, 0],
     zoom: 3,
   };
@@ -15,10 +15,10 @@
     maxNativeZoom: 19,
     attribution: '© OpenStreetMap contributors',
   };
-  const iconOpt: Partial<L.BaseIconOptions> = {
-    iconSize: [41, 41],
-    iconAnchor: [25, 41],
-    popupAnchor: [-1, -48],
+  const iconOpt = {
+    iconSize: [41, 41] as L.PointTuple,
+    iconAnchor: [25, 41] as L.PointTuple,
+    popupAnchor: [-1, -48] as L.PointTuple,
   };
 
   import type { WasabeeTeam } from '../model/';
@@ -47,7 +47,7 @@
         {#if agent.lat || agent.lng}
           <Marker
             latLng={[agent.lat, agent.lng]}
-            icon={new Icon({ iconUrl: agent.pic, ...iconOpt })}
+            icon={new Icon({ ...iconOpt, iconUrl: agent.pic })}
             options={{ title: agent.name }}
           >
             <Popup>{agent.name}</Popup>

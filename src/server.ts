@@ -53,7 +53,7 @@ export function loadConfig() {
 }
 
 // returns a promise to /me if the access token is valid
-export function SendAccessTokenAsync(accessToken) {
+export function SendAccessTokenAsync(accessToken: string) {
   return genericPost(
     '/aptok',
     JSON.stringify({ accessToken: accessToken }),
@@ -67,7 +67,7 @@ export function logoutPromise() {
 }
 
 // local change: none // cache: none
-export function oneTimeToken(token) {
+export function oneTimeToken(token: string) {
   const url = '/oneTimeToken';
   const fd = new FormData();
   fd.append('token', token);
@@ -416,7 +416,11 @@ export function assignMarkerPromise(
 }
 
 // performs a link assignment on the server, sending notifications
-export function assignLinkPromise(opID: OpID, linkID: LinkID, agentID) {
+export function assignLinkPromise(
+  opID: OpID,
+  linkID: LinkID,
+  agentID: GoogleID
+) {
   const fd = new FormData();
   fd.append('agent', agentID);
   return genericPost(`/api/v1/draw/${opID}/link/${linkID}/assign`, fd);
@@ -601,7 +605,7 @@ async function generic<T>(request: {
     /** @type Object | string */
     const payload: string = await response.text();
 
-    let jsonPayload;
+    let jsonPayload: any;
     if (!request.raw) {
       if (!payload && !request.retried && response.ok) {
         // server shouldn't reply empty string
