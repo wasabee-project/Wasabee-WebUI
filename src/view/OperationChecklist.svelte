@@ -9,6 +9,7 @@
     WasabeeMe,
     WasabeeMarker,
     WasabeeLink,
+    WasabeeTeam,
   } from '../model';
 
   import { SetMarkerState, setAssignmentStatus } from '../server';
@@ -21,6 +22,19 @@
 
   const me = WasabeeMe.get();
 
+  let agent = me.id;
+  let agentList: { id: GoogleID; name: string }[] = [];
+  $: {
+    const map = new Map();
+    for (const tr of operation.teamlist) {
+      const team = WasabeeTeam.get(tr.teamid);
+      if (!team) continue;
+      for (const agent of team.agents) map.set(agent.id, agent);
+    }
+    if (!map.size) agentList = [{ id: me.id, name: me.name }];
+    else agentList = Array.from(map.values());
+  }
+
   let steps: Task[] = [];
 
   $: if (operation) {
@@ -28,7 +42,7 @@
     ts.sort((a, b) => {
       return a.order - b.order;
     });
-    if (assignmentsOnly) steps = ts.filter((s) => s.assignedTo == me.id);
+    if (assignmentsOnly) steps = ts.filter((s) => s.assignedTo == agent);
     else steps = ts;
   }
 
@@ -103,12 +117,16 @@
       <!-- <li class="list-group-item"><a :href="'/api/v1/draw/' + operation.ID + '/stock'">Stock Intel Link</a></li> -->
       {#if assignmentsOnly}
         <li class="list-group-item">
-          <strong
-            ><a href={'/api/v1/draw/' + operation.ID + '/myroute'}
-              >My Route (assignments in order)</a
-            >
-            (Google Maps)</strong
-          >
+          <label
+            >Agent:
+            <select bind:value={agent}>
+              {#each agentList as a (a.id)}
+                <option value={a.id}>
+                  {a.name}
+                </option>
+              {/each}
+            </select>
+          </label>
         </li>
       {/if}
     </ul>
