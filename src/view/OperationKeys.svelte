@@ -10,6 +10,7 @@
 
   import { WasabeeAgent, WasabeeMe, WasabeeTeam } from '../model';
   import { opKeyPromise } from '../server';
+  import { notifyOnError } from '../notify';
 
   const dispatch = createEventDispatcher();
   function refresh() {
@@ -141,7 +142,9 @@
   async function keyChangeCount(key: KoHItem, target: EventTarget) {
     const input = <HTMLInputElement>target;
     try {
-      await opKeyPromise(operation.ID, key.id, +input.value, key.capsule);
+      await notifyOnError(
+        opKeyPromise(operation.ID, key.id, +input.value, key.capsule)
+      );
       refresh();
     } catch (e) {
       console.log(e);
@@ -150,7 +153,9 @@
   async function keyChangeCapsule(key: KoHItem, target: EventTarget) {
     const input = <HTMLInputElement>target;
     try {
-      await opKeyPromise(operation.ID, key.id, key.iHave, input.value);
+      await notifyOnError(
+        opKeyPromise(operation.ID, key.id, key.iHave, input.value)
+      );
       refresh();
     } catch (e) {
       console.log(e);
@@ -212,6 +217,7 @@
           <th on:click={() => sort('name')}>Portal</th>
           <th on:click={() => sort('required')}>Required</th>
           <th>
+            <!-- svelte-ignore a11y-label-has-associated-control -->
             <label on:click={() => sort('agentRequired')}>For</label>
             <select bind:value={agent}>
               {#each agentList as a (a.id)}

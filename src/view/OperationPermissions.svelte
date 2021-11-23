@@ -7,6 +7,7 @@
 
   import WasabeeMe from '../model/me';
   import { addPermPromise, delPermPromise } from '../server';
+  import { notifyOnError } from '../notify';
 
   const dispatch = createEventDispatcher();
   function refresh() {
@@ -56,7 +57,7 @@
   }
   async function removePerm(t: PermItem) {
     try {
-      await delPermPromise(operation.ID, t.id, t.role, t.zone);
+      await notifyOnError(delPermPromise(operation.ID, t.id, t.role, t.zone));
       refresh();
     } catch (e) {
       console.log(e);
@@ -73,7 +74,9 @@
     }
 
     try {
-      await addPermPromise(operation.ID, teamID, teamRole, teamZone);
+      await notifyOnError(
+        addPermPromise(operation.ID, teamID, teamRole, teamZone)
+      );
       refresh();
     } catch (e) {
       console.log(e);

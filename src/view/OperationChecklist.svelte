@@ -13,6 +13,7 @@
   } from '../model';
 
   import { SetMarkerState, setAssignmentStatus } from '../server';
+  import { notifyOnError } from '../notify';
 
   export let opStore: Writable<WasabeeOp>;
   let operation: WasabeeOp = null;
@@ -21,6 +22,7 @@
   export let assignmentsOnly: boolean = false;
 
   const me = WasabeeMe.get();
+  $: canWrite = operation ? operation.mayWrite(me) : false;
 
   let agent = me.id;
   let agentList: { id: GoogleID; name: string }[] = [];
@@ -66,11 +68,15 @@
     }
     return false;
   }
-  async function ackMarker(id: string) {
+  async function ackMarker(step: Task) {
     try {
       console.log('setting marker acknowledge');
-      await SetMarkerState(operation.ID, id, 'acknowledged');
+      await notifyOnError(
+        SetMarkerState(operation.ID, step.ID, 'acknowledged')
+      );
+      step.state = 'acknowledged';
       operation.store();
+      steps = steps;
     } catch (e) {
       console.log(e);
     }
@@ -95,15 +101,15 @@
     }
     return '*';
   }
-  function complete(step: Task) {
-    setAssignmentStatus(operation, step, step.completed).then(
-      () => {
-        operation.store();
-      },
-      (reject) => {
-        console.log(reject);
-      }
-    );
+  async function complete(step: Task) {
+    try {
+      await notifyOnError(setAssignmentStatus(operation, step, step.completed));
+      operation.store();
+    } catch (e) {
+      step.completed = !step.completed;
+      steps = steps;
+      console.log(e);
+    }
   }
 </script>
 
@@ -174,7 +180,7 @@
           {getAgentName(step.assignedTo)}
           {#if needAck(step)}
             <button
-              on:click={() => ackMarker(step.ID)}
+              on:click={() => ackMarker(step)}
               class="btn btn-warning btn-sm"
             >
               ack
@@ -187,7 +193,7 @@
           <input
             type="checkbox"
             bind:checked={step.completed}
-            disabled={step.assignedTo != me.id}
+            disabled={!canWrite && step.assignedTo != me.id}
             on:change={() => complete(step)}
           />
         </td>
