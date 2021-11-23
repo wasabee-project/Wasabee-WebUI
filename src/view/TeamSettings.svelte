@@ -17,6 +17,7 @@
   } from '../server';
 
   import type { WasabeeTeam } from '../model/';
+  import { getServer } from '../config';
 
   const dispatch = createEventDispatcher();
 
@@ -132,7 +133,7 @@
     <div class="card-header">Join Link</div>
     {#if team.jlt}
       <div class="card-body">
-        <a href={'/api/v1/team/' + team.id + '/join/' + team.jlt}
+        <a href={getServer() + '/api/v1/team/' + team.id + '/join/' + team.jlt}
           >copy this link</a
         >
         to share with agents
