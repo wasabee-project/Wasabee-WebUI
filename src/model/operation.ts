@@ -2,6 +2,7 @@ import WasabeeLink from './link';
 import WasabeePortal from './portal';
 import WasabeeMarker from './marker';
 import WasabeeZone from './zone';
+import type WasabeeMe from './me';
 
 export type KeyOnHand = {
   portalId: PortalID;
@@ -407,5 +408,13 @@ export default class WasabeeOp {
     const newid = Math.max(...ids) + 1;
     this.zones.push(new WasabeeZone({ id: newid, name: newid }));
     return newid;
+  }
+
+  mayWrite(me: WasabeeMe) {
+    if (me.id === this.creator) return true;
+    const writers = this.teamlist
+      .filter((t) => t.role === 'write')
+      .map((t) => t.teamid);
+    return me.Teams.some((t) => writers.includes(t.ID));
   }
 }

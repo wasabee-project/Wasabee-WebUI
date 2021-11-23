@@ -36,15 +36,7 @@
 
   refresh();
 
-  function mayWrite(me: WasabeeMe, operation: WasabeeOp) {
-    if (me.id === operation.creator) return true;
-    const writers = operation.teamlist
-      .filter((t) => t.role === 'write')
-      .map((t) => t.teamid);
-    return me.Teams.some((t) => writers.includes(t.ID));
-  }
-
-  $: canWrite = operation ? mayWrite(me, operation) : false;
+  $: canWrite = operation ? operation.mayWrite(me) : false;
 
   const routes = {
     '/list': wrap({
@@ -84,12 +76,22 @@
       props: {
         opStore: opStore,
       },
+      conditions: [
+        () => {
+          return canWrite;
+        },
+      ],
     }),
     '/graph': wrap({
       component: OperationGraph,
       props: {
         opStore: opStore,
       },
+      conditions: [
+        () => {
+          return canWrite;
+        },
+      ],
     }),
   };
 
@@ -130,14 +132,12 @@
         >Graph</a
       >
     </li>
-    <li class="nav-item">
-      <a
-        class="nav-link"
-        use:active
-        href={'#/operation/' + opid + '/permissions'}>Permissions</a
-      >
-    </li>
   {/if}
+  <li class="nav-item">
+    <a class="nav-link" use:active href={'#/operation/' + opid + '/permissions'}
+      >Permissions</a
+    >
+  </li>
   <button class="btn btn-primary" on:click={() => refresh()}>↻</button>
 </ul>
 
