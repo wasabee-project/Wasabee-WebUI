@@ -122,11 +122,9 @@
           >
         </Nav>
       </Collapse>
-      <NavItem
-        ><NavLink disabled href="#"
-          >{getServer().replace('https://', '')}</NavLink
-        ></NavItem
-      >
+      <NavLink disabled href="#">
+        {getServer().replace('https://', '')}
+      </NavLink>
     </Navbar>
   </header>
   <main in:fade={{ duration: 500 }}>
