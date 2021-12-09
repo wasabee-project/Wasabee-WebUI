@@ -44308,7 +44308,7 @@
 				t1 = space();
 				create_component(router.$$.fragment);
 				add_location(header, file, 100, 2, 3135);
-				add_location(main, file, 120, 2, 3998);
+				add_location(main, file, 124, 2, 4034);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, header, anchor);
@@ -45164,7 +45164,7 @@
 		return block;
 	}
 
-	// (118:15) <NavLink disabled href="#">
+	// (119:9) <NavLink disabled href="#"           >
 	function create_default_slot_3(ctx) {
 		let t_value = getServer().replace('https://', '') + "";
 		let t;
@@ -45186,14 +45186,14 @@
 			block,
 			id: create_default_slot_3.name,
 			type: "slot",
-			source: "(118:15) <NavLink disabled href=\\\"#\\\">",
+			source: "(119:9) <NavLink disabled href=\\\"#\\\"           >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (118:6) <NavItem>
+	// (118:6) <NavItem         >
 	function create_default_slot_2(ctx) {
 		let navlink;
 		let current;
@@ -45243,7 +45243,7 @@
 			block,
 			id: create_default_slot_2.name,
 			type: "slot",
-			source: "(118:6) <NavItem>",
+			source: "(118:6) <NavItem         >",
 			ctx
 		});
 
@@ -45348,7 +45348,7 @@
 		return block;
 	}
 
-	// (122:4) <ToastContainer let:data>
+	// (126:4) <ToastContainer let:data>
 	function create_default_slot(ctx) {
 		let flattoast;
 		let current;
@@ -45389,14 +45389,14 @@
 			block,
 			id: create_default_slot.name,
 			type: "slot",
-			source: "(122:4) <ToastContainer let:data>",
+			source: "(126:4) <ToastContainer let:data>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (129:0) {#if loading}
+	// (133:0) {#if loading}
 	function create_if_block(ctx) {
 		let div;
 
@@ -45405,7 +45405,7 @@
 				div = element("div");
 				attr_dev(div, "id", "loading-animation");
 				attr_dev(div, "class", "svelte-1bcajx9");
-				add_location(div, file, 129, 2, 4169);
+				add_location(div, file, 133, 2, 4205);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -45419,7 +45419,7 @@
 			block,
 			id: create_if_block.name,
 			type: "if",
-			source: "(129:0) {#if loading}",
+			source: "(133:0) {#if loading}",
 			ctx
 		});
 
@@ -45494,21 +45494,21 @@
 				script.async = true;
 				script.defer = true;
 				add_location(script, file, 90, 2, 2948);
-				add_location(strong, file, 136, 76, 4450);
+				add_location(strong, file, 140, 76, 4486);
 				attr_dev(a0, "href", "https://v.enl.one/");
-				add_location(a0, file, 140, 6, 4566);
+				add_location(a0, file, 144, 6, 4602);
 				attr_dev(a1, "href", "https://enl.rocks");
-				add_location(a1, file, 141, 6, 4611);
+				add_location(a1, file, 145, 6, 4647);
 				attr_dev(a2, "href", "/privacy");
-				add_location(a2, file, 142, 6, 4672);
+				add_location(a2, file, 146, 6, 4708);
 				attr_dev(p0, "class", "text-muted small");
-				add_location(p0, file, 134, 4, 4270);
+				add_location(p0, file, 138, 4, 4306);
 				attr_dev(p1, "class", "text-muted text-right small");
-				add_location(p1, file, 144, 4, 4745);
+				add_location(p1, file, 148, 4, 4781);
 				attr_dev(div, "class", "p-5");
-				add_location(div, file, 133, 2, 4248);
+				add_location(div, file, 137, 2, 4284);
 				attr_dev(footer, "class", "mastfoot mx-5 mt-auto");
-				add_location(footer, file, 132, 0, 4207);
+				add_location(footer, file, 136, 0, 4243);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
