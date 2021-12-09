@@ -50,7 +50,7 @@
               <img src={checkmark} alt="sharing wd keys" />
             {/if}
           </td>
-          <td>{agent.comment}</td>
+          <td>{agent.comment || ''}</td>
         </tr>
       {/each}
     </tbody>
