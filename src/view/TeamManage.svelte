@@ -106,18 +106,16 @@
               on:change={() => agentSquadChange(agent)}
             />
           </td>
-          {#if !team.rc}
-            <td>
-              {#if agent.id != me.id}
-                <button
-                  on:click={() => removeAgent(agent)}
-                  class="btn btn-danger btn-sm"
-                >
-                  Remove
-                </button>
-              {/if}
-            </td>
-          {/if}
+          <td>
+            {#if agent.id != me.id}
+              <button
+                on:click={() => removeAgent(agent)}
+                class="btn btn-danger btn-sm"
+              >
+                Remove
+              </button>
+            {/if}
+          </td>
         </tr>
       {/each}
     </tbody>
