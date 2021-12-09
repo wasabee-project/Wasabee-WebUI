@@ -22,7 +22,7 @@
   import Operation from './view/Operation.svelte';
   import Team from './view/Team.svelte';
 
-  import { setConfig } from './config';
+  import { getServer, setConfig } from './config';
 
   import { clearOpsStorage, loadMeAndOps, syncOps, syncTeams } from './sync';
   import { loadConfig, logoutPromise } from './server';
@@ -34,17 +34,21 @@
   let loading = true;
 
   // try use last used server
-  (async () => {
-    setConfig(await loadConfig());
-    loadMeAndOps()
-      .then(async () => {
-        me = WasabeeMe.get();
-        loading = false;
-      })
-      .catch(() => {
-        loading = false;
-      });
-  })();
+  loadConfig()
+    .then((config) => {
+      setConfig(config);
+      loadMeAndOps()
+        .then(async () => {
+          me = WasabeeMe.get();
+          loading = false;
+        })
+        .catch(() => {
+          loading = false;
+        });
+    })
+    .catch(() => {
+      loading = false;
+    });
 
   $: if (me) loading = false;
 
@@ -118,6 +122,11 @@
           >
         </Nav>
       </Collapse>
+      <NavItem
+        ><NavLink disabled href="#"
+          >{getServer().replace('https://', '')}</NavLink
+        ></NavItem
+      >
     </Navbar>
   </header>
   <main in:fade={{ duration: 500 }}>
