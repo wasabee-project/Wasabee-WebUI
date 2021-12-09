@@ -26,6 +26,15 @@
     },
   ];
 
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlServer = urlParams.get('server');
+
+  if (urlServer)
+    servers.push({
+      name: 'Custom: ' + urlServer,
+      url: urlServer,
+    });
+
   const disabledServer: { [url: string]: true } = {};
 
   function promiseLogin(options: gapi.auth2.AuthorizeConfig) {
