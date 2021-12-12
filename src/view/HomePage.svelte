@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { SendAccessTokenAsync } from '../server';
   import { createEventDispatcher } from 'svelte';
 
-  import { setServer } from '../config';
+  import { login } from '../auth';
   import { Nav, NavLink } from 'sveltestrap';
 
   export let disabled: boolean;
@@ -37,53 +36,15 @@
 
   const disabledServer: { [url: string]: true } = {};
 
-  function promiseLogin(options: gapi.auth2.AuthorizeConfig) {
-    const promise = new Promise<string>((resolve, reject) => {
-      window.gapi.auth2.authorize(options, (response) => {
-        if (response.error) {
-          return reject(`error: ${response.error}: ${response.error_subtype}`);
-        }
-        console.log(response);
-        resolve(response.access_token);
-      });
-    });
-    return promise;
-  }
-
   async function loginTo(url: string) {
     if (disabled) return;
-
     connecting = url;
-    const options = {
-      client_id:
-        '269534461245-rpgijdorh2v0tdalis1s95fkebok73cl.apps.googleusercontent.com',
-      scope: 'email profile openid',
-      response_type: 'id_token permission',
-      prompt: selectAccount ? 'select_account' : 'none',
-    };
-    let token: string;
     try {
-      token = await promiseLogin(options);
-    } catch {
-      // no quick login
-    }
-    if (!token && options.prompt != 'select_account') {
-      options.prompt = 'select_account';
-      try {
-        token = await promiseLogin(options);
-      } catch {
-        console.warn('fail to login to google');
-      }
-    }
-    if (token) {
-      setServer(url);
-      try {
-        const me = await SendAccessTokenAsync(token);
-        dispatch('login', me);
-      } catch (e) {
-        console.error('unable to send token to ', url);
-        disabledServer[url] = true;
-      }
+      const me: any = await login(url, selectAccount);
+      if (me) dispatch('login', me);
+    } catch (e) {
+      console.error('unable to send token to ', url);
+      disabledServer[url] = true;
     }
     connecting = null;
   }

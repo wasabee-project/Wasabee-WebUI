@@ -8,6 +8,7 @@ import type WasabeeTeam from './model/team';
 import { WasabeeLink, WasabeeMarker } from './model';
 
 import { getConfig, getServer } from './config';
+import { getAuthBearer } from './auth';
 
 export default function () {
   return GetWasabeeServer();
@@ -596,9 +597,17 @@ async function generic<T>(request: {
     credentials: 'include',
     redirect: 'manual',
     referrerPolicy: 'origin',
+    headers: {},
   };
   if (request.body) requestInit.body = request.body;
   if (request.headers) requestInit.headers = request.headers;
+
+  // use jwt instead of cookies if available
+  const bearer = getAuthBearer();
+  if (bearer) {
+    requestInit.headers['Authorization'] = `Bearer ${bearer}`;
+    requestInit.credentials = 'omit';
+  }
 
   try {
     const response = await fetch(GetWasabeeServer() + request.url, requestInit);
@@ -633,6 +642,8 @@ async function generic<T>(request: {
           GetUpdateList().set(jsonPayload.updateID, Date.now());
         return Promise.resolve((request.raw ? payload : jsonPayload) as T);
       // break;
+      case 302:
+      // fallthrough;
       case 401:
         WasabeeMe.purge();
       // fallthrough;

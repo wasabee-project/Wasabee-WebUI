@@ -28,6 +28,7 @@
   import { loadConfig, logoutPromise } from './server';
 
   import { WasabeeMe } from './model';
+  import { setAuthBearer } from './auth';
 
   let me: WasabeeMe | null;
 
@@ -43,6 +44,7 @@
           loading = false;
         })
         .catch(() => {
+          setAuthBearer();
           loading = false;
         });
     })
@@ -74,6 +76,7 @@
       console.log(e);
     }
     WasabeeMe.purge();
+    setAuthBearer();
     delete localStorage['sentToServer'];
     //window.location.href = '/';
     me = null;
