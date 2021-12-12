@@ -22355,7 +22355,7 @@
 	    const bearer = getAuthBearer();
 	    if (bearer) {
 	        requestInit.headers['Authorization'] = `Bearer ${bearer}`;
-	        //requestInit.credentials = 'omit';
+	        requestInit.credentials = 'omit';
 	    }
 	    try {
 	        const response = await fetch(GetWasabeeServer() + request.url, requestInit);
@@ -22385,6 +22385,8 @@
 	                    GetUpdateList().set(jsonPayload.updateID, Date.now());
 	                return Promise.resolve((request.raw ? payload : jsonPayload));
 	            // break;
+	            case 302:
+	            // fallthrough;
 	            case 401:
 	                WasabeeMe.purge();
 	            // fallthrough;
