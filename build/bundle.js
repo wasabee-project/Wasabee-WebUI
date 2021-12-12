@@ -22364,7 +22364,7 @@
 	    const bearer = getAuthBearer();
 	    if (bearer) {
 	        requestInit.headers['Authorization'] = `Bearer ${bearer}`;
-	        requestInit.credentials = 'omit';
+	        //requestInit.credentials = 'omit';
 	    }
 	    try {
 	        const response = await fetch(GetWasabeeServer() + request.url, requestInit);
