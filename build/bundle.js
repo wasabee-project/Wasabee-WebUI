@@ -22462,7 +22462,10 @@
 	}
 	function setAuthBearer(jwt) {
 	    bearer = jwt;
-	    localStorage[BEARER_KEY] = jwt;
+	    if (jwt)
+	        localStorage[BEARER_KEY] = jwt;
+	    else
+	        delete localStorage[BEARER_KEY];
 	}
 	async function login(server, selectAccount) {
 	    const options = {
