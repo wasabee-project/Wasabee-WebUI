@@ -50576,12 +50576,15 @@
 	const app = initializeApp(firebaseConfig);
 	getAnalytics(app);
 	const messaging = getMessagingInWindow(app);
-	const sw = navigator.serviceWorker.register('firebase-messaging-sw.js');
+	const sw = navigator.serviceWorker.register('firebase-messaging-sw.js', {
+	    scope: "."
+	});
 	sw.then((sw) => {
+	    console.debug(sw);
 	    getToken(messaging, {
 	        serviceWorkerRegistration: sw,
 	    }).then(console.debug);
-	});
+	}).catch(console.error);
 	onMessage(messaging, (payload) => {
 	    console.log('Message received. ', payload);
 	    // ...
