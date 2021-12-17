@@ -50576,7 +50576,7 @@
 	const app = initializeApp(firebaseConfig);
 	getAnalytics(app);
 	const messaging = getMessagingInWindow(app);
-	const sw = navigator.serviceWorker.register('/Wasabee-WebUI/sw.js', {
+	const sw = navigator.serviceWorker.register('/Wasabee-WebUI/build/sw.js', {
 	    scope: '/Wasabee-WebUI/',
 	});
 	sw.then((sw) => {
