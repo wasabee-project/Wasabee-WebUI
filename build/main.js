@@ -1,5 +1,9 @@
-(function () {
+(function (truc) {
 	'use strict';
+
+	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+	var truc__default = /*#__PURE__*/_interopDefaultLegacy(truc);
 
 	var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -48342,7 +48346,7 @@
 	 *
 	 * @public
 	 */
-	async function getToken$2(installations, forceRefresh = false) {
+	async function getToken(installations, forceRefresh = false) {
 	    const installationsImpl = installations;
 	    await completeInstallationRegistration(installationsImpl.appConfig);
 	    // At this point we either have a Registered Installation in the DB, or we've
@@ -48442,7 +48446,7 @@
 	    const installations = _getProvider(app, INSTALLATIONS_NAME).getImmediate();
 	    const installationsInternal = {
 	        getId: () => getId(installations),
-	        getToken: (forceRefresh) => getToken$2(installations, forceRefresh)
+	        getToken: (forceRefresh) => getToken(installations, forceRefresh)
 	    };
 	    return installationsInternal;
 	};
@@ -50515,25 +50519,6 @@
 	    return _getProvider(getModularInstance(app), 'messaging').getImmediate();
 	}
 	/**
-	 * Subscribes the {@link Messaging} instance to push notifications. Returns an Firebase Cloud
-	 * Messaging registration token that can be used to send push messages to that {@link Messaging}
-	 * instance.
-	 *
-	 * If a notification permission isn't already granted, this method asks the user for permission. The
-	 * returned promise rejects if the user does not allow the app to show notifications.
-	 *
-	 * @param messaging - The {@link Messaging} instance.
-	 * @param options - Provides an optional vapid key and an optinoal service worker registration
-	 *
-	 * @returns The promise resolves with an FCM registration token.
-	 *
-	 * @public
-	 */
-	async function getToken(messaging, options) {
-	    messaging = getModularInstance(messaging);
-	    return getToken$1(messaging, options);
-	}
-	/**
 	 * When a push message is received and the user is currently on a page for your origin, the
 	 * message is passed to the page and an `onMessage()` event is dispatched with the payload of
 	 * the push message.
@@ -50576,15 +50561,14 @@
 	const app = initializeApp(firebaseConfig);
 	getAnalytics(app);
 	const messaging = getMessagingInWindow(app);
-	const sw = navigator.serviceWorker.register('/Wasabee-WebUI/sw.js', {
-	    scope: '/Wasabee-WebUI/',
-	});
-	sw.then((sw) => {
-	    console.debug(sw);
-	    getToken(messaging, {
-	        serviceWorkerRegistration: sw,
-	    }).then(console.debug);
-	}).catch(console.error);
+	const sw = new truc__default['default']("./firebase-sw");
+	sw.postMessage("coucou");
+	// sw.then((sw) => {
+	//   console.debug(sw);
+	//   getToken(messaging, {
+	//     serviceWorkerRegistration: sw,
+	//   }).then(console.debug);
+	// }).catch(console.error);
 	onMessage(messaging, (payload) => {
 	    console.log('Message received. ', payload);
 	    // ...
@@ -50595,5 +50579,5 @@
 	    target: document.body,
 	});
 
-}());
-//# sourceMappingURL=bundle.js.map
+}(truc));
+//# sourceMappingURL=main.js.map
