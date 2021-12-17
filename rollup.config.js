@@ -54,50 +54,74 @@ function userscriptCss(options = {}) {
 
 const sourcemap = true; // !production;
 
-export default {
-  input: 'src/main.ts',
-  output: {
-    sourcemap: sourcemap,
-    format: 'iife',
-    name: 'app',
-    file: 'public/build/bundle.js',
+export default [
+  {
+    input: 'src/main.ts',
+    output: {
+      sourcemap: sourcemap,
+      format: 'iife',
+      name: 'app',
+      file: 'public/build/bundle.js',
+    },
+    plugins: [
+      svelte({
+        preprocess: sveltePreprocess({ sourceMap: sourcemap }),
+        compilerOptions: {
+          // enable run-time checks when not in production
+          dev: !production,
+        },
+      }),
+      userscript && userscriptCss(),
+      !userscript && css({ output: 'bundle.css' }),
+
+      // If you have external dependencies installed from
+      // npm, you'll most likely need these plugins. In
+      // some cases you'll need additional configuration -
+      // consult the documentation for details:
+      // https://github.com/rollup/plugins/tree/master/packages/commonjs
+      resolve({
+        browser: true,
+        dedupe: ['svelte'],
+      }),
+      commonjs(),
+      json(),
+      typescript({
+        sourceMap: sourcemap,
+        inlineSources: true,
+      }),
+
+      // If we're building for production (npm run build
+      // instead of npm run dev), minify
+      production && terser(),
+
+      userscript && userscriptAsset(),
+
+      watch && serve('public'),
+    ],
+    watch: {
+      clearScreen: false,
+    },
   },
-  plugins: [
-    svelte({
-      preprocess: sveltePreprocess({ sourceMap: sourcemap }),
-      compilerOptions: {
-        // enable run-time checks when not in production
-        dev: !production,
-      },
-    }),
-    userscript && userscriptCss(),
-    !userscript && css({ output: 'bundle.css' }),
-
-    // If you have external dependencies installed from
-    // npm, you'll most likely need these plugins. In
-    // some cases you'll need additional configuration -
-    // consult the documentation for details:
-    // https://github.com/rollup/plugins/tree/master/packages/commonjs
-    resolve({
-      browser: true,
-      dedupe: ['svelte'],
-    }),
-    commonjs(),
-    json(),
-    typescript({
-      sourceMap: sourcemap,
-      inlineSources: true,
-    }),
-
-    // If we're building for production (npm run build
-    // instead of npm run dev), minify
-    production && terser(),
-
-    userscript && userscriptAsset(),
-
-    watch && serve('public'),
-  ],
-  watch: {
-    clearScreen: false,
+  {
+    input: 'src/sw/firebase.ts',
+    output: {
+      sourcemap: sourcemap,
+      format: 'iife',
+      name: 'sw',
+      file: 'public/build/sw.js',
+    },
+    plugins: [
+      commonjs(),
+      resolve({
+        browser: true,
+      }),
+      typescript({
+        sourceMap: sourcemap,
+        inlineSources: true,
+        include: ['src/sw/*'],
+        tsconfig: false,
+      }),
+      production && terser(),
+    ],
   },
-};
+];

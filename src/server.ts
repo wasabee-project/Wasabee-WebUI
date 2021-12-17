@@ -544,7 +544,7 @@ export function sendTokenToWasabee(token: string) {
 }
 
 export function getCustomTokenFromServer() {
-  return generic({
+  return generic<string>({
     url: `/api/v1/me/firebase`,
     method: 'GET',
     raw: true,

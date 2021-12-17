@@ -30,6 +30,8 @@
   import { WasabeeMe } from './model';
   import { setAuthBearer } from './auth';
 
+  import { sendTokenToServer } from './firebase';
+
   let me: WasabeeMe | null;
 
   let loading = true;
@@ -41,6 +43,7 @@
       loadMeAndOps()
         .then(async () => {
           me = WasabeeMe.get();
+          sendTokenToServer();
           loading = false;
         })
         .catch(() => {
@@ -94,6 +97,7 @@
     setConfig(await loadConfig());
     await syncOps(me);
     await syncTeams(me);
+    sendTokenToServer();
   }
 </script>
 
