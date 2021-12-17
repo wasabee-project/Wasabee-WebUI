@@ -88,10 +88,10 @@
     let depends = selectedTask.dependsOn;
     if (depends.includes(id)) {
       depends = depends.filter((v) => v !== id);
-      deleteTaskDepend(operation.ID, selectedTask, id);
+      notifyOnError(deleteTaskDepend(operation.ID, selectedTask, id));
     } else {
       depends.push(id);
-      addTaskDepend(operation.ID, selectedTask, id);
+      notifyOnError(addTaskDepend(operation.ID, selectedTask, id));
     }
     selectedTask.dependsOn = depends;
 
