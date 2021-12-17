@@ -515,40 +515,13 @@ export function setMarkerZone(opID: OpID, markerID: MarkerID, zone: ZoneID) {
 }
 
 export function addTaskDepend(opID: OpID, task: Task, dep: TaskID) {
-  if (task instanceof WasabeeMarker) return addMarkerDepend(opID, task.ID, dep);
-  if (task instanceof WasabeeLink) return addLinkDepend(opID, task.ID, dep);
+  return genericPut<IServerUpdate>(
+    `/api/v1/draw/${opID}/task/${task.ID}/depend/${dep}`
+  );
 }
 export function deleteTaskDepend(opID: OpID, task: Task, dep: TaskID) {
-  if (task instanceof WasabeeMarker)
-    return deleteMarkerDepend(opID, task.ID, dep);
-  if (task instanceof WasabeeLink) return deleteLinkDepend(opID, task.ID, dep);
-}
-
-export function addMarkerDepend(opID: OpID, markerID: MarkerID, dep: TaskID) {
-  return genericPut<IServerUpdate>(
-    `/api/v1/draw/${opID}/marker/${markerID}/depend/${dep}`
-  );
-}
-
-export function deleteMarkerDepend(
-  opID: OpID,
-  markerID: MarkerID,
-  dep: TaskID
-) {
   return genericDelete<IServerUpdate>(
-    `/api/v1/draw/${opID}/marker/${markerID}/depend/${dep}`
-  );
-}
-
-export function addLinkDepend(opID: OpID, linkID: LinkID, dep: TaskID) {
-  return genericPut<IServerUpdate>(
-    `/api/v1/draw/${opID}/link/${linkID}/depend/${dep}`
-  );
-}
-
-export function deleteLinkDepend(opID: OpID, markerID: LinkID, dep: TaskID) {
-  return genericDelete<IServerUpdate>(
-    `/api/v1/draw/${opID}/link/${markerID}/depend/${dep}`
+    `/api/v1/draw/${opID}/task/${task.ID}/depend/${dep}`
   );
 }
 
