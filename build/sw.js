@@ -3886,13 +3886,14 @@
 
     /// <reference lib="webworker" />
     var firebaseConfig = {
-        apiKey: 'AIzaSyCaXbU40nHgSvvXlXLVUd0q9u27CW4yfp0',
-        authDomain: 'wasabeetest.firebaseapp.com',
-        projectId: 'wasabeetest',
-        storageBucket: 'wasabeetest.appspot.com',
-        messagingSenderId: '515436589931',
-        appId: '1:515436589931:web:111185ba057d04eed5922e',
-        measurementId: 'G-E77C758KXG'
+        apiKey: 'AIzaSyBGyM0EuPsrNBr2z360OhJ1dVvztGnE5L4',
+        authDomain: 'phdevbin.firebaseapp.com',
+        databaseURL: 'https://phdevbin.firebaseio.com',
+        projectId: 'phdevbin',
+        storageBucket: 'phdevbin.appspot.com',
+        messagingSenderId: '269534461245',
+        appId: '1:269534461245:web:51b1e9e51303c6156a5954',
+        measurementId: 'G-W9PTC1C6FM'
     };
     // Initialize Firebase
     var app = initializeApp(firebaseConfig);
