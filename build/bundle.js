@@ -50556,14 +50556,14 @@
 	getAnalytics(app);
 	const messaging = getMessagingInWindow(app);
 	const sw = navigator.serviceWorker.register('/Wasabee-WebUI/build/sw.js', {
-	    scope: '/Wasabee-WebUI/',
+	    scope: '/Wasabee-WebUI/build/',
 	});
 	sw.then((sw) => {
 	    console.debug(sw);
 	    getToken(messaging, {
 	        serviceWorkerRegistration: sw,
 	    }).then(console.debug);
-	}).catch(console.error);
+	}).catch(console.trace);
 	onMessage(messaging, (payload) => {
 	    console.log('Message received. ', payload);
 	    // ...
