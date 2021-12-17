@@ -38654,9 +38654,9 @@
 				td1 = element("td");
 				create_component(portallink1.$$.fragment);
 				attr_dev(td0, "class", "svelte-1y750cn");
-				add_location(td0, file$7, 301, 14, 10013);
+				add_location(td0, file$7, 301, 14, 10043);
 				attr_dev(td1, "class", "svelte-1y750cn");
-				add_location(td1, file$7, 304, 14, 10124);
+				add_location(td1, file$7, 304, 14, 10154);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -38734,9 +38734,9 @@
 				td1 = element("td");
 				t1 = text(t1_value);
 				attr_dev(td0, "class", "svelte-1y750cn");
-				add_location(td0, file$7, 294, 14, 9762);
+				add_location(td0, file$7, 294, 14, 9792);
 				attr_dev(td1, "class", td1_class_value = "" + (null_to_empty(/*step*/ ctx[31].type) + " svelte-1y750cn"));
-				add_location(td1, file$7, 297, 14, 9869);
+				add_location(td1, file$7, 297, 14, 9899);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -38835,11 +38835,11 @@
 				t3 = text(t3_value);
 				t4 = space();
 				attr_dev(td0, "class", "svelte-1y750cn");
-				add_location(td0, file$7, 291, 12, 9677);
+				add_location(td0, file$7, 291, 12, 9707);
 				attr_dev(td1, "class", "svelte-1y750cn");
-				add_location(td1, file$7, 308, 12, 10249);
+				add_location(td1, file$7, 308, 12, 10279);
 				toggle_class(tr, "table-success", /*selectedTask*/ ctx[4] && /*selectedTask*/ ctx[4].ID == /*step*/ ctx[31].ID);
-				add_location(tr, file$7, 284, 10, 9446);
+				add_location(tr, file$7, 284, 10, 9476);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -38987,15 +38987,15 @@
 					each_blocks[i].c();
 				}
 
-				add_location(th, file$7, 365, 14, 12137);
-				add_location(tr, file$7, 365, 10, 12133);
-				add_location(thead, file$7, 364, 8, 12115);
+				add_location(th, file$7, 365, 14, 12167);
+				add_location(tr, file$7, 365, 10, 12163);
+				add_location(thead, file$7, 364, 8, 12145);
 				set_style(tbody, "--graph-size", /*graphMax*/ ctx[9]);
-				add_location(tbody, file$7, 367, 8, 12183);
+				add_location(tbody, file$7, 367, 8, 12213);
 				attr_dev(table, "class", "table table-striped graph svelte-1y750cn");
-				add_location(table, file$7, 363, 6, 12065);
+				add_location(table, file$7, 363, 6, 12095);
 				attr_dev(div, "class", "col-6");
-				add_location(div, file$7, 362, 4, 12039);
+				add_location(div, file$7, 362, 4, 12069);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -39101,21 +39101,21 @@
 
 				attr_dev(th0, "scope", "col");
 				set_style(th0, "width", "max-content");
-				add_location(th0, file$7, 319, 12, 10486);
+				add_location(th0, file$7, 319, 12, 10516);
 				attr_dev(th1, "scope", "col");
-				add_location(th1, file$7, 320, 12, 10552);
+				add_location(th1, file$7, 320, 12, 10582);
 				attr_dev(th2, "scope", "col");
-				add_location(th2, file$7, 321, 12, 10592);
+				add_location(th2, file$7, 321, 12, 10622);
 				attr_dev(th3, "scope", "col");
-				add_location(th3, file$7, 322, 12, 10635);
-				add_location(tr, file$7, 318, 10, 10469);
-				add_location(thead, file$7, 317, 8, 10451);
+				add_location(th3, file$7, 322, 12, 10665);
+				add_location(tr, file$7, 318, 10, 10499);
+				add_location(thead, file$7, 317, 8, 10481);
 				attr_dev(tbody, "id", "opSteps");
-				add_location(tbody, file$7, 325, 8, 10702);
+				add_location(tbody, file$7, 325, 8, 10732);
 				attr_dev(table, "class", "table table-striped steps svelte-1y750cn");
-				add_location(table, file$7, 316, 6, 10401);
+				add_location(table, file$7, 316, 6, 10431);
 				attr_dev(div, "class", "col-6");
-				add_location(div, file$7, 315, 4, 10375);
+				add_location(div, file$7, 315, 4, 10405);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -39213,8 +39213,8 @@
 				attr_dev(td, "class", td_class_value = "" + (null_to_empty(/*stepClasses*/ ctx[16](/*selectedTask*/ ctx[4], /*step*/ ctx[31])) + " svelte-1y750cn"));
 				set_style(td, "margin-left", /*graphStartTime*/ ctx[7].get(/*step*/ ctx[31].ID) / /*graphMax*/ ctx[9] * 100 + "%");
 				set_style(td, "width", (/*graphEndTime*/ ctx[2].get(/*step*/ ctx[31].ID) - /*graphStartTime*/ ctx[7].get(/*step*/ ctx[31].ID)) / /*graphMax*/ ctx[9] * 100 + "%");
-				add_location(td, file$7, 373, 14, 12411);
-				add_location(tr, file$7, 369, 12, 12278);
+				add_location(td, file$7, 373, 14, 12441);
+				add_location(tr, file$7, 369, 12, 12308);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -39305,9 +39305,9 @@
 				td1 = element("td");
 				create_component(portallink1.$$.fragment);
 				attr_dev(td0, "class", "svelte-1y750cn");
-				add_location(td0, file$7, 348, 16, 11662);
+				add_location(td0, file$7, 348, 16, 11692);
 				attr_dev(td1, "class", "svelte-1y750cn");
-				add_location(td1, file$7, 351, 16, 11779);
+				add_location(td1, file$7, 351, 16, 11809);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -39385,9 +39385,9 @@
 				td1 = element("td");
 				t1 = text(t1_value);
 				attr_dev(td0, "class", "svelte-1y750cn");
-				add_location(td0, file$7, 341, 16, 11397);
+				add_location(td0, file$7, 341, 16, 11427);
 				attr_dev(td1, "class", td1_class_value = "" + (null_to_empty(/*step*/ ctx[31].type) + " svelte-1y750cn"));
-				add_location(td1, file$7, 344, 16, 11510);
+				add_location(td1, file$7, 344, 16, 11540);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -39486,13 +39486,13 @@
 				t3 = text(t3_value);
 				t4 = space();
 				attr_dev(td0, "class", "svelte-1y750cn");
-				add_location(td0, file$7, 338, 14, 11308);
+				add_location(td0, file$7, 338, 14, 11338);
 				attr_dev(td1, "class", "svelte-1y750cn");
-				add_location(td1, file$7, 355, 14, 11912);
+				add_location(td1, file$7, 355, 14, 11942);
 				toggle_class(tr, "table-warning", /*selectedTask*/ ctx[4] && /*strongComponents*/ ctx[6].has(/*selectedTask*/ ctx[4].ID) && /*strongComponents*/ ctx[6].get(/*selectedTask*/ ctx[4].ID).includes(/*step*/ ctx[31].ID));
 				toggle_class(tr, "table-success", /*selectedTask*/ ctx[4] && /*selectedTask*/ ctx[4].dependsOn.includes(/*step*/ ctx[31].ID));
 				toggle_class(tr, "table-danger", /*selectedTask*/ ctx[4] && /*step*/ ctx[31].dependsOn.includes(/*selectedTask*/ ctx[4].ID));
-				add_location(tr, file$7, 327, 12, 10777);
+				add_location(tr, file$7, 327, 12, 10807);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -39728,43 +39728,43 @@
 				t24 = space();
 				if_block.c();
 				attr_dev(button0, "class", "btn btn-primary");
-				add_location(button0, file$7, 247, 4, 8266);
+				add_location(button0, file$7, 247, 4, 8296);
 				attr_dev(button1, "class", "btn btn-primary");
-				add_location(button1, file$7, 250, 4, 8380);
+				add_location(button1, file$7, 250, 4, 8410);
 				attr_dev(button2, "class", "btn btn-primary");
-				add_location(button2, file$7, 253, 4, 8483);
+				add_location(button2, file$7, 253, 4, 8513);
 				attr_dev(button3, "class", "btn btn-primary");
-				add_location(button3, file$7, 256, 4, 8589);
+				add_location(button3, file$7, 256, 4, 8619);
 				attr_dev(button4, "class", "btn btn-primary");
-				add_location(button4, file$7, 259, 4, 8695);
+				add_location(button4, file$7, 259, 4, 8725);
 				attr_dev(button5, "class", "btn btn-primary");
-				add_location(button5, file$7, 262, 4, 8812);
+				add_location(button5, file$7, 262, 4, 8842);
 				attr_dev(button6, "class", "btn btn-primary");
-				add_location(button6, file$7, 265, 4, 8925);
+				add_location(button6, file$7, 265, 4, 8955);
 				attr_dev(div0, "class", "card-header");
 				attr_dev(div0, "id", "opName");
-				add_location(div0, file$7, 245, 2, 8203);
+				add_location(div0, file$7, 245, 2, 8233);
 				attr_dev(div1, "class", "card mb-2");
-				add_location(div1, file$7, 244, 0, 8177);
+				add_location(div1, file$7, 244, 0, 8207);
 				attr_dev(th0, "scope", "col");
 				set_style(th0, "width", "max-content");
-				add_location(th0, file$7, 276, 10, 9171);
+				add_location(th0, file$7, 276, 10, 9201);
 				attr_dev(th1, "scope", "col");
-				add_location(th1, file$7, 277, 10, 9235);
+				add_location(th1, file$7, 277, 10, 9265);
 				attr_dev(th2, "scope", "col");
-				add_location(th2, file$7, 278, 10, 9273);
+				add_location(th2, file$7, 278, 10, 9303);
 				attr_dev(th3, "scope", "col");
-				add_location(th3, file$7, 279, 10, 9314);
-				add_location(tr, file$7, 275, 8, 9156);
-				add_location(thead, file$7, 274, 6, 9140);
+				add_location(th3, file$7, 279, 10, 9344);
+				add_location(tr, file$7, 275, 8, 9186);
+				add_location(thead, file$7, 274, 6, 9170);
 				attr_dev(tbody, "id", "opSteps");
-				add_location(tbody, file$7, 282, 6, 9375);
+				add_location(tbody, file$7, 282, 6, 9405);
 				attr_dev(table, "class", "table table-striped steps svelte-1y750cn");
-				add_location(table, file$7, 273, 4, 9092);
+				add_location(table, file$7, 273, 4, 9122);
 				attr_dev(div2, "class", "col-6");
-				add_location(div2, file$7, 272, 2, 9068);
+				add_location(div2, file$7, 272, 2, 9098);
 				attr_dev(div3, "class", "row");
-				add_location(div3, file$7, 271, 0, 9048);
+				add_location(div3, file$7, 271, 0, 9078);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -40045,10 +40045,10 @@
 
 			if (depends.includes(id)) {
 				depends = depends.filter(v => v !== id);
-				deleteTaskDepend(operation.ID, selectedTask, id);
+				notifyOnError(deleteTaskDepend(operation.ID, selectedTask, id));
 			} else {
 				depends.push(id);
-				addTaskDepend(operation.ID, selectedTask, id);
+				notifyOnError(addTaskDepend(operation.ID, selectedTask, id));
 			}
 
 			$$invalidate(4, selectedTask.dependsOn = depends, selectedTask);
