@@ -12,3 +12,11 @@ export async function notifyOnError<T>(promise: Promise<T>) {
     return Promise.reject(e);
   }
 }
+
+export function notifyInfo(text: string) {
+  return toasts.info(text);
+}
+
+export function notifyWarn(text: string) {
+  return toasts.warning(text);
+}

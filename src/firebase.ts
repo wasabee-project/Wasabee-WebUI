@@ -4,6 +4,7 @@ import { getAnalytics } from 'firebase/analytics';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { sendTokenToWasabee } from './server';
+import { notifyInfo, notifyWarn } from './notify';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBGyM0EuPsrNBr2z360OhJ1dVvztGnE5L4',
@@ -62,12 +63,15 @@ onMessage(messaging, (payload) => {
       break;
     case 'Delete':
       console.warn('server requested op delete: ', payload.data.opID);
+      notifyWarn('Delete: ' + payload.data.opID);
       break;
     case 'Generic Message':
-      alert(JSON.stringify(payload.data));
+      console.log(payload.data);
+      notifyInfo('Message: ' + JSON.stringify(payload.data));
       break;
     case 'Login':
       console.debug('server reported teammate login: ', payload.data.gid);
+      notifyInfo('Teamate Login: ' + payload.data.gid);
       break;
     case 'Link Assignment Change':
     // fallthrough
@@ -81,10 +85,12 @@ onMessage(messaging, (payload) => {
       opDataChange(payload.data);
       break;
     case 'Target':
-      alert(JSON.stringify(payload.data));
+      console.log(payload.data);
+      notifyInfo('Target: ' + JSON.stringify(payload.data));
       break;
     default:
       console.warn('unknown firebase command: ', payload.data);
+      notifyWarn('Unknown: ' + JSON.stringify(payload.data));
   }
 });
 
@@ -117,4 +123,5 @@ async function opDataChange(data) {
       console.log(data);
       break;
   }
+  notifyInfo(data.cmd + ': ' + JSON.stringify(data));
 }
