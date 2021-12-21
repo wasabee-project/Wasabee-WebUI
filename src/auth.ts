@@ -17,17 +17,6 @@ function promiseLogin(options: gapi.auth2.AuthorizeConfig) {
 const BEARER_KEY = 'wasabee-bearer';
 let bearer: string = localStorage[BEARER_KEY];
 
-let authStatus = false;
-// looks wrong
-export function isAuth() {
-  return authStatus;
-}
-
-export function setAuthStatus(b: boolean) {
-  authStatus = b;
-  if (!b) setAuthBearer(null);
-}
-
 export function getAuthBearer() {
   return bearer;
 }
@@ -38,7 +27,7 @@ export function setAuthBearer(jwt?: string) {
   else delete localStorage[BEARER_KEY];
 }
 
-export async function login(server: string, selectAccount) {
+export async function login(server: string, selectAccount: boolean) {
   const options = {
     client_id:
       '269534461245-rpgijdorh2v0tdalis1s95fkebok73cl.apps.googleusercontent.com',
@@ -62,9 +51,14 @@ export async function login(server: string, selectAccount) {
   }
   if (token) {
     setServer(server);
-    const me: any = await SendAccessTokenAsync(token);
-    if (me.jwt) setAuthBearer(me.jwt);
-    return me;
+    try {
+      const me: any = await SendAccessTokenAsync(token);
+      if (me.jwt) setAuthBearer(me.jwt);
+      return me;
+    } catch (e) {
+      // reset auth bearer (likely not supported by current server)
+      setAuthBearer();
+    }
   }
   return null;
 }
