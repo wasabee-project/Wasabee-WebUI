@@ -21397,6 +21397,8 @@
 	                obj.state = 'completed';
 	            else if (obj.assignedTo)
 	                obj.state = 'assigned';
+	            if (!obj.comment)
+	                obj.comment = obj.description;
 	        }
 	        super(obj);
 	        this.fromPortalId = obj.fromPortalId;
