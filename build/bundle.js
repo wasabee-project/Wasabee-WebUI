@@ -22478,10 +22478,16 @@
 	    }
 	    if (token) {
 	        setServer(server);
-	        const me = await SendAccessTokenAsync(token);
-	        if (me.jwt)
-	            setAuthBearer(me.jwt);
-	        return me;
+	        try {
+	            const me = await SendAccessTokenAsync(token);
+	            if (me.jwt)
+	                setAuthBearer(me.jwt);
+	            return me;
+	        }
+	        catch (e) {
+	            // reset auth bearer (likely not supported by current server)
+	            setAuthBearer();
+	        }
 	    }
 	    return null;
 	}
