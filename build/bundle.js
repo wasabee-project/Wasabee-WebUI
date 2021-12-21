@@ -55122,13 +55122,12 @@
 	});
 	let firebaseToken = null;
 	sw.then((sw) => {
-	    console.debug(sw);
 	    getToken(messaging, {
 	        serviceWorkerRegistration: sw,
 	    }).then((token) => {
 	        firebaseToken = token;
-	    });
-	}).catch(console.trace);
+	    }).catch(console.error);
+	}).catch(console.error);
 	function sendTokenToServer() {
 	    return sendTokenToWasabee(firebaseToken);
 	}
@@ -55137,7 +55136,6 @@
 	        console.log('Firebase auth login: ', user.uid);
 	        return;
 	    }
-	    console.log('Firebase auth logout');
 	});
 	onMessage(messaging, (payload) => {
 	    switch (payload.data.cmd) {
@@ -55150,7 +55148,7 @@
 	            }
 	            break;
 	        case 'Delete':
-	            console.warn('server requested op delete: ', payload.data.opID);
+	            console.warn('server requested op delete: ', payload.data);
 	            notifyWarn('Delete: ' + payload.data.opID);
 	            break;
 	        case 'Generic Message':
@@ -55158,7 +55156,7 @@
 	            notifyInfo('Message: ' + JSON.stringify(payload.data));
 	            break;
 	        case 'Login':
-	            console.debug('server reported teammate login: ', payload.data.gid);
+	            console.debug('server reported teammate login: ', payload.data);
 	            notifyInfo('Teamate Login: ' + payload.data.gid);
 	            break;
 	        case 'Link Assignment Change':
