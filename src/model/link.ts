@@ -15,6 +15,7 @@ export default class WasabeeLink extends Task {
       obj.completedID = obj.completed ? obj.assignedTo : null;
       if (obj.completedID) obj.state = 'completed';
       else if (obj.assignedTo) obj.state = 'assigned';
+      if (!obj.comment) obj.comment = obj.description;
     }
     super(obj);
     this.fromPortalId = obj.fromPortalId;
