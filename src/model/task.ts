@@ -36,6 +36,7 @@ export default class Task {
       assignedTo: this.assignedTo,
       state: this._state,
       dependsOn: this.dependsOn,
+      comment: this.comment,
     };
   }
 

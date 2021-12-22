@@ -37,6 +37,7 @@ export default class WasabeeLink extends Task {
       // rename
       throwOrderPos: Number(this.order),
       completed: !!this.completedID, // !! forces a boolean value
+      description: this.comment,
     });
   }
 
