@@ -31051,20 +31051,20 @@
 				create_component(router.$$.fragment);
 				attr_dev(a0, "class", "nav-link");
 				attr_dev(a0, "href", "#/defensivekeys/list");
-				add_location(a0, file$e, 39, 4, 998);
+				add_location(a0, file$e, 40, 4, 1022);
 				attr_dev(li0, "class", "nav-item");
-				add_location(li0, file$e, 38, 2, 972);
+				add_location(li0, file$e, 39, 2, 996);
 				attr_dev(a1, "class", "nav-link");
 				attr_dev(a1, "href", "#/defensivekeys/map");
-				add_location(a1, file$e, 42, 4, 1107);
+				add_location(a1, file$e, 43, 4, 1131);
 				attr_dev(li1, "class", "nav-item");
-				add_location(li1, file$e, 41, 2, 1081);
+				add_location(li1, file$e, 42, 2, 1105);
 				attr_dev(button, "class", "btn btn-primary");
-				add_location(button, file$e, 44, 2, 1183);
+				add_location(button, file$e, 45, 2, 1207);
 				attr_dev(ul, "class", "nav nav-tabs");
-				add_location(ul, file$e, 37, 0, 944);
+				add_location(ul, file$e, 38, 0, 968);
 				attr_dev(div, "class", "container");
-				add_location(div, file$e, 47, 0, 1260);
+				add_location(div, file$e, 48, 0, 1284);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -31087,7 +31087,7 @@
 					dispose = [
 						action_destroyer(active.call(null, a0)),
 						action_destroyer(active.call(null, a1)),
-						listen_dev(button, "click", /*click_handler*/ ctx[4], false, false, false)
+						listen_dev(button, "click", /*click_handler*/ ctx[5], false, false, false)
 					];
 
 					mounted = true;
@@ -31127,6 +31127,7 @@
 	function instance$f($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('DefensiveKeys', slots, []);
+		let { params = {} } = $$props;
 		let dKeysStore = writable(null);
 		let dKeys = [];
 
@@ -31135,7 +31136,7 @@
 				component: DefensiveKeysMap,
 				props: { dKeysStore }
 			}),
-			'*': wrap$1({
+			'/': wrap$1({
 				component: DefensiveKeysList,
 				props: { dKeysStore }
 			})
@@ -31143,7 +31144,7 @@
 
 		function refresh() {
 			dKeylistPromise().then(j => {
-				$$invalidate(3, dKeys = j.DefensiveKeys || []);
+				$$invalidate(4, dKeys = j.DefensiveKeys || []);
 			});
 		}
 
@@ -31154,13 +31155,17 @@
 		}
 
 		refresh();
-		const writable_props = [];
+		const writable_props = ['params'];
 
 		Object.keys($$props).forEach(key => {
 			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<DefensiveKeys> was created with unknown prop '${key}'`);
 		});
 
 		const click_handler = () => refresh();
+
+		$$self.$$set = $$props => {
+			if ('params' in $$props) $$invalidate(3, params = $$props.params);
+		};
 
 		$$self.$capture_state = () => ({
 			Router,
@@ -31170,6 +31175,7 @@
 			DefensiveKeysList,
 			DefensiveKeysMap,
 			dKeylistPromise,
+			params,
 			dKeysStore,
 			dKeys,
 			routes,
@@ -31178,8 +31184,9 @@
 		});
 
 		$$self.$inject_state = $$props => {
-			if ('dKeysStore' in $$props) $$invalidate(5, dKeysStore = $$props.dKeysStore);
-			if ('dKeys' in $$props) $$invalidate(3, dKeys = $$props.dKeys);
+			if ('params' in $$props) $$invalidate(3, params = $$props.params);
+			if ('dKeysStore' in $$props) $$invalidate(6, dKeysStore = $$props.dKeysStore);
+			if ('dKeys' in $$props) $$invalidate(4, dKeys = $$props.dKeys);
 		};
 
 		if ($$props && "$$inject" in $$props) {
@@ -31187,18 +31194,18 @@
 		}
 
 		$$self.$$.update = () => {
-			if ($$self.$$.dirty & /*dKeys*/ 8) {
+			if ($$self.$$.dirty & /*dKeys*/ 16) {
 				dKeysStore.set(dKeys);
 			}
 		};
 
-		return [routes, refresh, onRouteEvent, dKeys, click_handler];
+		return [routes, refresh, onRouteEvent, params, dKeys, click_handler];
 	}
 
 	class DefensiveKeys extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$f, create_fragment$f, safe_not_equal, {});
+			init(this, options, instance$f, create_fragment$f, safe_not_equal, { params: 3 });
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
@@ -31206,6 +31213,14 @@
 				options,
 				id: create_fragment$f.name
 			});
+		}
+
+		get params() {
+			throw new Error("<DefensiveKeys>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+		}
+
+		set params(value) {
+			throw new Error("<DefensiveKeys>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
 		}
 	}
 
