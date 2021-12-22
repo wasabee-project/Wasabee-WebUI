@@ -31051,20 +31051,20 @@
 				create_component(router.$$.fragment);
 				attr_dev(a0, "class", "nav-link");
 				attr_dev(a0, "href", "#/defensivekeys/list");
-				add_location(a0, file$e, 40, 4, 1022);
+				add_location(a0, file$e, 39, 4, 998);
 				attr_dev(li0, "class", "nav-item");
-				add_location(li0, file$e, 39, 2, 996);
+				add_location(li0, file$e, 38, 2, 972);
 				attr_dev(a1, "class", "nav-link");
 				attr_dev(a1, "href", "#/defensivekeys/map");
-				add_location(a1, file$e, 43, 4, 1131);
+				add_location(a1, file$e, 42, 4, 1107);
 				attr_dev(li1, "class", "nav-item");
-				add_location(li1, file$e, 42, 2, 1105);
+				add_location(li1, file$e, 41, 2, 1081);
 				attr_dev(button, "class", "btn btn-primary");
-				add_location(button, file$e, 45, 2, 1207);
+				add_location(button, file$e, 44, 2, 1183);
 				attr_dev(ul, "class", "nav nav-tabs");
-				add_location(ul, file$e, 38, 0, 968);
+				add_location(ul, file$e, 37, 0, 944);
 				attr_dev(div, "class", "container");
-				add_location(div, file$e, 48, 0, 1284);
+				add_location(div, file$e, 47, 0, 1260);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -31087,7 +31087,7 @@
 					dispose = [
 						action_destroyer(active.call(null, a0)),
 						action_destroyer(active.call(null, a1)),
-						listen_dev(button, "click", /*click_handler*/ ctx[5], false, false, false)
+						listen_dev(button, "click", /*click_handler*/ ctx[4], false, false, false)
 					];
 
 					mounted = true;
@@ -31127,7 +31127,6 @@
 	function instance$f($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('DefensiveKeys', slots, []);
-		let { params = {} } = $$props;
 		let dKeysStore = writable(null);
 		let dKeys = [];
 
@@ -31144,7 +31143,7 @@
 
 		function refresh() {
 			dKeylistPromise().then(j => {
-				$$invalidate(4, dKeys = j.DefensiveKeys || []);
+				$$invalidate(3, dKeys = j.DefensiveKeys || []);
 			});
 		}
 
@@ -31155,17 +31154,13 @@
 		}
 
 		refresh();
-		const writable_props = ['params'];
+		const writable_props = [];
 
 		Object.keys($$props).forEach(key => {
 			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<DefensiveKeys> was created with unknown prop '${key}'`);
 		});
 
 		const click_handler = () => refresh();
-
-		$$self.$$set = $$props => {
-			if ('params' in $$props) $$invalidate(3, params = $$props.params);
-		};
 
 		$$self.$capture_state = () => ({
 			Router,
@@ -31175,7 +31170,6 @@
 			DefensiveKeysList,
 			DefensiveKeysMap,
 			dKeylistPromise,
-			params,
 			dKeysStore,
 			dKeys,
 			routes,
@@ -31184,9 +31178,8 @@
 		});
 
 		$$self.$inject_state = $$props => {
-			if ('params' in $$props) $$invalidate(3, params = $$props.params);
-			if ('dKeysStore' in $$props) $$invalidate(6, dKeysStore = $$props.dKeysStore);
-			if ('dKeys' in $$props) $$invalidate(4, dKeys = $$props.dKeys);
+			if ('dKeysStore' in $$props) $$invalidate(5, dKeysStore = $$props.dKeysStore);
+			if ('dKeys' in $$props) $$invalidate(3, dKeys = $$props.dKeys);
 		};
 
 		if ($$props && "$$inject" in $$props) {
@@ -31194,18 +31187,18 @@
 		}
 
 		$$self.$$.update = () => {
-			if ($$self.$$.dirty & /*dKeys*/ 16) {
+			if ($$self.$$.dirty & /*dKeys*/ 8) {
 				dKeysStore.set(dKeys);
 			}
 		};
 
-		return [routes, refresh, onRouteEvent, params, dKeys, click_handler];
+		return [routes, refresh, onRouteEvent, dKeys, click_handler];
 	}
 
 	class DefensiveKeys extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$f, create_fragment$f, safe_not_equal, { params: 3 });
+			init(this, options, instance$f, create_fragment$f, safe_not_equal, {});
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
@@ -31213,14 +31206,6 @@
 				options,
 				id: create_fragment$f.name
 			});
-		}
-
-		get params() {
-			throw new Error("<DefensiveKeys>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-		}
-
-		set params(value) {
-			throw new Error("<DefensiveKeys>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
 		}
 	}
 
@@ -38688,10 +38673,10 @@
 				t = space();
 				td1 = element("td");
 				create_component(portallink1.$$.fragment);
-				attr_dev(td0, "class", "svelte-1y750cn");
-				add_location(td0, file$7, 301, 14, 10043);
-				attr_dev(td1, "class", "svelte-1y750cn");
-				add_location(td1, file$7, 304, 14, 10154);
+				attr_dev(td0, "class", "svelte-t6pads");
+				add_location(td0, file$7, 301, 14, 10044);
+				attr_dev(td1, "class", "svelte-t6pads");
+				add_location(td1, file$7, 304, 14, 10155);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -38768,10 +38753,10 @@
 				t0 = space();
 				td1 = element("td");
 				t1 = text(t1_value);
-				attr_dev(td0, "class", "svelte-1y750cn");
-				add_location(td0, file$7, 294, 14, 9792);
-				attr_dev(td1, "class", td1_class_value = "" + (null_to_empty(/*step*/ ctx[31].type) + " svelte-1y750cn"));
-				add_location(td1, file$7, 297, 14, 9899);
+				attr_dev(td0, "class", "svelte-t6pads");
+				add_location(td0, file$7, 294, 14, 9793);
+				attr_dev(td1, "class", td1_class_value = "" + (null_to_empty(/*step*/ ctx[31].type) + " svelte-t6pads"));
+				add_location(td1, file$7, 297, 14, 9900);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -38788,7 +38773,7 @@
 				portallink.$set(portallink_changes);
 				if ((!current || dirty[0] & /*steps*/ 256) && t1_value !== (t1_value = /*step*/ ctx[31].friendlyType + "")) set_data_dev(t1, t1_value);
 
-				if (!current || dirty[0] & /*steps*/ 256 && td1_class_value !== (td1_class_value = "" + (null_to_empty(/*step*/ ctx[31].type) + " svelte-1y750cn"))) {
+				if (!current || dirty[0] & /*steps*/ 256 && td1_class_value !== (td1_class_value = "" + (null_to_empty(/*step*/ ctx[31].type) + " svelte-t6pads"))) {
 					attr_dev(td1, "class", td1_class_value);
 				}
 			},
@@ -38869,12 +38854,12 @@
 				td1 = element("td");
 				t3 = text(t3_value);
 				t4 = space();
-				attr_dev(td0, "class", "svelte-1y750cn");
-				add_location(td0, file$7, 291, 12, 9707);
-				attr_dev(td1, "class", "svelte-1y750cn");
-				add_location(td1, file$7, 308, 12, 10279);
+				attr_dev(td0, "class", "order svelte-t6pads");
+				add_location(td0, file$7, 291, 12, 9694);
+				attr_dev(td1, "class", "svelte-t6pads");
+				add_location(td1, file$7, 308, 12, 10280);
 				toggle_class(tr, "table-success", /*selectedTask*/ ctx[4] && /*selectedTask*/ ctx[4].ID == /*step*/ ctx[31].ID);
-				add_location(tr, file$7, 284, 10, 9476);
+				add_location(tr, file$7, 284, 10, 9463);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -39022,15 +39007,15 @@
 					each_blocks[i].c();
 				}
 
-				add_location(th, file$7, 365, 14, 12167);
-				add_location(tr, file$7, 365, 10, 12163);
-				add_location(thead, file$7, 364, 8, 12145);
+				add_location(th, file$7, 365, 14, 12168);
+				add_location(tr, file$7, 365, 10, 12164);
+				add_location(thead, file$7, 364, 8, 12146);
 				set_style(tbody, "--graph-size", /*graphMax*/ ctx[9]);
-				add_location(tbody, file$7, 367, 8, 12213);
-				attr_dev(table, "class", "table table-striped graph svelte-1y750cn");
-				add_location(table, file$7, 363, 6, 12095);
+				add_location(tbody, file$7, 367, 8, 12214);
+				attr_dev(table, "class", "table table-striped graph svelte-t6pads");
+				add_location(table, file$7, 363, 6, 12096);
 				attr_dev(div, "class", "col-6");
-				add_location(div, file$7, 362, 4, 12069);
+				add_location(div, file$7, 362, 4, 12070);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -39136,21 +39121,21 @@
 
 				attr_dev(th0, "scope", "col");
 				set_style(th0, "width", "max-content");
-				add_location(th0, file$7, 319, 12, 10516);
+				add_location(th0, file$7, 319, 12, 10517);
 				attr_dev(th1, "scope", "col");
-				add_location(th1, file$7, 320, 12, 10582);
+				add_location(th1, file$7, 320, 12, 10583);
 				attr_dev(th2, "scope", "col");
-				add_location(th2, file$7, 321, 12, 10622);
+				add_location(th2, file$7, 321, 12, 10623);
 				attr_dev(th3, "scope", "col");
-				add_location(th3, file$7, 322, 12, 10665);
-				add_location(tr, file$7, 318, 10, 10499);
-				add_location(thead, file$7, 317, 8, 10481);
+				add_location(th3, file$7, 322, 12, 10666);
+				add_location(tr, file$7, 318, 10, 10500);
+				add_location(thead, file$7, 317, 8, 10482);
 				attr_dev(tbody, "id", "opSteps");
-				add_location(tbody, file$7, 325, 8, 10732);
-				attr_dev(table, "class", "table table-striped steps svelte-1y750cn");
-				add_location(table, file$7, 316, 6, 10431);
+				add_location(tbody, file$7, 325, 8, 10733);
+				attr_dev(table, "class", "table table-striped steps svelte-t6pads");
+				add_location(table, file$7, 316, 6, 10432);
 				attr_dev(div, "class", "col-6");
-				add_location(div, file$7, 315, 4, 10405);
+				add_location(div, file$7, 315, 4, 10406);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -39245,11 +39230,11 @@
 				td = element("td");
 				t0 = text(" ");
 				t1 = space();
-				attr_dev(td, "class", td_class_value = "" + (null_to_empty(/*stepClasses*/ ctx[16](/*selectedTask*/ ctx[4], /*step*/ ctx[31])) + " svelte-1y750cn"));
+				attr_dev(td, "class", td_class_value = "" + (null_to_empty(/*stepClasses*/ ctx[16](/*selectedTask*/ ctx[4], /*step*/ ctx[31])) + " svelte-t6pads"));
 				set_style(td, "margin-left", /*graphStartTime*/ ctx[7].get(/*step*/ ctx[31].ID) / /*graphMax*/ ctx[9] * 100 + "%");
 				set_style(td, "width", (/*graphEndTime*/ ctx[2].get(/*step*/ ctx[31].ID) - /*graphStartTime*/ ctx[7].get(/*step*/ ctx[31].ID)) / /*graphMax*/ ctx[9] * 100 + "%");
-				add_location(td, file$7, 373, 14, 12441);
-				add_location(tr, file$7, 369, 12, 12308);
+				add_location(td, file$7, 373, 14, 12442);
+				add_location(tr, file$7, 369, 12, 12309);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -39266,7 +39251,7 @@
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
 
-				if (dirty[0] & /*selectedTask, steps*/ 272 && td_class_value !== (td_class_value = "" + (null_to_empty(/*stepClasses*/ ctx[16](/*selectedTask*/ ctx[4], /*step*/ ctx[31])) + " svelte-1y750cn"))) {
+				if (dirty[0] & /*selectedTask, steps*/ 272 && td_class_value !== (td_class_value = "" + (null_to_empty(/*stepClasses*/ ctx[16](/*selectedTask*/ ctx[4], /*step*/ ctx[31])) + " svelte-t6pads"))) {
 					attr_dev(td, "class", td_class_value);
 				}
 
@@ -39339,10 +39324,10 @@
 				t = space();
 				td1 = element("td");
 				create_component(portallink1.$$.fragment);
-				attr_dev(td0, "class", "svelte-1y750cn");
-				add_location(td0, file$7, 348, 16, 11692);
-				attr_dev(td1, "class", "svelte-1y750cn");
-				add_location(td1, file$7, 351, 16, 11809);
+				attr_dev(td0, "class", "svelte-t6pads");
+				add_location(td0, file$7, 348, 16, 11693);
+				attr_dev(td1, "class", "svelte-t6pads");
+				add_location(td1, file$7, 351, 16, 11810);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -39419,10 +39404,10 @@
 				t0 = space();
 				td1 = element("td");
 				t1 = text(t1_value);
-				attr_dev(td0, "class", "svelte-1y750cn");
-				add_location(td0, file$7, 341, 16, 11427);
-				attr_dev(td1, "class", td1_class_value = "" + (null_to_empty(/*step*/ ctx[31].type) + " svelte-1y750cn"));
-				add_location(td1, file$7, 344, 16, 11540);
+				attr_dev(td0, "class", "svelte-t6pads");
+				add_location(td0, file$7, 341, 16, 11428);
+				attr_dev(td1, "class", td1_class_value = "" + (null_to_empty(/*step*/ ctx[31].type) + " svelte-t6pads"));
+				add_location(td1, file$7, 344, 16, 11541);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -39439,7 +39424,7 @@
 				portallink.$set(portallink_changes);
 				if ((!current || dirty[0] & /*steps*/ 256) && t1_value !== (t1_value = /*step*/ ctx[31].friendlyType + "")) set_data_dev(t1, t1_value);
 
-				if (!current || dirty[0] & /*steps*/ 256 && td1_class_value !== (td1_class_value = "" + (null_to_empty(/*step*/ ctx[31].type) + " svelte-1y750cn"))) {
+				if (!current || dirty[0] & /*steps*/ 256 && td1_class_value !== (td1_class_value = "" + (null_to_empty(/*step*/ ctx[31].type) + " svelte-t6pads"))) {
 					attr_dev(td1, "class", td1_class_value);
 				}
 			},
@@ -39520,14 +39505,14 @@
 				td1 = element("td");
 				t3 = text(t3_value);
 				t4 = space();
-				attr_dev(td0, "class", "svelte-1y750cn");
-				add_location(td0, file$7, 338, 14, 11338);
-				attr_dev(td1, "class", "svelte-1y750cn");
-				add_location(td1, file$7, 355, 14, 11942);
+				attr_dev(td0, "class", "svelte-t6pads");
+				add_location(td0, file$7, 338, 14, 11339);
+				attr_dev(td1, "class", "svelte-t6pads");
+				add_location(td1, file$7, 355, 14, 11943);
 				toggle_class(tr, "table-warning", /*selectedTask*/ ctx[4] && /*strongComponents*/ ctx[6].has(/*selectedTask*/ ctx[4].ID) && /*strongComponents*/ ctx[6].get(/*selectedTask*/ ctx[4].ID).includes(/*step*/ ctx[31].ID));
 				toggle_class(tr, "table-success", /*selectedTask*/ ctx[4] && /*selectedTask*/ ctx[4].dependsOn.includes(/*step*/ ctx[31].ID));
 				toggle_class(tr, "table-danger", /*selectedTask*/ ctx[4] && /*step*/ ctx[31].dependsOn.includes(/*selectedTask*/ ctx[4].ID));
-				add_location(tr, file$7, 327, 12, 10807);
+				add_location(tr, file$7, 327, 12, 10808);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -39782,19 +39767,19 @@
 				attr_dev(div1, "class", "card mb-2");
 				add_location(div1, file$7, 244, 0, 8207);
 				attr_dev(th0, "scope", "col");
-				set_style(th0, "width", "max-content");
+				attr_dev(th0, "class", "order svelte-t6pads");
 				add_location(th0, file$7, 276, 10, 9201);
 				attr_dev(th1, "scope", "col");
-				add_location(th1, file$7, 277, 10, 9265);
+				add_location(th1, file$7, 277, 10, 9252);
 				attr_dev(th2, "scope", "col");
-				add_location(th2, file$7, 278, 10, 9303);
+				add_location(th2, file$7, 278, 10, 9290);
 				attr_dev(th3, "scope", "col");
-				add_location(th3, file$7, 279, 10, 9344);
+				add_location(th3, file$7, 279, 10, 9331);
 				add_location(tr, file$7, 275, 8, 9186);
 				add_location(thead, file$7, 274, 6, 9170);
 				attr_dev(tbody, "id", "opSteps");
-				add_location(tbody, file$7, 282, 6, 9405);
-				attr_dev(table, "class", "table table-striped steps svelte-1y750cn");
+				add_location(tbody, file$7, 282, 6, 9392);
+				attr_dev(table, "class", "table table-striped steps svelte-t6pads");
 				add_location(table, file$7, 273, 4, 9122);
 				attr_dev(div2, "class", "col-6");
 				add_location(div2, file$7, 272, 2, 9098);
