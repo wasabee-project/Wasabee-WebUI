@@ -277,7 +277,7 @@
     <table class="table table-striped steps">
       <thead>
         <tr>
-          <th scope="col" style="width: max-content">Order</th>
+          <th scope="col" class="order">Order</th>
           <th scope="col">Portal</th>
           <th scope="col">To/Action</th>
           <th scope="col">Zone</th>
@@ -292,7 +292,7 @@
             }}
             animate:flip={{ duration: 1000 }}
           >
-            <td>{step.order}</td>
+            <td class="order">{step.order}</td>
 
             {#if step instanceof WasabeeMarker}
               <td>
@@ -320,7 +320,7 @@
       <table class="table table-striped steps">
         <thead>
           <tr>
-            <th scope="col" style="width: max-content">Order</th>
+            <th scope="col" class="order">Order</th>
             <th scope="col">Portal</th>
             <th scope="col">To/Action</th>
             <th scope="col">Zone</th>
@@ -339,7 +339,7 @@
               on:click={() => toggleDepend(step.ID)}
               animate:flip={{ duration: 1000 }}
             >
-              <td>{step.order}</td>
+              <td class="order">{step.order}</td>
 
               {#if step instanceof WasabeeMarker}
                 <td>
@@ -412,5 +412,9 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
+
+  .order {
+    width: 3.5em;
   }
 </style>
