@@ -21335,6 +21335,7 @@
 	            assignedTo: this.assignedTo,
 	            state: this._state,
 	            dependsOn: this.dependsOn,
+	            comment: this.comment,
 	        };
 	    }
 	    get state() {
@@ -21417,7 +21418,8 @@
 	        return Object.assign(this.toJSON(), {
 	            // rename
 	            throwOrderPos: Number(this.order),
-	            completed: !!this.completedID, // !! forces a boolean value
+	            completed: !!this.completedID,
+	            description: this.comment,
 	        });
 	    }
 	    setOrder(o) {
@@ -55149,6 +55151,7 @@
 	            break;
 	        case 'Delete':
 	            console.warn('server requested op delete: ', payload.data);
+	            WasabeeOp.delete(payload.data.opID);
 	            notifyWarn('Delete: ' + payload.data.opID);
 	            break;
 	        case 'Generic Message':
