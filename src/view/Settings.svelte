@@ -1,6 +1,9 @@
 <script lang="ts">
   import { WasabeeMe } from '../model';
   import { getConfig } from '../config';
+  import { notifyInfo, notifyOnError } from '../notify';
+  import { getCommJWT, getCommVerify } from '../server';
+  import { getMe } from '../cache';
 
   let me: WasabeeMe = WasabeeMe.get();
 
@@ -8,6 +11,33 @@
   let vimportmode: string = 'team';
   let sendLocation: boolean = false;
   let analytics: boolean = true;
+
+  let communityname = me.communityname || '';
+  let commJWT = '';
+
+  $: commMayAskProof =
+    communityname && (!me.communityname || communityname !== me.communityname);
+
+  async function communityProof() {
+    if (communityname) {
+      const res = await notifyOnError(getCommJWT(communityname));
+      commJWT = res.jwt;
+    }
+  }
+
+  async function communityVerify() {
+    if (communityname) {
+      const res = await notifyOnError(getCommVerify(communityname));
+      notifyInfo('Community name verified');
+      me = await getMe(true);
+    }
+  }
+
+  function commJWTClick(e: Event) {
+    const textarea = e.target as HTMLTextAreaElement;
+    textarea.focus();
+    textarea.select();
+  }
 </script>
 
 <div class="container">
@@ -16,10 +46,10 @@
     <div class="card-header">Agent Info</div>
     <div class="card-body">
       <div>
-        Wasabee Name: <span class="agent-name">{me.name}</span>
+        <span class="font-weight-bolder">Wasabee Name:</span> <span class="agent-name">{me.name}</span>
       </div>
       <div>
-        V Name: <span class="agent-name">{me.vname}</span>
+        <span class="font-weight-bolder">V Name:</span> <span class="agent-name">{me.vname}</span>
       </div>
       <div>
         <a href="https://v.enl.one/" target="_new">V Status</a>:
@@ -32,7 +62,7 @@
         </span>
       </div>
       <div>
-        Rocks Name: <span class="agent-name">{me.rocksname}</span>
+        <span class="font-weight-bolder">Rocks Name:</span> <span class="agent-name">{me.rocksname}</span>
       </div>
       <div>
         <a href="https://enl.rocks/" target="_new">enl.rocks Status</a>:
@@ -50,10 +80,10 @@
         </p>
       </div>
       <div>
-        GoogleID: <span class="agent-name">{me.id}</span>
+        <span class="font-weight-bolder">Google ID:</span> <span class="agent-name">{me.id}</span>
       </div>
       <div>
-        Level: <span class="agent-name">{me.level}</span>
+        <span class="font-weight-bolder">Level:</span> <span class="agent-name">{me.level}</span>
         <p>
           <em
             >This information comes from
@@ -65,15 +95,53 @@
         </p>
       </div>
       <div>
-        Intel Name: <span class="agent-name">{me.intelname}</span>
+        <span class="font-weight-bolder">Intel Name:</span> <span class="agent-name">{me.intelname}</span>
       </div>
-      <!-- <div>Intel Faction: <span class="agent-name">${me.intelfaction}</span> -->
       <p>
         <em
           >This information is set by the IITC plugin. It should not be trusted
           for authorization.</em
         >
       </p>
+      <div>
+        <p>
+          <span class="font-weight-bolder">Community Name:</span> <span class="agent-name">{me.communityname}</span>
+        </p>
+        <p>
+          <label>
+            <input
+              type="text"
+              placeholder={me.communityname || 'My Agent Name'}
+              bind:value={communityname}
+              class:unverified={commMayAskProof}
+            />
+          </label>
+          <button
+            class="btn btn-info"
+            disabled={!commMayAskProof}
+            on:click={communityProof}
+          >
+            Get proof
+          </button>
+          <button
+            class="btn btn-success"
+            disabled={!commMayAskProof}
+            on:click={communityVerify}
+          >
+            Verify activity post
+          </button>
+        </p>
+        {#if commJWT}
+          <p>
+            Post this message at <a
+              href="https://community.ingress.com/en/activity"
+              target="_new"
+              >Recent Activity</a
+            >, then press the button Verify.
+          </p>
+          <textarea readonly on:click={commJWTClick}>{commJWT}</textarea>
+        {/if}
+      </div>
     </div>
   </div>
   <div class="card mb-2">
@@ -193,3 +261,13 @@
     </div>
   </div>
 </div>
+
+<style>
+  input.unverified {
+    box-shadow: 0 0 1px 3px red;
+  }
+
+  textarea {
+    width: 100%;
+  }
+</style>

@@ -5,6 +5,7 @@ interface BaseAgent {
   name: string;
   intelname?: string;
   intelfaction: 'unset' | 'ENLIGHTENED' | 'RESISTANCE';
+  communityname?: string;
   pic?: string;
   lat: number;
   lng: number;
@@ -65,6 +66,7 @@ export default class WasabeeAgent implements Agent {
   name: string;
   intelname?: string;
   intelfaction: 'unset' | 'ENLIGHTENED' | 'RESISTANCE';
+  communityname?: string;
   pic?: string;
   lat: number;
   lng: number;
@@ -98,6 +100,7 @@ export default class WasabeeAgent implements Agent {
     this.name = obj.name;
     this.intelname = obj.intelname !== 'unset' ? obj.intelname : '';
     this.intelfaction = obj.intelfaction;
+    this.communityname = obj.communityname;
     this.pic = obj.pic ? obj.pic : null;
     this.lat = obj.lat ? obj.lat : 0;
     this.lng = obj.lng ? obj.lng : 0;
@@ -114,6 +117,7 @@ export default class WasabeeAgent implements Agent {
 
     if (this.Vverified) this.name = this.vname || this.name;
     else if (this.rocks) this.name = this.rocksname || this.name;
+    else if (this.communityname) this.name = this.communityname + ' [C]';
     else if (this.intelname) this.name = this.intelname + ' [!]';
 
     /* what did we decide to do with these?

@@ -89,6 +89,7 @@
             {[
               [agent.Vverified, 'V'],
               [agent.rocks, 'Rocks'],
+              [agent.communityname, 'Community'],
               [agent.intelname, 'Intel'],
             ]
               .filter((a) => a[0])

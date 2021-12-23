@@ -83,6 +83,16 @@ export function mePromise() {
   return genericGet('/api/v1/me');
 }
 
+export function getCommJWT(name: string) {
+  return genericGet<IServerStatus & { jwt: string }>(
+    `/api/v1/me/commproof?name=${name}`
+  );
+}
+
+export function getCommVerify(name: string) {
+  return genericGet<IServerStatus>(`/api/v1/me/commverify?name=${name}`);
+}
+
 // returns a promise to a list of defensive keys for all enabled teams
 export function dKeylistPromise() {
   return genericGet<{
