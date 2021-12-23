@@ -25,8 +25,13 @@ const analytics = getAnalytics(app);
 const messaging = getMessaging(app);
 const auth = getAuth(app);
 
-const sw = navigator.serviceWorker.register('/Wasabee-WebUI/build/sw.js', {
-  scope: '/Wasabee-WebUI/build/',
+const rootDir =
+  location.pathname +
+  (location.pathname.slice(-1) === '/' ? '' : '/') +
+  'build/';
+
+const sw = navigator.serviceWorker.register(rootDir + 'sw.js', {
+  scope: rootDir,
 });
 
 let firebaseToken: string = null;
