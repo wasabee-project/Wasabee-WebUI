@@ -46,10 +46,12 @@
     <div class="card-header">Agent Info</div>
     <div class="card-body">
       <div>
-        <span class="font-weight-bolder">Wasabee Name:</span> <span class="agent-name">{me.name}</span>
+        <span class="font-weight-bolder">Wasabee Name:</span>
+        <span class="agent-name">{me.name}</span>
       </div>
       <div>
-        <span class="font-weight-bolder">V Name:</span> <span class="agent-name">{me.vname}</span>
+        <span class="font-weight-bolder">V Name:</span>
+        <span class="agent-name">{me.vname}</span>
       </div>
       <div>
         <a href="https://v.enl.one/" target="_new">V Status</a>:
@@ -62,7 +64,8 @@
         </span>
       </div>
       <div>
-        <span class="font-weight-bolder">Rocks Name:</span> <span class="agent-name">{me.rocksname}</span>
+        <span class="font-weight-bolder">Rocks Name:</span>
+        <span class="agent-name">{me.rocksname}</span>
       </div>
       <div>
         <a href="https://enl.rocks/" target="_new">enl.rocks Status</a>:
@@ -80,10 +83,12 @@
         </p>
       </div>
       <div>
-        <span class="font-weight-bolder">Google ID:</span> <span class="agent-name">{me.id}</span>
+        <span class="font-weight-bolder">Google ID:</span>
+        <span class="agent-name">{me.id}</span>
       </div>
       <div>
-        <span class="font-weight-bolder">Level:</span> <span class="agent-name">{me.level}</span>
+        <span class="font-weight-bolder">Level:</span>
+        <span class="agent-name">{me.level}</span>
         <p>
           <em
             >This information comes from
@@ -95,7 +100,8 @@
         </p>
       </div>
       <div>
-        <span class="font-weight-bolder">Intel Name:</span> <span class="agent-name">{me.intelname}</span>
+        <span class="font-weight-bolder">Intel Name:</span>
+        <span class="agent-name">{me.intelname}</span>
       </div>
       <p>
         <em
@@ -105,7 +111,8 @@
       </p>
       <div>
         <p>
-          <span class="font-weight-bolder">Community Name:</span> <span class="agent-name">{me.communityname}</span>
+          <span class="font-weight-bolder">Community Name:</span>
+          <span class="agent-name">{me.communityname}</span>
         </p>
         <p>
           <label>
@@ -135,8 +142,7 @@
           <p>
             Post this message at <a
               href="https://community.ingress.com/en/activity"
-              target="_new"
-              >Recent Activity</a
+              target="_new">Recent Activity</a
             >, then press the button Verify.
           </p>
           <textarea readonly on:click={commJWTClick}>{commJWT}</textarea>
