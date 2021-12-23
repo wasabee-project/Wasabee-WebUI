@@ -55496,7 +55496,8 @@
 	        .catch(console.error);
 	}).catch(console.error);
 	function sendTokenToServer() {
-	    return sendTokenToWasabee(firebaseToken);
+	    if (firebaseToken)
+	        return sendTokenToWasabee(firebaseToken);
 	}
 	onAuthStateChanged(auth, (user) => {
 	    if (user) {
