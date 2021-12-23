@@ -24807,7 +24807,7 @@
 				add_location(p3, file$n, 112, 8, 3994);
 				attr_dev(input0, "type", "text");
 				attr_dev(input0, "placeholder", input0_placeholder_value = /*me*/ ctx[0].communityname || 'My Agent Name');
-				attr_dev(input0, "class", "svelte-bg2ouu");
+				attr_dev(input0, "class", "svelte-1p53r64");
 				toggle_class(input0, "unverified", /*commMayAskProof*/ ctx[6]);
 				add_location(input0, file$n, 117, 12, 4130);
 				add_location(label0, file$n, 116, 10, 4110);
