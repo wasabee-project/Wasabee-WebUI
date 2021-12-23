@@ -22062,6 +22062,11 @@
 	function dKeyPromise(json) {
 	    return genericPost('/api/v1/d', json, 'application/json;charset=UTF-8');
 	}
+	/* agent */
+	// returns a promise to get the agent's JSON data from the server -- should be called only by WasabeeAgent.get()
+	function agentPromise(GID) {
+	    return genericGet(`/api/v1/agent/${GID}`);
+	}
 	/* team */
 	// returns a promise to a WasabeeTeam -- used only by WasabeeTeam.get
 	// use WasabeeTeam.get
@@ -22243,6 +22248,12 @@
 	    fd.append('role', role);
 	    fd.append('zone', `${zone}`);
 	    return genericDelete(`/api/v1/draw/${opID}/perms`, fd);
+	}
+	function getLinkPromise(opID, taskID) {
+	    return genericGet(`/api/v1/draw/${opID}/link/${taskID}`);
+	}
+	function getMarkerPromise(opID, taskID) {
+	    return genericGet(`/api/v1/draw/${opID}/marker/${taskID}`);
 	}
 	// local change: none // cache: none
 	function assignMarkerPromise(opID, markerID, agentID) {
@@ -23217,6 +23228,20 @@
 	        const raw = await mePromise();
 	        const me = new WasabeeMe(raw);
 	        return me;
+	    }
+	    catch (e) {
+	        console.log(e);
+	    }
+	    return null;
+	}
+	async function getAgent(gid) {
+	    const agent = WasabeeAgent.get(gid);
+	    if (agent)
+	        return agent;
+	    try {
+	        const result = await agentPromise(gid);
+	        const newagent = new WasabeeAgent(result);
+	        return newagent;
 	    }
 	    catch (e) {
 	        console.log(e);
@@ -31135,7 +31160,7 @@
 				component: DefensiveKeysMap,
 				props: { dKeysStore }
 			}),
-			'/': wrap$1({
+			'*': wrap$1({
 				component: DefensiveKeysList,
 				props: { dKeysStore }
 			})
@@ -55126,9 +55151,11 @@
 	sw.then((sw) => {
 	    getToken(messaging, {
 	        serviceWorkerRegistration: sw,
-	    }).then((token) => {
+	    })
+	        .then((token) => {
 	        firebaseToken = token;
-	    }).catch(console.error);
+	    })
+	        .catch(console.error);
 	}).catch(console.error);
 	function sendTokenToServer() {
 	    return sendTokenToWasabee(firebaseToken);
@@ -55140,27 +55167,25 @@
 	    }
 	});
 	onMessage(messaging, (payload) => {
-	    switch (payload.data.cmd) {
+	    const data = payload.data;
+	    switch (data.cmd) {
 	        case 'Agent Location Change':
-	            if (payload.data.gid != null) {
-	                console.debug('firebase update of single agent location: ', payload.data);
-	            }
-	            else {
-	                console.debug('firebase update of whole team location: ', payload.data);
-	            }
+	            console.log('firebase update of whole team location: ', data);
 	            break;
 	        case 'Delete':
-	            console.warn('server requested op delete: ', payload.data);
-	            WasabeeOp.delete(payload.data.opID);
-	            notifyWarn('Delete: ' + payload.data.opID);
+	            console.warn('server requested op delete: ', data);
+	            WasabeeOp.delete(data.opID);
+	            notifyWarn('Delete: ' + data.opID);
 	            break;
 	        case 'Generic Message':
-	            console.log(payload.data);
-	            notifyInfo('Message: ' + JSON.stringify(payload.data));
+	            console.log(data);
+	            notifyInfo('Message: ' + data.msg);
 	            break;
 	        case 'Login':
-	            console.debug('server reported teammate login: ', payload.data);
-	            notifyInfo('Teamate Login: ' + payload.data.gid);
+	            console.debug('server reported teammate login: ', data);
+	            getAgent(data.gid)
+	                .then((agent) => notifyInfo('Teamate Login: ' + agent.name))
+	                .catch(() => notifyInfo('Teamate Login: ' + data.gid));
 	            break;
 	        case 'Link Assignment Change':
 	        // fallthrough
@@ -55171,43 +55196,86 @@
 	        case 'Marker Status Change':
 	        // fallthrough
 	        case 'Map Change':
-	            opDataChange(payload.data);
+	            opDataChange(data);
 	            break;
 	        case 'Target':
-	            console.log(payload.data);
-	            notifyInfo('Target: ' + JSON.stringify(payload.data));
+	            console.log(data);
+	            notifyInfo('Target: ' + data.msg);
 	            break;
 	        default:
-	            console.warn('unknown firebase command: ', payload.data);
-	            notifyWarn('Unknown: ' + JSON.stringify(payload.data));
+	            console.warn('unknown firebase command: ', data);
+	            notifyWarn('Unknown: ' + JSON.stringify(data));
 	    }
 	});
 	const updateList = new Map();
 	async function opDataChange(data) {
-	    if (updateList.has(data.updateID)) {
+	    if (updateList.has(data.updateID + data.cmd)) {
 	        console.debug('skipping firebase requested update of op since it was our change', data.cmd, data.updateID);
 	        return;
 	    }
 	    // update the list to avoid race from slow network
-	    updateList.set(data.updateID, Date.now());
+	    updateList.set(data.updateID + data.cmd, Date.now());
+	    const operation = WasabeeOp.load(data.opID);
+	    if (!operation) {
+	        console.warn('Got operation change for an unknown op', data.opID);
+	        return;
+	    }
 	    switch (data.cmd) {
 	        case 'Link Assignment Change':
+	            handleLinkAssignement(operation, data);
 	            console.log(data);
 	            break;
 	        case 'Link Status Change':
+	            handleLinkStatus(operation, data);
 	            console.log(data);
 	            break;
 	        case 'Marker Assignment Change':
+	            handleMarkerAssignement(operation, data);
 	            console.log(data);
 	            break;
 	        case 'Marker Status Change':
+	            handleMarkerStatus(operation, data);
 	            console.log(data);
 	            break;
 	        case 'Map Change':
+	        // fallthrough
+	        default:
+	            notifyInfo(data.cmd + ': ' + JSON.stringify(data));
 	            console.log(data);
 	            break;
 	    }
-	    notifyInfo(data.cmd + ': ' + JSON.stringify(data));
+	}
+	async function handleLinkAssignement(operation, data) {
+	    const link = new WasabeeLink(await getLinkPromise(data.opID, data.linkID));
+	    // todo: update op
+	    const from = operation.getPortal(link.fromPortalId);
+	    const to = operation.getPortal(link.toPortalId);
+	    const agent = await getAgent(link.assignedTo);
+	    if (from && to && agent)
+	        notifyInfo(`Link from ${from.name} to ${to.name} is assigned to ${agent.name}`);
+	}
+	async function handleLinkStatus(operation, data) {
+	    const link = new WasabeeLink(await getLinkPromise(data.opID, data.linkID));
+	    // todo: update op
+	    const from = operation.getPortal(link.fromPortalId);
+	    const to = operation.getPortal(link.toPortalId);
+	    if (from && to)
+	        notifyInfo(`Link from ${from.name} to ${to.name} is ${link.state}`);
+	}
+	async function handleMarkerAssignement(operation, data) {
+	    const marker = new WasabeeMarker(await getMarkerPromise(data.opID, data.markerID));
+	    // todo: update op
+	    const portal = operation.getPortal(marker.portalId);
+	    const agent = await getAgent(marker.assignedTo);
+	    if (portal && agent)
+	        notifyInfo(`Marker ${marker.type} on ${portal.name} is assigned ${agent.name}`);
+	}
+	async function handleMarkerStatus(operation, data) {
+	    const marker = new WasabeeMarker(await getMarkerPromise(data.opID, data.markerID));
+	    // todo: update op
+	    const portal = operation.getPortal(marker.portalId);
+	    if (portal)
+	        notifyInfo(`Marker ${marker.type} on ${portal.name} is ${marker.state}`);
 	}
 
 	/* src/App.svelte generated by Svelte v3.42.5 */
