@@ -46,7 +46,8 @@ sw.then((sw) => {
 }).catch(console.error);
 
 export function sendTokenToServer() {
-  return sendTokenToWasabee(firebaseToken);
+  if (firebaseToken)
+    return sendTokenToWasabee(firebaseToken);
 }
 
 onAuthStateChanged(auth, (user) => {
