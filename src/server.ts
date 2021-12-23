@@ -405,6 +405,14 @@ export function delPermPromise(
   return genericDelete(`/api/v1/draw/${opID}/perms`, fd);
 }
 
+export function getLinkPromise(opID: OpID, taskID: TaskID) {
+  return genericGet<WasabeeLink>(`/api/v1/draw/${opID}/link/${taskID}`);
+}
+
+export function getMarkerPromise(opID: OpID, taskID: TaskID) {
+  return genericGet<WasabeeMarker>(`/api/v1/draw/${opID}/marker/${taskID}`);
+}
+
 // local change: none // cache: none
 export function assignMarkerPromise(
   opID: OpID,

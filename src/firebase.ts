@@ -3,9 +3,10 @@ import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { sendTokenToWasabee } from './server';
+import { getLinkPromise, getMarkerPromise, sendTokenToWasabee } from './server';
 import { notifyInfo, notifyWarn } from './notify';
-import { WasabeeOp } from './model';
+import { WasabeeLink, WasabeeMarker, WasabeeOp } from './model';
+import { getAgent } from './cache';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBGyM0EuPsrNBr2z360OhJ1dVvztGnE5L4',
@@ -153,11 +154,13 @@ onMessage(messaging, (payload) => {
       break;
     case 'Generic Message':
       console.log(data);
-      notifyInfo('Message: ' + JSON.stringify(data));
+      notifyInfo('Message: ' + data.msg);
       break;
     case 'Login':
       console.debug('server reported teammate login: ', data);
-      notifyInfo('Teamate Login: ' + data.gid);
+      getAgent(data.gid)
+        .then((agent) => notifyInfo('Teamate Login: ' + agent.name))
+        .catch(() => notifyInfo('Teamate Login: ' + data.gid));
       break;
     case 'Link Assignment Change':
     // fallthrough
@@ -172,7 +175,7 @@ onMessage(messaging, (payload) => {
       break;
     case 'Target':
       console.log(data);
-      notifyInfo('Target: ' + JSON.stringify(data));
+      notifyInfo('Target: ' + data.msg);
       break;
     default:
       console.warn('unknown firebase command: ', data);
@@ -184,7 +187,7 @@ const updateList = new Map<string, number>();
 async function opDataChange(
   data: LinkAssignment | LinkState | MarkerAssignment | MarkerState | OpChange
 ) {
-  if (updateList.has(data.updateID)) {
+  if (updateList.has(data.updateID + data.cmd)) {
     console.debug(
       'skipping firebase requested update of op since it was our change',
       data.cmd,
@@ -193,23 +196,84 @@ async function opDataChange(
     return;
   }
   // update the list to avoid race from slow network
-  updateList.set(data.updateID, Date.now());
+  updateList.set(data.updateID + data.cmd, Date.now());
+  const operation = WasabeeOp.load(data.opID);
+  if (!operation) {
+    console.warn('Got operation change for an unknown op', data.opID);
+    return;
+  }
   switch (data.cmd) {
     case 'Link Assignment Change':
+      handleLinkAssignement(operation, data);
       console.log(data);
       break;
     case 'Link Status Change':
+      handleLinkStatus(operation, data);
       console.log(data);
       break;
     case 'Marker Assignment Change':
+      handleMarkerAssignement(operation, data);
       console.log(data);
       break;
     case 'Marker Status Change':
+      handleMarkerStatus(operation, data);
       console.log(data);
       break;
     case 'Map Change':
+    // fallthrough
+    default:
+      notifyInfo(data.cmd + ': ' + JSON.stringify(data));
       console.log(data);
       break;
   }
-  notifyInfo(data.cmd + ': ' + JSON.stringify(data));
+}
+
+async function handleLinkAssignement(
+  operation: WasabeeOp,
+  data: LinkAssignment
+) {
+  const link = new WasabeeLink(await getLinkPromise(data.opID, data.linkID));
+  // todo: update op
+  const from = operation.getPortal(link.fromPortalId);
+  const to = operation.getPortal(link.toPortalId);
+  const agent = await getAgent(link.assignedTo);
+  if (from && to && agent)
+    notifyInfo(
+      `Link from ${from.name} to ${to.name} is assigned to ${agent.name}`
+    );
+}
+
+async function handleLinkStatus(operation: WasabeeOp, data: LinkState) {
+  const link = new WasabeeLink(await getLinkPromise(data.opID, data.linkID));
+  // todo: update op
+  const from = operation.getPortal(link.fromPortalId);
+  const to = operation.getPortal(link.toPortalId);
+  if (from && to)
+    notifyInfo(`Link from ${from.name} to ${to.name} is ${link.state}`);
+}
+
+async function handleMarkerAssignement(
+  operation: WasabeeOp,
+  data: MarkerAssignment
+) {
+  const marker = new WasabeeMarker(
+    await getMarkerPromise(data.opID, data.markerID)
+  );
+  // todo: update op
+  const portal = operation.getPortal(marker.portalId);
+  const agent = await getAgent(marker.assignedTo);
+  if (portal && agent)
+    notifyInfo(
+      `Marker ${marker.type} on ${portal.name} is assigned ${agent.name}`
+    );
+}
+
+async function handleMarkerStatus(operation: WasabeeOp, data: MarkerState) {
+  const marker = new WasabeeMarker(
+    await getMarkerPromise(data.opID, data.markerID)
+  );
+  // todo: update op
+  const portal = operation.getPortal(marker.portalId);
+  if (portal)
+    notifyInfo(`Marker ${marker.type} on ${portal.name} is ${marker.state}`);
 }
