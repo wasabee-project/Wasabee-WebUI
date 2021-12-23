@@ -5,6 +5,7 @@ import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { sendTokenToWasabee } from './server';
 import { notifyInfo, notifyWarn } from './notify';
+import { WasabeeOp } from './model';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBGyM0EuPsrNBr2z360OhJ1dVvztGnE5L4',
@@ -29,13 +30,14 @@ const sw = navigator.serviceWorker.register('/Wasabee-WebUI/build/sw.js', {
 
 let firebaseToken: string = null;
 sw.then((sw) => {
-  console.debug(sw);
   getToken(messaging, {
     serviceWorkerRegistration: sw,
-  }).then((token) => {
-    firebaseToken = token;
-  });
-}).catch(console.trace);
+  })
+    .then((token) => {
+      firebaseToken = token;
+    })
+    .catch(console.error);
+}).catch(console.error);
 
 export function sendTokenToServer() {
   return sendTokenToWasabee(firebaseToken);
@@ -46,32 +48,116 @@ onAuthStateChanged(auth, (user) => {
     console.log('Firebase auth login: ', user.uid);
     return;
   }
-  console.log('Firebase auth logout');
 });
 
+type AgentLocation = {
+  cmd: 'Agent Location Change';
+  msg: TeamID;
+};
+
+type Annoucement = {
+  cmd: 'Generic Message';
+  msg: string;
+};
+
+type Target = {
+  cmd: 'Target';
+  msg: string;
+};
+
+type Login = {
+  cmd: 'Login';
+  gid: GoogleID;
+};
+
+type DeleteOp = {
+  cmd: 'Delete';
+  opID: OpID;
+};
+
+type Update = {
+  updateID: string;
+};
+
+type LinkAssignment = Update & {
+  cmd: 'Link Assignment Change';
+  opID: OpID;
+  linkID: LinkID;
+  msg: string;
+};
+
+type LinkState = Update & {
+  cmd: 'Link Status Change';
+  opID: OpID;
+  linkID: LinkID;
+  msg: string;
+};
+
+type MarkerAssignment = Update & {
+  cmd: 'Marker Assignment Change';
+  opID: OpID;
+  markerID: MarkerID;
+  msg: string;
+};
+
+type MarkerState = Update & {
+  cmd: 'Marker Status Change';
+  opID: OpID;
+  markerID: MarkerID;
+  msg: string;
+};
+
+type TaskAssignment = Update & {
+  cmd: 'Task Assignment Change';
+  opID: OpID;
+  taskID: TaskID;
+  msg: string;
+};
+
+type TaskState = Update & {
+  cmd: 'Task Status Change';
+  opID: OpID;
+  taskID: TaskID;
+  msg: string;
+};
+
+type OpChange = Update & {
+  cmd: 'Map Change';
+  opID: OpID;
+};
+
+type FBMessage =
+  | AgentLocation
+  | Annoucement
+  | Target
+  | Login
+  | DeleteOp
+  | LinkAssignment
+  | LinkState
+  | MarkerAssignment
+  | MarkerState
+  | TaskAssignment
+  | TaskState
+  | OpChange;
+
 onMessage(messaging, (payload) => {
-  switch (payload.data.cmd) {
+  const data = payload.data as FBMessage;
+  switch (data.cmd) {
     case 'Agent Location Change':
-      if (payload.data.gid != null) {
-        console.debug(
-          'firebase update of single agent location: ',
-          payload.data
-        );
-      } else {
-        console.debug('firebase update of whole team location: ', payload.data);
-      }
+      console.log('firebase update of whole team location: ', data);
       break;
     case 'Delete':
-      console.warn('server requested op delete: ', payload.data.opID);
-      notifyWarn('Delete: ' + payload.data.opID);
+      console.warn('server requested op delete: ', data);
+      WasabeeOp.delete(data.opID);
+      notifyWarn('Delete: ' + data.opID);
       break;
     case 'Generic Message':
-      console.log(payload.data);
-      notifyInfo('Message: ' + JSON.stringify(payload.data));
+      console.log(data);
+      notifyInfo('Message: ' + JSON.stringify(data));
       break;
     case 'Login':
-      console.debug('server reported teammate login: ', payload.data.gid);
-      notifyInfo('Teamate Login: ' + payload.data.gid);
+      console.debug('server reported teammate login: ', data);
+      notifyInfo('Teamate Login: ' + data.gid);
       break;
     case 'Link Assignment Change':
     // fallthrough
@@ -82,20 +168,22 @@ onMessage(messaging, (payload) => {
     case 'Marker Status Change':
     // fallthrough
     case 'Map Change':
-      opDataChange(payload.data);
+      opDataChange(data);
       break;
     case 'Target':
-      console.log(payload.data);
-      notifyInfo('Target: ' + JSON.stringify(payload.data));
+      console.log(data);
+      notifyInfo('Target: ' + JSON.stringify(data));
       break;
     default:
-      console.warn('unknown firebase command: ', payload.data);
-      notifyWarn('Unknown: ' + JSON.stringify(payload.data));
+      console.warn('unknown firebase command: ', data);
+      notifyWarn('Unknown: ' + JSON.stringify(data));
   }
 });
 
 const updateList = new Map<string, number>();
-async function opDataChange(data) {
+async function opDataChange(
+  data: LinkAssignment | LinkState | MarkerAssignment | MarkerState | OpChange
+) {
   if (updateList.has(data.updateID)) {
     console.debug(
       'skipping firebase requested update of op since it was our change',
