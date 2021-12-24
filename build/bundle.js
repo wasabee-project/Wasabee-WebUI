@@ -21191,7 +21191,7 @@
 	        this.name = obj.name;
 	        this.intelname = obj.intelname !== 'unset' ? obj.intelname : '';
 	        this.intelfaction = obj.intelfaction;
-	        this.communityname = obj.communityname;
+	        this.communityname = obj.communityname || '';
 	        this.pic = obj.pic ? obj.pic : null;
 	        this.lat = obj.lat ? obj.lat : 0;
 	        this.lng = obj.lng ? obj.lng : 0;
