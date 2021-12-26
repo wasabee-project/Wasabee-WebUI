@@ -115,9 +115,9 @@ export default class WasabeeAgent implements Agent {
     this.rocksname = obj.rocksname;
     this.rocks = !!obj.rocks;
 
-    if (this.Vverified) this.name = this.vname || this.name;
+    if (this.communityname) this.name = this.communityname;
+    else if (this.Vverified) this.name = this.vname || this.name;
     else if (this.rocks) this.name = this.rocksname || this.name;
-    else if (this.communityname) this.name = this.communityname + ' [C]';
     else if (this.intelname) this.name = this.intelname + ' [!]';
 
     /* what did we decide to do with these?
