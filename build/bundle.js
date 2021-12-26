@@ -21213,6 +21213,8 @@
 	            this.name = this.rocksname || this.name;
 	        else if (this.intelname)
 	            this.name = this.intelname + ' [!]';
+	        else
+	            this.name = this.name || '[unknown name]';
 	        /* what did we decide to do with these?
 	        this.startlat = obj.startlat ? obj.startlat : 0;
 	        this.startlng = obj.startlng ? obj.startlng : 0;
