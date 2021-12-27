@@ -41312,6 +41312,7 @@
 			notifyOnError(joinTeamPromise(teamid, token)).then(() => {
 				dispatch('refresh');
 				replace(`/team/${teamid}/list`);
+				notifyInfo("Welcome aboard");
 			});
 		}
 
@@ -41329,6 +41330,7 @@
 		$$self.$capture_state = () => ({
 			createEventDispatcher,
 			replace,
+			notifyInfo,
 			notifyOnError,
 			joinTeamPromise,
 			params,
