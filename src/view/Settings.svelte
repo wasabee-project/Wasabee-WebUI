@@ -2,7 +2,7 @@
   import { WasabeeMe } from '../model';
   import { getConfig } from '../config';
   import { notifyInfo, notifyOnError } from '../notify';
-  import { getCommJWT, getCommVerify } from '../server';
+  import { getCommJWT, getCommVerify, setVAPIkey } from '../server';
   import { getMe } from '../cache';
 
   let me: WasabeeMe = WasabeeMe.get();
@@ -237,6 +237,7 @@
           id="vapi"
           placeholder="0123456789abcdef0123456789abcdef0123456789"
           bind:value={me.vapi}
+          on:change={() => setVAPIkey(me.vapi)}
         />
       </div>
       <div class="small dim">
