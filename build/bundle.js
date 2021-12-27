@@ -41309,7 +41309,10 @@
 		const dispatch = createEventDispatcher();
 
 		if (token) {
-			notifyOnError(joinTeamPromise(teamid, token)).then(() => dispatch('refresh'));
+			notifyOnError(joinTeamPromise(teamid, token)).then(() => {
+				dispatch('refresh');
+				replace(`/team/${teamid}/list`);
+			});
 		}
 
 		const writable_props = ['params', 'teamid'];
@@ -41325,6 +41328,7 @@
 
 		$$self.$capture_state = () => ({
 			createEventDispatcher,
+			replace,
 			notifyOnError,
 			joinTeamPromise,
 			params,
