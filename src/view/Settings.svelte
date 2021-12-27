@@ -118,7 +118,7 @@
           <label>
             <input
               type="text"
-              pattern={"[a-zA-Z0-9]{3,}"}
+              pattern={'[a-zA-Z0-9]{3,}'}
               placeholder={me.communityname || 'My Agent Name'}
               bind:value={communityname}
               class:unverified={commMayAskProof}
