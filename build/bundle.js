@@ -22092,6 +22092,11 @@
 	function pullRocks(teamID) {
 	    return genericGet(`/api/v1/team/${teamID}/rocks`);
 	}
+	function setVAPIkey(v) {
+	    const fd = new FormData();
+	    fd.append('v', v);
+	    return genericPost('/api/v1/me/VAPIkey', fd);
+	}
 	function pullV(teamID) {
 	    return genericGet(`/api/v1/team/${teamID}/v`);
 	}
@@ -24114,12 +24119,12 @@
 				textarea = element("textarea");
 				attr_dev(a, "href", "https://community.ingress.com/en/activity");
 				attr_dev(a, "target", "_new");
-				add_location(a, file$n, 148, 33, 5169);
-				add_location(p, file$n, 147, 10, 5132);
+				add_location(a, file$n, 148, 33, 5181);
+				add_location(p, file$n, 147, 10, 5144);
 				textarea.readOnly = true;
 				textarea.value = /*commJWT*/ ctx[5];
 				attr_dev(textarea, "class", "svelte-18ow2sz");
-				add_location(textarea, file$n, 153, 10, 5352);
+				add_location(textarea, file$n, 153, 10, 5364);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, p, anchor);
@@ -24184,10 +24189,10 @@
 				t3 = text(t3_value);
 				t4 = text("\n          to start the verification process.");
 				attr_dev(a0, "href", 'tg://resolve?domain=' + /*botname*/ ctx[7]);
-				add_location(a0, file$n, 213, 24, 7251);
+				add_location(a0, file$n, 213, 24, 7263);
 				attr_dev(a1, "href", a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[7] + '?start=' + /*me*/ ctx[0].lockey);
-				add_location(a1, file$n, 218, 10, 7374);
-				add_location(div, file$n, 212, 8, 7221);
+				add_location(a1, file$n, 218, 10, 7386);
+				add_location(div, file$n, 212, 8, 7233);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -24240,7 +24245,7 @@
 				div = element("div");
 				if_block.c();
 				attr_dev(div, "id", "telegramContent");
-				add_location(div, file$n, 180, 8, 6102);
+				add_location(div, file$n, 180, 8, 6114);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -24300,10 +24305,10 @@
 				t3 = text(t3_value);
 				t4 = text("\n              to start the verification process. If you have sent this to the bot\n              and this step still shows here, log out and back in.");
 				attr_dev(a0, "href", 'tg://resolve?domain=' + /*botname*/ ctx[7]);
-				add_location(a0, file$n, 200, 36, 6781);
+				add_location(a0, file$n, 200, 36, 6793);
 				attr_dev(a1, "href", a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[7] + '?start=' + /*me*/ ctx[0].lockey);
-				add_location(a1, file$n, 203, 14, 6885);
-				add_location(div, file$n, 199, 12, 6739);
+				add_location(a1, file$n, 203, 14, 6897);
+				add_location(div, file$n, 199, 12, 6751);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -24362,10 +24367,10 @@
 				t3 = text(t3_value);
 				t4 = text("\n              to conclude verification.");
 				attr_dev(a0, "href", 'tg://resolve?domain=' + /*botname*/ ctx[7]);
-				add_location(a0, file$n, 187, 36, 6354);
+				add_location(a0, file$n, 187, 36, 6366);
 				attr_dev(a1, "href", a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[7] + '?start=' + /*me*/ ctx[0].Telegram.Authtoken);
-				add_location(a1, file$n, 190, 14, 6458);
-				add_location(div, file$n, 186, 12, 6312);
+				add_location(a1, file$n, 190, 14, 6470);
+				add_location(div, file$n, 186, 12, 6324);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -24414,7 +24419,7 @@
 				t0 = text("Telgram ID: ");
 				t1 = text(t1_value);
 				t2 = text(" (verified)");
-				add_location(div, file$n, 182, 12, 6178);
+				add_location(div, file$n, 182, 12, 6190);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -24775,167 +24780,167 @@
 				t83 = space();
 				div30 = element("div");
 				div30.textContent = "This can potentially create a large number of Wasabee teams at once.\n        Only use this if you are sure you need it.";
-				add_location(h1, file$n, 48, 2, 1896);
+				add_location(h1, file$n, 48, 2, 1908);
 				attr_dev(div0, "class", "card-header");
-				add_location(div0, file$n, 50, 4, 1944);
+				add_location(div0, file$n, 50, 4, 1956);
 				attr_dev(span0, "class", "font-weight-bolder");
-				add_location(span0, file$n, 53, 8, 2034);
+				add_location(span0, file$n, 53, 8, 2046);
 				attr_dev(span1, "class", "agent-name");
-				add_location(span1, file$n, 54, 8, 2096);
-				add_location(div1, file$n, 52, 6, 2020);
+				add_location(span1, file$n, 54, 8, 2108);
+				add_location(div1, file$n, 52, 6, 2032);
 				attr_dev(span2, "class", "font-weight-bolder");
-				add_location(span2, file$n, 57, 8, 2171);
+				add_location(span2, file$n, 57, 8, 2183);
 				attr_dev(span3, "class", "agent-name");
-				add_location(span3, file$n, 58, 8, 2227);
-				add_location(div2, file$n, 56, 6, 2157);
+				add_location(span3, file$n, 58, 8, 2239);
+				add_location(div2, file$n, 56, 6, 2169);
 				attr_dev(a0, "href", "https://v.enl.one/");
 				attr_dev(a0, "target", "_new");
-				add_location(a0, file$n, 61, 8, 2303);
+				add_location(a0, file$n, 61, 8, 2315);
 				attr_dev(a1, "v-if", "me.Vverified");
 				attr_dev(a1, "href", a1_href_value = 'https://v.enl.one/profile/' + /*me*/ ctx[0].enlid);
 				attr_dev(a1, "target", "_new");
-				add_location(a1, file$n, 63, 10, 2398);
+				add_location(a1, file$n, 63, 10, 2410);
 				attr_dev(span4, "id", "vstatus");
-				add_location(span4, file$n, 62, 8, 2368);
-				add_location(div3, file$n, 60, 6, 2289);
+				add_location(span4, file$n, 62, 8, 2380);
+				add_location(div3, file$n, 60, 6, 2301);
 				attr_dev(span5, "class", "font-weight-bolder");
-				add_location(span5, file$n, 71, 8, 2591);
+				add_location(span5, file$n, 71, 8, 2603);
 				attr_dev(span6, "class", "agent-name");
-				add_location(span6, file$n, 72, 8, 2651);
-				add_location(div4, file$n, 70, 6, 2577);
+				add_location(span6, file$n, 72, 8, 2663);
+				add_location(div4, file$n, 70, 6, 2589);
 				attr_dev(a2, "href", "https://enl.rocks/");
 				attr_dev(a2, "target", "_new");
-				add_location(a2, file$n, 75, 8, 2731);
+				add_location(a2, file$n, 75, 8, 2743);
 				attr_dev(span7, "id", "rocksstatus");
-				add_location(span7, file$n, 76, 8, 2804);
+				add_location(span7, file$n, 76, 8, 2816);
 				attr_dev(a3, "href", "#tooltip");
 				attr_dev(a3, "class", "tooltip-display");
 				attr_dev(a3, "data-toggle", "tooltip");
 				attr_dev(a3, "title", ".Rocks verification typically only takes place in relationship to anomolies. Lack of verification does not mean you don't have a .rocks account, it just means you've not been verified at an anomaly event");
-				add_location(a3, file$n, 79, 13, 2914);
-				add_location(em0, file$n, 78, 10, 2897);
-				add_location(p0, file$n, 77, 8, 2883);
-				add_location(div5, file$n, 74, 6, 2717);
+				add_location(a3, file$n, 79, 13, 2926);
+				add_location(em0, file$n, 78, 10, 2909);
+				add_location(p0, file$n, 77, 8, 2895);
+				add_location(div5, file$n, 74, 6, 2729);
 				attr_dev(span8, "class", "font-weight-bolder");
-				add_location(span8, file$n, 90, 8, 3370);
+				add_location(span8, file$n, 90, 8, 3382);
 				attr_dev(span9, "class", "agent-name");
-				add_location(span9, file$n, 91, 8, 3429);
-				add_location(div6, file$n, 89, 6, 3356);
+				add_location(span9, file$n, 91, 8, 3441);
+				add_location(div6, file$n, 89, 6, 3368);
 				attr_dev(span10, "class", "font-weight-bolder");
-				add_location(span10, file$n, 94, 8, 3502);
+				add_location(span10, file$n, 94, 8, 3514);
 				attr_dev(span11, "class", "agent-name");
-				add_location(span11, file$n, 95, 8, 3557);
+				add_location(span11, file$n, 95, 8, 3569);
 				attr_dev(a4, "href", "https://v.enl.one/");
-				add_location(a4, file$n, 99, 12, 3679);
+				add_location(a4, file$n, 99, 12, 3691);
 				attr_dev(a5, "href", "https://enlightened.rocks");
-				add_location(a5, file$n, 100, 12, 3733);
-				add_location(em1, file$n, 97, 10, 3622);
-				add_location(p1, file$n, 96, 8, 3608);
-				add_location(div7, file$n, 93, 6, 3488);
+				add_location(a5, file$n, 100, 12, 3745);
+				add_location(em1, file$n, 97, 10, 3634);
+				add_location(p1, file$n, 96, 8, 3620);
+				add_location(div7, file$n, 93, 6, 3500);
 				attr_dev(span12, "class", "font-weight-bolder");
-				add_location(span12, file$n, 107, 8, 3961);
+				add_location(span12, file$n, 107, 8, 3973);
 				attr_dev(span13, "class", "agent-name");
-				add_location(span13, file$n, 108, 8, 4021);
-				add_location(div8, file$n, 106, 6, 3947);
-				add_location(em2, file$n, 111, 8, 4099);
-				add_location(p2, file$n, 110, 6, 4087);
+				add_location(span13, file$n, 108, 8, 4033);
+				add_location(div8, file$n, 106, 6, 3959);
+				add_location(em2, file$n, 111, 8, 4111);
+				add_location(p2, file$n, 110, 6, 4099);
 				attr_dev(span14, "class", "font-weight-bolder");
-				add_location(span14, file$n, 118, 10, 4271);
+				add_location(span14, file$n, 118, 10, 4283);
 				attr_dev(span15, "class", "agent-name");
-				add_location(span15, file$n, 119, 10, 4337);
-				add_location(p3, file$n, 117, 8, 4257);
+				add_location(span15, file$n, 119, 10, 4349);
+				add_location(p3, file$n, 117, 8, 4269);
 				attr_dev(input0, "type", "text");
 				attr_dev(input0, "pattern", "[a-zA-Z0-9]{3,}");
 				attr_dev(input0, "placeholder", input0_placeholder_value = /*me*/ ctx[0].communityname || 'My Agent Name');
 				attr_dev(input0, "class", "svelte-18ow2sz");
 				toggle_class(input0, "unverified", /*commMayAskProof*/ ctx[6]);
-				add_location(input0, file$n, 123, 12, 4443);
-				add_location(label0, file$n, 122, 10, 4423);
+				add_location(input0, file$n, 123, 12, 4455);
+				add_location(label0, file$n, 122, 10, 4435);
 				attr_dev(button0, "class", "btn btn-info");
 				button0.disabled = button0_disabled_value = !/*commMayAskProof*/ ctx[6];
-				add_location(button0, file$n, 131, 10, 4716);
+				add_location(button0, file$n, 131, 10, 4728);
 				attr_dev(button1, "class", "btn btn-success");
 				button1.disabled = button1_disabled_value = !/*commMayAskProof*/ ctx[6];
-				add_location(button1, file$n, 138, 10, 4899);
-				add_location(p4, file$n, 121, 8, 4409);
-				add_location(div9, file$n, 116, 6, 4243);
+				add_location(button1, file$n, 138, 10, 4911);
+				add_location(p4, file$n, 121, 8, 4421);
+				add_location(div9, file$n, 116, 6, 4255);
 				attr_dev(div10, "class", "card-body");
-				add_location(div10, file$n, 51, 4, 1990);
+				add_location(div10, file$n, 51, 4, 2002);
 				attr_dev(div11, "class", "card mb-2");
-				add_location(div11, file$n, 49, 2, 1916);
+				add_location(div11, file$n, 49, 2, 1928);
 				attr_dev(div12, "class", "card-header");
-				add_location(div12, file$n, 159, 4, 5493);
+				add_location(div12, file$n, 159, 4, 5505);
 				attr_dev(input1, "id", "locCheck");
 				attr_dev(input1, "type", "checkbox");
-				add_location(input1, file$n, 163, 8, 5605);
-				add_location(label1, file$n, 161, 6, 5566);
-				add_location(br, file$n, 168, 7, 5725);
+				add_location(input1, file$n, 163, 8, 5617);
+				add_location(label1, file$n, 161, 6, 5578);
+				add_location(br, file$n, 168, 7, 5737);
 				attr_dev(input2, "id", "analytics");
 				attr_dev(input2, "type", "checkbox");
-				add_location(input2, file$n, 171, 8, 5790);
-				add_location(label2, file$n, 169, 6, 5738);
+				add_location(input2, file$n, 171, 8, 5802);
+				add_location(label2, file$n, 169, 6, 5750);
 				attr_dev(span16, "class", "small dim");
-				add_location(span16, file$n, 173, 6, 5877);
+				add_location(span16, file$n, 173, 6, 5889);
 				attr_dev(div13, "class", "card-body");
-				add_location(div13, file$n, 160, 4, 5536);
+				add_location(div13, file$n, 160, 4, 5548);
 				attr_dev(div14, "class", "card mb-2");
-				add_location(div14, file$n, 158, 2, 5465);
+				add_location(div14, file$n, 158, 2, 5477);
 				attr_dev(div15, "class", "card-header");
-				add_location(div15, file$n, 177, 4, 6002);
+				add_location(div15, file$n, 177, 4, 6014);
 				attr_dev(div16, "class", "card-body");
-				add_location(div16, file$n, 178, 4, 6046);
+				add_location(div16, file$n, 178, 4, 6058);
 				attr_dev(div17, "class", "card mb-2");
-				add_location(div17, file$n, 176, 2, 5974);
+				add_location(div17, file$n, 176, 2, 5986);
 				attr_dev(div18, "class", "card-header");
-				add_location(div18, file$n, 227, 4, 7603);
+				add_location(div18, file$n, 227, 4, 7615);
 				attr_dev(div19, "id", "ott");
-				add_location(div19, file$n, 229, 6, 7683);
+				add_location(div19, file$n, 229, 6, 7695);
 				attr_dev(div20, "class", "small dim");
-				add_location(div20, file$n, 230, 6, 7721);
+				add_location(div20, file$n, 230, 6, 7733);
 				attr_dev(div21, "class", "card-body");
-				add_location(div21, file$n, 228, 4, 7653);
+				add_location(div21, file$n, 228, 4, 7665);
 				attr_dev(div22, "class", "card mb-2");
-				add_location(div22, file$n, 226, 2, 7575);
+				add_location(div22, file$n, 226, 2, 7587);
 				attr_dev(div23, "class", "card-header");
-				add_location(div23, file$n, 236, 4, 7889);
+				add_location(div23, file$n, 236, 4, 7901);
 				attr_dev(input3, "type", "text");
 				attr_dev(input3, "id", "vapi");
 				attr_dev(input3, "placeholder", "0123456789abcdef0123456789abcdef0123456789");
-				add_location(input3, file$n, 239, 8, 7993);
+				add_location(input3, file$n, 239, 8, 8005);
 				attr_dev(div24, "id", "vapidiv");
-				add_location(div24, file$n, 238, 6, 7966);
+				add_location(div24, file$n, 238, 6, 7978);
 				attr_dev(div25, "class", "small dim");
-				add_location(div25, file$n, 246, 6, 8170);
+				add_location(div25, file$n, 247, 6, 8230);
 				attr_dev(div26, "class", "card-body");
-				add_location(div26, file$n, 237, 4, 7936);
+				add_location(div26, file$n, 237, 4, 7948);
 				attr_dev(div27, "class", "card mb-2");
-				add_location(div27, file$n, 235, 2, 7861);
+				add_location(div27, file$n, 235, 2, 7873);
 				attr_dev(div28, "class", "card-header");
-				add_location(div28, file$n, 252, 4, 8334);
+				add_location(div28, file$n, 253, 4, 8394);
 				option0.__value = "team";
 				option0.value = option0.__value;
-				add_location(option0, file$n, 256, 10, 8503);
+				add_location(option0, file$n, 257, 10, 8563);
 				option1.__value = "role";
 				option1.value = option1.__value;
-				add_location(option1, file$n, 257, 10, 8578);
+				add_location(option1, file$n, 258, 10, 8638);
 				attr_dev(select, "name", "vimportmode");
-				if (/*vimportmode*/ ctx[2] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[14].call(select));
-				add_location(select, file$n, 255, 8, 8440);
+				if (/*vimportmode*/ ctx[2] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[15].call(select));
+				add_location(select, file$n, 256, 8, 8500);
 				attr_dev(input4, "type", "button");
 				attr_dev(input4, "id", "vimport");
 				input4.value = "V team import";
 				attr_dev(input4, "v-on:click", "vimport");
-				add_location(input4, file$n, 261, 8, 8703);
+				add_location(input4, file$n, 262, 8, 8763);
 				attr_dev(div29, "id", "vapidiv");
-				add_location(div29, file$n, 254, 6, 8413);
+				add_location(div29, file$n, 255, 6, 8473);
 				attr_dev(div30, "class", "small dim");
-				add_location(div30, file$n, 268, 6, 8850);
+				add_location(div30, file$n, 269, 6, 8910);
 				attr_dev(div31, "class", "card-body");
-				add_location(div31, file$n, 253, 4, 8383);
+				add_location(div31, file$n, 254, 4, 8443);
 				attr_dev(div32, "class", "card mb-2");
-				add_location(div32, file$n, 251, 2, 8306);
+				add_location(div32, file$n, 252, 2, 8366);
 				attr_dev(div33, "class", "container");
-				add_location(div33, file$n, 47, 0, 1870);
+				add_location(div33, file$n, 47, 0, 1882);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -25096,7 +25101,8 @@
 						listen_dev(input1, "change", /*input1_change_handler*/ ctx[11]),
 						listen_dev(input2, "change", /*input2_change_handler*/ ctx[12]),
 						listen_dev(input3, "input", /*input3_input_handler*/ ctx[13]),
-						listen_dev(select, "change", /*select_change_handler*/ ctx[14])
+						listen_dev(input3, "change", /*change_handler*/ ctx[14], false, false, false),
+						listen_dev(select, "change", /*select_change_handler*/ ctx[15])
 					];
 
 					mounted = true;
@@ -25302,6 +25308,8 @@
 			$$invalidate(0, me);
 		}
 
+		const change_handler = () => setVAPIkey(me.vapi);
+
 		function select_change_handler() {
 			vimportmode = select_value(this);
 			$$invalidate(2, vimportmode);
@@ -25315,6 +25323,7 @@
 			notifyOnError,
 			getCommJWT,
 			getCommVerify,
+			setVAPIkey,
 			getMe,
 			me,
 			botname,
@@ -25366,6 +25375,7 @@
 			input1_change_handler,
 			input2_change_handler,
 			input3_input_handler,
+			change_handler,
 			select_change_handler
 		];
 	}
