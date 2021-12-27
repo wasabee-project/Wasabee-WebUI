@@ -21177,13 +21177,15 @@
 	    },
 	];
 	try {
-	    const ss = JSON.parse(localStorage.get(SERVERS_KEY));
+	    const ss = JSON.parse(localStorage.getItem(SERVERS_KEY));
 	    for (const server of ss) {
 	        if (!servers.find((s) => s.url === server.url))
 	            servers.push(server);
 	    }
 	}
-	catch (_a) { }
+	catch (e) {
+	    console.error(e);
+	}
 	const urlParams = new URLSearchParams(window.location.search);
 	const urlServer = urlParams.get('server');
 	if (urlServer && !servers.find((s) => s.url === urlServer)) {
