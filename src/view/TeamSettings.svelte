@@ -133,15 +133,24 @@
     <div class="card-header">Join Link</div>
     {#if team.jlt}
       <div class="card-body">
-        <a href={getServer() + '/api/v1/team/' + team.id + '/join/' + team.jlt}
-          >copy this link</a
+        <a
+          href={'?server=' +
+            getServer() +
+            '#/team/' +
+            team.id +
+            '/join/' +
+            team.jlt}>Copy this link</a
         >
         to share with agents
-        <button on:click={removeJoinLink}>remove</button>
+        <button class="btn btn-sm btn-danger" on:click={removeJoinLink}
+          >remove</button
+        >
       </div>
     {:else}
       <div class="card-body">
-        <button on:click={generateJoinLink}>Generate Join Link</button>
+        <button class="btn btn-info" on:click={generateJoinLink}
+          >Generate Join Link</button
+        >
       </div>
     {/if}
   </div>

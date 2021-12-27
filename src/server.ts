@@ -175,6 +175,10 @@ export function teamPromise(teamid: TeamID) {
   return genericGet<WasabeeTeam>(`/api/v1/team/${teamid}`);
 }
 
+export function joinTeamPromise(teamID: TeamID, token: string) {
+  return genericGet<IServerStatus>(`/api/v1/team/${teamID}/join/${token}`);
+}
+
 export function sendAnnounce(teamID: TeamID, message: string) {
   const fd = new FormData();
   fd.append('m', message);

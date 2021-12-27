@@ -2,6 +2,7 @@
   import Router from 'svelte-spa-router';
   import active from 'svelte-spa-router/active';
 
+  import TeamJoin from './TeamJoin.svelte';
   import TeamList from './TeamList.svelte';
   import TeamManage from './TeamManage.svelte';
   import TeamAgentMap from './TeamAgentMap.svelte';
@@ -55,6 +56,12 @@
       component: TeamManage,
       props: {
         teamStore: teamStore,
+      },
+    }),
+    '/join/:token': wrap({
+      component: TeamJoin,
+      props: {
+        teamid: teamid,
       },
     }),
   };
