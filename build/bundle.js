@@ -15537,7 +15537,7 @@
 		return block;
 	}
 
-	function create_fragment$D(ctx) {
+	function create_fragment$E(ctx) {
 		let current_block_type_index;
 		let if_block;
 		let if_block_anchor;
@@ -15610,7 +15610,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$D.name,
+			id: create_fragment$E.name,
 			type: "component",
 			source: "",
 			ctx
@@ -15803,7 +15803,7 @@
 		window.location.hash = href;
 	}
 
-	function instance$D($$self, $$props, $$invalidate) {
+	function instance$E($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Router', slots, []);
 		let { routes = {} } = $$props;
@@ -16223,7 +16223,7 @@
 		constructor(options) {
 			super(options);
 
-			init(this, options, instance$D, create_fragment$D, safe_not_equal, {
+			init(this, options, instance$E, create_fragment$E, safe_not_equal, {
 				routes: 3,
 				prefix: 4,
 				restoreScrollState: 5
@@ -16233,7 +16233,7 @@
 				component: this,
 				tagName: "Router",
 				options,
-				id: create_fragment$D.name
+				id: create_fragment$E.name
 			});
 		}
 
@@ -16808,7 +16808,7 @@
 		return block;
 	}
 
-	function create_fragment$C(ctx) {
+	function create_fragment$D(ctx) {
 		let each_1_anchor;
 		let current;
 		let each_value = /*placements*/ ctx[3];
@@ -16897,7 +16897,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$C.name,
+			id: create_fragment$D.name,
 			type: "component",
 			source: "",
 			ctx
@@ -16906,7 +16906,7 @@
 		return block;
 	}
 
-	function instance$C($$self, $$props, $$invalidate) {
+	function instance$D($$self, $$props, $$invalidate) {
 		let $toasts;
 		validate_store(toasts, 'toasts');
 		component_subscribe($$self, toasts, $$value => $$invalidate(2, $toasts = $$value));
@@ -17021,7 +17021,7 @@
 		constructor(options) {
 			super(options);
 
-			init(this, options, instance$C, create_fragment$C, safe_not_equal, {
+			init(this, options, instance$D, create_fragment$D, safe_not_equal, {
 				theme: 5,
 				placement: 1,
 				type: 6,
@@ -17034,7 +17034,7 @@
 				component: this,
 				tagName: "ToastContainer",
 				options,
-				id: create_fragment$C.name
+				id: create_fragment$D.name
 			});
 		}
 
@@ -17539,7 +17539,7 @@
 		return block;
 	}
 
-	function create_fragment$B(ctx) {
+	function create_fragment$C(ctx) {
 		let div2;
 		let t0;
 		let div1;
@@ -17753,7 +17753,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$B.name,
+			id: create_fragment$C.name,
 			type: "component",
 			source: "",
 			ctx
@@ -17762,7 +17762,7 @@
 		return block;
 	}
 
-	function instance$B($$self, $$props, $$invalidate) {
+	function instance$C($$self, $$props, $$invalidate) {
 		let $progress;
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('FlatToast', slots, ['icon','extra','close-icon']);
@@ -17825,13 +17825,13 @@
 	class FlatToast extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$B, create_fragment$B, safe_not_equal, { theme: 0, data: 1 });
+			init(this, options, instance$C, create_fragment$C, safe_not_equal, { theme: 0, data: 1 });
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "FlatToast",
 				options,
-				id: create_fragment$B.name
+				id: create_fragment$C.name
 			});
 		}
 
@@ -18144,7 +18144,7 @@
 		return block;
 	}
 
-	function create_fragment$A(ctx) {
+	function create_fragment$B(ctx) {
 		let if_block_anchor;
 		let current;
 		let mounted;
@@ -18213,7 +18213,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$A.name,
+			id: create_fragment$B.name,
 			type: "component",
 			source: "",
 			ctx
@@ -18222,7 +18222,7 @@
 		return block;
 	}
 
-	function instance$A($$self, $$props, $$invalidate) {
+	function instance$B($$self, $$props, $$invalidate) {
 		let classes;
 
 		const omit_props_names = [
@@ -18391,7 +18391,7 @@
 		constructor(options) {
 			super(options);
 
-			init(this, options, instance$A, create_fragment$A, safe_not_equal, {
+			init(this, options, instance$B, create_fragment$B, safe_not_equal, {
 				isOpen: 0,
 				class: 9,
 				navbar: 1,
@@ -18407,7 +18407,7 @@
 				component: this,
 				tagName: "Collapse",
 				options,
-				id: create_fragment$A.name
+				id: create_fragment$B.name
 			});
 		}
 
@@ -18976,7 +18976,7 @@
 		return block_1;
 	}
 
-	function create_fragment$z(ctx) {
+	function create_fragment$A(ctx) {
 		let current_block_type_index;
 		let if_block;
 		let if_block_anchor;
@@ -19049,7 +19049,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block: block_1,
-			id: create_fragment$z.name,
+			id: create_fragment$A.name,
 			type: "component",
 			source: "",
 			ctx
@@ -19058,7 +19058,7 @@
 		return block_1;
 	}
 
-	function instance$z($$self, $$props, $$invalidate) {
+	function instance$A($$self, $$props, $$invalidate) {
 		let ariaLabel;
 		let classes;
 		let defaultAriaLabel;
@@ -19214,7 +19214,7 @@
 		constructor(options) {
 			super(options);
 
-			init(this, options, instance$z, create_fragment$z, safe_not_equal, {
+			init(this, options, instance$A, create_fragment$A, safe_not_equal, {
 				class: 10,
 				active: 11,
 				block: 12,
@@ -19234,7 +19234,7 @@
 				component: this,
 				tagName: "Button",
 				options,
-				id: create_fragment$z.name
+				id: create_fragment$A.name
 			});
 		}
 
@@ -19346,7 +19346,7 @@
 	/* node_modules/sveltestrap/src/Container.svelte generated by Svelte v3.42.5 */
 	const file$w = "node_modules/sveltestrap/src/Container.svelte";
 
-	function create_fragment$y(ctx) {
+	function create_fragment$z(ctx) {
 		let div;
 		let current;
 		const default_slot_template = /*#slots*/ ctx[10].default;
@@ -19415,7 +19415,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$y.name,
+			id: create_fragment$z.name,
 			type: "component",
 			source: "",
 			ctx
@@ -19424,7 +19424,7 @@
 		return block;
 	}
 
-	function instance$y($$self, $$props, $$invalidate) {
+	function instance$z($$self, $$props, $$invalidate) {
 		let classes;
 		const omit_props_names = ["class","sm","md","lg","xl","xxl","fluid"];
 		let $$restProps = compute_rest_props($$props, omit_props_names);
@@ -19499,7 +19499,7 @@
 		constructor(options) {
 			super(options);
 
-			init(this, options, instance$y, create_fragment$y, safe_not_equal, {
+			init(this, options, instance$z, create_fragment$z, safe_not_equal, {
 				class: 2,
 				sm: 3,
 				md: 4,
@@ -19513,7 +19513,7 @@
 				component: this,
 				tagName: "Container",
 				options,
-				id: create_fragment$y.name
+				id: create_fragment$z.name
 			});
 		}
 
@@ -19577,7 +19577,7 @@
 	/* node_modules/sveltestrap/src/Nav.svelte generated by Svelte v3.42.5 */
 	const file$v = "node_modules/sveltestrap/src/Nav.svelte";
 
-	function create_fragment$x(ctx) {
+	function create_fragment$y(ctx) {
 		let ul;
 		let current;
 		const default_slot_template = /*#slots*/ ctx[12].default;
@@ -19646,7 +19646,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$x.name,
+			id: create_fragment$y.name,
 			type: "component",
 			source: "",
 			ctx
@@ -19665,7 +19665,7 @@
 		return `flex-${vertical}-column`;
 	}
 
-	function instance$x($$self, $$props, $$invalidate) {
+	function instance$y($$self, $$props, $$invalidate) {
 		let classes;
 
 		const omit_props_names = [
@@ -19766,7 +19766,7 @@
 		constructor(options) {
 			super(options);
 
-			init(this, options, instance$x, create_fragment$x, safe_not_equal, {
+			init(this, options, instance$y, create_fragment$y, safe_not_equal, {
 				class: 2,
 				tabs: 3,
 				pills: 4,
@@ -19782,7 +19782,7 @@
 				component: this,
 				tagName: "Nav",
 				options,
-				id: create_fragment$x.name
+				id: create_fragment$y.name
 			});
 		}
 
@@ -20035,7 +20035,7 @@
 		return block;
 	}
 
-	function create_fragment$w(ctx) {
+	function create_fragment$x(ctx) {
 		let nav;
 		let current_block_type_index;
 		let if_block;
@@ -20121,7 +20121,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$w.name,
+			id: create_fragment$x.name,
 			type: "component",
 			source: "",
 			ctx
@@ -20140,7 +20140,7 @@
 		return `navbar-expand-${expand}`;
 	}
 
-	function instance$w($$self, $$props, $$invalidate) {
+	function instance$x($$self, $$props, $$invalidate) {
 		let classes;
 		const omit_props_names = ["class","container","color","dark","expand","fixed","light","sticky"];
 		let $$restProps = compute_rest_props($$props, omit_props_names);
@@ -20232,7 +20232,7 @@
 		constructor(options) {
 			super(options);
 
-			init(this, options, instance$w, create_fragment$w, safe_not_equal, {
+			init(this, options, instance$x, create_fragment$x, safe_not_equal, {
 				class: 3,
 				container: 0,
 				color: 4,
@@ -20247,7 +20247,7 @@
 				component: this,
 				tagName: "Navbar",
 				options,
-				id: create_fragment$w.name
+				id: create_fragment$x.name
 			});
 		}
 
@@ -20319,7 +20319,7 @@
 	/* node_modules/sveltestrap/src/NavItem.svelte generated by Svelte v3.42.5 */
 	const file$t = "node_modules/sveltestrap/src/NavItem.svelte";
 
-	function create_fragment$v(ctx) {
+	function create_fragment$w(ctx) {
 		let li;
 		let current;
 		const default_slot_template = /*#slots*/ ctx[5].default;
@@ -20388,7 +20388,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$v.name,
+			id: create_fragment$w.name,
 			type: "component",
 			source: "",
 			ctx
@@ -20397,7 +20397,7 @@
 		return block;
 	}
 
-	function instance$v($$self, $$props, $$invalidate) {
+	function instance$w($$self, $$props, $$invalidate) {
 		let classes;
 		const omit_props_names = ["class","active"];
 		let $$restProps = compute_rest_props($$props, omit_props_names);
@@ -20438,13 +20438,13 @@
 	class NavItem extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$v, create_fragment$v, safe_not_equal, { class: 2, active: 3 });
+			init(this, options, instance$w, create_fragment$w, safe_not_equal, { class: 2, active: 3 });
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "NavItem",
 				options,
-				id: create_fragment$v.name
+				id: create_fragment$w.name
 			});
 		}
 
@@ -20468,7 +20468,7 @@
 	/* node_modules/sveltestrap/src/NavLink.svelte generated by Svelte v3.42.5 */
 	const file$s = "node_modules/sveltestrap/src/NavLink.svelte";
 
-	function create_fragment$u(ctx) {
+	function create_fragment$v(ctx) {
 		let a;
 		let current;
 		let mounted;
@@ -20557,7 +20557,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$u.name,
+			id: create_fragment$v.name,
 			type: "component",
 			source: "",
 			ctx
@@ -20566,7 +20566,7 @@
 		return block;
 	}
 
-	function instance$u($$self, $$props, $$invalidate) {
+	function instance$v($$self, $$props, $$invalidate) {
 		let classes;
 		const omit_props_names = ["class","disabled","active","href"];
 		let $$restProps = compute_rest_props($$props, omit_props_names);
@@ -20649,7 +20649,7 @@
 		constructor(options) {
 			super(options);
 
-			init(this, options, instance$u, create_fragment$u, safe_not_equal, {
+			init(this, options, instance$v, create_fragment$v, safe_not_equal, {
 				class: 4,
 				disabled: 5,
 				active: 6,
@@ -20660,7 +20660,7 @@
 				component: this,
 				tagName: "NavLink",
 				options,
-				id: create_fragment$u.name
+				id: create_fragment$v.name
 			});
 		}
 
@@ -20788,7 +20788,7 @@
 		return block;
 	}
 
-	function create_fragment$t(ctx) {
+	function create_fragment$u(ctx) {
 		let button;
 		let current;
 		const button_spread_levels = [/*$$restProps*/ ctx[1], { class: /*classes*/ ctx[0] }];
@@ -20846,7 +20846,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$t.name,
+			id: create_fragment$u.name,
 			type: "component",
 			source: "",
 			ctx
@@ -20855,7 +20855,7 @@
 		return block;
 	}
 
-	function instance$t($$self, $$props, $$invalidate) {
+	function instance$u($$self, $$props, $$invalidate) {
 		let classes;
 		const omit_props_names = ["class"];
 		let $$restProps = compute_rest_props($$props, omit_props_names);
@@ -20897,13 +20897,13 @@
 	class NavbarToggler extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$t, create_fragment$t, safe_not_equal, { class: 2 });
+			init(this, options, instance$u, create_fragment$u, safe_not_equal, { class: 2 });
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "NavbarToggler",
 				options,
-				id: create_fragment$t.name
+				id: create_fragment$u.name
 			});
 		}
 
@@ -20920,7 +20920,7 @@
 
 	const file$q = "src/view/Help.svelte";
 
-	function create_fragment$s(ctx) {
+	function create_fragment$t(ctx) {
 		let div17;
 		let div16;
 		let div15;
@@ -21123,7 +21123,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$s.name,
+			id: create_fragment$t.name,
 			type: "component",
 			source: "",
 			ctx
@@ -21132,7 +21132,7 @@
 		return block;
 	}
 
-	function instance$s($$self, $$props) {
+	function instance$t($$self, $$props) {
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Help', slots, []);
 		const writable_props = [];
@@ -21147,13 +21147,13 @@
 	class Help extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$s, create_fragment$s, safe_not_equal, {});
+			init(this, options, instance$t, create_fragment$t, safe_not_equal, {});
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "Help",
 				options,
-				id: create_fragment$s.name
+				id: create_fragment$t.name
 			});
 		}
 	}
@@ -22125,6 +22125,9 @@
 	function teamPromise(teamid) {
 	    return genericGet(`/api/v1/team/${teamid}`);
 	}
+	function joinTeamPromise(teamID, token) {
+	    return genericGet(`/api/v1/team/${teamID}/join/${token}`);
+	}
 	function sendAnnounce(teamID, message) {
 	    const fd = new FormData();
 	    fd.append('m', message);
@@ -22883,7 +22886,7 @@
 		return block;
 	}
 
-	function create_fragment$r(ctx) {
+	function create_fragment$s(ctx) {
 		let link;
 		let t0;
 		let header;
@@ -23089,7 +23092,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$r.name,
+			id: create_fragment$s.name,
 			type: "component",
 			source: "",
 			ctx
@@ -23098,7 +23101,7 @@
 		return block;
 	}
 
-	function instance$r($$self, $$props, $$invalidate) {
+	function instance$s($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('HomePage', slots, []);
 
@@ -23221,13 +23224,13 @@
 	class HomePage extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$r, create_fragment$r, safe_not_equal, { disabled: 5 });
+			init(this, options, instance$s, create_fragment$s, safe_not_equal, { disabled: 5 });
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "HomePage",
 				options,
-				id: create_fragment$r.name
+				id: create_fragment$s.name
 			});
 
 			const { ctx } = this.$$;
@@ -23763,7 +23766,7 @@
 		return block;
 	}
 
-	function create_fragment$q(ctx) {
+	function create_fragment$r(ctx) {
 		let div2;
 		let div1;
 		let div0;
@@ -23910,7 +23913,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$q.name,
+			id: create_fragment$r.name,
 			type: "component",
 			source: "",
 			ctx
@@ -23919,7 +23922,7 @@
 		return block;
 	}
 
-	function instance$q($$self, $$props, $$invalidate) {
+	function instance$r($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Operations', slots, []);
 
@@ -24081,13 +24084,13 @@
 	class Operations extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$q, create_fragment$q, safe_not_equal, {});
+			init(this, options, instance$r, create_fragment$r, safe_not_equal, {});
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "Operations",
 				options,
-				id: create_fragment$q.name
+				id: create_fragment$r.name
 			});
 		}
 	}
@@ -24463,7 +24466,7 @@
 		return block;
 	}
 
-	function create_fragment$p(ctx) {
+	function create_fragment$q(ctx) {
 		let div33;
 		let h1;
 		let t1;
@@ -25216,7 +25219,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$p.name,
+			id: create_fragment$q.name,
 			type: "component",
 			source: "",
 			ctx
@@ -25231,7 +25234,7 @@
 		textarea.select();
 	}
 
-	function instance$p($$self, $$props, $$invalidate) {
+	function instance$q($$self, $$props, $$invalidate) {
 		let commMayAskProof;
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Settings', slots, []);
@@ -25400,13 +25403,13 @@
 	class Settings extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$p, create_fragment$p, safe_not_equal, {});
+			init(this, options, instance$q, create_fragment$q, safe_not_equal, {});
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "Settings",
 				options,
-				id: create_fragment$p.name
+				id: create_fragment$q.name
 			});
 		}
 	}
@@ -26158,7 +26161,7 @@
 		return block;
 	}
 
-	function create_fragment$o(ctx) {
+	function create_fragment$p(ctx) {
 		let div2;
 		let div1;
 		let h1;
@@ -26351,7 +26354,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$o.name,
+			id: create_fragment$p.name,
 			type: "component",
 			source: "",
 			ctx
@@ -26360,7 +26363,7 @@
 		return block;
 	}
 
-	function instance$o($$self, $$props, $$invalidate) {
+	function instance$p($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Teams', slots, []);
 
@@ -26627,13 +26630,13 @@
 	class Teams extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$o, create_fragment$o, safe_not_equal, {});
+			init(this, options, instance$p, create_fragment$p, safe_not_equal, {});
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "Teams",
 				options,
-				id: create_fragment$o.name
+				id: create_fragment$p.name
 			});
 		}
 	}
@@ -26895,7 +26898,7 @@
 		return block;
 	}
 
-	function create_fragment$n(ctx) {
+	function create_fragment$o(ctx) {
 		let div;
 		let table;
 		let thead;
@@ -27017,7 +27020,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$n.name,
+			id: create_fragment$o.name,
 			type: "component",
 			source: "",
 			ctx
@@ -27026,7 +27029,7 @@
 		return block;
 	}
 
-	function instance$n($$self, $$props, $$invalidate) {
+	function instance$o($$self, $$props, $$invalidate) {
 		let $dKeysStore,
 			$$unsubscribe_dKeysStore = noop$1,
 			$$subscribe_dKeysStore = () => ($$unsubscribe_dKeysStore(), $$unsubscribe_dKeysStore = subscribe(dKeysStore, $$value => $$invalidate(9, $dKeysStore = $$value)), dKeysStore);
@@ -27230,13 +27233,13 @@
 	class DefensiveKeysList extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$n, create_fragment$n, safe_not_equal, { dKeysStore: 0 });
+			init(this, options, instance$o, create_fragment$o, safe_not_equal, { dKeysStore: 0 });
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "DefensiveKeysList",
 				options,
-				id: create_fragment$n.name
+				id: create_fragment$o.name
 			});
 
 			const { ctx } = this.$$;
@@ -27348,7 +27351,7 @@
 		return block;
 	}
 
-	function create_fragment$m(ctx) {
+	function create_fragment$n(ctx) {
 		let div;
 		let current;
 		let mounted;
@@ -27419,7 +27422,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$m.name,
+			id: create_fragment$n.name,
 			type: "component",
 			source: "",
 			ctx
@@ -27428,7 +27431,7 @@
 		return block;
 	}
 
-	function instance$m($$self, $$props, $$invalidate) {
+	function instance$n($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('LeafletMap', slots, ['default']);
 		let { options = {} } = $$props;
@@ -27497,13 +27500,13 @@
 	class LeafletMap extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$m, create_fragment$m, safe_not_equal, { options: 2, events: 3, getMap: 4 });
+			init(this, options, instance$n, create_fragment$n, safe_not_equal, { options: 2, events: 3, getMap: 4 });
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "LeafletMap",
 				options,
-				id: create_fragment$m.name
+				id: create_fragment$n.name
 			});
 		}
 
@@ -29396,7 +29399,7 @@
 		return block;
 	}
 
-	function create_fragment$l(ctx) {
+	function create_fragment$m(ctx) {
 		let div;
 		let current;
 		let if_block = /*marker*/ ctx[0] && create_if_block$g(ctx);
@@ -29456,7 +29459,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$l.name,
+			id: create_fragment$m.name,
 			type: "component",
 			source: "",
 			ctx
@@ -29465,7 +29468,7 @@
 		return block;
 	}
 
-	function instance$l($$self, $$props, $$invalidate) {
+	function instance$m($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Marker', slots, ['default']);
 		const { getMap } = getContext(leafletSrc);
@@ -29609,7 +29612,7 @@
 		constructor(options) {
 			super(options);
 
-			init(this, options, instance$l, create_fragment$l, safe_not_equal, {
+			init(this, options, instance$m, create_fragment$m, safe_not_equal, {
 				latLng: 1,
 				zIndexOffset: 2,
 				icon: 3,
@@ -29625,7 +29628,7 @@
 				component: this,
 				tagName: "Marker",
 				options,
-				id: create_fragment$l.name
+				id: create_fragment$m.name
 			});
 
 			const { ctx } = this.$$;
@@ -29770,7 +29773,7 @@
 		return block;
 	}
 
-	function create_fragment$k(ctx) {
+	function create_fragment$l(ctx) {
 		let div;
 		let current;
 		let if_block = /*polyline*/ ctx[0] && create_if_block$f(ctx);
@@ -29830,7 +29833,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$k.name,
+			id: create_fragment$l.name,
 			type: "component",
 			source: "",
 			ctx
@@ -29839,7 +29842,7 @@
 		return block;
 	}
 
-	function instance$k($$self, $$props, $$invalidate) {
+	function instance$l($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Polyline', slots, ['default']);
 		const { getMap } = getContext(leafletSrc);
@@ -29986,7 +29989,7 @@
 		constructor(options) {
 			super(options);
 
-			init(this, options, instance$k, create_fragment$k, safe_not_equal, {
+			init(this, options, instance$l, create_fragment$l, safe_not_equal, {
 				latLngs: 1,
 				color: 2,
 				weight: 3,
@@ -30004,7 +30007,7 @@
 				component: this,
 				tagName: "Polyline",
 				options,
-				id: create_fragment$k.name
+				id: create_fragment$l.name
 			});
 
 			const { ctx } = this.$$;
@@ -30165,7 +30168,7 @@
 		return block;
 	}
 
-	function create_fragment$j(ctx) {
+	function create_fragment$k(ctx) {
 		let div;
 		let current;
 		let if_block = /*polygon*/ ctx[0] && create_if_block$e(ctx);
@@ -30225,7 +30228,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$j.name,
+			id: create_fragment$k.name,
 			type: "component",
 			source: "",
 			ctx
@@ -30234,7 +30237,7 @@
 		return block;
 	}
 
-	function instance$j($$self, $$props, $$invalidate) {
+	function instance$k($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Polygon', slots, ['default']);
 		const { getMap } = getContext(leafletSrc);
@@ -30409,7 +30412,7 @@
 		constructor(options) {
 			super(options);
 
-			init(this, options, instance$j, create_fragment$j, safe_not_equal, {
+			init(this, options, instance$k, create_fragment$k, safe_not_equal, {
 				latLngs: 1,
 				color: 2,
 				weight: 3,
@@ -30431,7 +30434,7 @@
 				component: this,
 				tagName: "Polygon",
 				options,
-				id: create_fragment$j.name
+				id: create_fragment$k.name
 			});
 
 			const { ctx } = this.$$;
@@ -30566,7 +30569,7 @@
 	/* node_modules/svelte-leafletjs/src/components/Popup.svelte generated by Svelte v3.42.5 */
 	const file$g = "node_modules/svelte-leafletjs/src/components/Popup.svelte";
 
-	function create_fragment$i(ctx) {
+	function create_fragment$j(ctx) {
 		let div1;
 		let div0;
 		let current;
@@ -30630,7 +30633,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$i.name,
+			id: create_fragment$j.name,
 			type: "component",
 			source: "",
 			ctx
@@ -30639,7 +30642,7 @@
 		return block;
 	}
 
-	function instance$i($$self, $$props, $$invalidate) {
+	function instance$j($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Popup', slots, ['default']);
 		const { getLayer } = getContext(leafletSrc.Layer);
@@ -30721,13 +30724,13 @@
 	class Popup extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$i, create_fragment$i, safe_not_equal, { events: 1, getPopup: 2 });
+			init(this, options, instance$j, create_fragment$j, safe_not_equal, { events: 1, getPopup: 2 });
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "Popup",
 				options,
-				id: create_fragment$i.name
+				id: create_fragment$j.name
 			});
 		}
 
@@ -30750,7 +30753,7 @@
 
 	/* node_modules/svelte-leafletjs/src/components/TileLayer.svelte generated by Svelte v3.42.5 */
 
-	function create_fragment$h(ctx) {
+	function create_fragment$i(ctx) {
 		const block = {
 			c: noop$1,
 			l: function claim(nodes) {
@@ -30765,7 +30768,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$h.name,
+			id: create_fragment$i.name,
 			type: "component",
 			source: "",
 			ctx
@@ -30774,7 +30777,7 @@
 		return block;
 	}
 
-	function instance$h($$self, $$props, $$invalidate) {
+	function instance$i($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('TileLayer', slots, []);
 		const { getMap } = getContext(leafletSrc);
@@ -30871,7 +30874,7 @@
 		constructor(options) {
 			super(options);
 
-			init(this, options, instance$h, create_fragment$h, safe_not_equal, {
+			init(this, options, instance$i, create_fragment$i, safe_not_equal, {
 				url: 0,
 				wms: 1,
 				opacity: 2,
@@ -30885,7 +30888,7 @@
 				component: this,
 				tagName: "TileLayer",
 				options,
-				id: create_fragment$h.name
+				id: create_fragment$i.name
 			});
 
 			const { ctx } = this.$$;
@@ -31198,7 +31201,7 @@
 		return block;
 	}
 
-	function create_fragment$g(ctx) {
+	function create_fragment$h(ctx) {
 		let div;
 		let leafletmap;
 		let current;
@@ -31255,7 +31258,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$g.name,
+			id: create_fragment$h.name,
 			type: "component",
 			source: "",
 			ctx
@@ -31266,7 +31269,7 @@
 
 	const tileUrl$3 = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
-	function instance$g($$self, $$props, $$invalidate) {
+	function instance$h($$self, $$props, $$invalidate) {
 		let $dKeysStore,
 			$$unsubscribe_dKeysStore = noop$1,
 			$$subscribe_dKeysStore = () => ($$unsubscribe_dKeysStore(), $$unsubscribe_dKeysStore = subscribe(dKeysStore, $$value => $$invalidate(7, $dKeysStore = $$value)), dKeysStore);
@@ -31383,13 +31386,13 @@
 	class DefensiveKeysMap extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$g, create_fragment$g, safe_not_equal, { dKeysStore: 0 });
+			init(this, options, instance$h, create_fragment$h, safe_not_equal, { dKeysStore: 0 });
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "DefensiveKeysMap",
 				options,
-				id: create_fragment$g.name
+				id: create_fragment$h.name
 			});
 
 			const { ctx } = this.$$;
@@ -31412,7 +31415,7 @@
 	/* src/view/DefensiveKeys.svelte generated by Svelte v3.42.5 */
 	const file$e = "src/view/DefensiveKeys.svelte";
 
-	function create_fragment$f(ctx) {
+	function create_fragment$g(ctx) {
 		let ul;
 		let li0;
 		let a0;
@@ -31520,7 +31523,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$f.name,
+			id: create_fragment$g.name,
 			type: "component",
 			source: "",
 			ctx
@@ -31529,7 +31532,7 @@
 		return block;
 	}
 
-	function instance$f($$self, $$props, $$invalidate) {
+	function instance$g($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('DefensiveKeys', slots, []);
 		let dKeysStore = writable(null);
@@ -31603,13 +31606,13 @@
 	class DefensiveKeys extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$f, create_fragment$f, safe_not_equal, {});
+			init(this, options, instance$g, create_fragment$g, safe_not_equal, {});
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "DefensiveKeys",
 				options,
-				id: create_fragment$f.name
+				id: create_fragment$g.name
 			});
 		}
 	}
@@ -31618,7 +31621,7 @@
 
 	const file$d = "src/view/PortalLink.svelte";
 
-	function create_fragment$e(ctx) {
+	function create_fragment$f(ctx) {
 		let a;
 		let t_value = /*portal*/ ctx[0].name + "";
 		let t;
@@ -31655,7 +31658,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$e.name,
+			id: create_fragment$f.name,
 			type: "component",
 			source: "",
 			ctx
@@ -31664,7 +31667,7 @@
 		return block;
 	}
 
-	function instance$e($$self, $$props, $$invalidate) {
+	function instance$f($$self, $$props, $$invalidate) {
 		let portal;
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('PortalLink', slots, []);
@@ -31705,13 +31708,13 @@
 	class PortalLink extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$e, create_fragment$e, safe_not_equal, { portalId: 1, operation: 2 });
+			init(this, options, instance$f, create_fragment$f, safe_not_equal, { portalId: 1, operation: 2 });
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "PortalLink",
 				options,
-				id: create_fragment$e.name
+				id: create_fragment$f.name
 			});
 
 			const { ctx } = this.$$;
@@ -32357,7 +32360,7 @@
 		return block;
 	}
 
-	function create_fragment$d(ctx) {
+	function create_fragment$e(ctx) {
 		let div2;
 		let div0;
 		let t0_value = /*operation*/ ctx[2].name + "";
@@ -32599,7 +32602,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$d.name,
+			id: create_fragment$e.name,
 			type: "component",
 			source: "",
 			ctx
@@ -32612,7 +32615,7 @@
 		return Math.pow(Math.E, Math.log(a) / 4.0);
 	}
 
-	function instance$d($$self, $$props, $$invalidate) {
+	function instance$e($$self, $$props, $$invalidate) {
 		let canWrite;
 
 		let $opStore,
@@ -32867,13 +32870,13 @@
 	class OperationChecklist extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$d, create_fragment$d, safe_not_equal, { opStore: 0, assignmentsOnly: 1 });
+			init(this, options, instance$e, create_fragment$e, safe_not_equal, { opStore: 0, assignmentsOnly: 1 });
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "OperationChecklist",
 				options,
-				id: create_fragment$d.name
+				id: create_fragment$e.name
 			});
 
 			const { ctx } = this.$$;
@@ -33840,7 +33843,7 @@
 		return block;
 	}
 
-	function create_fragment$c(ctx) {
+	function create_fragment$d(ctx) {
 		let h1;
 		let t0_value = /*operation*/ ctx[1].name + "";
 		let t0;
@@ -34191,7 +34194,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$c.name,
+			id: create_fragment$d.name,
 			type: "component",
 			source: "",
 			ctx
@@ -34202,7 +34205,7 @@
 
 	const tileUrl$2 = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
-	function instance$c($$self, $$props, $$invalidate) {
+	function instance$d($$self, $$props, $$invalidate) {
 		let keysZones;
 		let koh;
 		let keyPortal;
@@ -34604,13 +34607,13 @@
 	class OperationKeys extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$c, create_fragment$c, safe_not_equal, { opStore: 0 }, null, [-1, -1]);
+			init(this, options, instance$d, create_fragment$d, safe_not_equal, { opStore: 0 }, null, [-1, -1]);
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "OperationKeys",
 				options,
-				id: create_fragment$c.name
+				id: create_fragment$d.name
 			});
 
 			const { ctx } = this.$$;
@@ -35353,7 +35356,7 @@
 		return block;
 	}
 
-	function create_fragment$b(ctx) {
+	function create_fragment$c(ctx) {
 		let div2;
 		let div0;
 		let t0_value = /*operation*/ ctx[1].name + "";
@@ -35641,7 +35644,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$b.name,
+			id: create_fragment$c.name,
 			type: "component",
 			source: "",
 			ctx
@@ -35654,7 +35657,7 @@
 		return Math.pow(Math.E, Math.log(a) / 4.0);
 	}
 
-	function instance$b($$self, $$props, $$invalidate) {
+	function instance$c($$self, $$props, $$invalidate) {
 		let $opStore,
 			$$unsubscribe_opStore = noop$1,
 			$$subscribe_opStore = () => ($$unsubscribe_opStore(), $$unsubscribe_opStore = subscribe(opStore, $$value => $$invalidate(20, $opStore = $$value)), opStore);
@@ -36079,13 +36082,13 @@
 	class OperationManage extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$b, create_fragment$b, safe_not_equal, { opStore: 0 }, null, [-1, -1]);
+			init(this, options, instance$c, create_fragment$c, safe_not_equal, { opStore: 0 }, null, [-1, -1]);
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "OperationManage",
 				options,
-				id: create_fragment$b.name
+				id: create_fragment$c.name
 			});
 
 			const { ctx } = this.$$;
@@ -36182,7 +36185,7 @@
 		return block;
 	}
 
-	function create_fragment$a(ctx) {
+	function create_fragment$b(ctx) {
 		let if_block_anchor;
 		let current;
 		let if_block = /*geodesic*/ ctx[3] && create_if_block$a(ctx);
@@ -36241,7 +36244,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$a.name,
+			id: create_fragment$b.name,
 			type: "component",
 			source: "",
 			ctx
@@ -36250,7 +36253,7 @@
 		return block;
 	}
 
-	function instance$a($$self, $$props, $$invalidate) {
+	function instance$b($$self, $$props, $$invalidate) {
 		let geodesic;
 		let _latLngs;
 		let { $$slots: slots = {}, $$scope } = $$props;
@@ -36313,7 +36316,7 @@
 		constructor(options) {
 			super(options);
 
-			init(this, options, instance$a, create_fragment$a, safe_not_equal, {
+			init(this, options, instance$b, create_fragment$b, safe_not_equal, {
 				latLngs: 5,
 				weight: 0,
 				color: 1,
@@ -36324,7 +36327,7 @@
 				component: this,
 				tagName: "Geodesic",
 				options,
-				id: create_fragment$a.name
+				id: create_fragment$b.name
 			});
 
 			const { ctx } = this.$$;
@@ -37694,7 +37697,7 @@
 		return block;
 	}
 
-	function create_fragment$9(ctx) {
+	function create_fragment$a(ctx) {
 		let h1;
 		let t0_value = /*operation*/ ctx[1].name + "";
 		let t0;
@@ -37832,7 +37835,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$9.name,
+			id: create_fragment$a.name,
 			type: "component",
 			source: "",
 			ctx
@@ -37864,7 +37867,7 @@
 		}
 	}
 
-	function instance$9($$self, $$props, $$invalidate) {
+	function instance$a($$self, $$props, $$invalidate) {
 		let zones;
 		let layers;
 
@@ -38074,13 +38077,13 @@
 	class OperationMap extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$9, create_fragment$9, safe_not_equal, { opStore: 0 }, null, [-1, -1]);
+			init(this, options, instance$a, create_fragment$a, safe_not_equal, { opStore: 0 }, null, [-1, -1]);
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "OperationMap",
 				options,
-				id: create_fragment$9.name
+				id: create_fragment$a.name
 			});
 
 			const { ctx } = this.$$;
@@ -38589,7 +38592,7 @@
 		return block;
 	}
 
-	function create_fragment$8(ctx) {
+	function create_fragment$9(ctx) {
 		let h1;
 		let t0_value = /*operation*/ ctx[1].name + "";
 		let t0;
@@ -38752,7 +38755,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$8.name,
+			id: create_fragment$9.name,
 			type: "component",
 			source: "",
 			ctx
@@ -38761,7 +38764,7 @@
 		return block;
 	}
 
-	function instance$8($$self, $$props, $$invalidate) {
+	function instance$9($$self, $$props, $$invalidate) {
 		let isOwner;
 		let teams;
 
@@ -38978,13 +38981,13 @@
 	class OperationPermissions extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$8, create_fragment$8, safe_not_equal, { opStore: 0 });
+			init(this, options, instance$9, create_fragment$9, safe_not_equal, { opStore: 0 });
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "OperationPermissions",
 				options,
-				id: create_fragment$8.name
+				id: create_fragment$9.name
 			});
 
 			const { ctx } = this.$$;
@@ -40017,7 +40020,7 @@
 		return block;
 	}
 
-	function create_fragment$7(ctx) {
+	function create_fragment$8(ctx) {
 		let div1;
 		let div0;
 		let t0_value = /*operation*/ ctx[1].name + "";
@@ -40306,7 +40309,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$7.name,
+			id: create_fragment$8.name,
 			type: "component",
 			source: "",
 			ctx
@@ -40315,7 +40318,7 @@
 		return block;
 	}
 
-	function instance$7($$self, $$props, $$invalidate) {
+	function instance$8($$self, $$props, $$invalidate) {
 		let operation;
 		let order;
 		let graphStartTime;
@@ -40751,13 +40754,13 @@
 	class OperationGraph extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$7, create_fragment$7, safe_not_equal, { opStore: 0 }, null, [-1, -1]);
+			init(this, options, instance$8, create_fragment$8, safe_not_equal, { opStore: 0 }, null, [-1, -1]);
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "OperationGraph",
 				options,
-				id: create_fragment$7.name
+				id: create_fragment$8.name
 			});
 
 			const { ctx } = this.$$;
@@ -40900,7 +40903,7 @@
 		return block;
 	}
 
-	function create_fragment$6(ctx) {
+	function create_fragment$7(ctx) {
 		let ul;
 		let li0;
 		let a0;
@@ -41099,7 +41102,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$6.name,
+			id: create_fragment$7.name,
 			type: "component",
 			source: "",
 			ctx
@@ -41108,7 +41111,7 @@
 		return block;
 	}
 
-	function instance$6($$self, $$props, $$invalidate) {
+	function instance$7($$self, $$props, $$invalidate) {
 		let canWrite;
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Operation', slots, []);
@@ -41252,13 +41255,13 @@
 	class Operation extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$6, create_fragment$6, safe_not_equal, { params: 7 });
+			init(this, options, instance$7, create_fragment$7, safe_not_equal, { params: 7 });
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "Operation",
 				options,
-				id: create_fragment$6.name
+				id: create_fragment$7.name
 			});
 		}
 
@@ -41268,6 +41271,115 @@
 
 		set params(value) {
 			throw new Error("<Operation>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+		}
+	}
+
+	/* src/view/TeamJoin.svelte generated by Svelte v3.42.5 */
+
+	function create_fragment$6(ctx) {
+		const block = {
+			c: noop$1,
+			l: function claim(nodes) {
+				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+			},
+			m: noop$1,
+			p: noop$1,
+			i: noop$1,
+			o: noop$1,
+			d: noop$1
+		};
+
+		dispatch_dev("SvelteRegisterBlock", {
+			block,
+			id: create_fragment$6.name,
+			type: "component",
+			source: "",
+			ctx
+		});
+
+		return block;
+	}
+
+	function instance$6($$self, $$props, $$invalidate) {
+		let { $$slots: slots = {}, $$scope } = $$props;
+		validate_slots('TeamJoin', slots, []);
+		let { params = {} } = $$props;
+		let { teamid } = $$props;
+		let token = params.token;
+		const dispatch = createEventDispatcher();
+
+		if (token) {
+			notifyOnError(joinTeamPromise(teamid, token)).then(() => dispatch('refresh'));
+		}
+
+		const writable_props = ['params', 'teamid'];
+
+		Object.keys($$props).forEach(key => {
+			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<TeamJoin> was created with unknown prop '${key}'`);
+		});
+
+		$$self.$$set = $$props => {
+			if ('params' in $$props) $$invalidate(0, params = $$props.params);
+			if ('teamid' in $$props) $$invalidate(1, teamid = $$props.teamid);
+		};
+
+		$$self.$capture_state = () => ({
+			createEventDispatcher,
+			notifyOnError,
+			joinTeamPromise,
+			params,
+			teamid,
+			token,
+			dispatch
+		});
+
+		$$self.$inject_state = $$props => {
+			if ('params' in $$props) $$invalidate(0, params = $$props.params);
+			if ('teamid' in $$props) $$invalidate(1, teamid = $$props.teamid);
+			if ('token' in $$props) token = $$props.token;
+		};
+
+		if ($$props && "$$inject" in $$props) {
+			$$self.$inject_state($$props.$$inject);
+		}
+
+		return [params, teamid];
+	}
+
+	class TeamJoin extends SvelteComponentDev {
+		constructor(options) {
+			super(options);
+			init(this, options, instance$6, create_fragment$6, safe_not_equal, { params: 0, teamid: 1 });
+
+			dispatch_dev("SvelteRegisterComponent", {
+				component: this,
+				tagName: "TeamJoin",
+				options,
+				id: create_fragment$6.name
+			});
+
+			const { ctx } = this.$$;
+			const props = options.props || {};
+
+			if (/*teamid*/ ctx[1] === undefined && !('teamid' in props)) {
+				console.warn("<TeamJoin> was created without expected prop 'teamid'");
+			}
+		}
+
+		get params() {
+			throw new Error("<TeamJoin>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+		}
+
+		set params(value) {
+			throw new Error("<TeamJoin>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+		}
+
+		get teamid() {
+			throw new Error("<TeamJoin>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+		}
+
+		set teamid(value) {
+			throw new Error("<TeamJoin>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
 		}
 	}
 
@@ -44313,7 +44425,7 @@
 	/* src/view/Team.svelte generated by Svelte v3.42.5 */
 	const file$1 = "src/view/Team.svelte";
 
-	// (67:2) {#if isOwner}
+	// (74:2) {#if isOwner}
 	function create_if_block$1(ctx) {
 		let li0;
 		let a0;
@@ -44336,14 +44448,14 @@
 				t2 = text("Settings");
 				attr_dev(a0, "class", "nav-link");
 				attr_dev(a0, "href", '#/team/' + /*teamid*/ ctx[1] + '/manage');
-				add_location(a0, file$1, 68, 6, 1841);
+				add_location(a0, file$1, 75, 6, 2002);
 				attr_dev(li0, "class", "nav-item");
-				add_location(li0, file$1, 67, 4, 1813);
+				add_location(li0, file$1, 74, 4, 1974);
 				attr_dev(a1, "class", "nav-link");
 				attr_dev(a1, "href", '#/team/' + /*teamid*/ ctx[1] + '/settings');
-				add_location(a1, file$1, 73, 6, 1979);
+				add_location(a1, file$1, 80, 6, 2140);
 				attr_dev(li1, "class", "nav-item");
-				add_location(li1, file$1, 72, 4, 1951);
+				add_location(li1, file$1, 79, 4, 2112);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, li0, anchor);
@@ -44377,7 +44489,7 @@
 			block,
 			id: create_if_block$1.name,
 			type: "if",
-			source: "(67:2) {#if isOwner}",
+			source: "(74:2) {#if isOwner}",
 			ctx
 		});
 
@@ -44434,20 +44546,20 @@
 				create_component(router.$$.fragment);
 				attr_dev(a0, "class", "nav-link");
 				attr_dev(a0, "href", '#/team/' + /*teamid*/ ctx[1] + '/list');
-				add_location(a0, file$1, 61, 4, 1599);
+				add_location(a0, file$1, 68, 4, 1760);
 				attr_dev(li0, "class", "nav-item");
-				add_location(li0, file$1, 60, 2, 1573);
+				add_location(li0, file$1, 67, 2, 1734);
 				attr_dev(a1, "class", "nav-link");
 				attr_dev(a1, "href", '#/team/' + /*teamid*/ ctx[1] + '/map');
-				add_location(a1, file$1, 64, 4, 1711);
+				add_location(a1, file$1, 71, 4, 1872);
 				attr_dev(li1, "class", "nav-item");
-				add_location(li1, file$1, 63, 2, 1685);
+				add_location(li1, file$1, 70, 2, 1846);
 				attr_dev(button, "class", "btn btn-primary");
-				add_location(button, file$1, 78, 2, 2099);
+				add_location(button, file$1, 85, 2, 2260);
 				attr_dev(ul, "class", "nav nav-tabs");
-				add_location(ul, file$1, 59, 0, 1545);
+				add_location(ul, file$1, 66, 0, 1706);
 				attr_dev(div, "class", "container");
-				add_location(div, file$1, 81, 0, 2176);
+				add_location(div, file$1, 88, 0, 2337);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -44553,7 +44665,8 @@
 			'/manage': wrap$1({
 				component: TeamManage,
 				props: { teamStore }
-			})
+			}),
+			'/jlt/:token': wrap$1({ component: TeamJoin, props: { teamid } })
 		};
 
 		function onRouteEvent(event) {
@@ -44583,6 +44696,7 @@
 		$$self.$capture_state = () => ({
 			Router,
 			active,
+			TeamJoin,
 			TeamList,
 			TeamManage,
 			TeamAgentMap,
