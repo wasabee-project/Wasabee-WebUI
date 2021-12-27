@@ -3,6 +3,7 @@
 
   import { login } from '../auth';
   import { Nav, NavLink } from 'sveltestrap';
+  import { getServers } from '../config';
 
   export let disabled: boolean;
   let connecting: string = null;
@@ -10,29 +11,7 @@
 
   const dispatch = createEventDispatcher();
 
-  const servers = [
-    {
-      name: 'Americas Server',
-      url: 'https://am.wasabee.rocks',
-    },
-    {
-      name: 'EU Server',
-      url: 'https://eu.wasabee.rocks',
-    },
-    {
-      name: 'Asia/Pacific Server',
-      url: 'https://ap.wasabee.rocks',
-    },
-  ];
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const urlServer = urlParams.get('server');
-
-  if (urlServer)
-    servers.push({
-      name: 'Custom: ' + urlServer,
-      url: urlServer,
-    });
+  const servers = getServers();
 
   const disabledServer: { [url: string]: true } = {};
 
