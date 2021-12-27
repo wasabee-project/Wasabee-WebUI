@@ -21161,6 +21161,44 @@
 	let config = null;
 	const SERVER_KEY = 'wasabee-server';
 	let server = localStorage[SERVER_KEY] || 'https://am.wasabee.rocks';
+	const SERVERS_KEY = 'wasabee-servers';
+	const servers = [
+	    {
+	        name: 'Americas Server',
+	        url: 'https://am.wasabee.rocks',
+	    },
+	    {
+	        name: 'EU Server',
+	        url: 'https://eu.wasabee.rocks',
+	    },
+	    {
+	        name: 'Asia/Pacific Server',
+	        url: 'https://ap.wasabee.rocks',
+	    },
+	];
+	try {
+	    const ss = JSON.parse(localStorage.get(SERVERS_KEY));
+	    for (const server of ss) {
+	        if (!servers.find((s) => s.url === server.url))
+	            servers.push(server);
+	    }
+	}
+	catch (_a) { }
+	const urlParams = new URLSearchParams(window.location.search);
+	const urlServer = urlParams.get('server');
+	if (urlServer && !servers.find((s) => s.url === urlServer)) {
+	    servers.push({
+	        name: urlServer,
+	        url: urlServer,
+	    });
+	    setServer(urlServer);
+	}
+	localStorage[SERVERS_KEY] = JSON.stringify(servers);
+	// drop query parameters
+	window.history.pushState({}, document.title, window.location.pathname + window.location.hash);
+	function getServers() {
+	    return servers;
+	}
 	function setConfig(c) {
 	    config = c;
 	    config._updateList = new Map();
@@ -22001,8 +22039,8 @@
 	        this.rk = data.rk;
 	        this.jlt = data.jlt;
 	        // convert to string
-	        this.vt = data.vt ? data.vt + "" : null;
-	        this.vr = data.vr ? data.vr + "" : null;
+	        this.vt = data.vt ? data.vt + '' : null;
+	        this.vr = data.vr ? data.vr + '' : '0';
 	        this.agents = data.agents.map((a) => new WasabeeAgent(a));
 	        teamCache.set(this.id, this);
 	    }
@@ -22531,11 +22569,11 @@
 
 	function get_each_context$d(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[12] = list[i];
+		child_ctx[10] = list[i];
 		return child_ctx;
 	}
 
-	// (64:5) <NavLink href="https://github.com/wasabee-project/Wasabee-IITC"       >
+	// (45:5) <NavLink href="https://github.com/wasabee-project/Wasabee-IITC"       >
 	function create_default_slot_3$2(ctx) {
 		let t;
 
@@ -22555,14 +22593,14 @@
 			block,
 			id: create_default_slot_3$2.name,
 			type: "slot",
-			source: "(64:5) <NavLink href=\\\"https://github.com/wasabee-project/Wasabee-IITC\\\"       >",
+			source: "(45:5) <NavLink href=\\\"https://github.com/wasabee-project/Wasabee-IITC\\\"       >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (66:5) <NavLink href="https://enl.rocks/-dEHQ">
+	// (47:5) <NavLink href="https://enl.rocks/-dEHQ">
 	function create_default_slot_2$3(ctx) {
 		let t;
 
@@ -22582,14 +22620,14 @@
 			block,
 			id: create_default_slot_2$3.name,
 			type: "slot",
-			source: "(66:5) <NavLink href=\\\"https://enl.rocks/-dEHQ\\\">",
+			source: "(47:5) <NavLink href=\\\"https://enl.rocks/-dEHQ\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (66:63) <NavLink       href="https://www.youtube.com/playlist?list=PLyku9nmtwrADKQM9_EZk7NYbZXVOrBhXa"       >
+	// (47:63) <NavLink       href="https://www.youtube.com/playlist?list=PLyku9nmtwrADKQM9_EZk7NYbZXVOrBhXa"       >
 	function create_default_slot_1$3(ctx) {
 		let t;
 
@@ -22609,14 +22647,14 @@
 			block,
 			id: create_default_slot_1$3.name,
 			type: "slot",
-			source: "(66:63) <NavLink       href=\\\"https://www.youtube.com/playlist?list=PLyku9nmtwrADKQM9_EZk7NYbZXVOrBhXa\\\"       >",
+			source: "(47:63) <NavLink       href=\\\"https://www.youtube.com/playlist?list=PLyku9nmtwrADKQM9_EZk7NYbZXVOrBhXa\\\"       >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (63:2) <Nav class="nav-masthead" justified     >
+	// (44:2) <Nav class="nav-masthead" justified     >
 	function create_default_slot$5(ctx) {
 		let navlink0;
 		let navlink1;
@@ -22676,21 +22714,21 @@
 			p: function update(ctx, dirty) {
 				const navlink0_changes = {};
 
-				if (dirty & /*$$scope*/ 32768) {
+				if (dirty & /*$$scope*/ 8192) {
 					navlink0_changes.$$scope = { dirty, ctx };
 				}
 
 				navlink0.$set(navlink0_changes);
 				const navlink1_changes = {};
 
-				if (dirty & /*$$scope*/ 32768) {
+				if (dirty & /*$$scope*/ 8192) {
 					navlink1_changes.$$scope = { dirty, ctx };
 				}
 
 				navlink1.$set(navlink1_changes);
 				const navlink2_changes = {};
 
-				if (dirty & /*$$scope*/ 32768) {
+				if (dirty & /*$$scope*/ 8192) {
 					navlink2_changes.$$scope = { dirty, ctx };
 				}
 
@@ -22724,14 +22762,14 @@
 			block,
 			id: create_default_slot$5.name,
 			type: "slot",
-			source: "(63:2) <Nav class=\\\"nav-masthead\\\" justified     >",
+			source: "(44:2) <Nav class=\\\"nav-masthead\\\" justified     >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (91:30) {#if connecting == server.url}
+	// (72:30) {#if connecting == server.url}
 	function create_if_block$l(ctx) {
 		let span;
 
@@ -22741,7 +22779,7 @@
 				attr_dev(span, "class", "spinner-border spinner-border-sm");
 				attr_dev(span, "role", "status");
 				attr_dev(span, "aria-hidden", "true");
-				add_location(span, file$p, 90, 60, 3076);
+				add_location(span, file$p, 71, 60, 2656);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -22755,27 +22793,27 @@
 			block,
 			id: create_if_block$l.name,
 			type: "if",
-			source: "(91:30) {#if connecting == server.url}",
+			source: "(72:30) {#if connecting == server.url}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (85:4) {#each servers as server}
+	// (66:4) {#each servers as server}
 	function create_each_block$d(ctx) {
 		let button;
 		let t0;
-		let t1_value = /*server*/ ctx[12].name + "";
+		let t1_value = /*server*/ ctx[10].name + "";
 		let t1;
 		let t2;
 		let button_class_value;
 		let mounted;
 		let dispose;
-		let if_block = /*connecting*/ ctx[0] == /*server*/ ctx[12].url && create_if_block$l(ctx);
+		let if_block = /*connecting*/ ctx[0] == /*server*/ ctx[10].url && create_if_block$l(ctx);
 
 		function click_handler() {
-			return /*click_handler*/ ctx[6](/*server*/ ctx[12]);
+			return /*click_handler*/ ctx[6](/*server*/ ctx[10]);
 		}
 
 		const block = {
@@ -22786,11 +22824,11 @@
 				if (if_block) if_block.c();
 				t2 = space();
 
-				attr_dev(button, "class", button_class_value = 'btn btn-block ' + (/*disabledServer*/ ctx[2][/*server*/ ctx[12].url]
+				attr_dev(button, "class", button_class_value = 'btn btn-block ' + (/*disabledServer*/ ctx[2][/*server*/ ctx[10].url]
 				? 'btn-danger'
 				: 'btn-success'));
 
-				add_location(button, file$p, 85, 6, 2850);
+				add_location(button, file$p, 66, 6, 2430);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -22807,7 +22845,7 @@
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
 
-				if (/*connecting*/ ctx[0] == /*server*/ ctx[12].url) {
+				if (/*connecting*/ ctx[0] == /*server*/ ctx[10].url) {
 					if (if_block) ; else {
 						if_block = create_if_block$l(ctx);
 						if_block.c();
@@ -22818,7 +22856,7 @@
 					if_block = null;
 				}
 
-				if (dirty & /*disabledServer*/ 4 && button_class_value !== (button_class_value = 'btn btn-block ' + (/*disabledServer*/ ctx[2][/*server*/ ctx[12].url]
+				if (dirty & /*disabledServer*/ 4 && button_class_value !== (button_class_value = 'btn btn-block ' + (/*disabledServer*/ ctx[2][/*server*/ ctx[10].url]
 				? 'btn-danger'
 				: 'btn-success'))) {
 					attr_dev(button, "class", button_class_value);
@@ -22836,7 +22874,7 @@
 			block,
 			id: create_each_block$d.name,
 			type: "each",
-			source: "(85:4) {#each servers as server}",
+			source: "(66:4) {#each servers as server}",
 			ctx
 		});
 
@@ -22923,31 +22961,31 @@
 				p2.textContent = "Each server is a data-island, they do not share op/team info. If you do not\n    see teams/operations you expect, please verify with your operator which\n    server is being used.";
 				attr_dev(link, "href", "https://cdn2.wasabee.rocks/css/homepage.css");
 				attr_dev(link, "rel", "stylesheet");
-				add_location(link, file$p, 58, 2, 1937);
+				add_location(link, file$p, 39, 2, 1517);
 				attr_dev(header, "class", "masthead mx-auto mb-auto");
-				add_location(header, file$p, 61, 0, 2030);
+				add_location(header, file$p, 42, 0, 1610);
 				attr_dev(h1, "class", "display-2 font-weight-bold");
-				add_location(h1, file$p, 74, 2, 2509);
+				add_location(h1, file$p, 55, 2, 2089);
 				attr_dev(p0, "class", "h2");
-				add_location(p0, file$p, 75, 2, 2563);
-				add_location(hr, file$p, 76, 2, 2596);
+				add_location(p0, file$p, 56, 2, 2143);
+				add_location(hr, file$p, 57, 2, 2176);
 				attr_dev(a, "href", "https://cdn2.wasabee.rocks/iitcplugin/prod/wasabee.user.js");
 				attr_dev(a, "class", "btn btn-lg btn-success");
-				add_location(a, file$p, 78, 4, 2626);
+				add_location(a, file$p, 59, 4, 2206);
 				attr_dev(p1, "class", "lead");
-				add_location(p1, file$p, 77, 2, 2605);
+				add_location(p1, file$p, 58, 2, 2185);
 				attr_dev(div, "class", "lead serverlist");
-				add_location(div, file$p, 83, 2, 2784);
+				add_location(div, file$p, 64, 2, 2364);
 				attr_dev(input, "class", "form-check-input");
 				attr_dev(input, "type", "checkbox");
-				add_location(input, file$p, 99, 5, 3287);
+				add_location(input, file$p, 80, 5, 2867);
 				attr_dev(label, "class", "form-check-inline");
-				add_location(label, file$p, 98, 2, 3249);
+				add_location(label, file$p, 79, 2, 2829);
 				attr_dev(p2, "class", "small tips");
-				add_location(p2, file$p, 105, 2, 3423);
+				add_location(p2, file$p, 86, 2, 3003);
 				attr_dev(main, "role", "main");
 				attr_dev(main, "class", "cover-container text-center mx-auto");
-				add_location(main, file$p, 73, 0, 2444);
+				add_location(main, file$p, 54, 0, 2024);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -22991,7 +23029,7 @@
 			p: function update(ctx, [dirty]) {
 				const nav_changes = {};
 
-				if (dirty & /*$$scope*/ 32768) {
+				if (dirty & /*$$scope*/ 8192) {
 					nav_changes.$$scope = { dirty, ctx };
 				}
 
@@ -23102,30 +23140,7 @@
 		let connecting = null;
 		let selectAccount = false;
 		const dispatch = createEventDispatcher();
-
-		const servers = [
-			{
-				name: 'Americas Server',
-				url: 'https://am.wasabee.rocks'
-			},
-			{
-				name: 'EU Server',
-				url: 'https://eu.wasabee.rocks'
-			},
-			{
-				name: 'Asia/Pacific Server',
-				url: 'https://ap.wasabee.rocks'
-			}
-		];
-
-		const urlParams = new URLSearchParams(window.location.search);
-		const urlServer = urlParams.get('server');
-
-		if (urlServer) servers.push({
-			name: 'Custom: ' + urlServer,
-			url: urlServer
-		});
-
+		const servers = getServers();
 		const disabledServer = {};
 
 		function loginTo(url) {
@@ -23168,13 +23183,12 @@
 			login,
 			Nav,
 			NavLink,
+			getServers,
 			disabled,
 			connecting,
 			selectAccount,
 			dispatch,
 			servers,
-			urlParams,
-			urlServer,
 			disabledServer,
 			loginTo
 		});
@@ -24851,7 +24865,7 @@
 				add_location(span15, file$n, 119, 10, 4349);
 				add_location(p3, file$n, 117, 8, 4269);
 				attr_dev(input0, "type", "text");
-				attr_dev(input0, "pattern", "[a-zA-Z0-9]{3,}");
+				attr_dev(input0, "pattern", '[a-zA-Z0-9]{3,}');
 				attr_dev(input0, "placeholder", input0_placeholder_value = /*me*/ ctx[0].communityname || 'My Agent Name');
 				attr_dev(input0, "class", "svelte-18ow2sz");
 				toggle_class(input0, "unverified", /*commMayAskProof*/ ctx[6]);
@@ -43412,185 +43426,185 @@
 				attr_dev(div1, "class", "card mb-2");
 				add_location(div1, file$2, 97, 2, 2906);
 				attr_dev(div2, "class", "card-header");
-				add_location(div2, file$2, 114, 4, 3419);
-				add_location(input0, file$2, 118, 23, 3544);
-				add_location(label0, file$2, 117, 8, 3514);
-				add_location(div3, file$2, 116, 6, 3500);
-				add_location(hr, file$2, 125, 8, 3683);
-				add_location(button0, file$2, 127, 28, 3733);
-				add_location(label1, file$2, 126, 8, 3698);
-				add_location(div4, file$2, 124, 6, 3669);
+				add_location(div2, file$2, 116, 4, 3483);
+				add_location(input0, file$2, 120, 23, 3608);
+				add_location(label0, file$2, 119, 8, 3578);
+				add_location(div3, file$2, 118, 6, 3564);
+				add_location(hr, file$2, 127, 8, 3747);
+				add_location(button0, file$2, 129, 28, 3797);
+				add_location(label1, file$2, 128, 8, 3762);
+				add_location(div4, file$2, 126, 6, 3733);
 				attr_dev(div5, "class", "card-body");
-				add_location(div5, file$2, 115, 4, 3470);
+				add_location(div5, file$2, 117, 4, 3534);
 				attr_dev(div6, "class", "card mb-2");
-				add_location(div6, file$2, 113, 2, 3391);
+				add_location(div6, file$2, 115, 2, 3455);
 				attr_dev(div7, "class", "card-header");
-				add_location(div7, file$2, 134, 4, 3860);
+				add_location(div7, file$2, 136, 4, 3924);
 				attr_dev(input1, "type", "text");
 				attr_dev(input1, "placeholder", "afdviaren.com");
-				add_location(input1, file$2, 138, 8, 4005);
+				add_location(input1, file$2, 140, 8, 4069);
 				attr_dev(span0, "class", "dim small");
-				add_location(span0, file$2, 144, 8, 4156);
-				add_location(div8, file$2, 136, 6, 3955);
+				add_location(span0, file$2, 146, 8, 4220);
+				add_location(div8, file$2, 138, 6, 4019);
 				attr_dev(input2, "type", "text");
 				attr_dev(input2, "placeholder", "VnNfDerpL1nKsppMerZvwaXX");
-				add_location(input2, file$2, 148, 8, 4293);
+				add_location(input2, file$2, 150, 8, 4357);
 				attr_dev(span1, "class", "dim small");
-				add_location(span1, file$2, 154, 8, 4455);
-				add_location(div9, file$2, 146, 6, 4246);
+				add_location(span1, file$2, 156, 8, 4519);
+				add_location(div9, file$2, 148, 6, 4310);
 				attr_dev(div10, "class", "dim small");
-				add_location(div10, file$2, 156, 6, 4522);
-				add_location(button1, file$2, 162, 6, 4834);
+				add_location(div10, file$2, 158, 6, 4586);
+				add_location(button1, file$2, 164, 6, 4898);
 				attr_dev(div11, "class", "card-body");
-				add_location(div11, file$2, 135, 4, 3925);
+				add_location(div11, file$2, 137, 4, 3989);
 				attr_dev(div12, "class", "card mb-2");
-				add_location(div12, file$2, 133, 2, 3832);
+				add_location(div12, file$2, 135, 2, 3896);
 				attr_dev(div13, "class", "card-header");
-				add_location(div13, file$2, 168, 4, 4996);
+				add_location(div13, file$2, 170, 4, 5060);
 				attr_dev(input3, "type", "text");
 				attr_dev(input3, "placeholder", "1234");
-				add_location(input3, file$2, 172, 8, 5110);
-				add_location(div14, file$2, 170, 6, 5075);
+				add_location(input3, file$2, 174, 8, 5174);
+				add_location(div14, file$2, 172, 6, 5139);
 				option0.__value = "0";
 				option0.value = option0.__value;
-				add_location(option0, file$2, 182, 10, 5365);
+				add_location(option0, file$2, 184, 10, 5429);
 				option1.__value = "1";
 				option1.value = option1.__value;
-				add_location(option1, file$2, 183, 10, 5406);
+				add_location(option1, file$2, 185, 10, 5470);
 				option2.__value = "2";
 				option2.value = option2.__value;
-				add_location(option2, file$2, 184, 10, 5451);
+				add_location(option2, file$2, 186, 10, 5515);
 				option3.__value = "3";
 				option3.value = option3.__value;
-				add_location(option3, file$2, 185, 10, 5497);
+				add_location(option3, file$2, 187, 10, 5561);
 				option4.__value = "4";
 				option4.value = option4.__value;
-				add_location(option4, file$2, 186, 10, 5541);
+				add_location(option4, file$2, 188, 10, 5605);
 				option5.__value = "5";
 				option5.value = option5.__value;
-				add_location(option5, file$2, 187, 10, 5589);
+				add_location(option5, file$2, 189, 10, 5653);
 				option6.__value = "6";
 				option6.value = option6.__value;
-				add_location(option6, file$2, 188, 10, 5634);
+				add_location(option6, file$2, 190, 10, 5698);
 				option7.__value = "7";
 				option7.value = option7.__value;
-				add_location(option7, file$2, 189, 10, 5683);
+				add_location(option7, file$2, 191, 10, 5747);
 				option8.__value = "8";
 				option8.value = option8.__value;
-				add_location(option8, file$2, 190, 10, 5733);
+				add_location(option8, file$2, 192, 10, 5797);
 				option9.__value = "9";
 				option9.value = option9.__value;
-				add_location(option9, file$2, 191, 10, 5784);
+				add_location(option9, file$2, 193, 10, 5848);
 				option10.__value = "10";
 				option10.value = option10.__value;
-				add_location(option10, file$2, 192, 10, 5832);
+				add_location(option10, file$2, 194, 10, 5896);
 				option11.__value = "11";
 				option11.value = option11.__value;
-				add_location(option11, file$2, 193, 10, 5887);
+				add_location(option11, file$2, 195, 10, 5951);
 				option12.__value = "12";
 				option12.value = option12.__value;
-				add_location(option12, file$2, 194, 10, 5936);
+				add_location(option12, file$2, 196, 10, 6000);
 				option13.__value = "13";
 				option13.value = option13.__value;
-				add_location(option13, file$2, 195, 10, 5984);
+				add_location(option13, file$2, 197, 10, 6048);
 				option14.__value = "100";
 				option14.value = option14.__value;
-				add_location(option14, file$2, 196, 10, 6028);
+				add_location(option14, file$2, 198, 10, 6092);
 				option15.__value = "101";
 				option15.value = option15.__value;
-				add_location(option15, file$2, 197, 10, 6074);
+				add_location(option15, file$2, 199, 10, 6138);
 				option16.__value = "102";
 				option16.value = option16.__value;
-				add_location(option16, file$2, 198, 10, 6120);
+				add_location(option16, file$2, 200, 10, 6184);
 				option17.__value = "103";
 				option17.value = option17.__value;
-				add_location(option17, file$2, 199, 10, 6166);
+				add_location(option17, file$2, 201, 10, 6230);
 				option18.__value = "104";
 				option18.value = option18.__value;
-				add_location(option18, file$2, 200, 10, 6212);
+				add_location(option18, file$2, 202, 10, 6276);
 				option19.__value = "105";
 				option19.value = option19.__value;
-				add_location(option19, file$2, 201, 10, 6258);
+				add_location(option19, file$2, 203, 10, 6322);
 				option20.__value = "106";
 				option20.value = option20.__value;
-				add_location(option20, file$2, 202, 10, 6304);
+				add_location(option20, file$2, 204, 10, 6368);
 				option21.__value = "107";
 				option21.value = option21.__value;
-				add_location(option21, file$2, 203, 10, 6350);
+				add_location(option21, file$2, 205, 10, 6414);
 				option22.__value = "108";
 				option22.value = option22.__value;
-				add_location(option22, file$2, 204, 10, 6396);
+				add_location(option22, file$2, 206, 10, 6460);
 				option23.__value = "109";
 				option23.value = option23.__value;
-				add_location(option23, file$2, 205, 10, 6442);
+				add_location(option23, file$2, 207, 10, 6506);
 				option24.__value = "110";
 				option24.value = option24.__value;
-				add_location(option24, file$2, 206, 10, 6488);
+				add_location(option24, file$2, 208, 10, 6552);
 				option25.__value = "111";
 				option25.value = option25.__value;
-				add_location(option25, file$2, 207, 10, 6535);
+				add_location(option25, file$2, 209, 10, 6599);
 				option26.__value = "112";
 				option26.value = option26.__value;
-				add_location(option26, file$2, 208, 10, 6582);
+				add_location(option26, file$2, 210, 10, 6646);
 				option27.__value = "113";
 				option27.value = option27.__value;
-				add_location(option27, file$2, 209, 10, 6629);
+				add_location(option27, file$2, 211, 10, 6693);
 				option28.__value = "114";
 				option28.value = option28.__value;
-				add_location(option28, file$2, 210, 10, 6676);
+				add_location(option28, file$2, 212, 10, 6740);
 				option29.__value = "115";
 				option29.value = option29.__value;
-				add_location(option29, file$2, 211, 10, 6723);
+				add_location(option29, file$2, 213, 10, 6787);
 				option30.__value = "116";
 				option30.value = option30.__value;
-				add_location(option30, file$2, 212, 10, 6770);
+				add_location(option30, file$2, 214, 10, 6834);
 				option31.__value = "117";
 				option31.value = option31.__value;
-				add_location(option31, file$2, 213, 10, 6817);
+				add_location(option31, file$2, 215, 10, 6881);
 				option32.__value = "118";
 				option32.value = option32.__value;
-				add_location(option32, file$2, 214, 10, 6864);
+				add_location(option32, file$2, 216, 10, 6928);
 				option33.__value = "119";
 				option33.value = option33.__value;
-				add_location(option33, file$2, 215, 10, 6911);
+				add_location(option33, file$2, 217, 10, 6975);
 				attr_dev(select, "id", "vrole");
 				if (/*team*/ ctx[1].vr === void 0) add_render_callback(() => /*select_change_handler*/ ctx[20].call(select));
-				add_location(select, file$2, 181, 8, 5294);
-				add_location(div15, file$2, 179, 6, 5259);
+				add_location(select, file$2, 183, 8, 5358);
+				add_location(div15, file$2, 181, 6, 5323);
 				attr_dev(div16, "class", "dim small");
-				add_location(div16, file$2, 218, 6, 6985);
-				add_location(button2, file$2, 221, 6, 7091);
+				add_location(div16, file$2, 220, 6, 7049);
+				add_location(button2, file$2, 223, 6, 7155);
 				attr_dev(div17, "class", "card-body");
-				add_location(div17, file$2, 169, 4, 5045);
+				add_location(div17, file$2, 171, 4, 5109);
 				attr_dev(div18, "class", "card mb-2");
-				add_location(div18, file$2, 167, 2, 4968);
+				add_location(div18, file$2, 169, 2, 5032);
 				attr_dev(div19, "class", "card-header");
-				add_location(div19, file$2, 227, 4, 7241);
-				add_location(textarea, file$2, 229, 6, 7324);
-				add_location(button3, file$2, 230, 6, 7369);
+				add_location(div19, file$2, 229, 4, 7305);
+				add_location(textarea, file$2, 231, 6, 7388);
+				add_location(button3, file$2, 232, 6, 7433);
 				attr_dev(div20, "class", "card-body");
-				add_location(div20, file$2, 228, 4, 7294);
+				add_location(div20, file$2, 230, 4, 7358);
 				attr_dev(div21, "class", "card mb-2");
-				add_location(div21, file$2, 226, 2, 7213);
+				add_location(div21, file$2, 228, 2, 7277);
 				attr_dev(div22, "class", "card-header");
-				add_location(div22, file$2, 234, 4, 7469);
+				add_location(div22, file$2, 236, 4, 7533);
 				attr_dev(input4, "type", "text");
 				attr_dev(input4, "placeholder", "new owner");
-				add_location(input4, file$2, 236, 6, 7551);
+				add_location(input4, file$2, 238, 6, 7615);
 				attr_dev(div23, "class", "dim small");
-				add_location(div23, file$2, 242, 6, 7687);
+				add_location(div23, file$2, 244, 6, 7751);
 				attr_dev(div24, "class", "card-body");
-				add_location(div24, file$2, 235, 4, 7521);
+				add_location(div24, file$2, 237, 4, 7585);
 				attr_dev(div25, "class", "card mb-2");
-				add_location(div25, file$2, 233, 2, 7441);
+				add_location(div25, file$2, 235, 2, 7505);
 				attr_dev(div26, "class", "card-header");
-				add_location(div26, file$2, 249, 4, 7878);
+				add_location(div26, file$2, 251, 4, 7942);
 				attr_dev(span2, "id", "teamid");
-				add_location(span2, file$2, 251, 23, 7970);
+				add_location(span2, file$2, 253, 23, 8034);
 				attr_dev(div27, "class", "card-body");
-				add_location(div27, file$2, 250, 4, 7923);
+				add_location(div27, file$2, 252, 4, 7987);
 				attr_dev(div28, "class", "card mb-2");
-				add_location(div28, file$2, 248, 2, 7850);
+				add_location(div28, file$2, 250, 2, 7914);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, h1, anchor);
@@ -43832,9 +43846,10 @@
 				div = element("div");
 				button = element("button");
 				button.textContent = "Generate Join Link";
-				add_location(button, file$2, 109, 8, 3293);
+				attr_dev(button, "class", "btn btn-info");
+				add_location(button, file$2, 109, 8, 3316);
 				attr_dev(div, "class", "card-body");
-				add_location(div, file$2, 108, 6, 3261);
+				add_location(div, file$2, 108, 6, 3284);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -43879,12 +43894,13 @@
 			c: function create() {
 				div = element("div");
 				a = element("a");
-				t0 = text("copy this link");
+				t0 = text("Copy this link");
 				t1 = text("\n        to share with agents\n        ");
 				button = element("button");
 				button.textContent = "remove";
 				attr_dev(a, "href", a_href_value = getServer() + '/api/v1/team/' + /*team*/ ctx[1].id + '/join/' + /*team*/ ctx[1].jlt);
 				add_location(a, file$2, 101, 8, 3032);
+				attr_dev(button, "class", "btn btn-danger");
 				add_location(button, file$2, 105, 8, 3180);
 				attr_dev(div, "class", "card-body");
 				add_location(div, file$2, 100, 6, 3000);
