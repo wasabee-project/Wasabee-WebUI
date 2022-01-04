@@ -9,7 +9,7 @@ import {
   getMarkerPromise,
   sendTokenToWasabee,
 } from './server';
-import { notifyInfo, notifyWarn } from './notify';
+import { notifyInfo, notifyWarn, registerToast } from './notify';
 import { WasabeeLink, WasabeeMarker, WasabeeOp } from './model';
 import { getAgent } from './cache';
 
@@ -246,7 +246,10 @@ async function opDataChange(
     case 'Map Change':
     // fallthrough
     default:
-      notifyInfo(data.cmd + ': ' + JSON.stringify(data));
+      registerToast(
+        notifyInfo(data.cmd + ': ' + JSON.stringify(data)),
+        data.updateID
+      );
       console.log(data);
       break;
   }
@@ -262,8 +265,11 @@ async function handleLinkAssignement(
   const to = operation.getPortal(link.toPortalId);
   const agent = await getAgent(link.assignedTo);
   if (from && to && agent)
-    notifyInfo(
-      `Link from ${from.name} to ${to.name} is assigned to ${agent.name}`
+    registerToast(
+      notifyInfo(
+        `Link from ${from.name} to ${to.name} is assigned to ${agent.name}`
+      ),
+      data.updateID
     );
 }
 
@@ -273,7 +279,10 @@ async function handleLinkStatus(operation: WasabeeOp, data: LinkState) {
   const from = operation.getPortal(link.fromPortalId);
   const to = operation.getPortal(link.toPortalId);
   if (from && to)
-    notifyInfo(`Link from ${from.name} to ${to.name} is ${link.state}`);
+    registerToast(
+      notifyInfo(`Link from ${from.name} to ${to.name} is ${link.state}`),
+      data.updateID
+    );
 }
 
 async function handleMarkerAssignement(
@@ -287,8 +296,11 @@ async function handleMarkerAssignement(
   const portal = operation.getPortal(marker.portalId);
   const agent = await getAgent(marker.assignedTo);
   if (portal && agent)
-    notifyInfo(
-      `Marker ${marker.type} on ${portal.name} is assigned ${agent.name}`
+    registerToast(
+      notifyInfo(
+        `Marker ${marker.type} on ${portal.name} is assigned ${agent.name}`
+      ),
+      data.updateID
     );
 }
 
@@ -299,5 +311,8 @@ async function handleMarkerStatus(operation: WasabeeOp, data: MarkerState) {
   // todo: update op
   const portal = operation.getPortal(marker.portalId);
   if (portal)
-    notifyInfo(`Marker ${marker.type} on ${portal.name} is ${marker.state}`);
+    registerToast(
+      notifyInfo(`Marker ${marker.type} on ${portal.name} is ${marker.state}`),
+      data.updateID
+    );
 }

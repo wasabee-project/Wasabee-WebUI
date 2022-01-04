@@ -9,6 +9,7 @@ import { WasabeeLink, WasabeeMarker } from './model';
 
 import { getConfig, getServer } from './config';
 import { getAuthBearer } from './auth';
+import { dismissUpdateID } from './notify';
 
 export default function () {
   return GetWasabeeServer();
@@ -736,8 +737,10 @@ async function generic<T>(request: {
 
     switch (response.status) {
       case 200:
-        if (!request.raw && jsonPayload.updateID)
+        if (!request.raw && jsonPayload.updateID) {
           GetUpdateList().set(jsonPayload.updateID, Date.now());
+          dismissUpdateID(jsonPayload.updateID);
+        }
         return Promise.resolve((request.raw ? payload : jsonPayload) as T);
       // break;
       case 302:
