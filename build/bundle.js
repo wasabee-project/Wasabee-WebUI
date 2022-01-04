@@ -41312,7 +41312,7 @@
 			notifyOnError(joinTeamPromise(teamid, token)).then(() => {
 				dispatch('refresh');
 				replace(`/team/${teamid}/list`);
-				notifyInfo("Welcome aboard");
+				notifyInfo('Welcome aboard');
 			});
 		}
 
@@ -55686,6 +55686,12 @@
 	        // fallthrough
 	        case 'Marker Status Change':
 	        // fallthrough
+	        case 'Task Assignment Change':
+	        // fallthrough
+	        case 'Task Status Change':
+	        // fallthrough
+	        case 'Marker Status Change':
+	        // fallthrough
 	        case 'Map Change':
 	            opDataChange(data);
 	            break;
@@ -55700,6 +55706,8 @@
 	});
 	const updateList = new Map();
 	async function opDataChange(data) {
+	    if (GetUpdateList().has(data.updateID))
+	        return;
 	    if (updateList.has(data.updateID + data.cmd)) {
 	        console.debug('skipping firebase requested update of op since it was our change', data.cmd, data.updateID);
 	        return;
