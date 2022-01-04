@@ -22080,6 +22080,10 @@
 	}
 	const updateToastID = new Map();
 	function registerToast(toast, updateID) {
+	    if (GetUpdateList().has(updateID)) {
+	        toast.remove();
+	        return;
+	    }
 	    if (!updateToastID.has(updateID))
 	        updateToastID.set(updateID, []);
 	    updateToastID.get(updateID).push(toast.uid);
