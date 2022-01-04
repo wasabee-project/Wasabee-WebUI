@@ -25,6 +25,7 @@ export async function getMe(force = false) {
 }
 
 export async function getAgent(gid: GoogleID) {
+  if (!gid) return null;
   const agent = WasabeeAgent.get(gid);
   if (agent) return agent;
 
@@ -40,6 +41,7 @@ export async function getAgent(gid: GoogleID) {
 
 // 60 seconds seems too short for the default here...
 export async function getTeam(teamID: TeamID, maxAgeSeconds = 60) {
+  if (!teamID) return null;
   const cached = WasabeeTeam.get(teamID);
   if (cached) {
     const t = new WasabeeTeam(cached);
