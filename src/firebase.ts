@@ -3,7 +3,12 @@ import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { getLinkPromise, getMarkerPromise, sendTokenToWasabee } from './server';
+import {
+  GetUpdateList,
+  getLinkPromise,
+  getMarkerPromise,
+  sendTokenToWasabee,
+} from './server';
 import { notifyInfo, notifyWarn } from './notify';
 import { WasabeeLink, WasabeeMarker, WasabeeOp } from './model';
 import { getAgent } from './cache';
@@ -175,6 +180,12 @@ onMessage(messaging, (payload) => {
     // fallthrough
     case 'Marker Status Change':
     // fallthrough
+    case 'Task Assignment Change':
+    // fallthrough
+    case 'Task Status Change':
+    // fallthrough
+    case 'Marker Status Change':
+    // fallthrough
     case 'Map Change':
       opDataChange(data);
       break;
@@ -190,8 +201,16 @@ onMessage(messaging, (payload) => {
 
 const updateList = new Map<string, number>();
 async function opDataChange(
-  data: LinkAssignment | LinkState | MarkerAssignment | MarkerState | OpChange
+  data:
+    | LinkAssignment
+    | LinkState
+    | MarkerAssignment
+    | MarkerState
+    | TaskAssignment
+    | TaskState
+    | OpChange
 ) {
+  if (GetUpdateList().has(data.updateID)) return;
   if (updateList.has(data.updateID + data.cmd)) {
     console.debug(
       'skipping firebase requested update of op since it was our change',
