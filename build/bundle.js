@@ -23314,6 +23314,8 @@
 	    return null;
 	}
 	async function getAgent(gid) {
+	    if (!gid)
+	        return null;
 	    const agent = WasabeeAgent.get(gid);
 	    if (agent)
 	        return agent;
@@ -23329,6 +23331,8 @@
 	}
 	// 60 seconds seems too short for the default here...
 	async function getTeam(teamID, maxAgeSeconds = 60) {
+	    if (!teamID)
+	        return null;
 	    const cached = WasabeeTeam.get(teamID);
 	    if (cached) {
 	        const t = new WasabeeTeam(cached);
@@ -41336,7 +41340,7 @@
 			notifyOnError(joinTeamPromise(teamid, token)).then(() => {
 				dispatch('refresh');
 				replace(`/team/${teamid}/list`);
-				notifyInfo('Welcome aboard');
+				notifyInfo("Welcome aboard");
 			});
 		}
 
