@@ -9,8 +9,6 @@
 
   let botname: string = getConfig().botname;
   let vimportmode: string = 'team';
-  let sendLocation: boolean = false;
-  let analytics: boolean = true;
 
   let communityname = me.communityname || '';
   let commJWT = '';
@@ -152,24 +150,6 @@
     </div>
   </div>
   <div class="card mb-2">
-    <div class="card-header">Options</div>
-    <div class="card-body">
-      <label
-        >Send Location:
-        <input
-          id="locCheck"
-          type="checkbox"
-          bind:checked={sendLocation}
-        /></label
-      ><br />
-      <label
-        >Enable Anonymous Analytics:
-        <input id="analytics" type="checkbox" bind:checked={analytics} /></label
-      >
-      <span class="small dim">(this helps the developers improve Wasabee)</span>
-    </div>
-  </div>
-  <div class="card mb-2">
     <div class="card-header">Telegram</div>
     <div class="card-body">
       {#if me.Telegram}
@@ -180,8 +160,8 @@
             </div>
           {:else if me.Telegram.Authtoken}
             <div>
-              Step 2: Tell the bot (<a href={'tg://resolve?domain=' + botname}
-                >{botname}</a
+              <strong>Step 2:</strong> Tell the bot (<a
+                href={'tg://resolve?domain=' + botname}>{botname}</a
               >)
               <a
                 href={'https://telegram.me/' +
@@ -193,8 +173,8 @@
             </div>
           {:else}
             <div>
-              Step 1: Tell the bot (<a href={'tg://resolve?domain=' + botname}
-                >{botname}</a
+              <strong>Step 1:</strong> Tell the bot (<a
+                href={'tg://resolve?domain=' + botname}>{botname}</a
               >)
               <a href={'https://telegram.me/' + botname + '?start=' + me.lockey}
                 >{me.lockey}</a
@@ -222,7 +202,7 @@
   <div class="card mb-2">
     <div class="card-header">One Time Token</div>
     <div class="card-body">
-      <div id="ott">{me.lockey}</div>
+      <code id="ott">{me.lockey}</code>
       <div class="small dim">
         Use this to log into Wasabee-IITC if Google Oauth2 and Webview both fail
       </div>
@@ -277,5 +257,9 @@
 
   textarea {
     width: 100%;
+  }
+
+  #ott {
+    font-size: 100%;
   }
 </style>
