@@ -55,6 +55,12 @@
       class="btn btn-lg btn-success">Download the stable release</a
     >
   </p>
+  <p class="lead">
+    <a
+      href="http://onelink.to/3kyw6h"
+      class="btn btn-lg btn-success">Get the app</a
+    >
+  </p>
   <div class="lead serverlist">
     {#each servers as server}
       <button
