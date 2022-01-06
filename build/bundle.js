@@ -22817,7 +22817,7 @@
 		return block;
 	}
 
-	// (72:30) {#if connecting == server.url}
+	// (78:30) {#if connecting == server.url}
 	function create_if_block$l(ctx) {
 		let span;
 
@@ -22827,7 +22827,7 @@
 				attr_dev(span, "class", "spinner-border spinner-border-sm");
 				attr_dev(span, "role", "status");
 				attr_dev(span, "aria-hidden", "true");
-				add_location(span, file$p, 71, 60, 2656);
+				add_location(span, file$p, 77, 60, 2785);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -22841,14 +22841,14 @@
 			block,
 			id: create_if_block$l.name,
 			type: "if",
-			source: "(72:30) {#if connecting == server.url}",
+			source: "(78:30) {#if connecting == server.url}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (66:4) {#each servers as server}
+	// (72:4) {#each servers as server}
 	function create_each_block$d(ctx) {
 		let button;
 		let t0;
@@ -22876,7 +22876,7 @@
 				? 'btn-danger'
 				: 'btn-success'));
 
-				add_location(button, file$p, 66, 6, 2430);
+				add_location(button, file$p, 72, 6, 2559);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -22922,7 +22922,7 @@
 			block,
 			id: create_each_block$d.name,
 			type: "each",
-			source: "(66:4) {#each servers as server}",
+			source: "(72:4) {#each servers as server}",
 			ctx
 		});
 
@@ -22943,15 +22943,18 @@
 		let hr;
 		let t6;
 		let p1;
-		let a;
+		let a0;
 		let t8;
+		let p2;
+		let a1;
+		let t10;
 		let div;
-		let t9;
+		let t11;
 		let label;
 		let input;
-		let t10;
-		let t11;
-		let p2;
+		let t12;
+		let t13;
+		let p3;
 		let current;
 		let mounted;
 		let dispose;
@@ -22991,22 +22994,26 @@
 				hr = element("hr");
 				t6 = space();
 				p1 = element("p");
-				a = element("a");
-				a.textContent = "Download the stable release";
+				a0 = element("a");
+				a0.textContent = "Download the stable release";
 				t8 = space();
+				p2 = element("p");
+				a1 = element("a");
+				a1.textContent = "Get the app";
+				t10 = space();
 				div = element("div");
 
 				for (let i = 0; i < each_blocks.length; i += 1) {
 					each_blocks[i].c();
 				}
 
-				t9 = space();
+				t11 = space();
 				label = element("label");
 				input = element("input");
-				t10 = text("Select google account");
-				t11 = space();
-				p2 = element("p");
-				p2.textContent = "Each server is a data-island, they do not share op/team info. If you do not\n    see teams/operations you expect, please verify with your operator which\n    server is being used.";
+				t12 = text("Select google account");
+				t13 = space();
+				p3 = element("p");
+				p3.textContent = "Each server is a data-island, they do not share op/team info. If you do not\n    see teams/operations you expect, please verify with your operator which\n    server is being used.";
 				attr_dev(link, "href", "https://cdn2.wasabee.rocks/css/homepage.css");
 				attr_dev(link, "rel", "stylesheet");
 				add_location(link, file$p, 39, 2, 1517);
@@ -23017,20 +23024,25 @@
 				attr_dev(p0, "class", "h2");
 				add_location(p0, file$p, 56, 2, 2143);
 				add_location(hr, file$p, 57, 2, 2176);
-				attr_dev(a, "href", "https://cdn2.wasabee.rocks/iitcplugin/prod/wasabee.user.js");
-				attr_dev(a, "class", "btn btn-lg btn-success");
-				add_location(a, file$p, 59, 4, 2206);
+				attr_dev(a0, "href", "https://cdn2.wasabee.rocks/iitcplugin/prod/wasabee.user.js");
+				attr_dev(a0, "class", "btn btn-lg btn-success");
+				add_location(a0, file$p, 59, 4, 2206);
 				attr_dev(p1, "class", "lead");
 				add_location(p1, file$p, 58, 2, 2185);
+				attr_dev(a1, "href", "http://onelink.to/3kyw6h");
+				attr_dev(a1, "class", "btn btn-lg btn-success");
+				add_location(a1, file$p, 65, 4, 2385);
+				attr_dev(p2, "class", "lead");
+				add_location(p2, file$p, 64, 2, 2364);
 				attr_dev(div, "class", "lead serverlist");
-				add_location(div, file$p, 64, 2, 2364);
+				add_location(div, file$p, 70, 2, 2493);
 				attr_dev(input, "class", "form-check-input");
 				attr_dev(input, "type", "checkbox");
-				add_location(input, file$p, 80, 5, 2867);
+				add_location(input, file$p, 86, 5, 2996);
 				attr_dev(label, "class", "form-check-inline");
-				add_location(label, file$p, 79, 2, 2829);
-				attr_dev(p2, "class", "small tips");
-				add_location(p2, file$p, 86, 2, 3003);
+				add_location(label, file$p, 85, 2, 2958);
+				attr_dev(p3, "class", "small tips");
+				add_location(p3, file$p, 92, 2, 3132);
 				attr_dev(main, "role", "main");
 				attr_dev(main, "class", "cover-container text-center mx-auto");
 				add_location(main, file$p, 54, 0, 2024);
@@ -23052,21 +23064,24 @@
 				append_dev(main, hr);
 				append_dev(main, t6);
 				append_dev(main, p1);
-				append_dev(p1, a);
+				append_dev(p1, a0);
 				append_dev(main, t8);
+				append_dev(main, p2);
+				append_dev(p2, a1);
+				append_dev(main, t10);
 				append_dev(main, div);
 
 				for (let i = 0; i < each_blocks.length; i += 1) {
 					each_blocks[i].m(div, null);
 				}
 
-				append_dev(main, t9);
+				append_dev(main, t11);
 				append_dev(main, label);
 				append_dev(label, input);
 				input.checked = /*selectAccount*/ ctx[1];
-				append_dev(label, t10);
-				append_dev(main, t11);
-				append_dev(main, p2);
+				append_dev(label, t12);
+				append_dev(main, t13);
+				append_dev(main, p3);
 				current = true;
 
 				if (!mounted) {
