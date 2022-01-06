@@ -22827,7 +22827,7 @@
 				attr_dev(span, "class", "spinner-border spinner-border-sm");
 				attr_dev(span, "role", "status");
 				attr_dev(span, "aria-hidden", "true");
-				add_location(span, file$p, 77, 60, 2785);
+				add_location(span, file$p, 77, 60, 2795);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -22876,7 +22876,7 @@
 				? 'btn-danger'
 				: 'btn-success'));
 
-				add_location(button, file$p, 72, 6, 2559);
+				add_location(button, file$p, 72, 6, 2569);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -22999,7 +22999,7 @@
 				t8 = space();
 				p2 = element("p");
 				a1 = element("a");
-				a1.textContent = "Get the app";
+				a1.textContent = "Get ground Agents app";
 				t10 = space();
 				div = element("div");
 
@@ -23035,14 +23035,14 @@
 				attr_dev(p2, "class", "lead");
 				add_location(p2, file$p, 64, 2, 2364);
 				attr_dev(div, "class", "lead serverlist");
-				add_location(div, file$p, 70, 2, 2493);
+				add_location(div, file$p, 70, 2, 2503);
 				attr_dev(input, "class", "form-check-input");
 				attr_dev(input, "type", "checkbox");
-				add_location(input, file$p, 86, 5, 2996);
+				add_location(input, file$p, 86, 5, 3006);
 				attr_dev(label, "class", "form-check-inline");
-				add_location(label, file$p, 85, 2, 2958);
+				add_location(label, file$p, 85, 2, 2968);
 				attr_dev(p3, "class", "small tips");
-				add_location(p3, file$p, 92, 2, 3132);
+				add_location(p3, file$p, 92, 2, 3142);
 				attr_dev(main, "role", "main");
 				attr_dev(main, "class", "cover-container text-center mx-auto");
 				add_location(main, file$p, 54, 0, 2024);
