@@ -22582,16 +22582,17 @@
 	    try {
 	        token = await promiseLogin(options);
 	    }
-	    catch (_a) {
+	    catch (e) {
 	        // no quick login
+	        console.warn('fail to login to google', e);
 	    }
 	    if (!token && options.prompt != 'select_account') {
 	        options.prompt = 'select_account';
 	        try {
 	            token = await promiseLogin(options);
 	        }
-	        catch (_b) {
-	            console.warn('fail to login to google');
+	        catch (e) {
+	            console.warn('fail to login to google', e);
 	        }
 	    }
 	    if (token) {
