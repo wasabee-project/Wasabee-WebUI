@@ -16,7 +16,7 @@
     notifyOnError(joinTeamPromise(teamid, token)).then(() => {
       dispatch('refresh');
       replace(`/team/${teamid}/list`);
-      notifyInfo("Welcome aboard");
+      notifyInfo('Welcome aboard');
     });
   }
 </script>

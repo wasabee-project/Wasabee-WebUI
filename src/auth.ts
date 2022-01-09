@@ -38,15 +38,16 @@ export async function login(server: string, selectAccount: boolean) {
   let token: string;
   try {
     token = await promiseLogin(options);
-  } catch {
+  } catch (e) {
     // no quick login
+    console.warn('fail to login to google', e);
   }
   if (!token && options.prompt != 'select_account') {
     options.prompt = 'select_account';
     try {
       token = await promiseLogin(options);
-    } catch {
-      console.warn('fail to login to google');
+    } catch (e) {
+      console.warn('fail to login to google', e);
     }
   }
   if (token) {

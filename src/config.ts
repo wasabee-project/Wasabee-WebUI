@@ -31,11 +31,13 @@ try {
 const urlParams = new URLSearchParams(window.location.search);
 const urlServer = urlParams.get('server');
 
-if (urlServer && !servers.find((s) => s.url === urlServer)) {
-  servers.push({
-    name: urlServer,
-    url: urlServer,
-  });
+if (urlServer) {
+  if (!servers.find((s) => s.url === urlServer)) {
+    servers.push({
+      name: urlServer,
+      url: urlServer,
+    });
+  }
   setServer(urlServer);
 }
 
