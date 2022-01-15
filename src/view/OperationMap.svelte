@@ -144,7 +144,8 @@
   $: {
     if (map) {
       const m = map.getMap();
-      if (m) m.fitBounds(operation.mbr);
+      const mbr = operation.mbr;
+      if (m && mbr) m.fitBounds(mbr);
     }
   }
 </script>
