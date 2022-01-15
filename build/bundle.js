@@ -36386,7 +36386,7 @@
 		return child_ctx;
 	}
 
-	// (128:4) {#each agentList as a (a.id)}
+	// (129:4) {#each agentList as a (a.id)}
 	function create_each_block_5(key_1, ctx) {
 		let option;
 		let t0_value = /*a*/ ctx[34].name + "";
@@ -36403,7 +36403,7 @@
 				t1 = space();
 				option.__value = option_value_value = /*a*/ ctx[34].id;
 				option.value = option.__value;
-				add_location(option, file$9, 128, 6, 3216);
+				add_location(option, file$9, 129, 6, 3248);
 				this.first = option;
 			},
 			m: function mount(target, anchor) {
@@ -36429,14 +36429,14 @@
 			block,
 			id: create_each_block_5.name,
 			type: "each",
-			source: "(128:4) {#each agentList as a (a.id)}",
+			source: "(129:4) {#each agentList as a (a.id)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (143:8) <Popup>
+	// (144:8) <Popup>
 	function create_default_slot_6$1(ctx) {
 		let t_value = /*z*/ ctx[31].name + "";
 		let t;
@@ -36460,14 +36460,14 @@
 			block,
 			id: create_default_slot_6$1.name,
 			type: "slot",
-			source: "(143:8) <Popup>",
+			source: "(144:8) <Popup>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (139:6) <Polygon         latLngs={z.points}         options={{ color: z.color, fillColor: z.color }}       >
+	// (140:6) <Polygon         latLngs={z.points}         options={{ color: z.color, fillColor: z.color }}       >
 	function create_default_slot_5$1(ctx) {
 		let popup;
 		let current;
@@ -36515,14 +36515,14 @@
 			block,
 			id: create_default_slot_5$1.name,
 			type: "slot",
-			source: "(139:6) <Polygon         latLngs={z.points}         options={{ color: z.color, fillColor: z.color }}       >",
+			source: "(140:6) <Polygon         latLngs={z.points}         options={{ color: z.color, fillColor: z.color }}       >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (138:4) {#each zones.polygons as z (z.id)}
+	// (139:4) {#each zones.polygons as z (z.id)}
 	function create_each_block_4(key_1, ctx) {
 		let first;
 		let polygon;
@@ -36589,14 +36589,14 @@
 			block,
 			id: create_each_block_4.name,
 			type: "each",
-			source: "(138:4) {#each zones.polygons as z (z.id)}",
+			source: "(139:4) {#each zones.polygons as z (z.id)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (155:12) {#if marker.comment}
+	// (156:12) {#if marker.comment}
 	function create_if_block_4$1(ctx) {
 		let div;
 		let t_value = /*marker*/ ctx[28].comment + "";
@@ -36606,7 +36606,7 @@
 			c: function create() {
 				div = element("div");
 				t = text(t_value);
-				add_location(div, file$9, 154, 32, 4095);
+				add_location(div, file$9, 155, 32, 4127);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -36624,14 +36624,14 @@
 			block,
 			id: create_if_block_4$1.name,
 			type: "if",
-			source: "(155:12) {#if marker.comment}",
+			source: "(156:12) {#if marker.comment}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (156:12) {#if marker.state != 'pending'}
+	// (157:12) {#if marker.state != 'pending'}
 	function create_if_block_3$2(ctx) {
 		let div;
 		let t_value = /*marker*/ ctx[28].state + "";
@@ -36641,7 +36641,7 @@
 			c: function create() {
 				div = element("div");
 				t = text(t_value);
-				add_location(div, file$9, 155, 43, 4171);
+				add_location(div, file$9, 156, 43, 4203);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -36659,14 +36659,14 @@
 			block,
 			id: create_if_block_3$2.name,
 			type: "if",
-			source: "(156:12) {#if marker.state != 'pending'}",
+			source: "(157:12) {#if marker.state != 'pending'}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (157:12) {#if marker.assignedTo}
+	// (158:12) {#if marker.assignedTo}
 	function create_if_block_2$4(ctx) {
 		let div;
 		let t_value = /*getAgentName*/ ctx[7](/*marker*/ ctx[28].assignedTo) + "";
@@ -36676,7 +36676,7 @@
 			c: function create() {
 				div = element("div");
 				t = text(t_value);
-				add_location(div, file$9, 156, 35, 4237);
+				add_location(div, file$9, 157, 35, 4269);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -36694,14 +36694,14 @@
 			block,
 			id: create_if_block_2$4.name,
 			type: "if",
-			source: "(157:12) {#if marker.assignedTo}",
+			source: "(158:12) {#if marker.assignedTo}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (153:10) <Popup>
+	// (154:10) <Popup>
 	function create_default_slot_4$1(ctx) {
 		let t0_value = /*operation*/ ctx[1].getPortal(/*marker*/ ctx[28].portalId).name + "";
 		let t0;
@@ -36731,7 +36731,7 @@
 				attr_dev(button, "target", "_blank");
 				attr_dev(button, "class", "btn btn-outline-primary btn-sm");
 				attr_dev(button, "href", button_href_value = 'https://www.google.com/maps/search/?api=1&query=' + /*operation*/ ctx[1].getPortal(/*marker*/ ctx[28].portalId).latLng.lat + ',' + /*operation*/ ctx[1].getPortal(/*marker*/ ctx[28].portalId).latLng.lng);
-				add_location(button, file$9, 159, 12, 4331);
+				add_location(button, file$9, 160, 12, 4363);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, t0, anchor);
@@ -36808,14 +36808,14 @@
 			block,
 			id: create_default_slot_4$1.name,
 			type: "slot",
-			source: "(153:10) <Popup>",
+			source: "(154:10) <Popup>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (148:8) <Marker           latLng={operation.getPortal(marker.portalId).latLng}           icon={new Icon({ iconUrl: marker.icon, ...iconOpt })}           options={{ title: operation.getPortal(marker.portalId).name }}         >
+	// (149:8) <Marker           latLng={operation.getPortal(marker.portalId).latLng}           icon={new Icon({ iconUrl: marker.icon, ...iconOpt })}           options={{ title: operation.getPortal(marker.portalId).name }}         >
 	function create_default_slot_3$1(ctx) {
 		let popup;
 		let current;
@@ -36863,14 +36863,14 @@
 			block,
 			id: create_default_slot_3$1.name,
 			type: "slot",
-			source: "(148:8) <Marker           latLng={operation.getPortal(marker.portalId).latLng}           icon={new Icon({ iconUrl: marker.icon, ...iconOpt })}           options={{ title: operation.getPortal(marker.portalId).name }}         >",
+			source: "(149:8) <Marker           latLng={operation.getPortal(marker.portalId).latLng}           icon={new Icon({ iconUrl: marker.icon, ...iconOpt })}           options={{ title: operation.getPortal(marker.portalId).name }}         >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (147:6) {#each layer.markers as marker (marker.ID)}
+	// (148:6) {#each layer.markers as marker (marker.ID)}
 	function create_each_block_3(key_1, ctx) {
 		let first;
 		let marker;
@@ -36944,14 +36944,14 @@
 			block,
 			id: create_each_block_3.name,
 			type: "each",
-			source: "(147:6) {#each layer.markers as marker (marker.ID)}",
+			source: "(148:6) {#each layer.markers as marker (marker.ID)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (173:6) {#each layer.links as link (link.ID)}
+	// (174:6) {#each layer.links as link (link.ID)}
 	function create_each_block_2$2(key_1, ctx) {
 		let first;
 		let geodesic;
@@ -37006,14 +37006,14 @@
 			block,
 			id: create_each_block_2$2.name,
 			type: "each",
-			source: "(173:6) {#each layer.links as link (link.ID)}",
+			source: "(174:6) {#each layer.links as link (link.ID)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (194:12) {#if operation.getPortal(anchor).comment}
+	// (195:12) {#if operation.getPortal(anchor).comment}
 	function create_if_block_1$8(ctx) {
 		let div;
 		let t_value = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).comment + "";
@@ -37023,7 +37023,7 @@
 			c: function create() {
 				div = element("div");
 				t = text(t_value);
-				add_location(div, file$9, 193, 53, 5505);
+				add_location(div, file$9, 194, 53, 5537);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -37041,14 +37041,14 @@
 			block,
 			id: create_if_block_1$8.name,
 			type: "if",
-			source: "(194:12) {#if operation.getPortal(anchor).comment}",
+			source: "(195:12) {#if operation.getPortal(anchor).comment}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (197:12) {#if operation.getPortal(anchor).hardness}
+	// (198:12) {#if operation.getPortal(anchor).hardness}
 	function create_if_block$9(ctx) {
 		let div;
 		let t_value = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).hardness + "";
@@ -37058,7 +37058,7 @@
 			c: function create() {
 				div = element("div");
 				t = text(t_value);
-				add_location(div, file$9, 196, 54, 5645);
+				add_location(div, file$9, 197, 54, 5677);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -37076,14 +37076,14 @@
 			block,
 			id: create_if_block$9.name,
 			type: "if",
-			source: "(197:12) {#if operation.getPortal(anchor).hardness}",
+			source: "(198:12) {#if operation.getPortal(anchor).hardness}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (192:10) <Popup>
+	// (193:10) <Popup>
 	function create_default_slot_2$2(ctx) {
 		let t0_value = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).name + "";
 		let t0;
@@ -37111,7 +37111,7 @@
 				attr_dev(button, "target", "_blank");
 				attr_dev(button, "class", "btn btn-outline-primary btn-sm");
 				attr_dev(button, "href", button_href_value = 'https://www.google.com/maps/search/?api=1&query=' + /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).latLng.lat + ',' + /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).latLng.lng);
-				add_location(button, file$9, 199, 12, 5744);
+				add_location(button, file$9, 200, 12, 5776);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, t0, anchor);
@@ -37174,14 +37174,14 @@
 			block,
 			id: create_default_slot_2$2.name,
 			type: "slot",
-			source: "(192:10) <Popup>",
+			source: "(193:10) <Popup>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (182:8) <Marker           latLng={operation.getPortal(anchor).latLng}           icon={new Icon({             iconUrl: 'https://cdn2.wasabee.rocks/img/markers/pin_lime.svg',             iconSize: [24, 40],             iconAnchor: [12, 40],             popupAnchor: [-1, -48],           })}           options={{ title: operation.getPortal(anchor).name }}         >
+	// (183:8) <Marker           latLng={operation.getPortal(anchor).latLng}           icon={new Icon({             iconUrl: 'https://cdn2.wasabee.rocks/img/markers/pin_lime.svg',             iconSize: [24, 40],             iconAnchor: [12, 40],             popupAnchor: [-1, -48],           })}           options={{ title: operation.getPortal(anchor).name }}         >
 	function create_default_slot_1$2(ctx) {
 		let popup;
 		let t;
@@ -37233,14 +37233,14 @@
 			block,
 			id: create_default_slot_1$2.name,
 			type: "slot",
-			source: "(182:8) <Marker           latLng={operation.getPortal(anchor).latLng}           icon={new Icon({             iconUrl: 'https://cdn2.wasabee.rocks/img/markers/pin_lime.svg',             iconSize: [24, 40],             iconAnchor: [12, 40],             popupAnchor: [-1, -48],           })}           options={{ title: operation.getPortal(anchor).name }}         >",
+			source: "(183:8) <Marker           latLng={operation.getPortal(anchor).latLng}           icon={new Icon({             iconUrl: 'https://cdn2.wasabee.rocks/img/markers/pin_lime.svg',             iconSize: [24, 40],             iconAnchor: [12, 40],             popupAnchor: [-1, -48],           })}           options={{ title: operation.getPortal(anchor).name }}         >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (181:6) {#each layer.anchors as anchor (anchor)}
+	// (182:6) {#each layer.anchors as anchor (anchor)}
 	function create_each_block_1$2(key_1, ctx) {
 		let first;
 		let marker;
@@ -37311,14 +37311,14 @@
 			block,
 			id: create_each_block_1$2.name,
 			type: "each",
-			source: "(181:6) {#each layer.anchors as anchor (anchor)}",
+			source: "(182:6) {#each layer.anchors as anchor (anchor)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (146:4) {#each Object.entries(layers) as [name, layer] (name)}
+	// (147:4) {#each Object.entries(layers) as [name, layer] (name)}
 	function create_each_block$5(key_1, ctx) {
 		let first;
 		let each_blocks_2 = [];
@@ -37500,14 +37500,14 @@
 			block,
 			id: create_each_block$5.name,
 			type: "each",
-			source: "(146:4) {#each Object.entries(layers) as [name, layer] (name)}",
+			source: "(147:4) {#each Object.entries(layers) as [name, layer] (name)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (136:2) <LeafletMap options={{ zoom: 3, center: [0, 0] }} bind:this={map}>
+	// (137:2) <LeafletMap options={{ zoom: 3, center: [0, 0] }} bind:this={map}>
 	function create_default_slot$2(ctx) {
 		let tilelayer;
 		let t0;
@@ -37651,7 +37651,7 @@
 			block,
 			id: create_default_slot$2.name,
 			type: "slot",
-			source: "(136:2) <LeafletMap options={{ zoom: 3, center: [0, 0] }} bind:this={map}>",
+			source: "(137:2) <LeafletMap options={{ zoom: 3, center: [0, 0] }} bind:this={map}>",
 			ctx
 		});
 
@@ -37711,13 +37711,13 @@
 				div = element("div");
 				create_component(leafletmap.$$.fragment);
 				attr_dev(h1, "id", "opName");
-				add_location(h1, file$9, 123, 0, 3091);
+				add_location(h1, file$9, 124, 0, 3123);
 				if (/*agent*/ ctx[2] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[15].call(select));
-				add_location(select, file$9, 126, 2, 3148);
-				add_location(label, file$9, 124, 0, 3129);
+				add_location(select, file$9, 127, 2, 3180);
+				add_location(label, file$9, 125, 0, 3161);
 				attr_dev(div, "id", "map");
 				attr_dev(div, "class", "svelte-1iwg3ka");
-				add_location(div, file$9, 134, 0, 3304);
+				add_location(div, file$9, 135, 0, 3336);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -38008,7 +38008,8 @@
 				{
 					if (map) {
 						const m = map.getMap();
-						if (m) m.fitBounds(operation.mbr);
+						const mbr = operation.mbr;
+						if (m && mbr) m.fitBounds(mbr);
 					}
 				}
 			}
