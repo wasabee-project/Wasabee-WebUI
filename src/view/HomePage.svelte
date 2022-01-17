@@ -56,7 +56,7 @@
     >
   </p>
   <p class="lead">
-    <a href="http://onelink.to/3kyw6h" class="btn btn-lg btn-success"
+    <a href="https://app.wasabee.rocks" class="btn btn-lg btn-success"
       >Get ground Agents app</a
     >
   </p>
