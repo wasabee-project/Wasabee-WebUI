@@ -54,11 +54,15 @@
       <div>
         <a href="https://v.enl.one/" target="_new">V Status</a>:
         <span id="vstatus">
-          <a
-            v-if="me.Vverified"
-            href={'https://v.enl.one/profile/' + me.enlid}
-            target="_new">verified</a
-          >
+          {#if me.Vverified}
+            <a
+              v-if="me.Vverified"
+              href={'https://v.enl.one/profile/' + me.enlid}
+              target="_new">verified</a
+            >
+          {:else}
+            unverified
+          {/if}
         </span>
       </div>
       <div>
