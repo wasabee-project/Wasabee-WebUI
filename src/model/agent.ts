@@ -92,7 +92,7 @@ export default class WasabeeAgent implements Agent {
   fetched: number;
 
   constructor(obj: Agent) {
-    if ('ShareWD' in obj) {
+    if ('shareWD' in obj || 'squad' in obj) {
       obj = serverAgentToAgent(obj);
     }
     // things which are stable across all teams
