@@ -21225,7 +21225,7 @@
 	}
 	class WasabeeAgent {
 	    constructor(obj) {
-	        if ('ShareWD' in obj) {
+	        if ('shareWD' in obj || 'squad' in obj) {
 	            obj = serverAgentToAgent(obj);
 	        }
 	        // things which are stable across all teams
