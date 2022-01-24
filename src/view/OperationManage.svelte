@@ -21,8 +21,10 @@
     setMarkerZone,
     setAssignmentStatus,
     reverseLinkDirection,
+    updateOpPromise,
   } from '../server';
   import { flip } from 'svelte/animate';
+  import { notifyOnError } from '../notify';
 
   const dispatch = createEventDispatcher();
   function refresh() {
@@ -193,14 +195,17 @@
       if (to - 1 >= 0) shift = 2 + steps[to - 1].order - steps[to].order;
       if (shift > 0) for (let i = to - 1; i >= 0; i--) steps[i].order -= shift;
     } else return;
+    notifyOnError(updateOpPromise(operation));
     operation = operation;
   }
 
   function incrOrder() {
     shiftOrder(1);
+    notifyOnError(updateOpPromise(operation));
   }
   function decrOrder() {
     shiftOrder(-1);
+    notifyOnError(updateOpPromise(operation));
   }
   function shiftOrder(v: number) {
     for (const s of steps) {
