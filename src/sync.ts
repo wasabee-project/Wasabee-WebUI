@@ -4,14 +4,9 @@ import { opPromise } from './server';
 import { getMe, getTeam } from './cache';
 
 export async function syncMe() {
-  try {
-    const nme = await getMe(true);
-    nme.store();
-    return nme;
-  } catch (e) {
-    console.error(e);
-    throw new Error('invalid data from /me');
-  }
+  const nme = await getMe(true);
+  nme.store();
+  return nme;
 }
 
 export async function loadMeAndOps() {

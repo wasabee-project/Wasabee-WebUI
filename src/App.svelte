@@ -28,32 +28,35 @@
   import { loadConfig, logoutPromise } from './server';
 
   import { WasabeeMe } from './model';
-  import { setAuthBearer } from './auth';
+  import { getAuthBearer, setAuthBearer } from './auth';
 
   import { sendTokenToServer } from './firebase';
 
   let me: WasabeeMe | null;
 
-  let loading = true;
+  let loading = false;
 
   // try use last used server
-  loadConfig()
-    .then((config) => {
-      setConfig(config);
-      loadMeAndOps()
-        .then(async () => {
-          me = WasabeeMe.get();
-          sendTokenToServer();
-          loading = false;
-        })
-        .catch(() => {
-          setAuthBearer();
-          loading = false;
-        });
-    })
-    .catch(() => {
-      loading = false;
-    });
+  if (getAuthBearer()) {
+    loading = true;
+    loadConfig()
+      .then((config) => {
+        setConfig(config);
+        loadMeAndOps()
+          .then(async () => {
+            me = WasabeeMe.get();
+            sendTokenToServer();
+            loading = false;
+          })
+          .catch(() => {
+            setAuthBearer();
+            loading = false;
+          });
+      })
+      .catch(() => {
+        loading = false;
+      });
+  }
 
   $: if (me) loading = false;
 
