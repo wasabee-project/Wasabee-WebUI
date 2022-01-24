@@ -9,7 +9,9 @@ export async function notifyOnError<T>(promise: Promise<T>) {
     return result;
   } catch (e) {
     if (e instanceof ServerError) {
-      toasts.error(e.toString());
+      toasts.error(e.toString(), {
+        duration: 0,
+      });
     }
     return Promise.reject(e);
   }
