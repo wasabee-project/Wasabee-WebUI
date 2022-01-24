@@ -23371,15 +23371,9 @@
 	}
 
 	async function syncMe() {
-	    try {
-	        const nme = await getMe(true);
-	        nme.store();
-	        return nme;
-	    }
-	    catch (e) {
-	        console.error(e);
-	        throw new Error('invalid data from /me');
-	    }
+	    const nme = await getMe(true);
+	    nme.store();
+	    return nme;
 	}
 	async function loadMeAndOps() {
 	    try {
@@ -54832,7 +54826,7 @@
 	const { console: console_1 } = globals;
 	const file = "src/App.svelte";
 
-	// (106:0) {:else}
+	// (109:0) {:else}
 	function create_else_block(ctx) {
 		let header;
 		let navbar;
@@ -54884,8 +54878,8 @@
 				create_component(toastcontainer.$$.fragment);
 				t1 = space();
 				create_component(router.$$.fragment);
-				add_location(header, file, 106, 2, 3331);
-				add_location(main, file, 128, 2, 4191);
+				add_location(header, file, 109, 2, 3460);
+				add_location(main, file, 131, 2, 4320);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, header, anchor);
@@ -54948,14 +54942,14 @@
 			block,
 			id: create_else_block.name,
 			type: "else",
-			source: "(106:0) {:else}",
+			source: "(109:0) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (104:0) {#if !me}
+	// (107:0) {#if !me}
 	function create_if_block_1(ctx) {
 		let homepage;
 		let current;
@@ -54998,14 +54992,14 @@
 			block,
 			id: create_if_block_1.name,
 			type: "if",
-			source: "(104:0) {#if !me}",
+			source: "(107:0) {#if !me}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (112:19) <NavLink href="#/teams">
+	// (115:19) <NavLink href="#/teams">
 	function create_default_slot_16(ctx) {
 		let t;
 
@@ -55025,14 +55019,14 @@
 			block,
 			id: create_default_slot_16.name,
 			type: "slot",
-			source: "(112:19) <NavLink href=\\\"#/teams\\\">",
+			source: "(115:19) <NavLink href=\\\"#/teams\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (112:10) <NavItem>
+	// (115:10) <NavItem>
 	function create_default_slot_15(ctx) {
 		let navlink;
 		let current;
@@ -55081,14 +55075,14 @@
 			block,
 			id: create_default_slot_15.name,
 			type: "slot",
-			source: "(112:10) <NavItem>",
+			source: "(115:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (113:19) <NavLink href="#/operations">
+	// (116:19) <NavLink href="#/operations">
 	function create_default_slot_14(ctx) {
 		let t;
 
@@ -55108,14 +55102,14 @@
 			block,
 			id: create_default_slot_14.name,
 			type: "slot",
-			source: "(113:19) <NavLink href=\\\"#/operations\\\">",
+			source: "(116:19) <NavLink href=\\\"#/operations\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (113:10) <NavItem>
+	// (116:10) <NavItem>
 	function create_default_slot_13(ctx) {
 		let navlink;
 		let current;
@@ -55164,14 +55158,14 @@
 			block,
 			id: create_default_slot_13.name,
 			type: "slot",
-			source: "(113:10) <NavItem>",
+			source: "(116:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (115:13) <NavLink href="#/defensivekeys/">
+	// (118:13) <NavLink href="#/defensivekeys/">
 	function create_default_slot_12(ctx) {
 		let t;
 
@@ -55191,14 +55185,14 @@
 			block,
 			id: create_default_slot_12.name,
 			type: "slot",
-			source: "(115:13) <NavLink href=\\\"#/defensivekeys/\\\">",
+			source: "(118:13) <NavLink href=\\\"#/defensivekeys/\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (114:10) <NavItem             >
+	// (117:10) <NavItem             >
 	function create_default_slot_11(ctx) {
 		let navlink;
 		let current;
@@ -55247,14 +55241,14 @@
 			block,
 			id: create_default_slot_11.name,
 			type: "slot",
-			source: "(114:10) <NavItem             >",
+			source: "(117:10) <NavItem             >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (117:19) <NavLink href="#/settings">
+	// (120:19) <NavLink href="#/settings">
 	function create_default_slot_10(ctx) {
 		let t;
 
@@ -55274,14 +55268,14 @@
 			block,
 			id: create_default_slot_10.name,
 			type: "slot",
-			source: "(117:19) <NavLink href=\\\"#/settings\\\">",
+			source: "(120:19) <NavLink href=\\\"#/settings\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (117:10) <NavItem>
+	// (120:10) <NavItem>
 	function create_default_slot_9(ctx) {
 		let navlink;
 		let current;
@@ -55330,14 +55324,14 @@
 			block,
 			id: create_default_slot_9.name,
 			type: "slot",
-			source: "(117:10) <NavItem>",
+			source: "(120:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (118:19) <NavLink href="#/help">
+	// (121:19) <NavLink href="#/help">
 	function create_default_slot_8(ctx) {
 		let t;
 
@@ -55357,14 +55351,14 @@
 			block,
 			id: create_default_slot_8.name,
 			type: "slot",
-			source: "(118:19) <NavLink href=\\\"#/help\\\">",
+			source: "(121:19) <NavLink href=\\\"#/help\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (118:10) <NavItem>
+	// (121:10) <NavItem>
 	function create_default_slot_7(ctx) {
 		let navlink;
 		let current;
@@ -55413,14 +55407,14 @@
 			block,
 			id: create_default_slot_7.name,
 			type: "slot",
-			source: "(118:10) <NavItem>",
+			source: "(121:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (120:13) <NavLink href="#/" on:click={logout}>
+	// (123:13) <NavLink href="#/" on:click={logout}>
 	function create_default_slot_6(ctx) {
 		let t;
 
@@ -55440,14 +55434,14 @@
 			block,
 			id: create_default_slot_6.name,
 			type: "slot",
-			source: "(120:13) <NavLink href=\\\"#/\\\" on:click={logout}>",
+			source: "(123:13) <NavLink href=\\\"#/\\\" on:click={logout}>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (119:10) <NavItem             >
+	// (122:10) <NavItem             >
 	function create_default_slot_5(ctx) {
 		let navlink;
 		let current;
@@ -55498,14 +55492,14 @@
 			block,
 			id: create_default_slot_5.name,
 			type: "slot",
-			source: "(119:10) <NavItem             >",
+			source: "(122:10) <NavItem             >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (111:8) <Nav navbar>
+	// (114:8) <Nav navbar>
 	function create_default_slot_4(ctx) {
 		let navitem0;
 		let t0;
@@ -55678,14 +55672,14 @@
 			block,
 			id: create_default_slot_4.name,
 			type: "slot",
-			source: "(111:8) <Nav navbar>",
+			source: "(114:8) <Nav navbar>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (110:6) <Collapse toggler="#main-toggler" navbar expand="lg">
+	// (113:6) <Collapse toggler="#main-toggler" navbar expand="lg">
 	function create_default_slot_3(ctx) {
 		let nav;
 		let current;
@@ -55734,14 +55728,14 @@
 			block,
 			id: create_default_slot_3.name,
 			type: "slot",
-			source: "(110:6) <Collapse toggler=\\\"#main-toggler\\\" navbar expand=\\\"lg\\\">",
+			source: "(113:6) <Collapse toggler=\\\"#main-toggler\\\" navbar expand=\\\"lg\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (124:6) <NavLink disabled href="#">
+	// (127:6) <NavLink disabled href="#">
 	function create_default_slot_2(ctx) {
 		let t_value = getServer().replace('https://', '') + "";
 		let t;
@@ -55763,14 +55757,14 @@
 			block,
 			id: create_default_slot_2.name,
 			type: "slot",
-			source: "(124:6) <NavLink disabled href=\\\"#\\\">",
+			source: "(127:6) <NavLink disabled href=\\\"#\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (108:4) <Navbar container={false} color="dark" dark expand="lg">
+	// (111:4) <Navbar container={false} color="dark" dark expand="lg">
 	function create_default_slot_1(ctx) {
 		let navbartoggler;
 		let t0;
@@ -55863,14 +55857,14 @@
 			block,
 			id: create_default_slot_1.name,
 			type: "slot",
-			source: "(108:4) <Navbar container={false} color=\\\"dark\\\" dark expand=\\\"lg\\\">",
+			source: "(111:4) <Navbar container={false} color=\\\"dark\\\" dark expand=\\\"lg\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (130:4) <ToastContainer let:data>
+	// (133:4) <ToastContainer let:data>
 	function create_default_slot(ctx) {
 		let flattoast;
 		let current;
@@ -55911,14 +55905,14 @@
 			block,
 			id: create_default_slot.name,
 			type: "slot",
-			source: "(130:4) <ToastContainer let:data>",
+			source: "(133:4) <ToastContainer let:data>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (137:0) {#if loading}
+	// (140:0) {#if loading}
 	function create_if_block(ctx) {
 		let div;
 
@@ -55927,7 +55921,7 @@
 				div = element("div");
 				attr_dev(div, "id", "loading-animation");
 				attr_dev(div, "class", "svelte-1bcajx9");
-				add_location(div, file, 137, 2, 4362);
+				add_location(div, file, 140, 2, 4491);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -55941,7 +55935,7 @@
 			block,
 			id: create_if_block.name,
 			type: "if",
-			source: "(137:0) {#if loading}",
+			source: "(140:0) {#if loading}",
 			ctx
 		});
 
@@ -56015,22 +56009,22 @@
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
-				add_location(script, file, 96, 2, 3144);
-				add_location(strong, file, 144, 76, 4643);
+				add_location(script, file, 99, 2, 3273);
+				add_location(strong, file, 147, 76, 4772);
 				attr_dev(a0, "href", "https://v.enl.one/");
-				add_location(a0, file, 148, 6, 4759);
+				add_location(a0, file, 151, 6, 4888);
 				attr_dev(a1, "href", "https://enl.rocks");
-				add_location(a1, file, 149, 6, 4804);
+				add_location(a1, file, 152, 6, 4933);
 				attr_dev(a2, "href", "/privacy");
-				add_location(a2, file, 150, 6, 4865);
+				add_location(a2, file, 153, 6, 4994);
 				attr_dev(p0, "class", "text-muted small");
-				add_location(p0, file, 142, 4, 4463);
+				add_location(p0, file, 145, 4, 4592);
 				attr_dev(p1, "class", "text-muted text-right small");
-				add_location(p1, file, 152, 4, 4938);
+				add_location(p1, file, 155, 4, 5067);
 				attr_dev(div, "class", "p-5");
-				add_location(div, file, 141, 2, 4441);
+				add_location(div, file, 144, 2, 4570);
 				attr_dev(footer, "class", "mastfoot mx-5 mt-auto");
-				add_location(footer, file, 140, 0, 4400);
+				add_location(footer, file, 143, 0, 4529);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -56175,23 +56169,27 @@
 		};
 
 		let me;
-		let loading = true;
+		let loading = false;
 
 		// try use last used server
-		loadConfig().then(config => {
-			setConfig(config);
+		if (getAuthBearer()) {
+			loading = true;
 
-			loadMeAndOps().then(() => __awaiter(void 0, void 0, void 0, function* () {
-				$$invalidate(0, me = WasabeeMe.get());
-				sendTokenToServer();
-				$$invalidate(1, loading = false);
-			})).catch(() => {
-				setAuthBearer();
+			loadConfig().then(config => {
+				setConfig(config);
+
+				loadMeAndOps().then(() => __awaiter(void 0, void 0, void 0, function* () {
+					$$invalidate(0, me = WasabeeMe.get());
+					sendTokenToServer();
+					$$invalidate(1, loading = false);
+				})).catch(() => {
+					setAuthBearer();
+					$$invalidate(1, loading = false);
+				});
+			}).catch(() => {
 				$$invalidate(1, loading = false);
 			});
-		}).catch(() => {
-			$$invalidate(1, loading = false);
-		});
+		}
 
 		const routes = {
 			// Exact path
@@ -56279,6 +56277,7 @@
 			loadConfig,
 			logoutPromise,
 			WasabeeMe,
+			getAuthBearer,
 			setAuthBearer,
 			sendTokenToServer,
 			me,
