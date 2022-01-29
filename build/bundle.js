@@ -48632,7 +48632,11 @@
 	    resolveFirebaseToken = resolve;
 	    rejectFirebaseToken = reject;
 	});
+	let setupDone = false;
 	async function setupFirebase(config) {
+	    if (setupDone)
+	        return;
+	    setupDone = true;
 	    // Initialize Firebase
 	    const app = initializeApp(firebaseConfig);
 	    const messaging = getMessagingInWindow(app);
