@@ -48647,7 +48647,7 @@
 	        });
 	        resolveFirebaseToken(await getToken(messaging, {
 	            serviceWorkerRegistration: sw,
-	            vapidKey: config.publicVapidKey,
+	            // vapidKey: config.publicVapidKey,
 	        }));
 	    }
 	    catch (e) {
@@ -50134,7 +50134,7 @@
 
 			loadConfig().then(config => {
 				setConfig(config);
-				setupFirebase(config);
+				setupFirebase();
 
 				loadMeAndOps().then(() => __awaiter(void 0, void 0, void 0, function* () {
 					$$invalidate(0, me = WasabeeMe.get());
@@ -50195,7 +50195,7 @@
 				me.store();
 				const config = yield loadConfig();
 				setConfig(config);
-				setupFirebase(config);
+				setupFirebase();
 				yield syncOps(me);
 				yield syncTeams(me);
 				sendTokenToServer();
