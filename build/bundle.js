@@ -15673,7 +15673,7 @@
 		};
 	});
 
-	const location$1 = derived(loc, $loc => $loc.location);
+	const location$2 = derived(loc, $loc => $loc.location);
 	const querystring = derived(loc, $loc => $loc.querystring);
 	const params = writable(undefined);
 
@@ -16152,7 +16152,7 @@
 			wrap,
 			getLocation,
 			loc,
-			location: location$1,
+			location: location$2,
 			querystring,
 			params,
 			push,
@@ -22074,12 +22074,24 @@
 	function notifyInfo(text) {
 	    return toasts.info(text);
 	}
+	function notifyWarn(text) {
+	    return toasts.warning(text);
+	}
 	function notifyDismiss(uid) {
 	    const toast = toasts.getById(uid);
 	    if (toast && toast.remove)
 	        toast.remove();
 	}
 	const updateToastID = new Map();
+	function registerToast(toast, updateID) {
+	    if (GetUpdateList().has(updateID)) {
+	        toast.remove();
+	        return;
+	    }
+	    if (!updateToastID.has(updateID))
+	        updateToastID.set(updateID, []);
+	    updateToastID.get(updateID).push(toast.uid);
+	}
 	function dismissUpdateID(updateID) {
 	    const uids = updateToastID.get(updateID);
 	    if (uids) {
@@ -22146,6 +22158,11 @@
 	// updates an agent's single defensive key
 	function dKeyPromise(json) {
 	    return genericPost('/api/v1/d', json, 'application/json;charset=UTF-8');
+	}
+	/* agent */
+	// returns a promise to get the agent's JSON data from the server -- should be called only by WasabeeAgent.get()
+	function agentPromise(GID) {
+	    return genericGet(`/api/v1/agent/${GID}`);
 	}
 	/* team */
 	// returns a promise to a WasabeeTeam -- used only by WasabeeTeam.get
@@ -22336,6 +22353,12 @@
 	    fd.append('role', role);
 	    fd.append('zone', `${zone}`);
 	    return genericDelete(`/api/v1/draw/${opID}/perms`, fd);
+	}
+	function getLinkPromise(opID, taskID) {
+	    return genericGet(`/api/v1/draw/${opID}/link/${taskID}`);
+	}
+	function getMarkerPromise(opID, taskID) {
+	    return genericGet(`/api/v1/draw/${opID}/marker/${taskID}`);
 	}
 	// local change: none // cache: none
 	function assignMarkerPromise(opID, markerID, agentID) {
@@ -23304,6 +23327,22 @@
 	        const raw = await mePromise();
 	        const me = new WasabeeMe(raw);
 	        return me;
+	    }
+	    catch (e) {
+	        console.log(e);
+	    }
+	    return null;
+	}
+	async function getAgent(gid) {
+	    if (!gid)
+	        return null;
+	    const agent = WasabeeAgent.get(gid);
+	    if (agent)
+	        return agent;
+	    try {
+	        const result = await agentPromise(gid);
+	        const newagent = new WasabeeAgent(result);
+	        return newagent;
 	    }
 	    catch (e) {
 	        console.log(e);
@@ -26639,11 +26678,11 @@
 	const nodes = [];
 
 	// Current location
-	let location;
+	let location$1;
 
 	// Function that updates all nodes marking the active ones
 	function checkActive(el) {
-	    const matchesLocation = el.pattern.test(location);
+	    const matchesLocation = el.pattern.test(location$1);
 	    toggleClasses(el, el.className, matchesLocation);
 	    toggleClasses(el, el.inactiveClassName, !matchesLocation);
 	}
@@ -26666,7 +26705,7 @@
 	// Listen to changes in the location
 	loc.subscribe((value) => {
 	    // Update the location
-	    location = value.location + (value.querystring ? '?' + value.querystring : '');
+	    location$1 = value.location + (value.querystring ? '?' + value.querystring : '');
 
 	    // Update all nodes
 	    nodes.map(checkActive);
@@ -27636,7 +27675,7 @@
 	 * @param {Object} val The value to test
 	 * @returns {boolean} True if value is an Object, otherwise false
 	 */
-	function isObject(val) {
+	function isObject$1(val) {
 	  return val !== null && typeof val === 'object';
 	}
 
@@ -27702,7 +27741,7 @@
 	 * @returns {boolean} True if value is a Stream, otherwise false
 	 */
 	function isStream(val) {
-	  return isObject(val) && isFunction(val.pipe);
+	  return isObject$1(val) && isFunction(val.pipe);
 	}
 
 	/**
@@ -27868,7 +27907,7 @@
 	  isArrayBufferView: isArrayBufferView,
 	  isString: isString,
 	  isNumber: isNumber,
-	  isObject: isObject,
+	  isObject: isObject$1,
 	  isPlainObject: isPlainObject,
 	  isUndefined: isUndefined,
 	  isDate: isDate,
@@ -44817,6 +44856,113 @@
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 */
+	class Deferred {
+	    constructor() {
+	        this.reject = () => { };
+	        this.resolve = () => { };
+	        this.promise = new Promise((resolve, reject) => {
+	            this.resolve = resolve;
+	            this.reject = reject;
+	        });
+	    }
+	    /**
+	     * Our API internals are not promiseified and cannot because our callback APIs have subtle expectations around
+	     * invoking promises inline, which Promises are forbidden to do. This method accepts an optional node-style callback
+	     * and returns a node-style callback which will resolve or reject the Deferred's promise.
+	     */
+	    wrapCallback(callback) {
+	        return (error, value) => {
+	            if (error) {
+	                this.reject(error);
+	            }
+	            else {
+	                this.resolve(value);
+	            }
+	            if (typeof callback === 'function') {
+	                // Attaching noop handler just in case developer wasn't expecting
+	                // promises
+	                this.promise.catch(() => { });
+	                // Some of our callbacks don't expect a value and our own tests
+	                // assert that the parameter length is 1
+	                if (callback.length === 1) {
+	                    callback(error);
+	                }
+	                else {
+	                    callback(error, value);
+	                }
+	            }
+	        };
+	    }
+	}
+	/**
+	 * This method checks if indexedDB is supported by current browser/service worker context
+	 * @return true if indexedDB is supported by current browser/service worker context
+	 */
+	function isIndexedDBAvailable() {
+	    return typeof indexedDB === 'object';
+	}
+	/**
+	 * This method validates browser/sw context for indexedDB by opening a dummy indexedDB database and reject
+	 * if errors occur during the database open operation.
+	 *
+	 * @throws exception if current browser/sw context can't run idb.open (ex: Safari iframe, Firefox
+	 * private browsing)
+	 */
+	function validateIndexedDBOpenable() {
+	    return new Promise((resolve, reject) => {
+	        try {
+	            let preExist = true;
+	            const DB_CHECK_NAME = 'validate-browser-context-for-indexeddb-analytics-module';
+	            const request = self.indexedDB.open(DB_CHECK_NAME);
+	            request.onsuccess = () => {
+	                request.result.close();
+	                // delete database only when it doesn't pre-exist
+	                if (!preExist) {
+	                    self.indexedDB.deleteDatabase(DB_CHECK_NAME);
+	                }
+	                resolve(true);
+	            };
+	            request.onupgradeneeded = () => {
+	                preExist = false;
+	            };
+	            request.onerror = () => {
+	                var _a;
+	                reject(((_a = request.error) === null || _a === void 0 ? void 0 : _a.message) || '');
+	            };
+	        }
+	        catch (error) {
+	            reject(error);
+	        }
+	    });
+	}
+	/**
+	 *
+	 * This method checks whether cookie is enabled within current browser
+	 * @return true if cookie is enabled within current browser
+	 */
+	function areCookiesEnabled() {
+	    if (typeof navigator === 'undefined' || !navigator.cookieEnabled) {
+	        return false;
+	    }
+	    return true;
+	}
+
+	/**
+	 * @license
+	 * Copyright 2017 Google LLC
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *   http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
 	/**
 	 * @fileoverview Standardized Firebase Error.
 	 *
@@ -44900,6 +45046,65 @@
 	    });
 	}
 	const PATTERN = /\{\$([^}]+)}/g;
+	/**
+	 * Deep equal two objects. Support Arrays and Objects.
+	 */
+	function deepEqual(a, b) {
+	    if (a === b) {
+	        return true;
+	    }
+	    const aKeys = Object.keys(a);
+	    const bKeys = Object.keys(b);
+	    for (const k of aKeys) {
+	        if (!bKeys.includes(k)) {
+	            return false;
+	        }
+	        const aProp = a[k];
+	        const bProp = b[k];
+	        if (isObject(aProp) && isObject(bProp)) {
+	            if (!deepEqual(aProp, bProp)) {
+	                return false;
+	            }
+	        }
+	        else if (aProp !== bProp) {
+	            return false;
+	        }
+	    }
+	    for (const k of bKeys) {
+	        if (!aKeys.includes(k)) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+	function isObject(thing) {
+	    return thing !== null && typeof thing === 'object';
+	}
+
+	/**
+	 * @license
+	 * Copyright 2021 Google LLC
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *   http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	function getModularInstance(service) {
+	    if (service && service._delegate) {
+	        return service._delegate;
+	    }
+	    else {
+	        return service;
+	    }
+	}
 
 	/**
 	 * Component for service name T, e.g. `auth`, `auth-internal`
@@ -44938,6 +45143,371 @@
 	    setInstanceCreatedCallback(callback) {
 	        this.onInstanceCreated = callback;
 	        return this;
+	    }
+	}
+
+	/**
+	 * @license
+	 * Copyright 2019 Google LLC
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *   http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	const DEFAULT_ENTRY_NAME$1 = '[DEFAULT]';
+
+	/**
+	 * @license
+	 * Copyright 2019 Google LLC
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *   http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	 * Provider for instance for service name T, e.g. 'auth', 'auth-internal'
+	 * NameServiceMapping[T] is an alias for the type of the instance
+	 */
+	class Provider {
+	    constructor(name, container) {
+	        this.name = name;
+	        this.container = container;
+	        this.component = null;
+	        this.instances = new Map();
+	        this.instancesDeferred = new Map();
+	        this.instancesOptions = new Map();
+	        this.onInitCallbacks = new Map();
+	    }
+	    /**
+	     * @param identifier A provider can provide mulitple instances of a service
+	     * if this.component.multipleInstances is true.
+	     */
+	    get(identifier) {
+	        // if multipleInstances is not supported, use the default name
+	        const normalizedIdentifier = this.normalizeInstanceIdentifier(identifier);
+	        if (!this.instancesDeferred.has(normalizedIdentifier)) {
+	            const deferred = new Deferred();
+	            this.instancesDeferred.set(normalizedIdentifier, deferred);
+	            if (this.isInitialized(normalizedIdentifier) ||
+	                this.shouldAutoInitialize()) {
+	                // initialize the service if it can be auto-initialized
+	                try {
+	                    const instance = this.getOrInitializeService({
+	                        instanceIdentifier: normalizedIdentifier
+	                    });
+	                    if (instance) {
+	                        deferred.resolve(instance);
+	                    }
+	                }
+	                catch (e) {
+	                    // when the instance factory throws an exception during get(), it should not cause
+	                    // a fatal error. We just return the unresolved promise in this case.
+	                }
+	            }
+	        }
+	        return this.instancesDeferred.get(normalizedIdentifier).promise;
+	    }
+	    getImmediate(options) {
+	        var _a;
+	        // if multipleInstances is not supported, use the default name
+	        const normalizedIdentifier = this.normalizeInstanceIdentifier(options === null || options === void 0 ? void 0 : options.identifier);
+	        const optional = (_a = options === null || options === void 0 ? void 0 : options.optional) !== null && _a !== void 0 ? _a : false;
+	        if (this.isInitialized(normalizedIdentifier) ||
+	            this.shouldAutoInitialize()) {
+	            try {
+	                return this.getOrInitializeService({
+	                    instanceIdentifier: normalizedIdentifier
+	                });
+	            }
+	            catch (e) {
+	                if (optional) {
+	                    return null;
+	                }
+	                else {
+	                    throw e;
+	                }
+	            }
+	        }
+	        else {
+	            // In case a component is not initialized and should/can not be auto-initialized at the moment, return null if the optional flag is set, or throw
+	            if (optional) {
+	                return null;
+	            }
+	            else {
+	                throw Error(`Service ${this.name} is not available`);
+	            }
+	        }
+	    }
+	    getComponent() {
+	        return this.component;
+	    }
+	    setComponent(component) {
+	        if (component.name !== this.name) {
+	            throw Error(`Mismatching Component ${component.name} for Provider ${this.name}.`);
+	        }
+	        if (this.component) {
+	            throw Error(`Component for ${this.name} has already been provided`);
+	        }
+	        this.component = component;
+	        // return early without attempting to initialize the component if the component requires explicit initialization (calling `Provider.initialize()`)
+	        if (!this.shouldAutoInitialize()) {
+	            return;
+	        }
+	        // if the service is eager, initialize the default instance
+	        if (isComponentEager(component)) {
+	            try {
+	                this.getOrInitializeService({ instanceIdentifier: DEFAULT_ENTRY_NAME$1 });
+	            }
+	            catch (e) {
+	                // when the instance factory for an eager Component throws an exception during the eager
+	                // initialization, it should not cause a fatal error.
+	                // TODO: Investigate if we need to make it configurable, because some component may want to cause
+	                // a fatal error in this case?
+	            }
+	        }
+	        // Create service instances for the pending promises and resolve them
+	        // NOTE: if this.multipleInstances is false, only the default instance will be created
+	        // and all promises with resolve with it regardless of the identifier.
+	        for (const [instanceIdentifier, instanceDeferred] of this.instancesDeferred.entries()) {
+	            const normalizedIdentifier = this.normalizeInstanceIdentifier(instanceIdentifier);
+	            try {
+	                // `getOrInitializeService()` should always return a valid instance since a component is guaranteed. use ! to make typescript happy.
+	                const instance = this.getOrInitializeService({
+	                    instanceIdentifier: normalizedIdentifier
+	                });
+	                instanceDeferred.resolve(instance);
+	            }
+	            catch (e) {
+	                // when the instance factory throws an exception, it should not cause
+	                // a fatal error. We just leave the promise unresolved.
+	            }
+	        }
+	    }
+	    clearInstance(identifier = DEFAULT_ENTRY_NAME$1) {
+	        this.instancesDeferred.delete(identifier);
+	        this.instancesOptions.delete(identifier);
+	        this.instances.delete(identifier);
+	    }
+	    // app.delete() will call this method on every provider to delete the services
+	    // TODO: should we mark the provider as deleted?
+	    async delete() {
+	        const services = Array.from(this.instances.values());
+	        await Promise.all([
+	            ...services
+	                .filter(service => 'INTERNAL' in service) // legacy services
+	                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+	                .map(service => service.INTERNAL.delete()),
+	            ...services
+	                .filter(service => '_delete' in service) // modularized services
+	                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+	                .map(service => service._delete())
+	        ]);
+	    }
+	    isComponentSet() {
+	        return this.component != null;
+	    }
+	    isInitialized(identifier = DEFAULT_ENTRY_NAME$1) {
+	        return this.instances.has(identifier);
+	    }
+	    getOptions(identifier = DEFAULT_ENTRY_NAME$1) {
+	        return this.instancesOptions.get(identifier) || {};
+	    }
+	    initialize(opts = {}) {
+	        const { options = {} } = opts;
+	        const normalizedIdentifier = this.normalizeInstanceIdentifier(opts.instanceIdentifier);
+	        if (this.isInitialized(normalizedIdentifier)) {
+	            throw Error(`${this.name}(${normalizedIdentifier}) has already been initialized`);
+	        }
+	        if (!this.isComponentSet()) {
+	            throw Error(`Component ${this.name} has not been registered yet`);
+	        }
+	        const instance = this.getOrInitializeService({
+	            instanceIdentifier: normalizedIdentifier,
+	            options
+	        });
+	        // resolve any pending promise waiting for the service instance
+	        for (const [instanceIdentifier, instanceDeferred] of this.instancesDeferred.entries()) {
+	            const normalizedDeferredIdentifier = this.normalizeInstanceIdentifier(instanceIdentifier);
+	            if (normalizedIdentifier === normalizedDeferredIdentifier) {
+	                instanceDeferred.resolve(instance);
+	            }
+	        }
+	        return instance;
+	    }
+	    /**
+	     *
+	     * @param callback - a function that will be invoked  after the provider has been initialized by calling provider.initialize().
+	     * The function is invoked SYNCHRONOUSLY, so it should not execute any longrunning tasks in order to not block the program.
+	     *
+	     * @param identifier An optional instance identifier
+	     * @returns a function to unregister the callback
+	     */
+	    onInit(callback, identifier) {
+	        var _a;
+	        const normalizedIdentifier = this.normalizeInstanceIdentifier(identifier);
+	        const existingCallbacks = (_a = this.onInitCallbacks.get(normalizedIdentifier)) !== null && _a !== void 0 ? _a : new Set();
+	        existingCallbacks.add(callback);
+	        this.onInitCallbacks.set(normalizedIdentifier, existingCallbacks);
+	        const existingInstance = this.instances.get(normalizedIdentifier);
+	        if (existingInstance) {
+	            callback(existingInstance, normalizedIdentifier);
+	        }
+	        return () => {
+	            existingCallbacks.delete(callback);
+	        };
+	    }
+	    /**
+	     * Invoke onInit callbacks synchronously
+	     * @param instance the service instance`
+	     */
+	    invokeOnInitCallbacks(instance, identifier) {
+	        const callbacks = this.onInitCallbacks.get(identifier);
+	        if (!callbacks) {
+	            return;
+	        }
+	        for (const callback of callbacks) {
+	            try {
+	                callback(instance, identifier);
+	            }
+	            catch (_a) {
+	                // ignore errors in the onInit callback
+	            }
+	        }
+	    }
+	    getOrInitializeService({ instanceIdentifier, options = {} }) {
+	        let instance = this.instances.get(instanceIdentifier);
+	        if (!instance && this.component) {
+	            instance = this.component.instanceFactory(this.container, {
+	                instanceIdentifier: normalizeIdentifierForFactory(instanceIdentifier),
+	                options
+	            });
+	            this.instances.set(instanceIdentifier, instance);
+	            this.instancesOptions.set(instanceIdentifier, options);
+	            /**
+	             * Invoke onInit listeners.
+	             * Note this.component.onInstanceCreated is different, which is used by the component creator,
+	             * while onInit listeners are registered by consumers of the provider.
+	             */
+	            this.invokeOnInitCallbacks(instance, instanceIdentifier);
+	            /**
+	             * Order is important
+	             * onInstanceCreated() should be called after this.instances.set(instanceIdentifier, instance); which
+	             * makes `isInitialized()` return true.
+	             */
+	            if (this.component.onInstanceCreated) {
+	                try {
+	                    this.component.onInstanceCreated(this.container, instanceIdentifier, instance);
+	                }
+	                catch (_a) {
+	                    // ignore errors in the onInstanceCreatedCallback
+	                }
+	            }
+	        }
+	        return instance || null;
+	    }
+	    normalizeInstanceIdentifier(identifier = DEFAULT_ENTRY_NAME$1) {
+	        if (this.component) {
+	            return this.component.multipleInstances ? identifier : DEFAULT_ENTRY_NAME$1;
+	        }
+	        else {
+	            return identifier; // assume multiple instances are supported before the component is provided.
+	        }
+	    }
+	    shouldAutoInitialize() {
+	        return (!!this.component &&
+	            this.component.instantiationMode !== "EXPLICIT" /* EXPLICIT */);
+	    }
+	}
+	// undefined should be passed to the service factory for the default instance
+	function normalizeIdentifierForFactory(identifier) {
+	    return identifier === DEFAULT_ENTRY_NAME$1 ? undefined : identifier;
+	}
+	function isComponentEager(component) {
+	    return component.instantiationMode === "EAGER" /* EAGER */;
+	}
+
+	/**
+	 * @license
+	 * Copyright 2019 Google LLC
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *   http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	 * ComponentContainer that provides Providers for service name T, e.g. `auth`, `auth-internal`
+	 */
+	class ComponentContainer {
+	    constructor(name) {
+	        this.name = name;
+	        this.providers = new Map();
+	    }
+	    /**
+	     *
+	     * @param component Component being added
+	     * @param overwrite When a component with the same name has already been registered,
+	     * if overwrite is true: overwrite the existing component with the new component and create a new
+	     * provider with the new component. It can be useful in tests where you want to use different mocks
+	     * for different tests.
+	     * if overwrite is false: throw an exception
+	     */
+	    addComponent(component) {
+	        const provider = this.getProvider(component.name);
+	        if (provider.isComponentSet()) {
+	            throw new Error(`Component ${component.name} has already been registered with ${this.name}`);
+	        }
+	        provider.setComponent(component);
+	    }
+	    addOrOverwriteComponent(component) {
+	        const provider = this.getProvider(component.name);
+	        if (provider.isComponentSet()) {
+	            // delete the existing provider from the container, so we can register the new component
+	            this.providers.delete(component.name);
+	        }
+	        this.addComponent(component);
+	    }
+	    /**
+	     * getProvider provides a type safe interface where it can only be called with a field name
+	     * present in NameServiceMapping interface.
+	     *
+	     * Firebase SDKs providing services should extend NameServiceMapping interface to register
+	     * themselves.
+	     */
+	    getProvider(name) {
+	        if (this.providers.has(name)) {
+	            return this.providers.get(name);
+	        }
+	        // create a Provider for a service that hasn't registered with Firebase
+	        const provider = new Provider(name, this);
+	        this.providers.set(name, provider);
+	        return provider;
+	    }
+	    getProviders() {
+	        return Array.from(this.providers.values());
 	    }
 	}
 
@@ -45218,6 +45788,29 @@
 	const name$1$1 = "@firebase/firestore-compat";
 
 	const name$p = "firebase";
+
+	/**
+	 * @license
+	 * Copyright 2019 Google LLC
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *   http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	 * The default app name
+	 *
+	 * @internal
+	 */
+	const DEFAULT_ENTRY_NAME = '[DEFAULT]';
 	const PLATFORM_LOG_STRING = {
 	    [name$o]: 'fire-core',
 	    [name$n]: 'fire-core-compat',
@@ -45346,7 +45939,141 @@
 	        'Firebase App instance.',
 	    ["invalid-log-argument" /* INVALID_LOG_ARGUMENT */]: 'First argument to `onLog` must be null or a function.'
 	};
-	new ErrorFactory('app', 'Firebase', ERRORS);
+	const ERROR_FACTORY$2 = new ErrorFactory('app', 'Firebase', ERRORS);
+
+	/**
+	 * @license
+	 * Copyright 2019 Google LLC
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *   http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	class FirebaseAppImpl {
+	    constructor(options, config, container) {
+	        this._isDeleted = false;
+	        this._options = Object.assign({}, options);
+	        this._config = Object.assign({}, config);
+	        this._name = config.name;
+	        this._automaticDataCollectionEnabled =
+	            config.automaticDataCollectionEnabled;
+	        this._container = container;
+	        this.container.addComponent(new Component('app', () => this, "PUBLIC" /* PUBLIC */));
+	    }
+	    get automaticDataCollectionEnabled() {
+	        this.checkDestroyed();
+	        return this._automaticDataCollectionEnabled;
+	    }
+	    set automaticDataCollectionEnabled(val) {
+	        this.checkDestroyed();
+	        this._automaticDataCollectionEnabled = val;
+	    }
+	    get name() {
+	        this.checkDestroyed();
+	        return this._name;
+	    }
+	    get options() {
+	        this.checkDestroyed();
+	        return this._options;
+	    }
+	    get config() {
+	        this.checkDestroyed();
+	        return this._config;
+	    }
+	    get container() {
+	        return this._container;
+	    }
+	    get isDeleted() {
+	        return this._isDeleted;
+	    }
+	    set isDeleted(val) {
+	        this._isDeleted = val;
+	    }
+	    /**
+	     * This function will throw an Error if the App has already been deleted -
+	     * use before performing API actions on the App.
+	     */
+	    checkDestroyed() {
+	        if (this.isDeleted) {
+	            throw ERROR_FACTORY$2.create("app-deleted" /* APP_DELETED */, { appName: this._name });
+	        }
+	    }
+	}
+	function initializeApp(options, rawConfig = {}) {
+	    if (typeof rawConfig !== 'object') {
+	        const name = rawConfig;
+	        rawConfig = { name };
+	    }
+	    const config = Object.assign({ name: DEFAULT_ENTRY_NAME, automaticDataCollectionEnabled: false }, rawConfig);
+	    const name = config.name;
+	    if (typeof name !== 'string' || !name) {
+	        throw ERROR_FACTORY$2.create("bad-app-name" /* BAD_APP_NAME */, {
+	            appName: String(name)
+	        });
+	    }
+	    const existingApp = _apps.get(name);
+	    if (existingApp) {
+	        // return the existing app if options and config deep equal the ones in the existing app.
+	        if (deepEqual(options, existingApp.options) &&
+	            deepEqual(config, existingApp.config)) {
+	            return existingApp;
+	        }
+	        else {
+	            throw ERROR_FACTORY$2.create("duplicate-app" /* DUPLICATE_APP */, { appName: name });
+	        }
+	    }
+	    const container = new ComponentContainer(name);
+	    for (const component of _components.values()) {
+	        container.addComponent(component);
+	    }
+	    const newApp = new FirebaseAppImpl(options, config, container);
+	    _apps.set(name, newApp);
+	    return newApp;
+	}
+	/**
+	 * Retrieves a {@link @firebase/app#FirebaseApp} instance.
+	 *
+	 * When called with no arguments, the default app is returned. When an app name
+	 * is provided, the app corresponding to that name is returned.
+	 *
+	 * An exception is thrown if the app being retrieved has not yet been
+	 * initialized.
+	 *
+	 * @example
+	 * ```javascript
+	 * // Return the default app
+	 * const app = getApp();
+	 * ```
+	 *
+	 * @example
+	 * ```javascript
+	 * // Return a named app
+	 * const otherApp = getApp("otherApp");
+	 * ```
+	 *
+	 * @param name - Optional name of the app to return. If no name is
+	 *   provided, the default is `"[DEFAULT]"`.
+	 *
+	 * @returns The app corresponding to the provided app name.
+	 *   If no app name is provided, the default app is returned.
+	 *
+	 * @public
+	 */
+	function getApp(name = DEFAULT_ENTRY_NAME) {
+	    const app = _apps.get(name);
+	    if (!app) {
+	        throw ERROR_FACTORY$2.create("no-app" /* NO_APP */, { appName: name });
+	    }
+	    return app;
+	}
 	/**
 	 * Registers a library's name and version for platform logging purposes.
 	 * @param library - Name of 1p or 3p library (e.g. firestore, angularfire)
@@ -46601,7 +47328,7 @@
 	 *
 	 * @public
 	 */
-	async function getToken(installations, forceRefresh = false) {
+	async function getToken$2(installations, forceRefresh = false) {
 	    const installationsImpl = installations;
 	    await completeInstallationRegistration(installationsImpl.appConfig);
 	    // At this point we either have a Registered Installation in the DB, or we've
@@ -46701,7 +47428,7 @@
 	    const installations = _getProvider(app, INSTALLATIONS_NAME).getImmediate();
 	    const installationsInternal = {
 	        getId: () => getId(installations),
-	        getToken: (forceRefresh) => getToken(installations, forceRefresh)
+	        getToken: (forceRefresh) => getToken$2(installations, forceRefresh)
 	    };
 	    return installationsInternal;
 	};
@@ -47742,6 +48469,146 @@
 	}
 
 	/**
+	 * @license
+	 * Copyright 2020 Google LLC
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *   http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	 * Checks if all required APIs exist in the browser.
+	 * @returns a Promise that resolves to a boolean.
+	 *
+	 * @public
+	 */
+	async function isWindowSupported() {
+	    // firebase-js-sdk/issues/2393 reveals that idb#open in Safari iframe and Firefox private browsing
+	    // might be prohibited to run. In these contexts, an error would be thrown during the messaging
+	    // instantiating phase, informing the developers to import/call isSupported for special handling.
+	    return (typeof window !== 'undefined' &&
+	        isIndexedDBAvailable() &&
+	        (await validateIndexedDBOpenable()) &&
+	        areCookiesEnabled() &&
+	        'serviceWorker' in navigator &&
+	        'PushManager' in window &&
+	        'Notification' in window &&
+	        'fetch' in window &&
+	        ServiceWorkerRegistration.prototype.hasOwnProperty('showNotification') &&
+	        PushSubscription.prototype.hasOwnProperty('getKey'));
+	}
+
+	/**
+	 * @license
+	 * Copyright 2020 Google LLC
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *   http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	function onMessage$1(messaging, nextOrObserver) {
+	    if (!navigator) {
+	        throw ERROR_FACTORY.create("only-available-in-window" /* AVAILABLE_IN_WINDOW */);
+	    }
+	    messaging.onMessageHandler = nextOrObserver;
+	    return () => {
+	        messaging.onMessageHandler = null;
+	    };
+	}
+
+	/**
+	 * @license
+	 * Copyright 2017 Google LLC
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *   http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	 * Retrieves a Firebase Cloud Messaging instance.
+	 *
+	 * @returns The Firebase Cloud Messaging instance associated with the provided firebase app.
+	 *
+	 * @public
+	 */
+	function getMessagingInWindow(app = getApp()) {
+	    // Conscious decision to make this async check non-blocking during the messaging instance
+	    // initialization phase for performance consideration. An error would be thrown latter for
+	    // developer's information. Developers can then choose to import and call `isSupported` for
+	    // special handling.
+	    isWindowSupported().then(isSupported => {
+	        // If `isWindowSupported()` resolved, but returned false.
+	        if (!isSupported) {
+	            throw ERROR_FACTORY.create("unsupported-browser" /* UNSUPPORTED_BROWSER */);
+	        }
+	    }, _ => {
+	        // If `isWindowSupported()` rejected.
+	        throw ERROR_FACTORY.create("indexed-db-unsupported" /* INDEXED_DB_UNSUPPORTED */);
+	    });
+	    return _getProvider(getModularInstance(app), 'messaging').getImmediate();
+	}
+	/**
+	 * Subscribes the {@link Messaging} instance to push notifications. Returns an Firebase Cloud
+	 * Messaging registration token that can be used to send push messages to that {@link Messaging}
+	 * instance.
+	 *
+	 * If a notification permission isn't already granted, this method asks the user for permission. The
+	 * returned promise rejects if the user does not allow the app to show notifications.
+	 *
+	 * @param messaging - The {@link Messaging} instance.
+	 * @param options - Provides an optional vapid key and an optinoal service worker registration
+	 *
+	 * @returns The promise resolves with an FCM registration token.
+	 *
+	 * @public
+	 */
+	async function getToken(messaging, options) {
+	    messaging = getModularInstance(messaging);
+	    return getToken$1(messaging, options);
+	}
+	/**
+	 * When a push message is received and the user is currently on a page for your origin, the
+	 * message is passed to the page and an `onMessage()` event is dispatched with the payload of
+	 * the push message.
+	 *
+	 *
+	 * @param messaging - The {@link Messaging} instance.
+	 * @param nextOrObserver - This function, or observer object with `next` defined,
+	 *     is called when a message is received and the user is currently viewing your page.
+	 * @returns To stop listening for messages execute this returned function.
+	 *
+	 * @public
+	 */
+	function onMessage(messaging, nextOrObserver) {
+	    messaging = getModularInstance(messaging);
+	    return onMessage$1(messaging, nextOrObserver);
+	}
+
+	/**
 	 * Firebase Cloud Messaging
 	 *
 	 * @packageDocumentation
@@ -47749,10 +48616,166 @@
 	registerMessagingInWindow();
 
 	// Import the functions you need from the SDKs you need
+	const firebaseConfig = {
+	    apiKey: 'AIzaSyBGyM0EuPsrNBr2z360OhJ1dVvztGnE5L4',
+	    authDomain: 'phdevbin.firebaseapp.com',
+	    databaseURL: 'https://phdevbin.firebaseio.com',
+	    projectId: 'phdevbin',
+	    storageBucket: 'phdevbin.appspot.com',
+	    messagingSenderId: '269534461245',
+	    appId: '1:269534461245:web:51b1e9e51303c6156a5954',
+	    // measurementId: 'G-W9PTC1C6FM',
+	};
+	let resolveFirebaseToken;
+	let rejectFirebaseToken;
 	let firebaseToken = new Promise((resolve, reject) => {
+	    resolveFirebaseToken = resolve;
+	    rejectFirebaseToken = reject;
 	});
+	async function setupFirebase(config) {
+	    // Initialize Firebase
+	    const app = initializeApp(firebaseConfig);
+	    const messaging = getMessagingInWindow(app);
+	    onMessage(messaging, onFBMessage);
+	    // const auth = getAuth(app);
+	    const rootDir = location.pathname +
+	        (location.pathname.slice(-1) === '/' ? '' : '/') +
+	        'build/';
+	    try {
+	        const sw = await navigator.serviceWorker.register(rootDir + 'sw.js', {
+	            scope: rootDir,
+	        });
+	        resolveFirebaseToken(await getToken(messaging, {
+	            serviceWorkerRegistration: sw,
+	            vapidKey: config.publicVapidKey,
+	        }));
+	    }
+	    catch (e) {
+	        console.error(e);
+	        rejectFirebaseToken(e);
+	    }
+	}
 	async function sendTokenToServer() {
 	    return sendTokenToWasabee(await firebaseToken);
+	}
+	function onFBMessage(payload) {
+	    const data = payload.data;
+	    switch (data.cmd) {
+	        case 'Agent Location Change':
+	            console.log('firebase update of whole team location: ', data);
+	            break;
+	        case 'Delete':
+	            console.warn('server requested op delete: ', data);
+	            WasabeeOp.delete(data.opID);
+	            notifyWarn('Delete: ' + data.opID);
+	            break;
+	        case 'Generic Message':
+	            console.log(data);
+	            notifyInfo('Message: ' + data.msg);
+	            break;
+	        case 'Login':
+	            console.debug('server reported teammate login: ', data);
+	            getAgent(data.gid)
+	                .then((agent) => notifyInfo('Teamate Login: ' + agent.name))
+	                .catch(() => notifyInfo('Teamate Login: ' + data.gid));
+	            break;
+	        case 'Link Assignment Change':
+	        // fallthrough
+	        case 'Link Status Change':
+	        // fallthrough
+	        case 'Marker Assignment Change':
+	        // fallthrough
+	        case 'Marker Status Change':
+	        // fallthrough
+	        case 'Task Assignment Change':
+	        // fallthrough
+	        case 'Task Status Change':
+	        // fallthrough
+	        case 'Marker Status Change':
+	        // fallthrough
+	        case 'Map Change':
+	            opDataChange(data);
+	            break;
+	        case 'Target':
+	            console.log(data);
+	            notifyInfo('Target: ' + data.msg);
+	            break;
+	        default:
+	            console.warn('unknown firebase command: ', data);
+	            notifyWarn('Unknown: ' + JSON.stringify(data));
+	    }
+	}
+	const updateList = new Map();
+	async function opDataChange(data) {
+	    if (GetUpdateList().has(data.updateID))
+	        return;
+	    if (updateList.has(data.updateID + data.cmd)) {
+	        console.debug('skipping firebase requested update of op since it was our change', data.cmd, data.updateID);
+	        return;
+	    }
+	    // update the list to avoid race from slow network
+	    updateList.set(data.updateID + data.cmd, Date.now());
+	    const operation = WasabeeOp.load(data.opID);
+	    if (!operation) {
+	        console.warn('Got operation change for an unknown op', data.opID);
+	        return;
+	    }
+	    switch (data.cmd) {
+	        case 'Link Assignment Change':
+	            handleLinkAssignement(operation, data);
+	            console.log(data);
+	            break;
+	        case 'Link Status Change':
+	            handleLinkStatus(operation, data);
+	            console.log(data);
+	            break;
+	        case 'Marker Assignment Change':
+	            handleMarkerAssignement(operation, data);
+	            console.log(data);
+	            break;
+	        case 'Marker Status Change':
+	            handleMarkerStatus(operation, data);
+	            console.log(data);
+	            break;
+	        case 'Map Change':
+	        // fallthrough
+	        default:
+	            registerToast(notifyInfo(data.cmd + ': ' + JSON.stringify(data)), data.updateID);
+	            console.log(data);
+	            break;
+	    }
+	}
+	async function handleLinkAssignement(operation, data) {
+	    const link = new WasabeeLink(await getLinkPromise(data.opID, data.linkID));
+	    // todo: update op
+	    const from = operation.getPortal(link.fromPortalId);
+	    const to = operation.getPortal(link.toPortalId);
+	    const agent = await getAgent(link.assignedTo);
+	    if (from && to && agent)
+	        registerToast(notifyInfo(`Link from ${from.name} to ${to.name} is assigned to ${agent.name}`), data.updateID);
+	}
+	async function handleLinkStatus(operation, data) {
+	    const link = new WasabeeLink(await getLinkPromise(data.opID, data.linkID));
+	    // todo: update op
+	    const from = operation.getPortal(link.fromPortalId);
+	    const to = operation.getPortal(link.toPortalId);
+	    if (from && to)
+	        registerToast(notifyInfo(`Link from ${from.name} to ${to.name} is ${link.state}`), data.updateID);
+	}
+	async function handleMarkerAssignement(operation, data) {
+	    const marker = new WasabeeMarker(await getMarkerPromise(data.opID, data.markerID));
+	    // todo: update op
+	    const portal = operation.getPortal(marker.portalId);
+	    const agent = await getAgent(marker.assignedTo);
+	    if (portal && agent)
+	        registerToast(notifyInfo(`Marker ${marker.type} on ${portal.name} is assigned ${agent.name}`), data.updateID);
+	}
+	async function handleMarkerStatus(operation, data) {
+	    const marker = new WasabeeMarker(await getMarkerPromise(data.opID, data.markerID));
+	    // todo: update op
+	    const portal = operation.getPortal(marker.portalId);
+	    if (portal)
+	        registerToast(notifyInfo(`Marker ${marker.type} on ${portal.name} is ${marker.state}`), data.updateID);
 	}
 
 	/* src/App.svelte generated by Svelte v3.42.5 */
@@ -47760,7 +48783,7 @@
 	const { console: console_1 } = globals;
 	const file = "src/App.svelte";
 
-	// (109:0) {:else}
+	// (112:0) {:else}
 	function create_else_block(ctx) {
 		let header;
 		let navbar;
@@ -47812,8 +48835,8 @@
 				create_component(toastcontainer.$$.fragment);
 				t1 = space();
 				create_component(router.$$.fragment);
-				add_location(header, file, 109, 2, 3460);
-				add_location(main, file, 131, 2, 4320);
+				add_location(header, file, 112, 2, 3568);
+				add_location(main, file, 134, 2, 4428);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, header, anchor);
@@ -47876,14 +48899,14 @@
 			block,
 			id: create_else_block.name,
 			type: "else",
-			source: "(109:0) {:else}",
+			source: "(112:0) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (107:0) {#if !me}
+	// (110:0) {#if !me}
 	function create_if_block_1(ctx) {
 		let homepage;
 		let current;
@@ -47926,14 +48949,14 @@
 			block,
 			id: create_if_block_1.name,
 			type: "if",
-			source: "(107:0) {#if !me}",
+			source: "(110:0) {#if !me}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (115:19) <NavLink href="#/teams">
+	// (118:19) <NavLink href="#/teams">
 	function create_default_slot_16(ctx) {
 		let t;
 
@@ -47953,14 +48976,14 @@
 			block,
 			id: create_default_slot_16.name,
 			type: "slot",
-			source: "(115:19) <NavLink href=\\\"#/teams\\\">",
+			source: "(118:19) <NavLink href=\\\"#/teams\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (115:10) <NavItem>
+	// (118:10) <NavItem>
 	function create_default_slot_15(ctx) {
 		let navlink;
 		let current;
@@ -48009,14 +49032,14 @@
 			block,
 			id: create_default_slot_15.name,
 			type: "slot",
-			source: "(115:10) <NavItem>",
+			source: "(118:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (116:19) <NavLink href="#/operations">
+	// (119:19) <NavLink href="#/operations">
 	function create_default_slot_14(ctx) {
 		let t;
 
@@ -48036,14 +49059,14 @@
 			block,
 			id: create_default_slot_14.name,
 			type: "slot",
-			source: "(116:19) <NavLink href=\\\"#/operations\\\">",
+			source: "(119:19) <NavLink href=\\\"#/operations\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (116:10) <NavItem>
+	// (119:10) <NavItem>
 	function create_default_slot_13(ctx) {
 		let navlink;
 		let current;
@@ -48092,14 +49115,14 @@
 			block,
 			id: create_default_slot_13.name,
 			type: "slot",
-			source: "(116:10) <NavItem>",
+			source: "(119:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (118:13) <NavLink href="#/defensivekeys/">
+	// (121:13) <NavLink href="#/defensivekeys/">
 	function create_default_slot_12(ctx) {
 		let t;
 
@@ -48119,14 +49142,14 @@
 			block,
 			id: create_default_slot_12.name,
 			type: "slot",
-			source: "(118:13) <NavLink href=\\\"#/defensivekeys/\\\">",
+			source: "(121:13) <NavLink href=\\\"#/defensivekeys/\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (117:10) <NavItem             >
+	// (120:10) <NavItem             >
 	function create_default_slot_11(ctx) {
 		let navlink;
 		let current;
@@ -48175,14 +49198,14 @@
 			block,
 			id: create_default_slot_11.name,
 			type: "slot",
-			source: "(117:10) <NavItem             >",
+			source: "(120:10) <NavItem             >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (120:19) <NavLink href="#/settings">
+	// (123:19) <NavLink href="#/settings">
 	function create_default_slot_10(ctx) {
 		let t;
 
@@ -48202,14 +49225,14 @@
 			block,
 			id: create_default_slot_10.name,
 			type: "slot",
-			source: "(120:19) <NavLink href=\\\"#/settings\\\">",
+			source: "(123:19) <NavLink href=\\\"#/settings\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (120:10) <NavItem>
+	// (123:10) <NavItem>
 	function create_default_slot_9(ctx) {
 		let navlink;
 		let current;
@@ -48258,14 +49281,14 @@
 			block,
 			id: create_default_slot_9.name,
 			type: "slot",
-			source: "(120:10) <NavItem>",
+			source: "(123:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (121:19) <NavLink href="#/help">
+	// (124:19) <NavLink href="#/help">
 	function create_default_slot_8(ctx) {
 		let t;
 
@@ -48285,14 +49308,14 @@
 			block,
 			id: create_default_slot_8.name,
 			type: "slot",
-			source: "(121:19) <NavLink href=\\\"#/help\\\">",
+			source: "(124:19) <NavLink href=\\\"#/help\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (121:10) <NavItem>
+	// (124:10) <NavItem>
 	function create_default_slot_7(ctx) {
 		let navlink;
 		let current;
@@ -48341,14 +49364,14 @@
 			block,
 			id: create_default_slot_7.name,
 			type: "slot",
-			source: "(121:10) <NavItem>",
+			source: "(124:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (123:13) <NavLink href="#/" on:click={logout}>
+	// (126:13) <NavLink href="#/" on:click={logout}>
 	function create_default_slot_6(ctx) {
 		let t;
 
@@ -48368,14 +49391,14 @@
 			block,
 			id: create_default_slot_6.name,
 			type: "slot",
-			source: "(123:13) <NavLink href=\\\"#/\\\" on:click={logout}>",
+			source: "(126:13) <NavLink href=\\\"#/\\\" on:click={logout}>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (122:10) <NavItem             >
+	// (125:10) <NavItem             >
 	function create_default_slot_5(ctx) {
 		let navlink;
 		let current;
@@ -48426,14 +49449,14 @@
 			block,
 			id: create_default_slot_5.name,
 			type: "slot",
-			source: "(122:10) <NavItem             >",
+			source: "(125:10) <NavItem             >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (114:8) <Nav navbar>
+	// (117:8) <Nav navbar>
 	function create_default_slot_4(ctx) {
 		let navitem0;
 		let t0;
@@ -48606,14 +49629,14 @@
 			block,
 			id: create_default_slot_4.name,
 			type: "slot",
-			source: "(114:8) <Nav navbar>",
+			source: "(117:8) <Nav navbar>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (113:6) <Collapse toggler="#main-toggler" navbar expand="lg">
+	// (116:6) <Collapse toggler="#main-toggler" navbar expand="lg">
 	function create_default_slot_3(ctx) {
 		let nav;
 		let current;
@@ -48662,14 +49685,14 @@
 			block,
 			id: create_default_slot_3.name,
 			type: "slot",
-			source: "(113:6) <Collapse toggler=\\\"#main-toggler\\\" navbar expand=\\\"lg\\\">",
+			source: "(116:6) <Collapse toggler=\\\"#main-toggler\\\" navbar expand=\\\"lg\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (127:6) <NavLink disabled href="#">
+	// (130:6) <NavLink disabled href="#">
 	function create_default_slot_2(ctx) {
 		let t_value = getServer().replace('https://', '') + "";
 		let t;
@@ -48691,14 +49714,14 @@
 			block,
 			id: create_default_slot_2.name,
 			type: "slot",
-			source: "(127:6) <NavLink disabled href=\\\"#\\\">",
+			source: "(130:6) <NavLink disabled href=\\\"#\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (111:4) <Navbar container={false} color="dark" dark expand="lg">
+	// (114:4) <Navbar container={false} color="dark" dark expand="lg">
 	function create_default_slot_1(ctx) {
 		let navbartoggler;
 		let t0;
@@ -48791,14 +49814,14 @@
 			block,
 			id: create_default_slot_1.name,
 			type: "slot",
-			source: "(111:4) <Navbar container={false} color=\\\"dark\\\" dark expand=\\\"lg\\\">",
+			source: "(114:4) <Navbar container={false} color=\\\"dark\\\" dark expand=\\\"lg\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (133:4) <ToastContainer let:data>
+	// (136:4) <ToastContainer let:data>
 	function create_default_slot(ctx) {
 		let flattoast;
 		let current;
@@ -48839,14 +49862,14 @@
 			block,
 			id: create_default_slot.name,
 			type: "slot",
-			source: "(133:4) <ToastContainer let:data>",
+			source: "(136:4) <ToastContainer let:data>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (140:0) {#if loading}
+	// (143:0) {#if loading}
 	function create_if_block(ctx) {
 		let div;
 
@@ -48855,7 +49878,7 @@
 				div = element("div");
 				attr_dev(div, "id", "loading-animation");
 				attr_dev(div, "class", "svelte-1bcajx9");
-				add_location(div, file, 140, 2, 4491);
+				add_location(div, file, 143, 2, 4599);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -48869,7 +49892,7 @@
 			block,
 			id: create_if_block.name,
 			type: "if",
-			source: "(140:0) {#if loading}",
+			source: "(143:0) {#if loading}",
 			ctx
 		});
 
@@ -48943,22 +49966,22 @@
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
-				add_location(script, file, 99, 2, 3273);
-				add_location(strong, file, 147, 76, 4772);
+				add_location(script, file, 102, 2, 3381);
+				add_location(strong, file, 150, 76, 4880);
 				attr_dev(a0, "href", "https://v.enl.one/");
-				add_location(a0, file, 151, 6, 4888);
+				add_location(a0, file, 154, 6, 4996);
 				attr_dev(a1, "href", "https://enl.rocks");
-				add_location(a1, file, 152, 6, 4933);
+				add_location(a1, file, 155, 6, 5041);
 				attr_dev(a2, "href", "/privacy");
-				add_location(a2, file, 153, 6, 4994);
+				add_location(a2, file, 156, 6, 5102);
 				attr_dev(p0, "class", "text-muted small");
-				add_location(p0, file, 145, 4, 4592);
+				add_location(p0, file, 148, 4, 4700);
 				attr_dev(p1, "class", "text-muted text-right small");
-				add_location(p1, file, 155, 4, 5067);
+				add_location(p1, file, 158, 4, 5175);
 				attr_dev(div, "class", "p-5");
-				add_location(div, file, 144, 2, 4570);
+				add_location(div, file, 147, 2, 4678);
 				attr_dev(footer, "class", "mastfoot mx-5 mt-auto");
-				add_location(footer, file, 143, 0, 4529);
+				add_location(footer, file, 146, 0, 4637);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -49111,6 +50134,7 @@
 
 			loadConfig().then(config => {
 				setConfig(config);
+				setupFirebase(config);
 
 				loadMeAndOps().then(() => __awaiter(void 0, void 0, void 0, function* () {
 					$$invalidate(0, me = WasabeeMe.get());
@@ -49169,7 +50193,9 @@
 			return __awaiter(this, void 0, void 0, function* () {
 				$$invalidate(0, me = new WasabeeMe(ev.detail));
 				me.store();
-				setConfig(yield loadConfig());
+				const config = yield loadConfig();
+				setConfig(config);
+				setupFirebase(config);
 				yield syncOps(me);
 				yield syncTeams(me);
 				sendTokenToServer();
@@ -49214,6 +50240,7 @@
 			getAuthBearer,
 			setAuthBearer,
 			sendTokenToServer,
+			setupFirebase,
 			me,
 			loading,
 			routes,
