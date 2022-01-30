@@ -1,7 +1,12 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { getMessaging, getToken, onMessage } from 'firebase/messaging';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import {
+  getMessaging,
+  getToken,
+  MessagePayload,
+  onMessage,
+} from 'firebase/messaging';
+// import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import {
   GetUpdateList,
   getLinkPromise,
@@ -20,13 +25,15 @@ const firebaseConfig = {
   storageBucket: 'phdevbin.appspot.com',
   messagingSenderId: '269534461245',
   appId: '1:269534461245:web:51b1e9e51303c6156a5954',
-  measurementId: 'G-W9PTC1C6FM',
+  // measurementId: 'G-W9PTC1C6FM',
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
-const auth = getAuth(app);
+onMessage(messaging, onFBMessage);
+
+// const auth = getAuth(app);
 
 const rootDir =
   location.pathname +
@@ -52,12 +59,12 @@ export function sendTokenToServer() {
   if (firebaseToken) return sendTokenToWasabee(firebaseToken);
 }
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    console.log('Firebase auth login: ', user.uid);
-    return;
-  }
-});
+// onAuthStateChanged(auth, (user) => {
+//   if (user) {
+//     console.log('Firebase auth login: ', user.uid);
+//     return;
+//   }
+// });
 
 type AgentLocation = {
   cmd: 'Agent Location Change';
@@ -149,7 +156,7 @@ type FBMessage =
   | TaskState
   | OpChange;
 
-onMessage(messaging, (payload) => {
+function onFBMessage(payload: MessagePayload) {
   const data = payload.data as FBMessage;
   switch (data.cmd) {
     case 'Agent Location Change':
@@ -195,7 +202,7 @@ onMessage(messaging, (payload) => {
       console.warn('unknown firebase command: ', data);
       notifyWarn('Unknown: ' + JSON.stringify(data));
   }
-});
+}
 
 const updateList = new Map<string, number>();
 async function opDataChange(

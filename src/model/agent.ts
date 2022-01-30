@@ -26,8 +26,8 @@ interface VAgent extends BaseAgent {
 }
 
 interface ServerTeamAgent extends BaseAgent {
-  ShareWD?: boolean;
-  LoadWD?: boolean;
+  shareWD?: boolean;
+  loadWD?: boolean;
   state?: boolean;
   squad?: string;
 }
@@ -54,8 +54,8 @@ interface Agent extends BaseAgent, RockAgent, VAgent, TeamAgent {
 function serverAgentToAgent(agent: ServerAgent) {
   return {
     ...agent,
-    shareWDKeys: agent.ShareWD,
-    loadWDKeys: agent.LoadWD,
+    shareWDKeys: agent.shareWD,
+    loadWDKeys: agent.loadWD,
     shareLocation: agent.state,
     comment: agent.squad,
   };

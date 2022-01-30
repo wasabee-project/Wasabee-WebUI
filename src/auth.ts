@@ -5,7 +5,11 @@ function promiseLogin(options: gapi.auth2.AuthorizeConfig) {
   const promise = new Promise<string>((resolve, reject) => {
     window.gapi.auth2.authorize(options, (response) => {
       if (response.error) {
-        return reject(`error: ${response.error}: ${response.error_subtype}`);
+        return reject(
+          `error: ${response.error}: ${
+            response.error_subtype || (response as any).details
+          }`
+        );
       }
       console.log(response);
       resolve(response.access_token);
