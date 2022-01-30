@@ -21221,7 +21221,7 @@
 	const agentCache = new Map();
 	// convert agent in server model to client model
 	function serverAgentToAgent(agent) {
-	    return Object.assign(Object.assign({}, agent), { shareWDKeys: agent.ShareWD, loadWDKeys: agent.LoadWD, shareLocation: agent.state, comment: agent.squad });
+	    return Object.assign(Object.assign({}, agent), { shareWDKeys: agent.shareWD, loadWDKeys: agent.loadWD, shareLocation: agent.state, comment: agent.squad });
 	}
 	class WasabeeAgent {
 	    constructor(obj) {
