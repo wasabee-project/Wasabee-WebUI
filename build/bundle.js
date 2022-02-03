@@ -32973,7 +32973,7 @@
 		return child_ctx;
 	}
 
-	// (207:14) {#each agentList as a (a.id)}
+	// (209:14) {#each agentList as a (a.id)}
 	function create_each_block_4$1(key_1, ctx) {
 		let option;
 		let t0_value = /*a*/ ctx[48].name + "";
@@ -32990,7 +32990,7 @@
 				t1 = space();
 				option.__value = option_value_value = /*a*/ ctx[48].id;
 				option.value = option.__value;
-				add_location(option, file$b, 207, 16, 6573);
+				add_location(option, file$b, 209, 16, 6702);
 				this.first = option;
 			},
 			m: function mount(target, anchor) {
@@ -33016,14 +33016,14 @@
 			block,
 			id: create_each_block_4$1.name,
 			type: "each",
-			source: "(207:14) {#each agentList as a (a.id)}",
+			source: "(209:14) {#each agentList as a (a.id)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (220:8) {#each keylist as key (key.id)}
+	// (222:8) {#each keylist as key (key.id)}
 	function create_each_block_3$1(key_1, ctx) {
 		let tr;
 		let td0;
@@ -33090,24 +33090,24 @@
 				td5 = element("td");
 				input1 = element("input");
 				t9 = space();
-				add_location(td0, file$b, 225, 12, 7183);
-				add_location(td1, file$b, 226, 12, 7215);
-				add_location(td2, file$b, 227, 12, 7251);
-				add_location(td3, file$b, 228, 12, 7292);
+				add_location(td0, file$b, 227, 12, 7312);
+				add_location(td1, file$b, 228, 12, 7344);
+				add_location(td2, file$b, 229, 12, 7380);
+				add_location(td3, file$b, 230, 12, 7421);
 				attr_dev(input0, "size", "3");
 				input0.value = input0_value_value = /*key*/ ctx[37].iHave;
 				attr_dev(input0, "type", "number");
 				input0.disabled = input0_disabled_value = /*agent*/ ctx[2] != /*me*/ ctx[12].id;
-				add_location(input0, file$b, 230, 14, 7345);
-				add_location(td4, file$b, 229, 12, 7326);
+				add_location(input0, file$b, 232, 14, 7474);
+				add_location(td4, file$b, 231, 12, 7455);
 				attr_dev(input1, "size", "10");
 				input1.value = input1_value_value = /*key*/ ctx[37].capsule;
 				input1.disabled = input1_disabled_value = /*agent*/ ctx[2] != /*me*/ ctx[12].id;
-				add_location(input1, file$b, 239, 14, 7614);
-				add_location(td5, file$b, 238, 12, 7595);
+				add_location(input1, file$b, 241, 14, 7743);
+				add_location(td5, file$b, 240, 12, 7724);
 				toggle_class(tr, "table-warning", /*key*/ ctx[37].agentRequired > /*key*/ ctx[37].iHave);
 				toggle_class(tr, "table-danger", /*key*/ ctx[37].required > /*key*/ ctx[37].onHand);
-				add_location(tr, file$b, 220, 10, 6980);
+				add_location(tr, file$b, 222, 10, 7109);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -33183,14 +33183,14 @@
 			block,
 			id: create_each_block_3$1.name,
 			type: "each",
-			source: "(220:8) {#each keylist as key (key.id)}",
+			source: "(222:8) {#each keylist as key (key.id)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (252:2) {#if selectedKey && keyPortal}
+	// (254:2) {#if selectedKey && keyPortal}
 	function create_if_block$c(ctx) {
 		let div3;
 		let div2;
@@ -33302,27 +33302,27 @@
 				button = element("button");
 				button.textContent = "Close";
 				attr_dev(div0, "class", "map svelte-ycmq6c");
-				add_location(div0, file$b, 254, 8, 8001);
-				add_location(h3, file$b, 265, 10, 8408);
-				add_location(th0, file$b, 267, 16, 8512);
-				add_location(th1, file$b, 267, 29, 8525);
-				add_location(tr0, file$b, 267, 12, 8508);
+				add_location(div0, file$b, 256, 8, 8130);
+				add_location(h3, file$b, 267, 10, 8537);
+				add_location(th0, file$b, 269, 16, 8641);
+				add_location(th1, file$b, 269, 29, 8654);
+				add_location(tr0, file$b, 269, 12, 8637);
 				attr_dev(table0, "class", "table table-striped");
-				add_location(table0, file$b, 266, 10, 8460);
-				add_location(th2, file$b, 278, 16, 8926);
-				add_location(th3, file$b, 278, 30, 8940);
-				add_location(th4, file$b, 278, 42, 8952);
-				add_location(tr1, file$b, 278, 12, 8922);
+				add_location(table0, file$b, 268, 10, 8589);
+				add_location(th2, file$b, 280, 16, 9055);
+				add_location(th3, file$b, 280, 30, 9069);
+				add_location(th4, file$b, 280, 42, 9081);
+				add_location(tr1, file$b, 280, 12, 9051);
 				attr_dev(table1, "class", "table table-striped");
-				add_location(table1, file$b, 277, 10, 8874);
+				add_location(table1, file$b, 279, 10, 9003);
 				attr_dev(button, "class", "btn btn-primary");
-				add_location(button, file$b, 296, 10, 9560);
+				add_location(button, file$b, 298, 10, 9689);
 				attr_dev(div1, "class", "card-body");
-				add_location(div1, file$b, 264, 8, 8374);
+				add_location(div1, file$b, 266, 8, 8503);
 				attr_dev(div2, "class", "card svelte-ycmq6c");
-				add_location(div2, file$b, 253, 6, 7974);
+				add_location(div2, file$b, 255, 6, 8103);
 				attr_dev(div3, "class", "col sidemap col-md-4 svelte-ycmq6c");
-				add_location(div3, file$b, 252, 4, 7933);
+				add_location(div3, file$b, 254, 4, 8062);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div3, anchor);
@@ -33437,14 +33437,14 @@
 			block,
 			id: create_if_block$c.name,
 			type: "if",
-			source: "(252:2) {#if selectedKey && keyPortal}",
+			source: "(254:2) {#if selectedKey && keyPortal}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (256:10) <LeafletMap options={{ zoom: 3, center: [0, 0] }} bind:this={map}>
+	// (258:10) <LeafletMap options={{ zoom: 3, center: [0, 0] }} bind:this={map}>
 	function create_default_slot$3(ctx) {
 		let tilelayer;
 		let t;
@@ -33508,14 +33508,14 @@
 			block,
 			id: create_default_slot$3.name,
 			type: "slot",
-			source: "(256:10) <LeafletMap options={{ zoom: 3, center: [0, 0] }} bind:this={map}>",
+			source: "(258:10) <LeafletMap options={{ zoom: 3, center: [0, 0] }} bind:this={map}>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (270:14) {#if entry.to === selectedKey}
+	// (272:14) {#if entry.to === selectedKey}
 	function create_if_block_3$3(ctx) {
 		let tr;
 		let td0;
@@ -33536,9 +33536,9 @@
 				td1 = element("td");
 				t2 = text(t2_value);
 				t3 = space();
-				add_location(td0, file$b, 271, 18, 8700);
-				add_location(td1, file$b, 272, 18, 8760);
-				add_location(tr, file$b, 270, 16, 8677);
+				add_location(td0, file$b, 273, 18, 8829);
+				add_location(td1, file$b, 274, 18, 8889);
+				add_location(tr, file$b, 272, 16, 8806);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, tr, anchor);
@@ -33562,14 +33562,14 @@
 			block,
 			id: create_if_block_3$3.name,
 			type: "if",
-			source: "(270:14) {#if entry.to === selectedKey}",
+			source: "(272:14) {#if entry.to === selectedKey}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (269:12) {#each keysZones as entry (entry.to + entry.zone + '')}
+	// (271:12) {#each keysZones as entry (entry.to + entry.zone + '')}
 	function create_each_block_2$4(key_1, ctx) {
 		let first;
 		let if_block_anchor;
@@ -33616,14 +33616,14 @@
 			block,
 			id: create_each_block_2$4.name,
 			type: "each",
-			source: "(269:12) {#each keysZones as entry (entry.to + entry.zone + '')}",
+			source: "(271:12) {#each keysZones as entry (entry.to + entry.zone + '')}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (281:14) {#if id !== '[unassigned]'}
+	// (283:14) {#if id !== '[unassigned]'}
 	function create_if_block_2$5(ctx) {
 		let tr;
 		let td0;
@@ -33649,10 +33649,10 @@
 				t3 = space();
 				td2 = element("td");
 				t4 = text(t4_value);
-				add_location(td0, file$b, 282, 18, 9123);
-				add_location(td1, file$b, 283, 18, 9169);
-				add_location(td2, file$b, 284, 18, 9211);
-				add_location(tr, file$b, 281, 16, 9100);
+				add_location(td0, file$b, 284, 18, 9252);
+				add_location(td1, file$b, 285, 18, 9298);
+				add_location(td2, file$b, 286, 18, 9340);
+				add_location(tr, file$b, 283, 16, 9229);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, tr, anchor);
@@ -33679,14 +33679,14 @@
 			block,
 			id: create_if_block_2$5.name,
 			type: "if",
-			source: "(281:14) {#if id !== '[unassigned]'}",
+			source: "(283:14) {#if id !== '[unassigned]'}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (280:12) {#each Object.entries(keySummary) as [id, entry] (id)}
+	// (282:12) {#each Object.entries(keySummary) as [id, entry] (id)}
 	function create_each_block_1$4(key_1, ctx) {
 		let first;
 		let if_block_anchor;
@@ -33733,14 +33733,14 @@
 			block,
 			id: create_each_block_1$4.name,
 			type: "each",
-			source: "(280:12) {#each Object.entries(keySummary) as [id, entry] (id)}",
+			source: "(282:12) {#each Object.entries(keySummary) as [id, entry] (id)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (289:12) {#if '[unassigned]' in keySummary}
+	// (291:12) {#if '[unassigned]' in keySummary}
 	function create_if_block_1$a(ctx) {
 		let tr;
 		let td0;
@@ -33761,10 +33761,10 @@
 				t2 = space();
 				td2 = element("td");
 				t3 = text(t3_value);
-				add_location(td0, file$b, 290, 16, 9381);
-				add_location(td1, file$b, 291, 16, 9423);
-				add_location(td2, file$b, 292, 16, 9446);
-				add_location(tr, file$b, 289, 14, 9360);
+				add_location(td0, file$b, 292, 16, 9510);
+				add_location(td1, file$b, 293, 16, 9552);
+				add_location(td2, file$b, 294, 16, 9575);
+				add_location(tr, file$b, 291, 14, 9489);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, tr, anchor);
@@ -33787,14 +33787,14 @@
 			block,
 			id: create_if_block_1$a.name,
 			type: "if",
-			source: "(289:12) {#if '[unassigned]' in keySummary}",
+			source: "(291:12) {#if '[unassigned]' in keySummary}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (316:6) {#each koh as key (key.key)}
+	// (318:6) {#each koh as key (key.key)}
 	function create_each_block$7(key_1, ctx) {
 		let tr;
 		let td0;
@@ -33831,11 +33831,11 @@
 				td3 = element("td");
 				t6 = text(t6_value);
 				t7 = space();
-				add_location(td0, file$b, 317, 10, 10040);
-				add_location(td1, file$b, 318, 10, 10070);
-				add_location(td2, file$b, 319, 10, 10101);
-				add_location(td3, file$b, 320, 10, 10132);
-				add_location(tr, file$b, 316, 8, 10025);
+				add_location(td0, file$b, 319, 10, 10169);
+				add_location(td1, file$b, 320, 10, 10199);
+				add_location(td2, file$b, 321, 10, 10230);
+				add_location(td3, file$b, 322, 10, 10261);
+				add_location(tr, file$b, 318, 8, 10154);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -33869,7 +33869,7 @@
 			block,
 			id: create_each_block$7.name,
 			type: "each",
-			source: "(316:6) {#each koh as key (key.key)}",
+			source: "(318:6) {#each koh as key (key.key)}",
 			ctx
 		});
 
@@ -34028,40 +34028,40 @@
 				}
 
 				attr_dev(h1, "id", "opName");
-				add_location(h1, file$b, 194, 0, 6058);
-				add_location(th0, file$b, 200, 10, 6211);
-				add_location(th1, file$b, 201, 10, 6267);
-				add_location(label, file$b, 204, 12, 6415);
+				add_location(h1, file$b, 196, 0, 6187);
+				add_location(th0, file$b, 202, 10, 6340);
+				add_location(th1, file$b, 203, 10, 6396);
+				add_location(label, file$b, 206, 12, 6544);
 				if (/*agent*/ ctx[2] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[25].call(select));
-				add_location(select, file$b, 205, 12, 6485);
-				add_location(th2, file$b, 202, 10, 6329);
-				add_location(th3, file$b, 213, 10, 6718);
-				add_location(th4, file$b, 214, 10, 6775);
-				add_location(th5, file$b, 215, 10, 6837);
-				add_location(tr0, file$b, 199, 8, 6196);
-				add_location(thead0, file$b, 198, 6, 6180);
-				add_location(tbody0, file$b, 218, 6, 6922);
+				add_location(select, file$b, 207, 12, 6614);
+				add_location(th2, file$b, 204, 10, 6458);
+				add_location(th3, file$b, 215, 10, 6847);
+				add_location(th4, file$b, 216, 10, 6904);
+				add_location(th5, file$b, 217, 10, 6966);
+				add_location(tr0, file$b, 201, 8, 6325);
+				add_location(thead0, file$b, 200, 6, 6309);
+				add_location(tbody0, file$b, 220, 6, 7051);
 				attr_dev(table0, "class", "table table-striped");
-				add_location(table0, file$b, 197, 4, 6138);
+				add_location(table0, file$b, 199, 4, 6267);
 				attr_dev(div0, "class", "col");
-				add_location(div0, file$b, 196, 2, 6116);
+				add_location(div0, file$b, 198, 2, 6245);
 				attr_dev(div1, "class", "row");
-				add_location(div1, file$b, 195, 0, 6096);
+				add_location(div1, file$b, 197, 0, 6225);
 				attr_dev(th6, "scope", "col");
-				add_location(th6, file$b, 308, 8, 9810);
+				add_location(th6, file$b, 310, 8, 9939);
 				attr_dev(th7, "scope", "col");
-				add_location(th7, file$b, 309, 8, 9846);
+				add_location(th7, file$b, 311, 8, 9975);
 				attr_dev(th8, "scope", "col");
-				add_location(th8, file$b, 310, 8, 9881);
+				add_location(th8, file$b, 312, 8, 10010);
 				attr_dev(th9, "scope", "col");
-				add_location(th9, file$b, 311, 8, 9916);
-				add_location(tr1, file$b, 307, 6, 9797);
-				add_location(thead1, file$b, 306, 4, 9783);
-				add_location(tbody1, file$b, 314, 4, 9974);
+				add_location(th9, file$b, 313, 8, 10045);
+				add_location(tr1, file$b, 309, 6, 9926);
+				add_location(thead1, file$b, 308, 4, 9912);
+				add_location(tbody1, file$b, 316, 4, 10103);
 				attr_dev(table1, "class", "table table-striped");
-				add_location(table1, file$b, 305, 2, 9743);
+				add_location(table1, file$b, 307, 2, 9872);
 				attr_dev(div2, "class", "row");
-				add_location(div2, file$b, 304, 0, 9723);
+				add_location(div2, file$b, 306, 0, 9852);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -34329,6 +34329,9 @@
 				const input = target;
 
 				try {
+					// delete old entry
+					yield notifyOnError(opKeyPromise(operation.ID, key.id, 0, key.capsule));
+
 					yield notifyOnError(opKeyPromise(operation.ID, key.id, key.iHave, input.value));
 					refresh();
 				} catch(e) {
@@ -34560,7 +34563,7 @@
 			if ($$self.$$.dirty[0] & /*operation*/ 2) {
 				$$invalidate(10, koh = operation.keysonhand.map(k => ({
 					name: (operation.getPortal(k.portalId) || { name: '[portal no longer in op]' }).name,
-					key: k.portalId + k.gid,
+					key: k.portalId + k.gid + k.capsule,
 					agent: getAgentName(k.gid),
 					count: k.onhand,
 					capsule: k.capsule
