@@ -126,7 +126,7 @@
     name: (
       operation.getPortal(k.portalId) || { name: '[portal no longer in op]' }
     ).name,
-    key: k.portalId + k.gid,
+    key: k.portalId + k.gid + k.capsule,
     agent: getAgentName(k.gid),
     count: k.onhand,
     capsule: k.capsule,
@@ -153,6 +153,8 @@
   async function keyChangeCapsule(key: KoHItem, target: EventTarget) {
     const input = <HTMLInputElement>target;
     try {
+      // delete old entry
+      await notifyOnError(opKeyPromise(operation.ID, key.id, 0, key.capsule));
       await notifyOnError(
         opKeyPromise(operation.ID, key.id, key.iHave, input.value)
       );
