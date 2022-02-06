@@ -8,15 +8,6 @@ export default class WasabeeLink extends Task {
   color: string;
 
   constructor(obj: any) {
-    // convert server link task
-    if ('throwOrderPos' in obj) {
-      obj.order = obj.throwOrderPos;
-      obj.state = 'pending';
-      obj.completedID = obj.completed ? obj.assignedTo : null;
-      if (obj.completedID) obj.state = 'completed';
-      else if (obj.assignedTo) obj.state = 'assigned';
-      if (!obj.comment) obj.comment = obj.description;
-    }
     super(obj);
     this.fromPortalId = obj.fromPortalId;
     this.toPortalId = obj.toPortalId;
@@ -29,15 +20,6 @@ export default class WasabeeLink extends Task {
       fromPortalId: this.fromPortalId,
       toPortalId: this.toPortalId,
       color: this.color,
-    });
-  }
-
-  toServer() {
-    return Object.assign(this.toJSON(), {
-      // rename
-      throwOrderPos: Number(this.order),
-      completed: !!this.completedID, // !! forces a boolean value
-      description: this.comment,
     });
   }
 
