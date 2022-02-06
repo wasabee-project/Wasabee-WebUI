@@ -21365,7 +21365,6 @@
 	        this.zone = obj.zone ? Number(obj.zone) : 1;
 	        this.order = obj.order ? Number(obj.order) : 0;
 	        this.assignedTo = obj.assignedTo ? obj.assignedTo : null;
-	        this.completedID = obj.completedID ? obj.completedID : null;
 	        this.comment = obj.comment ? obj.comment : '';
 	        this.state = obj.state;
 	        this.dependsOn = obj.dependsOn || [];
@@ -21378,7 +21377,6 @@
 	            ID: this.ID,
 	            zone: Number(this.zone),
 	            order: Number(this.order),
-	            completedID: this.completedID,
 	            assignedTo: this.assignedTo,
 	            state: this._state,
 	            dependsOn: this.dependsOn,
@@ -21417,8 +21415,6 @@
 	        this.assignedTo = gid ? gid : null;
 	    }
 	    complete(gid) {
-	        if (!this.completedID || gid)
-	            this.completedID = gid ? gid : this.assignedTo;
 	        this._state = 'completed';
 	    }
 	    get completed() {
@@ -21428,7 +21424,6 @@
 	        if (v)
 	            this.complete();
 	        else {
-	            delete this.completedID;
 	            this.state = 'assigned';
 	        }
 	    }
