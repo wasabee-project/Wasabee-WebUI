@@ -24282,7 +24282,7 @@
 		const block = {
 			c: function create() {
 				p = element("p");
-				t0 = text("You can now delete the activity from the ");
+				t0 = text("You can now delete your message from the ");
 				a = element("a");
 				a.textContent = "Recent Activity";
 				t2 = text(" thread.");
