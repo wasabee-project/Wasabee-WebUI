@@ -2,7 +2,12 @@
   import { WasabeeMe } from '../model';
   import { getConfig } from '../config';
   import { notifyInfo, notifyOnError } from '../notify';
-  import { getCommJWT, getCommVerify, setVAPIkey } from '../server';
+  import {
+    getCommJWT,
+    getCommVerify,
+    importVteams,
+    setVAPIkey,
+  } from '../server';
   import { getMe } from '../cache';
 
   let me: WasabeeMe = WasabeeMe.get();
@@ -12,6 +17,7 @@
 
   let communityname = me.communityname || '';
   let commJWT = '';
+  let newVerification = false;
 
   $: commMayAskProof =
     communityname && (!me.communityname || communityname !== me.communityname);
@@ -26,6 +32,7 @@
   async function communityVerify() {
     if (communityname) {
       const res = await notifyOnError(getCommVerify(communityname));
+      newVerification = true;
       notifyInfo('Community name verified');
       me = await getMe(true);
     }
@@ -35,6 +42,10 @@
     const textarea = e.target as HTMLTextAreaElement;
     textarea.focus();
     textarea.select();
+  }
+
+  function vimport() {
+    notifyOnError(importVteams(vimportmode));
   }
 </script>
 
@@ -150,6 +161,14 @@
           </p>
           <textarea readonly on:click={commJWTClick}>{commJWT}</textarea>
         {/if}
+        {#if newVerification}
+          <p>
+            You can now delete your message from the <a
+              href="https://community.ingress.com/en/activity"
+              target="_new">Recent Activity</a
+            > thread.
+          </p>
+        {/if}
       </div>
     </div>
   </div>
@@ -243,7 +262,7 @@
           type="button"
           id="vimport"
           value="V team import"
-          v-on:click="vimport"
+          on:click={vimport}
         />
       </div>
       <div class="small dim">
