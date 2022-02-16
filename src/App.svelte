@@ -12,15 +12,15 @@
     NavLink,
   } from 'sveltestrap';
 
-  import Help from './view/Help.svelte';
-  import HomePage from './view/HomePage.svelte';
-  import Operations from './view/Operations.svelte';
-  import Settings from './view/Settings.svelte';
-  import Teams from './view/Teams.svelte';
+  import Help from './components/Help.svelte';
+  import HomePage from './components/HomePage.svelte';
+  import Operations from './components/Operations.svelte';
+  import Settings from './components/Settings.svelte';
+  import Teams from './components/Teams.svelte';
 
-  import DefensiveKeys from './view/DefensiveKeys.svelte';
-  import Operation from './view/Operation.svelte';
-  import Team from './view/Team.svelte';
+  import DefensiveKeys from './components/DefensiveKeys.svelte';
+  import Operation from './components/Operation.svelte';
+  import Team from './components/Team.svelte';
 
   import { getServer, setConfig } from './config';
 
