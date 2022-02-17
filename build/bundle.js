@@ -23333,6 +23333,7 @@
 	                for (const op of me.Ops) {
 	                    opPromise(op.ID)
 	                        .then((op) => {
+	                        op.store();
 	                        update((ops) => ({
 	                            success: ops.success.filter((o) => o !== op.ID).concat(op.ID),
 	                            pending: ops.pending.filter((o) => o !== op.ID),
