@@ -5,9 +5,12 @@
   import type { OpPermItem } from '../model/operation';
 
   import { loadMeAndOps } from '../sync';
+  import { opsStore } from '../stores';
 
   let me: WasabeeMe = WasabeeMe.get();
   let toDelete: OpID | null = null;
+
+  opsStore.updateFromMe(me);
 
   type Op = {
     ID: OpID;
@@ -19,7 +22,7 @@
   let ops: Op[] = [];
   $: {
     const os: WasabeeOp[] = [];
-    const lsk = new Set(me.Ops.map((o) => o.ID));
+    const lsk = new Set($opsStore.success);
     for (const id of lsk) {
       const op = WasabeeOp.load(id);
       if (!op || !op.ID) continue;

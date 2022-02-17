@@ -3,6 +3,8 @@ import { opPromise } from './server';
 
 import { getMe, getTeam } from './cache';
 
+import { opsStore } from './stores';
+
 export async function syncMe() {
   const nme = await getMe(true);
   nme.store();
@@ -14,7 +16,8 @@ export async function loadMeAndOps() {
     const nme = await syncMe();
     if (nme) {
       // load all available ops and teams
-      await syncOps(nme);
+      opsStore.updateFromMe(nme);
+      //await syncOps(nme);
       await syncTeams(nme);
     } else {
       console.log(nme);
