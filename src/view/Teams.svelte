@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { WasabeeAgent, WasabeeMe, WasabeeOp } from '../model';
+  import { WasabeeMe, WasabeeOp } from '../model';
 
   import {
     SetTeamState,
@@ -14,22 +14,24 @@
 
   import type { MeTeam } from '../model/me';
 
+  import { agentsStore, opsStore } from '../stores';
+
   let me: WasabeeMe = WasabeeMe.get();
   let newTeamName: string = '';
   let toDelete: TeamID | null = null;
 
-  let teamsOps: { [teamId: TeamID]: { [opId: OpID]: string } };
+  let teamsOps: { [teamId: TeamID]: [OpID, string][] };
 
   $: {
     const teams = {};
-    const ops = me.Ops.map((o) => [o.ID, o.Name]);
-    ops.sort((a, b) => a[1].localeCompare(b[1]));
-    for (const id of ops.map((d) => d[0])) {
+    for (const id of $opsStore.success) {
       const op = WasabeeOp.load(id);
       if (!op || !op.teamlist) continue;
+      const pair = [op.ID, op.name];
       for (const opteam of op.teamlist) {
-        teams[opteam.teamid] = teams[opteam.teamid] || {};
-        teams[opteam.teamid][op.ID] = op.name;
+        teams[opteam.teamid] = teams[opteam.teamid] || [];
+        if (!teams[opteam.teamid].includes(pair))
+          teams[opteam.teamid].push(pair);
       }
     }
     teamsOps = teams;
@@ -83,7 +85,7 @@
     return team.Owner == me.id;
   }
   function getOwner(team: MeTeam) {
-    const agent = WasabeeAgent.get(team.Owner);
+    const agent = $agentsStore[team.Owner];
     return agent ? agent.name : team.Owner;
   }
   async function deleteTeam(t: MeTeam) {
@@ -110,6 +112,11 @@
       toDelete = null;
     }
   }
+
+  $: teamsList = me.Teams.map((t) => ({
+    ...t,
+    ownerName: $agentsStore[t.Owner] ? $agentsStore[t.Owner].name : t.Owner,
+  }));
 </script>
 
 <div class="container">
@@ -138,7 +145,7 @@
             </td>
           </tr>
         {:else}
-          {#each me.Teams as team (team.ID)}
+          {#each teamsList as team (team.ID)}
             <tr>
               <td>
                 <a href={'#/team/' + team.ID + '/list'}>
@@ -146,7 +153,7 @@
                 </a>
               </td>
               <td>
-                {getOwner(team)}
+                {team.ownerName}
               </td>
               <td>
                 <input
@@ -171,7 +178,7 @@
               </td>
               <td>
                 {#if teamsOps[team.ID]}
-                  {#each Object.entries(teamsOps[team.ID]) as [opID, opName], i (opID)}
+                  {#each teamsOps[team.ID] as [opID, opName], i (opID)}
                     {#if i > 0}, {/if}
                     <a href={'#/operation/' + opID + '/list'}>
                       {opName}

@@ -3,6 +3,8 @@ import WasabeeMe from './model/me';
 import WasabeeTeam from './model/team';
 import { agentPromise, mePromise, teamPromise } from './server';
 
+import { agentsStore, teamsStore } from './stores';
+
 export async function getMe(force = false) {
   if (!force) {
     const lsme = WasabeeMe.get();
@@ -32,6 +34,7 @@ export async function getAgent(gid: GoogleID) {
   try {
     const result = await agentPromise(gid);
     const newagent = new WasabeeAgent(result);
+    agentsStore.updateAgent(newagent);
     return newagent;
   } catch (e) {
     console.log(e);
@@ -52,7 +55,10 @@ export async function getTeam(teamID: TeamID, maxAgeSeconds = 60) {
 
   try {
     const t = await teamPromise(teamID);
-    return new WasabeeTeam(t);
+    const team = new WasabeeTeam(t);
+    teamsStore.updateTeam(team);
+    for (const a of team.agents) agentsStore.updateAgent(a);
+    return team;
   } catch (e) {
     console.error(e);
   }

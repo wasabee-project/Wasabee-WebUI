@@ -31,6 +31,7 @@
   import { getAuthBearer, setAuthBearer } from './auth';
 
   import { sendTokenToServer } from './firebase';
+  import { opsStore } from './stores';
 
   let me: WasabeeMe | null;
 
@@ -98,7 +99,7 @@
     me = new WasabeeMe(ev.detail);
     me.store();
     setConfig(await loadConfig());
-    await syncOps(me);
+    opsStore.updateFromMe(me);
     await syncTeams(me);
     sendTokenToServer();
   }

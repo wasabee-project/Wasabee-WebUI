@@ -1,16 +1,38 @@
 import { writable } from 'svelte/store';
-import type { WasabeeMe } from './model';
+import type { WasabeeAgent, WasabeeMe, WasabeeTeam } from './model';
 import { opPromise } from './server';
 
-function MeStore() {
-  const { subscribe, set, update } = writable<WasabeeMe>(null);
+function AgentsStore() {
+  const { subscribe, set, update } = writable<Record<GoogleID, WasabeeAgent>>(
+    {}
+  );
 
   return {
     subscribe,
     set,
-    update,
+    updateAgent(agent: WasabeeAgent) {
+      update((r) => ({ ...r, [agent.id]: agent }));
+    },
+    reset: () => set({}),
   };
 }
+
+export const agentsStore = AgentsStore();
+
+function TeamsStore() {
+  const { subscribe, set, update } = writable<Record<TeamID, WasabeeTeam>>({});
+
+  return {
+    subscribe,
+    set,
+    updateTeam(team: WasabeeTeam) {
+      update((r) => ({ ...r, [team.id]: team }));
+    },
+    reset: () => set({}),
+  };
+}
+
+export const teamsStore = TeamsStore();
 
 function OpsStore() {
   const { subscribe, set, update } = writable<
@@ -33,6 +55,7 @@ function OpsStore() {
         for (const op of me.Ops) {
           opPromise(op.ID)
             .then((op) => {
+              op.store();
               update((ops) => ({
                 success: ops.success.filter((o) => o !== op.ID).concat(op.ID),
                 pending: ops.pending.filter((o) => o !== op.ID),
