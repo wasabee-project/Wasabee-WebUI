@@ -25575,7 +25575,7 @@
 		return child_ctx;
 	}
 
-	// (159:8) {:else}
+	// (157:8) {:else}
 	function create_else_block$3(ctx) {
 		let each_blocks = [];
 		let each_1_lookup = new Map();
@@ -25627,14 +25627,14 @@
 			block,
 			id: create_else_block$3.name,
 			type: "else",
-			source: "(159:8) {:else}",
+			source: "(157:8) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (152:8) {#if !me.Teams.length}
+	// (150:8) {#if !me.Teams.length}
 	function create_if_block$i(ctx) {
 		let tr;
 		let td;
@@ -25649,8 +25649,8 @@
 				t0 = text("You are not on any teams, have your operator add you with this\n              GoogleID: ");
 				t1 = text(t1_value);
 				attr_dev(td, "colspan", "6");
-				add_location(td, file$m, 153, 12, 4591);
-				add_location(tr, file$m, 152, 10, 4574);
+				add_location(td, file$m, 151, 12, 4503);
+				add_location(tr, file$m, 150, 10, 4486);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, tr, anchor);
@@ -25670,14 +25670,14 @@
 			block,
 			id: create_if_block$i.name,
 			type: "if",
-			source: "(152:8) {#if !me.Teams.length}",
+			source: "(150:8) {#if !me.Teams.length}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (192:16) {#if teamsOps[team.ID]}
+	// (190:16) {#if teamsOps[team.ID]}
 	function create_if_block_4$2(ctx) {
 		let each_blocks = [];
 		let each_1_lookup = new Map();
@@ -25729,14 +25729,14 @@
 			block,
 			id: create_if_block_4$2.name,
 			type: "if",
-			source: "(192:16) {#if teamsOps[team.ID]}",
+			source: "(190:16) {#if teamsOps[team.ID]}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (194:20) {#if i > 0}
+	// (192:20) {#if i > 0}
 	function create_if_block_5(ctx) {
 		let t;
 
@@ -25756,14 +25756,14 @@
 			block,
 			id: create_if_block_5.name,
 			type: "if",
-			source: "(194:20) {#if i > 0}",
+			source: "(192:20) {#if i > 0}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (193:18) {#each teamsOps[team.ID] as [opID, opName], i (opID)}
+	// (191:18) {#each teamsOps[team.ID] as [opID, opName], i (opID)}
 	function create_each_block_1$6(key_1, ctx) {
 		let first;
 		let t0;
@@ -25785,7 +25785,7 @@
 				t1 = text(t1_value);
 				t2 = space();
 				attr_dev(a, "href", a_href_value = '#/operation/' + /*opID*/ ctx[29] + '/list');
-				add_location(a, file$m, 194, 20, 5887);
+				add_location(a, file$m, 192, 20, 5799);
 				this.first = first;
 			},
 			m: function mount(target, anchor) {
@@ -25828,14 +25828,14 @@
 			block,
 			id: create_each_block_1$6.name,
 			type: "each",
-			source: "(193:18) {#each teamsOps[team.ID] as [opID, opName], i (opID)}",
+			source: "(191:18) {#each teamsOps[team.ID] as [opID, opName], i (opID)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (210:16) {:else}
+	// (208:16) {:else}
 	function create_else_block_2(ctx) {
 		let button;
 		let mounted;
@@ -25858,7 +25858,7 @@
 				button = element("button");
 				if_block.c();
 				attr_dev(button, "class", "btn btn-warning btn-sm svelte-15nu3fx");
-				add_location(button, file$m, 210, 18, 6449);
+				add_location(button, file$m, 208, 18, 6361);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -25894,14 +25894,14 @@
 			block,
 			id: create_else_block_2.name,
 			type: "else",
-			source: "(210:16) {:else}",
+			source: "(208:16) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (202:16) {#if isOwner(team)}
+	// (200:16) {#if isOwner(team)}
 	function create_if_block_1$c(ctx) {
 		let button;
 		let mounted;
@@ -25924,7 +25924,7 @@
 				button = element("button");
 				if_block.c();
 				attr_dev(button, "class", "btn btn-danger btn-sm svelte-15nu3fx");
-				add_location(button, file$m, 202, 18, 6127);
+				add_location(button, file$m, 200, 18, 6039);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -25960,14 +25960,14 @@
 			block,
 			id: create_if_block_1$c.name,
 			type: "if",
-			source: "(202:16) {#if isOwner(team)}",
+			source: "(200:16) {#if isOwner(team)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (216:20) {:else}
+	// (214:20) {:else}
 	function create_else_block_3(ctx) {
 		let span;
 
@@ -25975,7 +25975,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Leave";
-				add_location(span, file$m, 215, 27, 6676);
+				add_location(span, file$m, 213, 27, 6588);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -25989,14 +25989,14 @@
 			block,
 			id: create_else_block_3.name,
 			type: "else",
-			source: "(216:20) {:else}",
+			source: "(214:20) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (215:20) {#if toDelete === team.ID}
+	// (213:20) {#if toDelete === team.ID}
 	function create_if_block_3$5(ctx) {
 		let span;
 
@@ -26004,7 +26004,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Confirm?";
-				add_location(span, file$m, 214, 46, 6627);
+				add_location(span, file$m, 212, 46, 6539);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -26018,14 +26018,14 @@
 			block,
 			id: create_if_block_3$5.name,
 			type: "if",
-			source: "(215:20) {#if toDelete === team.ID}",
+			source: "(213:20) {#if toDelete === team.ID}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (208:20) {:else}
+	// (206:20) {:else}
 	function create_else_block_1(ctx) {
 		let span;
 
@@ -26033,7 +26033,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Delete";
-				add_location(span, file$m, 207, 27, 6354);
+				add_location(span, file$m, 205, 27, 6266);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -26047,14 +26047,14 @@
 			block,
 			id: create_else_block_1.name,
 			type: "else",
-			source: "(208:20) {:else}",
+			source: "(206:20) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (207:20) {#if toDelete === team.ID}
+	// (205:20) {#if toDelete === team.ID}
 	function create_if_block_2$7(ctx) {
 		let span;
 
@@ -26062,7 +26062,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Confirm?";
-				add_location(span, file$m, 206, 46, 6305);
+				add_location(span, file$m, 204, 46, 6217);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -26076,14 +26076,14 @@
 			block,
 			id: create_if_block_2$7.name,
 			type: "if",
-			source: "(207:20) {#if toDelete === team.ID}",
+			source: "(205:20) {#if toDelete === team.ID}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (160:10) {#each teamsList as team (team.ID)}
+	// (158:10) {#each teamsList as team (team.ID)}
 	function create_each_block$b(key_1, ctx) {
 		let tr;
 		let td0;
@@ -26176,21 +26176,21 @@
 				if_block1.c();
 				t8 = space();
 				attr_dev(a, "href", a_href_value = '#/team/' + /*team*/ ctx[26].ID + '/list');
-				add_location(a, file$m, 162, 16, 4865);
-				add_location(td0, file$m, 161, 14, 4844);
-				add_location(td1, file$m, 166, 14, 4991);
+				add_location(a, file$m, 160, 16, 4777);
+				add_location(td0, file$m, 159, 14, 4756);
+				add_location(td1, file$m, 164, 14, 4903);
 				attr_dev(input0, "type", "checkbox");
-				add_location(input0, file$m, 170, 16, 5084);
-				add_location(td2, file$m, 169, 14, 5063);
+				add_location(input0, file$m, 168, 16, 4996);
+				add_location(td2, file$m, 167, 14, 4975);
 				attr_dev(input1, "type", "checkbox");
-				add_location(input1, file$m, 177, 16, 5298);
-				add_location(td3, file$m, 176, 14, 5277);
+				add_location(input1, file$m, 175, 16, 5210);
+				add_location(td3, file$m, 174, 14, 5189);
 				attr_dev(input2, "type", "checkbox");
-				add_location(input2, file$m, 184, 16, 5516);
-				add_location(td4, file$m, 183, 14, 5495);
-				add_location(td5, file$m, 190, 14, 5711);
-				add_location(td6, file$m, 200, 14, 6068);
-				add_location(tr, file$m, 160, 12, 4825);
+				add_location(input2, file$m, 182, 16, 5428);
+				add_location(td4, file$m, 181, 14, 5407);
+				add_location(td5, file$m, 188, 14, 5623);
+				add_location(td6, file$m, 198, 14, 5980);
+				add_location(tr, file$m, 158, 12, 4737);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -26294,7 +26294,7 @@
 			block,
 			id: create_each_block$b.name,
 			type: "each",
-			source: "(160:10) {#each teamsList as team (team.ID)}",
+			source: "(158:10) {#each teamsList as team (team.ID)}",
 			ctx
 		});
 
@@ -26387,35 +26387,35 @@
 				button1 = element("button");
 				button1.textContent = "New Team";
 				attr_dev(button0, "class", "btn btn-primary");
-				add_location(button0, file$m, 136, 12, 4138);
-				add_location(h1, file$m, 135, 4, 4121);
-				add_location(th0, file$m, 141, 10, 4301);
-				add_location(th1, file$m, 142, 10, 4325);
-				add_location(th2, file$m, 143, 10, 4350);
-				add_location(th3, file$m, 144, 10, 4384);
-				add_location(th4, file$m, 145, 10, 4417);
-				add_location(th5, file$m, 146, 10, 4449);
-				add_location(th6, file$m, 147, 10, 4472);
-				add_location(tr, file$m, 140, 8, 4286);
+				add_location(button0, file$m, 134, 12, 4050);
+				add_location(h1, file$m, 133, 4, 4033);
+				add_location(th0, file$m, 139, 10, 4213);
+				add_location(th1, file$m, 140, 10, 4237);
+				add_location(th2, file$m, 141, 10, 4262);
+				add_location(th3, file$m, 142, 10, 4296);
+				add_location(th4, file$m, 143, 10, 4329);
+				add_location(th5, file$m, 144, 10, 4361);
+				add_location(th6, file$m, 145, 10, 4384);
+				add_location(tr, file$m, 138, 8, 4198);
 				attr_dev(thead, "class", "thead");
-				add_location(thead, file$m, 139, 6, 4256);
+				add_location(thead, file$m, 137, 6, 4168);
 				attr_dev(tbody, "id", "teams");
 				attr_dev(tbody, "class", "svelte-15nu3fx");
-				add_location(tbody, file$m, 150, 6, 4514);
+				add_location(tbody, file$m, 148, 6, 4426);
 				attr_dev(table, "class", "table table-striped");
-				add_location(table, file$m, 138, 4, 4214);
+				add_location(table, file$m, 136, 4, 4126);
 				attr_dev(input, "type", "text");
 				attr_dev(input, "placeholder", "New Team");
-				add_location(input, file$m, 227, 8, 6910);
-				add_location(label, file$m, 225, 6, 6876);
+				add_location(input, file$m, 225, 8, 6822);
+				add_location(label, file$m, 223, 6, 6788);
 				attr_dev(button1, "class", "btn btn-info");
-				add_location(button1, file$m, 233, 6, 7039);
+				add_location(button1, file$m, 231, 6, 6951);
 				attr_dev(div0, "class", "col");
-				add_location(div0, file$m, 224, 4, 6852);
+				add_location(div0, file$m, 222, 4, 6764);
 				attr_dev(div1, "class", "row");
-				add_location(div1, file$m, 134, 2, 4099);
+				add_location(div1, file$m, 132, 2, 4011);
 				attr_dev(div2, "class", "container");
-				add_location(div2, file$m, 133, 0, 4073);
+				add_location(div2, file$m, 131, 0, 3985);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -26735,10 +26735,8 @@
 			if ($$self.$$.dirty[0] & /*$opsStore*/ 16384) {
 				{
 					const teams = {};
-					const ops = $opsStore.success;
-					ops.sort((a, b) => a[1].localeCompare(b[1]));
 
-					for (const id of ops.map(d => d[0])) {
+					for (const id of $opsStore.success) {
 						const op = WasabeeOp.load(id);
 						if (!op || !op.teamlist) continue;
 						const pair = [op.ID, op.name];
