@@ -23291,63 +23291,30 @@
 		}
 	}
 
-	async function getMe(force = false) {
-	    if (!force) {
-	        const lsme = WasabeeMe.get();
-	        if (lsme) {
-	            const maxCacheAge = Date.now() - 1000 * 60 * 60;
-	            if (lsme.fetched && lsme.fetched > maxCacheAge) {
-	                return lsme;
-	            }
-	        }
-	    }
-	    try {
-	        const raw = await mePromise();
-	        const me = new WasabeeMe(raw);
-	        return me;
-	    }
-	    catch (e) {
-	        console.log(e);
-	    }
-	    return null;
+	function AgentsStore() {
+	    const { subscribe, set, update } = writable({});
+	    return {
+	        subscribe,
+	        set,
+	        updateAgent(agent) {
+	            update((r) => (Object.assign(Object.assign({}, r), { [agent.id]: agent })));
+	        },
+	        reset: () => set({})
+	    };
 	}
-	async function getAgent(gid) {
-	    if (!gid)
-	        return null;
-	    const agent = WasabeeAgent.get(gid);
-	    if (agent)
-	        return agent;
-	    try {
-	        const result = await agentPromise(gid);
-	        const newagent = new WasabeeAgent(result);
-	        return newagent;
-	    }
-	    catch (e) {
-	        console.log(e);
-	    }
-	    return null;
+	const agentsStore = AgentsStore();
+	function TeamsStore() {
+	    const { subscribe, set, update } = writable({});
+	    return {
+	        subscribe,
+	        set,
+	        updateTeam(team) {
+	            update((r) => (Object.assign(Object.assign({}, r), { [team.id]: team })));
+	        },
+	        reset: () => set({})
+	    };
 	}
-	// 60 seconds seems too short for the default here...
-	async function getTeam(teamID, maxAgeSeconds = 60) {
-	    if (!teamID)
-	        return null;
-	    const cached = WasabeeTeam.get(teamID);
-	    if (cached) {
-	        const t = new WasabeeTeam(cached);
-	        if (t.fetched > Date.now() - 1000 * maxAgeSeconds) {
-	            return t;
-	        }
-	    }
-	    try {
-	        const t = await teamPromise(teamID);
-	        return new WasabeeTeam(t);
-	    }
-	    catch (e) {
-	        console.error(e);
-	    }
-	    return null;
-	}
-
+	const teamsStore = TeamsStore();
 	function OpsStore() {
 	    const { subscribe, set, update } = writable({
 	        success: [],
@@ -23367,7 +23334,7 @@
 	                    opPromise(op.ID)
 	                        .then((op) => {
 	                        update((ops) => ({
-	                            success: [...ops.success, op.ID],
+	                            success: ops.success.filter((o) => o !== op.ID).concat(op.ID),
 	                            pending: ops.pending.filter((o) => o !== op.ID),
 	                            failed: ops.failed,
 	                        }));
@@ -23392,6 +23359,68 @@
 	    };
 	}
 	const opsStore = OpsStore();
+
+	async function getMe(force = false) {
+	    if (!force) {
+	        const lsme = WasabeeMe.get();
+	        if (lsme) {
+	            const maxCacheAge = Date.now() - 1000 * 60 * 60;
+	            if (lsme.fetched && lsme.fetched > maxCacheAge) {
+	                return lsme;
+	            }
+	        }
+	    }
+	    try {
+	        const raw = await mePromise();
+	        const me = new WasabeeMe(raw);
+	        return me;
+	    }
+	    catch (e) {
+	        console.log(e);
+	    }
+	    return null;
+	}
+	async function getAgent(gid) {
+	    if (!gid)
+	        return null;
+	    const agent = WasabeeAgent.get(gid);
+	    if (agent) {
+	        agentsStore.updateAgent(agent); // for agent from teams
+	        return agent;
+	    }
+	    try {
+	        const result = await agentPromise(gid);
+	        const newagent = new WasabeeAgent(result);
+	        agentsStore.updateAgent(newagent);
+	        return newagent;
+	    }
+	    catch (e) {
+	        console.log(e);
+	    }
+	    return null;
+	}
+	// 60 seconds seems too short for the default here...
+	async function getTeam(teamID, maxAgeSeconds = 60) {
+	    if (!teamID)
+	        return null;
+	    const cached = WasabeeTeam.get(teamID);
+	    if (cached) {
+	        const t = new WasabeeTeam(cached);
+	        if (t.fetched > Date.now() - 1000 * maxAgeSeconds) {
+	            return t;
+	        }
+	    }
+	    try {
+	        const t = await teamPromise(teamID);
+	        const team = new WasabeeTeam(t);
+	        teamsStore.updateTeam(team);
+	        return team;
+	    }
+	    catch (e) {
+	        console.error(e);
+	    }
+	    return null;
+	}
 
 	async function syncMe() {
 	    const nme = await getMe(true);
@@ -23493,7 +23522,7 @@
 		return child_ctx;
 	}
 
-	// (97:18) {#if i > 0}
+	// (98:18) {#if i > 0}
 	function create_if_block_2$9(ctx) {
 		let t;
 
@@ -23513,14 +23542,14 @@
 			block,
 			id: create_if_block_2$9.name,
 			type: "if",
-			source: "(97:18) {#if i > 0}",
+			source: "(98:18) {#if i > 0}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (96:16) {#each filterTeamsID(op.teamlist) as teamid, i (teamid)}
+	// (97:16) {#each filterTeamsID(op.teamlist) as teamid, i (teamid)}
 	function create_each_block_1$7(key_1, ctx) {
 		let first;
 		let t0;
@@ -23542,7 +23571,7 @@
 				t1 = text(t1_value);
 				t2 = space();
 				attr_dev(a, "href", a_href_value = '#/team/' + /*teamid*/ ctx[14] + '/list');
-				add_location(a, file$o, 97, 18, 3055);
+				add_location(a, file$o, 98, 18, 3082);
 				this.first = first;
 			},
 			m: function mount(target, anchor) {
@@ -23585,14 +23614,14 @@
 			block,
 			id: create_each_block_1$7.name,
 			type: "each",
-			source: "(96:16) {#each filterTeamsID(op.teamlist) as teamid, i (teamid)}",
+			source: "(97:16) {#each filterTeamsID(op.teamlist) as teamid, i (teamid)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (104:16) {#if op.own}
+	// (105:16) {#if op.own}
 	function create_if_block$k(ctx) {
 		let button;
 		let mounted;
@@ -23615,7 +23644,7 @@
 				button = element("button");
 				if_block.c();
 				attr_dev(button, "class", "btn btn-danger btn-sm");
-				add_location(button, file$o, 104, 18, 3270);
+				add_location(button, file$o, 105, 18, 3297);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -23651,14 +23680,14 @@
 			block,
 			id: create_if_block$k.name,
 			type: "if",
-			source: "(104:16) {#if op.own}",
+			source: "(105:16) {#if op.own}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (111:20) {:else}
+	// (112:20) {:else}
 	function create_else_block$5(ctx) {
 		let span;
 
@@ -23666,7 +23695,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Delete";
-				add_location(span, file$o, 111, 22, 3537);
+				add_location(span, file$o, 112, 22, 3564);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -23680,14 +23709,14 @@
 			block,
 			id: create_else_block$5.name,
 			type: "else",
-			source: "(111:20) {:else}",
+			source: "(112:20) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (109:20) {#if toDelete === op.ID}
+	// (110:20) {#if toDelete === op.ID}
 	function create_if_block_1$e(ctx) {
 		let span;
 
@@ -23695,7 +23724,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Confirm?";
-				add_location(span, file$o, 109, 22, 3465);
+				add_location(span, file$o, 110, 22, 3492);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -23709,14 +23738,14 @@
 			block,
 			id: create_if_block_1$e.name,
 			type: "if",
-			source: "(109:20) {#if toDelete === op.ID}",
+			source: "(110:20) {#if toDelete === op.ID}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (89:10) {#each ops as op (op.ID)}
+	// (90:10) {#each ops as op (op.ID)}
 	function create_each_block$c(key_1, ctx) {
 		let tr;
 		let td0;
@@ -23771,12 +23800,12 @@
 				if (if_block) if_block.c();
 				t5 = space();
 				attr_dev(a, "href", a_href_value = '#/operation/' + /*op*/ ctx[11].ID + '/list');
-				add_location(a, file$o, 91, 16, 2795);
-				add_location(td0, file$o, 90, 14, 2774);
-				add_location(td1, file$o, 93, 14, 2886);
-				add_location(td2, file$o, 94, 14, 2922);
-				add_location(td3, file$o, 102, 14, 3218);
-				add_location(tr, file$o, 89, 12, 2755);
+				add_location(a, file$o, 92, 16, 2822);
+				add_location(td0, file$o, 91, 14, 2801);
+				add_location(td1, file$o, 94, 14, 2913);
+				add_location(td2, file$o, 95, 14, 2949);
+				add_location(td3, file$o, 103, 14, 3245);
+				add_location(tr, file$o, 90, 12, 2782);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -23844,7 +23873,7 @@
 			block,
 			id: create_each_block$c.name,
 			type: "each",
-			source: "(89:10) {#each ops as op (op.ID)}",
+			source: "(90:10) {#each ops as op (op.ID)}",
 			ctx
 		});
 
@@ -23918,28 +23947,28 @@
 				}
 
 				attr_dev(button, "class", "btn btn-primary");
-				add_location(button, file$o, 76, 8, 2335);
-				add_location(h1, file$o, 74, 6, 2303);
+				add_location(button, file$o, 77, 8, 2362);
+				add_location(h1, file$o, 75, 6, 2330);
 				attr_dev(th0, "scope", "col");
-				add_location(th0, file$o, 81, 12, 2508);
+				add_location(th0, file$o, 82, 12, 2535);
 				attr_dev(th1, "scope", "col");
-				add_location(th1, file$o, 82, 12, 2551);
+				add_location(th1, file$o, 83, 12, 2578);
 				attr_dev(th2, "scope", "col");
-				add_location(th2, file$o, 83, 12, 2592);
-				add_location(th3, file$o, 84, 12, 2631);
-				add_location(tr, file$o, 80, 10, 2491);
+				add_location(th2, file$o, 84, 12, 2619);
+				add_location(th3, file$o, 85, 12, 2658);
+				add_location(tr, file$o, 81, 10, 2518);
 				attr_dev(thead, "class", "thead");
-				add_location(thead, file$o, 79, 8, 2459);
+				add_location(thead, file$o, 80, 8, 2486);
 				attr_dev(tbody, "id", "ops");
-				add_location(tbody, file$o, 87, 8, 2690);
+				add_location(tbody, file$o, 88, 8, 2717);
 				attr_dev(table, "class", "table table-striped");
-				add_location(table, file$o, 78, 6, 2415);
+				add_location(table, file$o, 79, 6, 2442);
 				attr_dev(div0, "class", "col");
-				add_location(div0, file$o, 73, 4, 2279);
+				add_location(div0, file$o, 74, 4, 2306);
 				attr_dev(div1, "class", "row");
-				add_location(div1, file$o, 72, 2, 2257);
+				add_location(div1, file$o, 73, 2, 2284);
 				attr_dev(div2, "class", "container");
-				add_location(div2, file$o, 71, 0, 2231);
+				add_location(div2, file$o, 72, 0, 2258);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -24052,6 +24081,7 @@
 
 		let me = WasabeeMe.get();
 		let toDelete = null;
+		opsStore.updateFromMe(me);
 		let ops = [];
 		let teamMap = new Map();
 
@@ -25555,28 +25585,28 @@
 
 	function get_each_context$b(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[23] = list[i];
-		child_ctx[24] = list;
-		child_ctx[25] = i;
+		child_ctx[24] = list[i];
+		child_ctx[25] = list;
+		child_ctx[26] = i;
 		return child_ctx;
 	}
 
 	function get_each_context_1$6(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[26] = list[i][0];
-		child_ctx[27] = list[i][1];
-		child_ctx[29] = i;
+		child_ctx[27] = list[i][0];
+		child_ctx[28] = list[i][1];
+		child_ctx[30] = i;
 		return child_ctx;
 	}
 
-	// (155:8) {:else}
+	// (156:8) {:else}
 	function create_else_block$3(ctx) {
 		let each_blocks = [];
 		let each_1_lookup = new Map();
 		let each_1_anchor;
 		let each_value = /*me*/ ctx[0].Teams;
 		validate_each_argument(each_value);
-		const get_key = ctx => /*team*/ ctx[23].ID;
+		const get_key = ctx => /*team*/ ctx[24].ID;
 		validate_each_keys(ctx, each_value, get_each_context$b, get_key);
 
 		for (let i = 0; i < each_value.length; i += 1) {
@@ -25621,14 +25651,14 @@
 			block,
 			id: create_else_block$3.name,
 			type: "else",
-			source: "(155:8) {:else}",
+			source: "(156:8) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (148:8) {#if !me.Teams.length}
+	// (149:8) {#if !me.Teams.length}
 	function create_if_block$i(ctx) {
 		let tr;
 		let td;
@@ -25643,8 +25673,8 @@
 				t0 = text("You are not on any teams, have your operator add you with this\n              GoogleID: ");
 				t1 = text(t1_value);
 				attr_dev(td, "colspan", "6");
-				add_location(td, file$m, 149, 12, 4331);
-				add_location(tr, file$m, 148, 10, 4314);
+				add_location(td, file$m, 150, 12, 4354);
+				add_location(tr, file$m, 149, 10, 4337);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, tr, anchor);
@@ -25664,21 +25694,21 @@
 			block,
 			id: create_if_block$i.name,
 			type: "if",
-			source: "(148:8) {#if !me.Teams.length}",
+			source: "(149:8) {#if !me.Teams.length}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (188:16) {#if teamsOps[team.ID]}
+	// (189:16) {#if teamsOps[team.ID]}
 	function create_if_block_4$2(ctx) {
 		let each_blocks = [];
 		let each_1_lookup = new Map();
 		let each_1_anchor;
-		let each_value_1 = Object.entries(/*teamsOps*/ ctx[3][/*team*/ ctx[23].ID]);
+		let each_value_1 = Object.entries(/*teamsOps*/ ctx[3][/*team*/ ctx[24].ID]);
 		validate_each_argument(each_value_1);
-		const get_key = ctx => /*opID*/ ctx[26];
+		const get_key = ctx => /*opID*/ ctx[27];
 		validate_each_keys(ctx, each_value_1, get_each_context_1$6, get_key);
 
 		for (let i = 0; i < each_value_1.length; i += 1) {
@@ -25704,7 +25734,7 @@
 			},
 			p: function update(ctx, dirty) {
 				if (dirty & /*Object, teamsOps, me*/ 9) {
-					each_value_1 = Object.entries(/*teamsOps*/ ctx[3][/*team*/ ctx[23].ID]);
+					each_value_1 = Object.entries(/*teamsOps*/ ctx[3][/*team*/ ctx[24].ID]);
 					validate_each_argument(each_value_1);
 					validate_each_keys(ctx, each_value_1, get_each_context_1$6, get_key);
 					each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value_1, each_1_lookup, each_1_anchor.parentNode, destroy_block, create_each_block_1$6, each_1_anchor, get_each_context_1$6);
@@ -25723,14 +25753,14 @@
 			block,
 			id: create_if_block_4$2.name,
 			type: "if",
-			source: "(188:16) {#if teamsOps[team.ID]}",
+			source: "(189:16) {#if teamsOps[team.ID]}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (190:20) {#if i > 0}
+	// (191:20) {#if i > 0}
 	function create_if_block_5(ctx) {
 		let t;
 
@@ -25750,23 +25780,23 @@
 			block,
 			id: create_if_block_5.name,
 			type: "if",
-			source: "(190:20) {#if i > 0}",
+			source: "(191:20) {#if i > 0}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (189:18) {#each Object.entries(teamsOps[team.ID]) as [opID, opName], i (opID)}
+	// (190:18) {#each Object.entries(teamsOps[team.ID]) as [opID, opName], i (opID)}
 	function create_each_block_1$6(key_1, ctx) {
 		let first;
 		let t0;
 		let a;
-		let t1_value = /*opName*/ ctx[27] + "";
+		let t1_value = /*opName*/ ctx[28] + "";
 		let t1;
 		let t2;
 		let a_href_value;
-		let if_block = /*i*/ ctx[29] > 0 && create_if_block_5(ctx);
+		let if_block = /*i*/ ctx[30] > 0 && create_if_block_5(ctx);
 
 		const block = {
 			key: key_1,
@@ -25778,8 +25808,8 @@
 				a = element("a");
 				t1 = text(t1_value);
 				t2 = space();
-				attr_dev(a, "href", a_href_value = '#/operation/' + /*opID*/ ctx[26] + '/list');
-				add_location(a, file$m, 190, 20, 5642);
+				attr_dev(a, "href", a_href_value = '#/operation/' + /*opID*/ ctx[27] + '/list');
+				add_location(a, file$m, 191, 20, 5665);
 				this.first = first;
 			},
 			m: function mount(target, anchor) {
@@ -25793,7 +25823,7 @@
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
 
-				if (/*i*/ ctx[29] > 0) {
+				if (/*i*/ ctx[30] > 0) {
 					if (if_block) ; else {
 						if_block = create_if_block_5(ctx);
 						if_block.c();
@@ -25804,9 +25834,9 @@
 					if_block = null;
 				}
 
-				if (dirty & /*teamsOps, me*/ 9 && t1_value !== (t1_value = /*opName*/ ctx[27] + "")) set_data_dev(t1, t1_value);
+				if (dirty & /*teamsOps, me*/ 9 && t1_value !== (t1_value = /*opName*/ ctx[28] + "")) set_data_dev(t1, t1_value);
 
-				if (dirty & /*teamsOps, me*/ 9 && a_href_value !== (a_href_value = '#/operation/' + /*opID*/ ctx[26] + '/list')) {
+				if (dirty & /*teamsOps, me*/ 9 && a_href_value !== (a_href_value = '#/operation/' + /*opID*/ ctx[27] + '/list')) {
 					attr_dev(a, "href", a_href_value);
 				}
 			},
@@ -25822,21 +25852,21 @@
 			block,
 			id: create_each_block_1$6.name,
 			type: "each",
-			source: "(189:18) {#each Object.entries(teamsOps[team.ID]) as [opID, opName], i (opID)}",
+			source: "(190:18) {#each Object.entries(teamsOps[team.ID]) as [opID, opName], i (opID)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (206:16) {:else}
+	// (207:16) {:else}
 	function create_else_block_2(ctx) {
 		let button;
 		let mounted;
 		let dispose;
 
 		function select_block_type_3(ctx, dirty) {
-			if (/*toDelete*/ ctx[2] === /*team*/ ctx[23].ID) return create_if_block_3$5;
+			if (/*toDelete*/ ctx[2] === /*team*/ ctx[24].ID) return create_if_block_3$5;
 			return create_else_block_3;
 		}
 
@@ -25844,7 +25874,7 @@
 		let if_block = current_block_type(ctx);
 
 		function click_handler_1() {
-			return /*click_handler_1*/ ctx[20](/*team*/ ctx[23]);
+			return /*click_handler_1*/ ctx[20](/*team*/ ctx[24]);
 		}
 
 		const block = {
@@ -25852,7 +25882,7 @@
 				button = element("button");
 				if_block.c();
 				attr_dev(button, "class", "btn btn-warning btn-sm svelte-15nu3fx");
-				add_location(button, file$m, 206, 18, 6204);
+				add_location(button, file$m, 207, 18, 6227);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -25888,21 +25918,21 @@
 			block,
 			id: create_else_block_2.name,
 			type: "else",
-			source: "(206:16) {:else}",
+			source: "(207:16) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (198:16) {#if isOwner(team)}
+	// (199:16) {#if isOwner(team)}
 	function create_if_block_1$c(ctx) {
 		let button;
 		let mounted;
 		let dispose;
 
 		function select_block_type_2(ctx, dirty) {
-			if (/*toDelete*/ ctx[2] === /*team*/ ctx[23].ID) return create_if_block_2$7;
+			if (/*toDelete*/ ctx[2] === /*team*/ ctx[24].ID) return create_if_block_2$7;
 			return create_else_block_1;
 		}
 
@@ -25910,7 +25940,7 @@
 		let if_block = current_block_type(ctx);
 
 		function click_handler() {
-			return /*click_handler*/ ctx[19](/*team*/ ctx[23]);
+			return /*click_handler*/ ctx[19](/*team*/ ctx[24]);
 		}
 
 		const block = {
@@ -25918,7 +25948,7 @@
 				button = element("button");
 				if_block.c();
 				attr_dev(button, "class", "btn btn-danger btn-sm svelte-15nu3fx");
-				add_location(button, file$m, 198, 18, 5882);
+				add_location(button, file$m, 199, 18, 5905);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -25954,14 +25984,14 @@
 			block,
 			id: create_if_block_1$c.name,
 			type: "if",
-			source: "(198:16) {#if isOwner(team)}",
+			source: "(199:16) {#if isOwner(team)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (212:20) {:else}
+	// (213:20) {:else}
 	function create_else_block_3(ctx) {
 		let span;
 
@@ -25969,7 +25999,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Leave";
-				add_location(span, file$m, 211, 27, 6431);
+				add_location(span, file$m, 212, 27, 6454);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -25983,14 +26013,14 @@
 			block,
 			id: create_else_block_3.name,
 			type: "else",
-			source: "(212:20) {:else}",
+			source: "(213:20) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (211:20) {#if toDelete === team.ID}
+	// (212:20) {#if toDelete === team.ID}
 	function create_if_block_3$5(ctx) {
 		let span;
 
@@ -25998,7 +26028,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Confirm?";
-				add_location(span, file$m, 210, 46, 6382);
+				add_location(span, file$m, 211, 46, 6405);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -26012,14 +26042,14 @@
 			block,
 			id: create_if_block_3$5.name,
 			type: "if",
-			source: "(211:20) {#if toDelete === team.ID}",
+			source: "(212:20) {#if toDelete === team.ID}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (204:20) {:else}
+	// (205:20) {:else}
 	function create_else_block_1(ctx) {
 		let span;
 
@@ -26027,7 +26057,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Delete";
-				add_location(span, file$m, 203, 27, 6109);
+				add_location(span, file$m, 204, 27, 6132);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -26041,14 +26071,14 @@
 			block,
 			id: create_else_block_1.name,
 			type: "else",
-			source: "(204:20) {:else}",
+			source: "(205:20) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (203:20) {#if toDelete === team.ID}
+	// (204:20) {#if toDelete === team.ID}
 	function create_if_block_2$7(ctx) {
 		let span;
 
@@ -26056,7 +26086,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Confirm?";
-				add_location(span, file$m, 202, 46, 6060);
+				add_location(span, file$m, 203, 46, 6083);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -26070,24 +26100,24 @@
 			block,
 			id: create_if_block_2$7.name,
 			type: "if",
-			source: "(203:20) {#if toDelete === team.ID}",
+			source: "(204:20) {#if toDelete === team.ID}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (156:10) {#each me.Teams as team (team.ID)}
+	// (157:10) {#each me.Teams as team (team.ID)}
 	function create_each_block$b(key_1, ctx) {
 		let tr;
 		let td0;
 		let a;
-		let t0_value = /*team*/ ctx[23].Name + "";
+		let t0_value = /*team*/ ctx[24].Name + "";
 		let t0;
 		let a_href_value;
 		let t1;
 		let td1;
-		let t2_value = /*getOwner*/ ctx[10](/*team*/ ctx[23]) + "";
+		let t2_value = /*getOwner*/ ctx[10](/*team*/ ctx[24]) + "";
 		let t2;
 		let t3;
 		let td2;
@@ -26108,33 +26138,33 @@
 		let dispose;
 
 		function input0_change_handler() {
-			/*input0_change_handler*/ ctx[13].call(input0, /*each_value*/ ctx[24], /*team_index*/ ctx[25]);
+			/*input0_change_handler*/ ctx[13].call(input0, /*each_value*/ ctx[25], /*team_index*/ ctx[26]);
 		}
 
 		function change_handler() {
-			return /*change_handler*/ ctx[14](/*team*/ ctx[23]);
+			return /*change_handler*/ ctx[14](/*team*/ ctx[24]);
 		}
 
 		function input1_change_handler() {
-			/*input1_change_handler*/ ctx[15].call(input1, /*each_value*/ ctx[24], /*team_index*/ ctx[25]);
+			/*input1_change_handler*/ ctx[15].call(input1, /*each_value*/ ctx[25], /*team_index*/ ctx[26]);
 		}
 
 		function change_handler_1() {
-			return /*change_handler_1*/ ctx[16](/*team*/ ctx[23]);
+			return /*change_handler_1*/ ctx[16](/*team*/ ctx[24]);
 		}
 
 		function input2_change_handler() {
-			/*input2_change_handler*/ ctx[17].call(input2, /*each_value*/ ctx[24], /*team_index*/ ctx[25]);
+			/*input2_change_handler*/ ctx[17].call(input2, /*each_value*/ ctx[25], /*team_index*/ ctx[26]);
 		}
 
 		function change_handler_2() {
-			return /*change_handler_2*/ ctx[18](/*team*/ ctx[23]);
+			return /*change_handler_2*/ ctx[18](/*team*/ ctx[24]);
 		}
 
-		let if_block0 = /*teamsOps*/ ctx[3][/*team*/ ctx[23].ID] && create_if_block_4$2(ctx);
+		let if_block0 = /*teamsOps*/ ctx[3][/*team*/ ctx[24].ID] && create_if_block_4$2(ctx);
 
 		function select_block_type_1(ctx, dirty) {
-			if (show_if == null || dirty & /*me*/ 1) show_if = !!/*isOwner*/ ctx[9](/*team*/ ctx[23]);
+			if (show_if == null || dirty & /*me*/ 1) show_if = !!/*isOwner*/ ctx[9](/*team*/ ctx[24]);
 			if (show_if) return create_if_block_1$c;
 			return create_else_block_2;
 		}
@@ -26169,22 +26199,22 @@
 				td6 = element("td");
 				if_block1.c();
 				t8 = space();
-				attr_dev(a, "href", a_href_value = '#/team/' + /*team*/ ctx[23].ID + '/list');
-				add_location(a, file$m, 158, 16, 4604);
-				add_location(td0, file$m, 157, 14, 4583);
-				add_location(td1, file$m, 162, 14, 4730);
+				attr_dev(a, "href", a_href_value = '#/team/' + /*team*/ ctx[24].ID + '/list');
+				add_location(a, file$m, 159, 16, 4627);
+				add_location(td0, file$m, 158, 14, 4606);
+				add_location(td1, file$m, 163, 14, 4753);
 				attr_dev(input0, "type", "checkbox");
-				add_location(input0, file$m, 166, 16, 4823);
-				add_location(td2, file$m, 165, 14, 4802);
+				add_location(input0, file$m, 167, 16, 4846);
+				add_location(td2, file$m, 166, 14, 4825);
 				attr_dev(input1, "type", "checkbox");
-				add_location(input1, file$m, 173, 16, 5037);
-				add_location(td3, file$m, 172, 14, 5016);
+				add_location(input1, file$m, 174, 16, 5060);
+				add_location(td3, file$m, 173, 14, 5039);
 				attr_dev(input2, "type", "checkbox");
-				add_location(input2, file$m, 180, 16, 5255);
-				add_location(td4, file$m, 179, 14, 5234);
-				add_location(td5, file$m, 186, 14, 5450);
-				add_location(td6, file$m, 196, 14, 5823);
-				add_location(tr, file$m, 156, 12, 4564);
+				add_location(input2, file$m, 181, 16, 5278);
+				add_location(td4, file$m, 180, 14, 5257);
+				add_location(td5, file$m, 187, 14, 5473);
+				add_location(td6, file$m, 197, 14, 5846);
+				add_location(tr, file$m, 157, 12, 4587);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -26198,15 +26228,15 @@
 				append_dev(tr, t3);
 				append_dev(tr, td2);
 				append_dev(td2, input0);
-				input0.checked = /*team*/ ctx[23].State;
+				input0.checked = /*team*/ ctx[24].State;
 				append_dev(tr, t4);
 				append_dev(tr, td3);
 				append_dev(td3, input1);
-				input1.checked = /*team*/ ctx[23].ShareWD;
+				input1.checked = /*team*/ ctx[24].ShareWD;
 				append_dev(tr, t5);
 				append_dev(tr, td4);
 				append_dev(td4, input2);
-				input2.checked = /*team*/ ctx[23].LoadWD;
+				input2.checked = /*team*/ ctx[24].LoadWD;
 				append_dev(tr, t6);
 				append_dev(tr, td5);
 				if (if_block0) if_block0.m(td5, null);
@@ -26230,27 +26260,27 @@
 			},
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
-				if (dirty & /*me*/ 1 && t0_value !== (t0_value = /*team*/ ctx[23].Name + "")) set_data_dev(t0, t0_value);
+				if (dirty & /*me*/ 1 && t0_value !== (t0_value = /*team*/ ctx[24].Name + "")) set_data_dev(t0, t0_value);
 
-				if (dirty & /*me*/ 1 && a_href_value !== (a_href_value = '#/team/' + /*team*/ ctx[23].ID + '/list')) {
+				if (dirty & /*me*/ 1 && a_href_value !== (a_href_value = '#/team/' + /*team*/ ctx[24].ID + '/list')) {
 					attr_dev(a, "href", a_href_value);
 				}
 
-				if (dirty & /*me*/ 1 && t2_value !== (t2_value = /*getOwner*/ ctx[10](/*team*/ ctx[23]) + "")) set_data_dev(t2, t2_value);
+				if (dirty & /*me*/ 1 && t2_value !== (t2_value = /*getOwner*/ ctx[10](/*team*/ ctx[24]) + "")) set_data_dev(t2, t2_value);
 
 				if (dirty & /*me*/ 1) {
-					input0.checked = /*team*/ ctx[23].State;
+					input0.checked = /*team*/ ctx[24].State;
 				}
 
 				if (dirty & /*me*/ 1) {
-					input1.checked = /*team*/ ctx[23].ShareWD;
+					input1.checked = /*team*/ ctx[24].ShareWD;
 				}
 
 				if (dirty & /*me*/ 1) {
-					input2.checked = /*team*/ ctx[23].LoadWD;
+					input2.checked = /*team*/ ctx[24].LoadWD;
 				}
 
-				if (/*teamsOps*/ ctx[3][/*team*/ ctx[23].ID]) {
+				if (/*teamsOps*/ ctx[3][/*team*/ ctx[24].ID]) {
 					if (if_block0) {
 						if_block0.p(ctx, dirty);
 					} else {
@@ -26288,7 +26318,7 @@
 			block,
 			id: create_each_block$b.name,
 			type: "each",
-			source: "(156:10) {#each me.Teams as team (team.ID)}",
+			source: "(157:10) {#each me.Teams as team (team.ID)}",
 			ctx
 		});
 
@@ -26381,35 +26411,35 @@
 				button1 = element("button");
 				button1.textContent = "New Team";
 				attr_dev(button0, "class", "btn btn-primary");
-				add_location(button0, file$m, 132, 12, 3878);
-				add_location(h1, file$m, 131, 4, 3861);
-				add_location(th0, file$m, 137, 10, 4041);
-				add_location(th1, file$m, 138, 10, 4065);
-				add_location(th2, file$m, 139, 10, 4090);
-				add_location(th3, file$m, 140, 10, 4124);
-				add_location(th4, file$m, 141, 10, 4157);
-				add_location(th5, file$m, 142, 10, 4189);
-				add_location(th6, file$m, 143, 10, 4212);
-				add_location(tr, file$m, 136, 8, 4026);
+				add_location(button0, file$m, 133, 12, 3901);
+				add_location(h1, file$m, 132, 4, 3884);
+				add_location(th0, file$m, 138, 10, 4064);
+				add_location(th1, file$m, 139, 10, 4088);
+				add_location(th2, file$m, 140, 10, 4113);
+				add_location(th3, file$m, 141, 10, 4147);
+				add_location(th4, file$m, 142, 10, 4180);
+				add_location(th5, file$m, 143, 10, 4212);
+				add_location(th6, file$m, 144, 10, 4235);
+				add_location(tr, file$m, 137, 8, 4049);
 				attr_dev(thead, "class", "thead");
-				add_location(thead, file$m, 135, 6, 3996);
+				add_location(thead, file$m, 136, 6, 4019);
 				attr_dev(tbody, "id", "teams");
 				attr_dev(tbody, "class", "svelte-15nu3fx");
-				add_location(tbody, file$m, 146, 6, 4254);
+				add_location(tbody, file$m, 147, 6, 4277);
 				attr_dev(table, "class", "table table-striped");
-				add_location(table, file$m, 134, 4, 3954);
+				add_location(table, file$m, 135, 4, 3977);
 				attr_dev(input, "type", "text");
 				attr_dev(input, "placeholder", "New Team");
-				add_location(input, file$m, 223, 8, 6665);
-				add_location(label, file$m, 221, 6, 6631);
+				add_location(input, file$m, 224, 8, 6688);
+				add_location(label, file$m, 222, 6, 6654);
 				attr_dev(button1, "class", "btn btn-info");
-				add_location(button1, file$m, 229, 6, 6794);
+				add_location(button1, file$m, 230, 6, 6817);
 				attr_dev(div0, "class", "col");
-				add_location(div0, file$m, 220, 4, 6607);
+				add_location(div0, file$m, 221, 4, 6630);
 				attr_dev(div1, "class", "row");
-				add_location(div1, file$m, 130, 2, 3839);
+				add_location(div1, file$m, 131, 2, 3862);
 				attr_dev(div2, "class", "container");
-				add_location(div2, file$m, 129, 0, 3813);
+				add_location(div2, file$m, 130, 0, 3836);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -26498,6 +26528,9 @@
 	}
 
 	function instance$p($$self, $$props, $$invalidate) {
+		let $agentsStore;
+		validate_store(agentsStore, 'agentsStore');
+		component_subscribe($$self, agentsStore, $$value => $$invalidate(22, $agentsStore = $$value));
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Teams', slots, []);
 
@@ -26606,7 +26639,7 @@
 		}
 
 		function getOwner(team) {
-			const agent = WasabeeAgent.get(team.Owner);
+			const agent = $agentsStore[team.Owner];
 			return agent ? agent.name : team.Owner;
 		}
 
@@ -26676,7 +26709,6 @@
 
 		$$self.$capture_state = () => ({
 			__awaiter,
-			WasabeeAgent,
 			WasabeeMe,
 			WasabeeOp,
 			SetTeamState,
@@ -26686,6 +26718,7 @@
 			leaveTeamPromise,
 			newTeamPromise,
 			loadMeAndOps,
+			agentsStore,
 			me,
 			newTeamName,
 			toDelete,
@@ -26698,7 +26731,8 @@
 			isOwner,
 			getOwner,
 			deleteTeam,
-			leaveTeam
+			leaveTeam,
+			$agentsStore
 		});
 
 		$$self.$inject_state = $$props => {
