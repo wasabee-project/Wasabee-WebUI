@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import type { WasabeeAgent, WasabeeMe, WasabeeTeam } from './model';
+import { WasabeeAgent, WasabeeMe, WasabeeOp, WasabeeTeam } from './model';
 import { opPromise } from './server';
 
 function AgentsStore() {
@@ -46,12 +46,13 @@ function OpsStore() {
   return {
     subscribe,
     updateFromMe: (me: WasabeeMe) => {
-      set({
-        success: [],
-        pending: me.Ops.map((o) => o.ID),
-        failed: [],
-      });
       if (me) {
+        const loaded = me.Ops.map((o) => o.ID).filter((id) => WasabeeOp.load(id));
+        set({
+          success: loaded,
+          pending: me.Ops.map((o) => o.ID).filter((id) => !loaded.includes(id)),
+          failed: [],
+        });
         for (const op of me.Ops) {
           opPromise(op.ID)
             .then((op) => {
@@ -64,7 +65,7 @@ function OpsStore() {
             })
             .catch(() => {
               update((ops) => ({
-                success: ops.success,
+                success: ops.success.filter((o) => o !== op.ID),
                 pending: ops.pending.filter((o) => o !== op.ID),
                 failed: [...ops.failed, op.ID],
               }));
