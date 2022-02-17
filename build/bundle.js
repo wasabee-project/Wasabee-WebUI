@@ -23299,7 +23299,7 @@
 	        updateAgent(agent) {
 	            update((r) => (Object.assign(Object.assign({}, r), { [agent.id]: agent })));
 	        },
-	        reset: () => set({})
+	        reset: () => set({}),
 	    };
 	}
 	const agentsStore = AgentsStore();
@@ -23311,7 +23311,7 @@
 	        updateTeam(team) {
 	            update((r) => (Object.assign(Object.assign({}, r), { [team.id]: team })));
 	        },
-	        reset: () => set({})
+	        reset: () => set({}),
 	    };
 	}
 	const teamsStore = TeamsStore();
@@ -23458,30 +23458,6 @@
 	function clearOpsStorage() {
 	    for (const id of opsList()) {
 	        delete localStorage[id];
-	    }
-	}
-	async function syncOps(me) {
-	    const opsID = new Set(me.Ops.map((o) => o.ID));
-	    // clear unknown id
-	    for (const id of opsList())
-	        if (!opsID.has(id))
-	            delete localStorage[id];
-	    const promises = new Array();
-	    for (const o of opsID)
-	        promises.push(opPromise(o));
-	    try {
-	        const results = await Promise.allSettled(promises);
-	        for (const r of results) {
-	            if (r.status != 'fulfilled') {
-	                console.log(r);
-	                throw new Error('Op load failed, please refresh');
-	            }
-	            r.value.store();
-	        }
-	    }
-	    catch (e) {
-	        console.log(e);
-	        // return;
 	    }
 	}
 	async function syncTeams(me) {
@@ -25585,28 +25561,28 @@
 
 	function get_each_context$b(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[25] = list[i];
-		child_ctx[26] = list;
-		child_ctx[27] = i;
+		child_ctx[26] = list[i];
+		child_ctx[27] = list;
+		child_ctx[28] = i;
 		return child_ctx;
 	}
 
 	function get_each_context_1$6(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[28] = list[i][0];
-		child_ctx[29] = list[i][1];
-		child_ctx[31] = i;
+		child_ctx[29] = list[i][0];
+		child_ctx[30] = list[i][1];
+		child_ctx[32] = i;
 		return child_ctx;
 	}
 
-	// (157:8) {:else}
+	// (159:8) {:else}
 	function create_else_block$3(ctx) {
 		let each_blocks = [];
 		let each_1_lookup = new Map();
 		let each_1_anchor;
 		let each_value = /*teamsList*/ ctx[4];
 		validate_each_argument(each_value);
-		const get_key = ctx => /*team*/ ctx[25].ID;
+		const get_key = ctx => /*team*/ ctx[26].ID;
 		validate_each_keys(ctx, each_value, get_each_context$b, get_key);
 
 		for (let i = 0; i < each_value.length; i += 1) {
@@ -25651,14 +25627,14 @@
 			block,
 			id: create_else_block$3.name,
 			type: "else",
-			source: "(157:8) {:else}",
+			source: "(159:8) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (150:8) {#if !me.Teams.length}
+	// (152:8) {#if !me.Teams.length}
 	function create_if_block$i(ctx) {
 		let tr;
 		let td;
@@ -25673,8 +25649,8 @@
 				t0 = text("You are not on any teams, have your operator add you with this\n              GoogleID: ");
 				t1 = text(t1_value);
 				attr_dev(td, "colspan", "6");
-				add_location(td, file$m, 151, 12, 4506);
-				add_location(tr, file$m, 150, 10, 4489);
+				add_location(td, file$m, 153, 12, 4591);
+				add_location(tr, file$m, 152, 10, 4574);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, tr, anchor);
@@ -25694,21 +25670,21 @@
 			block,
 			id: create_if_block$i.name,
 			type: "if",
-			source: "(150:8) {#if !me.Teams.length}",
+			source: "(152:8) {#if !me.Teams.length}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (190:16) {#if teamsOps[team.ID]}
+	// (192:16) {#if teamsOps[team.ID]}
 	function create_if_block_4$2(ctx) {
 		let each_blocks = [];
 		let each_1_lookup = new Map();
 		let each_1_anchor;
-		let each_value_1 = Object.entries(/*teamsOps*/ ctx[3][/*team*/ ctx[25].ID]);
+		let each_value_1 = /*teamsOps*/ ctx[3][/*team*/ ctx[26].ID];
 		validate_each_argument(each_value_1);
-		const get_key = ctx => /*opID*/ ctx[28];
+		const get_key = ctx => /*opID*/ ctx[29];
 		validate_each_keys(ctx, each_value_1, get_each_context_1$6, get_key);
 
 		for (let i = 0; i < each_value_1.length; i += 1) {
@@ -25734,7 +25710,7 @@
 			},
 			p: function update(ctx, dirty) {
 				if (dirty[0] & /*teamsOps, teamsList*/ 24) {
-					each_value_1 = Object.entries(/*teamsOps*/ ctx[3][/*team*/ ctx[25].ID]);
+					each_value_1 = /*teamsOps*/ ctx[3][/*team*/ ctx[26].ID];
 					validate_each_argument(each_value_1);
 					validate_each_keys(ctx, each_value_1, get_each_context_1$6, get_key);
 					each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value_1, each_1_lookup, each_1_anchor.parentNode, destroy_block, create_each_block_1$6, each_1_anchor, get_each_context_1$6);
@@ -25753,14 +25729,14 @@
 			block,
 			id: create_if_block_4$2.name,
 			type: "if",
-			source: "(190:16) {#if teamsOps[team.ID]}",
+			source: "(192:16) {#if teamsOps[team.ID]}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (192:20) {#if i > 0}
+	// (194:20) {#if i > 0}
 	function create_if_block_5(ctx) {
 		let t;
 
@@ -25780,23 +25756,23 @@
 			block,
 			id: create_if_block_5.name,
 			type: "if",
-			source: "(192:20) {#if i > 0}",
+			source: "(194:20) {#if i > 0}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (191:18) {#each Object.entries(teamsOps[team.ID]) as [opID, opName], i (opID)}
+	// (193:18) {#each teamsOps[team.ID] as [opID, opName], i (opID)}
 	function create_each_block_1$6(key_1, ctx) {
 		let first;
 		let t0;
 		let a;
-		let t1_value = /*opName*/ ctx[29] + "";
+		let t1_value = /*opName*/ ctx[30] + "";
 		let t1;
 		let t2;
 		let a_href_value;
-		let if_block = /*i*/ ctx[31] > 0 && create_if_block_5(ctx);
+		let if_block = /*i*/ ctx[32] > 0 && create_if_block_5(ctx);
 
 		const block = {
 			key: key_1,
@@ -25808,8 +25784,8 @@
 				a = element("a");
 				t1 = text(t1_value);
 				t2 = space();
-				attr_dev(a, "href", a_href_value = '#/operation/' + /*opID*/ ctx[28] + '/list');
-				add_location(a, file$m, 192, 20, 5818);
+				attr_dev(a, "href", a_href_value = '#/operation/' + /*opID*/ ctx[29] + '/list');
+				add_location(a, file$m, 194, 20, 5887);
 				this.first = first;
 			},
 			m: function mount(target, anchor) {
@@ -25823,7 +25799,7 @@
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
 
-				if (/*i*/ ctx[31] > 0) {
+				if (/*i*/ ctx[32] > 0) {
 					if (if_block) ; else {
 						if_block = create_if_block_5(ctx);
 						if_block.c();
@@ -25834,9 +25810,9 @@
 					if_block = null;
 				}
 
-				if (dirty[0] & /*teamsOps, teamsList*/ 24 && t1_value !== (t1_value = /*opName*/ ctx[29] + "")) set_data_dev(t1, t1_value);
+				if (dirty[0] & /*teamsOps, teamsList*/ 24 && t1_value !== (t1_value = /*opName*/ ctx[30] + "")) set_data_dev(t1, t1_value);
 
-				if (dirty[0] & /*teamsOps, teamsList*/ 24 && a_href_value !== (a_href_value = '#/operation/' + /*opID*/ ctx[28] + '/list')) {
+				if (dirty[0] & /*teamsOps, teamsList*/ 24 && a_href_value !== (a_href_value = '#/operation/' + /*opID*/ ctx[29] + '/list')) {
 					attr_dev(a, "href", a_href_value);
 				}
 			},
@@ -25852,21 +25828,21 @@
 			block,
 			id: create_each_block_1$6.name,
 			type: "each",
-			source: "(191:18) {#each Object.entries(teamsOps[team.ID]) as [opID, opName], i (opID)}",
+			source: "(193:18) {#each teamsOps[team.ID] as [opID, opName], i (opID)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (208:16) {:else}
+	// (210:16) {:else}
 	function create_else_block_2(ctx) {
 		let button;
 		let mounted;
 		let dispose;
 
 		function select_block_type_3(ctx, dirty) {
-			if (/*toDelete*/ ctx[2] === /*team*/ ctx[25].ID) return create_if_block_3$5;
+			if (/*toDelete*/ ctx[2] === /*team*/ ctx[26].ID) return create_if_block_3$5;
 			return create_else_block_3;
 		}
 
@@ -25874,7 +25850,7 @@
 		let if_block = current_block_type(ctx);
 
 		function click_handler_1() {
-			return /*click_handler_1*/ ctx[21](/*team*/ ctx[25]);
+			return /*click_handler_1*/ ctx[22](/*team*/ ctx[26]);
 		}
 
 		const block = {
@@ -25882,7 +25858,7 @@
 				button = element("button");
 				if_block.c();
 				attr_dev(button, "class", "btn btn-warning btn-sm svelte-15nu3fx");
-				add_location(button, file$m, 208, 18, 6380);
+				add_location(button, file$m, 210, 18, 6449);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -25918,21 +25894,21 @@
 			block,
 			id: create_else_block_2.name,
 			type: "else",
-			source: "(208:16) {:else}",
+			source: "(210:16) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (200:16) {#if isOwner(team)}
+	// (202:16) {#if isOwner(team)}
 	function create_if_block_1$c(ctx) {
 		let button;
 		let mounted;
 		let dispose;
 
 		function select_block_type_2(ctx, dirty) {
-			if (/*toDelete*/ ctx[2] === /*team*/ ctx[25].ID) return create_if_block_2$7;
+			if (/*toDelete*/ ctx[2] === /*team*/ ctx[26].ID) return create_if_block_2$7;
 			return create_else_block_1;
 		}
 
@@ -25940,7 +25916,7 @@
 		let if_block = current_block_type(ctx);
 
 		function click_handler() {
-			return /*click_handler*/ ctx[20](/*team*/ ctx[25]);
+			return /*click_handler*/ ctx[21](/*team*/ ctx[26]);
 		}
 
 		const block = {
@@ -25948,7 +25924,7 @@
 				button = element("button");
 				if_block.c();
 				attr_dev(button, "class", "btn btn-danger btn-sm svelte-15nu3fx");
-				add_location(button, file$m, 200, 18, 6058);
+				add_location(button, file$m, 202, 18, 6127);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -25984,14 +25960,14 @@
 			block,
 			id: create_if_block_1$c.name,
 			type: "if",
-			source: "(200:16) {#if isOwner(team)}",
+			source: "(202:16) {#if isOwner(team)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (214:20) {:else}
+	// (216:20) {:else}
 	function create_else_block_3(ctx) {
 		let span;
 
@@ -25999,7 +25975,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Leave";
-				add_location(span, file$m, 213, 27, 6607);
+				add_location(span, file$m, 215, 27, 6676);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -26013,14 +25989,14 @@
 			block,
 			id: create_else_block_3.name,
 			type: "else",
-			source: "(214:20) {:else}",
+			source: "(216:20) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (213:20) {#if toDelete === team.ID}
+	// (215:20) {#if toDelete === team.ID}
 	function create_if_block_3$5(ctx) {
 		let span;
 
@@ -26028,7 +26004,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Confirm?";
-				add_location(span, file$m, 212, 46, 6558);
+				add_location(span, file$m, 214, 46, 6627);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -26042,14 +26018,14 @@
 			block,
 			id: create_if_block_3$5.name,
 			type: "if",
-			source: "(213:20) {#if toDelete === team.ID}",
+			source: "(215:20) {#if toDelete === team.ID}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (206:20) {:else}
+	// (208:20) {:else}
 	function create_else_block_1(ctx) {
 		let span;
 
@@ -26057,7 +26033,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Delete";
-				add_location(span, file$m, 205, 27, 6285);
+				add_location(span, file$m, 207, 27, 6354);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -26071,14 +26047,14 @@
 			block,
 			id: create_else_block_1.name,
 			type: "else",
-			source: "(206:20) {:else}",
+			source: "(208:20) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (205:20) {#if toDelete === team.ID}
+	// (207:20) {#if toDelete === team.ID}
 	function create_if_block_2$7(ctx) {
 		let span;
 
@@ -26086,7 +26062,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Confirm?";
-				add_location(span, file$m, 204, 46, 6236);
+				add_location(span, file$m, 206, 46, 6305);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -26100,24 +26076,24 @@
 			block,
 			id: create_if_block_2$7.name,
 			type: "if",
-			source: "(205:20) {#if toDelete === team.ID}",
+			source: "(207:20) {#if toDelete === team.ID}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (158:10) {#each teamsList as team (team.ID)}
+	// (160:10) {#each teamsList as team (team.ID)}
 	function create_each_block$b(key_1, ctx) {
 		let tr;
 		let td0;
 		let a;
-		let t0_value = /*team*/ ctx[25].Name + "";
+		let t0_value = /*team*/ ctx[26].Name + "";
 		let t0;
 		let a_href_value;
 		let t1;
 		let td1;
-		let t2_value = /*team*/ ctx[25].ownerName + "";
+		let t2_value = /*team*/ ctx[26].ownerName + "";
 		let t2;
 		let t3;
 		let td2;
@@ -26138,33 +26114,33 @@
 		let dispose;
 
 		function input0_change_handler() {
-			/*input0_change_handler*/ ctx[14].call(input0, /*each_value*/ ctx[26], /*team_index*/ ctx[27]);
+			/*input0_change_handler*/ ctx[15].call(input0, /*each_value*/ ctx[27], /*team_index*/ ctx[28]);
 		}
 
 		function change_handler() {
-			return /*change_handler*/ ctx[15](/*team*/ ctx[25]);
+			return /*change_handler*/ ctx[16](/*team*/ ctx[26]);
 		}
 
 		function input1_change_handler() {
-			/*input1_change_handler*/ ctx[16].call(input1, /*each_value*/ ctx[26], /*team_index*/ ctx[27]);
+			/*input1_change_handler*/ ctx[17].call(input1, /*each_value*/ ctx[27], /*team_index*/ ctx[28]);
 		}
 
 		function change_handler_1() {
-			return /*change_handler_1*/ ctx[17](/*team*/ ctx[25]);
+			return /*change_handler_1*/ ctx[18](/*team*/ ctx[26]);
 		}
 
 		function input2_change_handler() {
-			/*input2_change_handler*/ ctx[18].call(input2, /*each_value*/ ctx[26], /*team_index*/ ctx[27]);
+			/*input2_change_handler*/ ctx[19].call(input2, /*each_value*/ ctx[27], /*team_index*/ ctx[28]);
 		}
 
 		function change_handler_2() {
-			return /*change_handler_2*/ ctx[19](/*team*/ ctx[25]);
+			return /*change_handler_2*/ ctx[20](/*team*/ ctx[26]);
 		}
 
-		let if_block0 = /*teamsOps*/ ctx[3][/*team*/ ctx[25].ID] && create_if_block_4$2(ctx);
+		let if_block0 = /*teamsOps*/ ctx[3][/*team*/ ctx[26].ID] && create_if_block_4$2(ctx);
 
 		function select_block_type_1(ctx, dirty) {
-			if (show_if == null || dirty[0] & /*teamsList*/ 16) show_if = !!/*isOwner*/ ctx[10](/*team*/ ctx[25]);
+			if (show_if == null || dirty[0] & /*teamsList*/ 16) show_if = !!/*isOwner*/ ctx[10](/*team*/ ctx[26]);
 			if (show_if) return create_if_block_1$c;
 			return create_else_block_2;
 		}
@@ -26199,22 +26175,22 @@
 				td6 = element("td");
 				if_block1.c();
 				t8 = space();
-				attr_dev(a, "href", a_href_value = '#/team/' + /*team*/ ctx[25].ID + '/list');
-				add_location(a, file$m, 160, 16, 4780);
-				add_location(td0, file$m, 159, 14, 4759);
-				add_location(td1, file$m, 164, 14, 4906);
+				attr_dev(a, "href", a_href_value = '#/team/' + /*team*/ ctx[26].ID + '/list');
+				add_location(a, file$m, 162, 16, 4865);
+				add_location(td0, file$m, 161, 14, 4844);
+				add_location(td1, file$m, 166, 14, 4991);
 				attr_dev(input0, "type", "checkbox");
-				add_location(input0, file$m, 168, 16, 4999);
-				add_location(td2, file$m, 167, 14, 4978);
+				add_location(input0, file$m, 170, 16, 5084);
+				add_location(td2, file$m, 169, 14, 5063);
 				attr_dev(input1, "type", "checkbox");
-				add_location(input1, file$m, 175, 16, 5213);
-				add_location(td3, file$m, 174, 14, 5192);
+				add_location(input1, file$m, 177, 16, 5298);
+				add_location(td3, file$m, 176, 14, 5277);
 				attr_dev(input2, "type", "checkbox");
-				add_location(input2, file$m, 182, 16, 5431);
-				add_location(td4, file$m, 181, 14, 5410);
-				add_location(td5, file$m, 188, 14, 5626);
-				add_location(td6, file$m, 198, 14, 5999);
-				add_location(tr, file$m, 158, 12, 4740);
+				add_location(input2, file$m, 184, 16, 5516);
+				add_location(td4, file$m, 183, 14, 5495);
+				add_location(td5, file$m, 190, 14, 5711);
+				add_location(td6, file$m, 200, 14, 6068);
+				add_location(tr, file$m, 160, 12, 4825);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -26228,15 +26204,15 @@
 				append_dev(tr, t3);
 				append_dev(tr, td2);
 				append_dev(td2, input0);
-				input0.checked = /*team*/ ctx[25].State;
+				input0.checked = /*team*/ ctx[26].State;
 				append_dev(tr, t4);
 				append_dev(tr, td3);
 				append_dev(td3, input1);
-				input1.checked = /*team*/ ctx[25].ShareWD;
+				input1.checked = /*team*/ ctx[26].ShareWD;
 				append_dev(tr, t5);
 				append_dev(tr, td4);
 				append_dev(td4, input2);
-				input2.checked = /*team*/ ctx[25].LoadWD;
+				input2.checked = /*team*/ ctx[26].LoadWD;
 				append_dev(tr, t6);
 				append_dev(tr, td5);
 				if (if_block0) if_block0.m(td5, null);
@@ -26260,27 +26236,27 @@
 			},
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
-				if (dirty[0] & /*teamsList*/ 16 && t0_value !== (t0_value = /*team*/ ctx[25].Name + "")) set_data_dev(t0, t0_value);
+				if (dirty[0] & /*teamsList*/ 16 && t0_value !== (t0_value = /*team*/ ctx[26].Name + "")) set_data_dev(t0, t0_value);
 
-				if (dirty[0] & /*teamsList*/ 16 && a_href_value !== (a_href_value = '#/team/' + /*team*/ ctx[25].ID + '/list')) {
+				if (dirty[0] & /*teamsList*/ 16 && a_href_value !== (a_href_value = '#/team/' + /*team*/ ctx[26].ID + '/list')) {
 					attr_dev(a, "href", a_href_value);
 				}
 
-				if (dirty[0] & /*teamsList*/ 16 && t2_value !== (t2_value = /*team*/ ctx[25].ownerName + "")) set_data_dev(t2, t2_value);
+				if (dirty[0] & /*teamsList*/ 16 && t2_value !== (t2_value = /*team*/ ctx[26].ownerName + "")) set_data_dev(t2, t2_value);
 
 				if (dirty[0] & /*teamsList*/ 16) {
-					input0.checked = /*team*/ ctx[25].State;
+					input0.checked = /*team*/ ctx[26].State;
 				}
 
 				if (dirty[0] & /*teamsList*/ 16) {
-					input1.checked = /*team*/ ctx[25].ShareWD;
+					input1.checked = /*team*/ ctx[26].ShareWD;
 				}
 
 				if (dirty[0] & /*teamsList*/ 16) {
-					input2.checked = /*team*/ ctx[25].LoadWD;
+					input2.checked = /*team*/ ctx[26].LoadWD;
 				}
 
-				if (/*teamsOps*/ ctx[3][/*team*/ ctx[25].ID]) {
+				if (/*teamsOps*/ ctx[3][/*team*/ ctx[26].ID]) {
 					if (if_block0) {
 						if_block0.p(ctx, dirty);
 					} else {
@@ -26318,7 +26294,7 @@
 			block,
 			id: create_each_block$b.name,
 			type: "each",
-			source: "(158:10) {#each teamsList as team (team.ID)}",
+			source: "(160:10) {#each teamsList as team (team.ID)}",
 			ctx
 		});
 
@@ -26411,35 +26387,35 @@
 				button1 = element("button");
 				button1.textContent = "New Team";
 				attr_dev(button0, "class", "btn btn-primary");
-				add_location(button0, file$m, 134, 12, 4053);
-				add_location(h1, file$m, 133, 4, 4036);
-				add_location(th0, file$m, 139, 10, 4216);
-				add_location(th1, file$m, 140, 10, 4240);
-				add_location(th2, file$m, 141, 10, 4265);
-				add_location(th3, file$m, 142, 10, 4299);
-				add_location(th4, file$m, 143, 10, 4332);
-				add_location(th5, file$m, 144, 10, 4364);
-				add_location(th6, file$m, 145, 10, 4387);
-				add_location(tr, file$m, 138, 8, 4201);
+				add_location(button0, file$m, 136, 12, 4138);
+				add_location(h1, file$m, 135, 4, 4121);
+				add_location(th0, file$m, 141, 10, 4301);
+				add_location(th1, file$m, 142, 10, 4325);
+				add_location(th2, file$m, 143, 10, 4350);
+				add_location(th3, file$m, 144, 10, 4384);
+				add_location(th4, file$m, 145, 10, 4417);
+				add_location(th5, file$m, 146, 10, 4449);
+				add_location(th6, file$m, 147, 10, 4472);
+				add_location(tr, file$m, 140, 8, 4286);
 				attr_dev(thead, "class", "thead");
-				add_location(thead, file$m, 137, 6, 4171);
+				add_location(thead, file$m, 139, 6, 4256);
 				attr_dev(tbody, "id", "teams");
 				attr_dev(tbody, "class", "svelte-15nu3fx");
-				add_location(tbody, file$m, 148, 6, 4429);
+				add_location(tbody, file$m, 150, 6, 4514);
 				attr_dev(table, "class", "table table-striped");
-				add_location(table, file$m, 136, 4, 4129);
+				add_location(table, file$m, 138, 4, 4214);
 				attr_dev(input, "type", "text");
 				attr_dev(input, "placeholder", "New Team");
-				add_location(input, file$m, 225, 8, 6841);
-				add_location(label, file$m, 223, 6, 6807);
+				add_location(input, file$m, 227, 8, 6910);
+				add_location(label, file$m, 225, 6, 6876);
 				attr_dev(button1, "class", "btn btn-info");
-				add_location(button1, file$m, 231, 6, 6970);
+				add_location(button1, file$m, 233, 6, 7039);
 				attr_dev(div0, "class", "col");
-				add_location(div0, file$m, 222, 4, 6783);
+				add_location(div0, file$m, 224, 4, 6852);
 				attr_dev(div1, "class", "row");
-				add_location(div1, file$m, 132, 2, 4014);
+				add_location(div1, file$m, 134, 2, 4099);
 				attr_dev(div2, "class", "container");
-				add_location(div2, file$m, 131, 0, 3988);
+				add_location(div2, file$m, 133, 0, 4073);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -26482,7 +26458,7 @@
 				if (!mounted) {
 					dispose = [
 						listen_dev(button0, "click", /*refresh*/ ctx[5], false, false, false),
-						listen_dev(input, "input", /*input_input_handler*/ ctx[22]),
+						listen_dev(input, "input", /*input_input_handler*/ ctx[23]),
 						listen_dev(button1, "click", /*createTeam*/ ctx[6], false, false, false)
 					];
 
@@ -26530,8 +26506,11 @@
 	function instance$p($$self, $$props, $$invalidate) {
 		let teamsList;
 		let $agentsStore;
+		let $opsStore;
 		validate_store(agentsStore, 'agentsStore');
 		component_subscribe($$self, agentsStore, $$value => $$invalidate(13, $agentsStore = $$value));
+		validate_store(opsStore, 'opsStore');
+		component_subscribe($$self, opsStore, $$value => $$invalidate(14, $opsStore = $$value));
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Teams', slots, []);
 
@@ -26720,6 +26699,7 @@
 			newTeamPromise,
 			loadMeAndOps,
 			agentsStore,
+			opsStore,
 			me,
 			newTeamName,
 			toDelete,
@@ -26734,7 +26714,8 @@
 			deleteTeam,
 			leaveTeam,
 			teamsList,
-			$agentsStore
+			$agentsStore,
+			$opsStore
 		});
 
 		$$self.$inject_state = $$props => {
@@ -26751,19 +26732,20 @@
 		}
 
 		$$self.$$.update = () => {
-			if ($$self.$$.dirty[0] & /*me*/ 1) {
+			if ($$self.$$.dirty[0] & /*$opsStore*/ 16384) {
 				{
 					const teams = {};
-					const ops = me.Ops.map(o => [o.ID, o.Name]);
+					const ops = $opsStore.success;
 					ops.sort((a, b) => a[1].localeCompare(b[1]));
 
 					for (const id of ops.map(d => d[0])) {
 						const op = WasabeeOp.load(id);
 						if (!op || !op.teamlist) continue;
+						const pair = [op.ID, op.name];
 
 						for (const opteam of op.teamlist) {
-							teams[opteam.teamid] = teams[opteam.teamid] || {};
-							teams[opteam.teamid][op.ID] = op.name;
+							teams[opteam.teamid] = teams[opteam.teamid] || [];
+							if (!teams[opteam.teamid].includes(pair)) teams[opteam.teamid].push(pair);
 						}
 					}
 
@@ -26795,6 +26777,7 @@
 			deleteTeam,
 			leaveTeam,
 			$agentsStore,
+			$opsStore,
 			input0_change_handler,
 			change_handler,
 			input1_change_handler,
@@ -48926,7 +48909,7 @@
 	const { console: console_1 } = globals;
 	const file = "src/App.svelte";
 
-	// (109:0) {:else}
+	// (110:0) {:else}
 	function create_else_block(ctx) {
 		let header;
 		let navbar;
@@ -48978,8 +48961,8 @@
 				create_component(toastcontainer.$$.fragment);
 				t1 = space();
 				create_component(router.$$.fragment);
-				add_location(header, file, 109, 2, 3460);
-				add_location(main, file, 131, 2, 4320);
+				add_location(header, file, 110, 2, 3496);
+				add_location(main, file, 132, 2, 4356);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, header, anchor);
@@ -49042,14 +49025,14 @@
 			block,
 			id: create_else_block.name,
 			type: "else",
-			source: "(109:0) {:else}",
+			source: "(110:0) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (107:0) {#if !me}
+	// (108:0) {#if !me}
 	function create_if_block_1(ctx) {
 		let homepage;
 		let current;
@@ -49092,14 +49075,14 @@
 			block,
 			id: create_if_block_1.name,
 			type: "if",
-			source: "(107:0) {#if !me}",
+			source: "(108:0) {#if !me}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (115:19) <NavLink href="#/teams">
+	// (116:19) <NavLink href="#/teams">
 	function create_default_slot_16(ctx) {
 		let t;
 
@@ -49119,14 +49102,14 @@
 			block,
 			id: create_default_slot_16.name,
 			type: "slot",
-			source: "(115:19) <NavLink href=\\\"#/teams\\\">",
+			source: "(116:19) <NavLink href=\\\"#/teams\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (115:10) <NavItem>
+	// (116:10) <NavItem>
 	function create_default_slot_15(ctx) {
 		let navlink;
 		let current;
@@ -49175,14 +49158,14 @@
 			block,
 			id: create_default_slot_15.name,
 			type: "slot",
-			source: "(115:10) <NavItem>",
+			source: "(116:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (116:19) <NavLink href="#/operations">
+	// (117:19) <NavLink href="#/operations">
 	function create_default_slot_14(ctx) {
 		let t;
 
@@ -49202,14 +49185,14 @@
 			block,
 			id: create_default_slot_14.name,
 			type: "slot",
-			source: "(116:19) <NavLink href=\\\"#/operations\\\">",
+			source: "(117:19) <NavLink href=\\\"#/operations\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (116:10) <NavItem>
+	// (117:10) <NavItem>
 	function create_default_slot_13(ctx) {
 		let navlink;
 		let current;
@@ -49258,14 +49241,14 @@
 			block,
 			id: create_default_slot_13.name,
 			type: "slot",
-			source: "(116:10) <NavItem>",
+			source: "(117:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (118:13) <NavLink href="#/defensivekeys/">
+	// (119:13) <NavLink href="#/defensivekeys/">
 	function create_default_slot_12(ctx) {
 		let t;
 
@@ -49285,14 +49268,14 @@
 			block,
 			id: create_default_slot_12.name,
 			type: "slot",
-			source: "(118:13) <NavLink href=\\\"#/defensivekeys/\\\">",
+			source: "(119:13) <NavLink href=\\\"#/defensivekeys/\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (117:10) <NavItem             >
+	// (118:10) <NavItem             >
 	function create_default_slot_11(ctx) {
 		let navlink;
 		let current;
@@ -49341,14 +49324,14 @@
 			block,
 			id: create_default_slot_11.name,
 			type: "slot",
-			source: "(117:10) <NavItem             >",
+			source: "(118:10) <NavItem             >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (120:19) <NavLink href="#/settings">
+	// (121:19) <NavLink href="#/settings">
 	function create_default_slot_10(ctx) {
 		let t;
 
@@ -49368,14 +49351,14 @@
 			block,
 			id: create_default_slot_10.name,
 			type: "slot",
-			source: "(120:19) <NavLink href=\\\"#/settings\\\">",
+			source: "(121:19) <NavLink href=\\\"#/settings\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (120:10) <NavItem>
+	// (121:10) <NavItem>
 	function create_default_slot_9(ctx) {
 		let navlink;
 		let current;
@@ -49424,14 +49407,14 @@
 			block,
 			id: create_default_slot_9.name,
 			type: "slot",
-			source: "(120:10) <NavItem>",
+			source: "(121:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (121:19) <NavLink href="#/help">
+	// (122:19) <NavLink href="#/help">
 	function create_default_slot_8(ctx) {
 		let t;
 
@@ -49451,14 +49434,14 @@
 			block,
 			id: create_default_slot_8.name,
 			type: "slot",
-			source: "(121:19) <NavLink href=\\\"#/help\\\">",
+			source: "(122:19) <NavLink href=\\\"#/help\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (121:10) <NavItem>
+	// (122:10) <NavItem>
 	function create_default_slot_7(ctx) {
 		let navlink;
 		let current;
@@ -49507,14 +49490,14 @@
 			block,
 			id: create_default_slot_7.name,
 			type: "slot",
-			source: "(121:10) <NavItem>",
+			source: "(122:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (123:13) <NavLink href="#/" on:click={logout}>
+	// (124:13) <NavLink href="#/" on:click={logout}>
 	function create_default_slot_6(ctx) {
 		let t;
 
@@ -49534,14 +49517,14 @@
 			block,
 			id: create_default_slot_6.name,
 			type: "slot",
-			source: "(123:13) <NavLink href=\\\"#/\\\" on:click={logout}>",
+			source: "(124:13) <NavLink href=\\\"#/\\\" on:click={logout}>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (122:10) <NavItem             >
+	// (123:10) <NavItem             >
 	function create_default_slot_5(ctx) {
 		let navlink;
 		let current;
@@ -49592,14 +49575,14 @@
 			block,
 			id: create_default_slot_5.name,
 			type: "slot",
-			source: "(122:10) <NavItem             >",
+			source: "(123:10) <NavItem             >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (114:8) <Nav navbar>
+	// (115:8) <Nav navbar>
 	function create_default_slot_4(ctx) {
 		let navitem0;
 		let t0;
@@ -49772,14 +49755,14 @@
 			block,
 			id: create_default_slot_4.name,
 			type: "slot",
-			source: "(114:8) <Nav navbar>",
+			source: "(115:8) <Nav navbar>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (113:6) <Collapse toggler="#main-toggler" navbar expand="lg">
+	// (114:6) <Collapse toggler="#main-toggler" navbar expand="lg">
 	function create_default_slot_3(ctx) {
 		let nav;
 		let current;
@@ -49828,14 +49811,14 @@
 			block,
 			id: create_default_slot_3.name,
 			type: "slot",
-			source: "(113:6) <Collapse toggler=\\\"#main-toggler\\\" navbar expand=\\\"lg\\\">",
+			source: "(114:6) <Collapse toggler=\\\"#main-toggler\\\" navbar expand=\\\"lg\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (127:6) <NavLink disabled href="#">
+	// (128:6) <NavLink disabled href="#">
 	function create_default_slot_2(ctx) {
 		let t_value = getServer().replace('https://', '') + "";
 		let t;
@@ -49857,14 +49840,14 @@
 			block,
 			id: create_default_slot_2.name,
 			type: "slot",
-			source: "(127:6) <NavLink disabled href=\\\"#\\\">",
+			source: "(128:6) <NavLink disabled href=\\\"#\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (111:4) <Navbar container={false} color="dark" dark expand="lg">
+	// (112:4) <Navbar container={false} color="dark" dark expand="lg">
 	function create_default_slot_1(ctx) {
 		let navbartoggler;
 		let t0;
@@ -49957,14 +49940,14 @@
 			block,
 			id: create_default_slot_1.name,
 			type: "slot",
-			source: "(111:4) <Navbar container={false} color=\\\"dark\\\" dark expand=\\\"lg\\\">",
+			source: "(112:4) <Navbar container={false} color=\\\"dark\\\" dark expand=\\\"lg\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (133:4) <ToastContainer let:data>
+	// (134:4) <ToastContainer let:data>
 	function create_default_slot(ctx) {
 		let flattoast;
 		let current;
@@ -50005,14 +49988,14 @@
 			block,
 			id: create_default_slot.name,
 			type: "slot",
-			source: "(133:4) <ToastContainer let:data>",
+			source: "(134:4) <ToastContainer let:data>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (140:0) {#if loading}
+	// (141:0) {#if loading}
 	function create_if_block(ctx) {
 		let div;
 
@@ -50021,7 +50004,7 @@
 				div = element("div");
 				attr_dev(div, "id", "loading-animation");
 				attr_dev(div, "class", "svelte-1bcajx9");
-				add_location(div, file, 140, 2, 4491);
+				add_location(div, file, 141, 2, 4527);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -50035,7 +50018,7 @@
 			block,
 			id: create_if_block.name,
 			type: "if",
-			source: "(140:0) {#if loading}",
+			source: "(141:0) {#if loading}",
 			ctx
 		});
 
@@ -50109,22 +50092,22 @@
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
-				add_location(script, file, 99, 2, 3273);
-				add_location(strong, file, 147, 76, 4772);
+				add_location(script, file, 100, 2, 3309);
+				add_location(strong, file, 148, 76, 4808);
 				attr_dev(a0, "href", "https://v.enl.one/");
-				add_location(a0, file, 151, 6, 4888);
+				add_location(a0, file, 152, 6, 4924);
 				attr_dev(a1, "href", "https://enl.rocks");
-				add_location(a1, file, 152, 6, 4933);
+				add_location(a1, file, 153, 6, 4969);
 				attr_dev(a2, "href", "/privacy");
-				add_location(a2, file, 153, 6, 4994);
+				add_location(a2, file, 154, 6, 5030);
 				attr_dev(p0, "class", "text-muted small");
-				add_location(p0, file, 145, 4, 4592);
+				add_location(p0, file, 146, 4, 4628);
 				attr_dev(p1, "class", "text-muted text-right small");
-				add_location(p1, file, 155, 4, 5067);
+				add_location(p1, file, 156, 4, 5103);
 				attr_dev(div, "class", "p-5");
-				add_location(div, file, 144, 2, 4570);
+				add_location(div, file, 145, 2, 4606);
 				attr_dev(footer, "class", "mastfoot mx-5 mt-auto");
-				add_location(footer, file, 143, 0, 4529);
+				add_location(footer, file, 144, 0, 4565);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -50336,7 +50319,7 @@
 				$$invalidate(0, me = new WasabeeMe(ev.detail));
 				me.store();
 				setConfig(yield loadConfig());
-				yield syncOps(me);
+				opsStore.updateFromMe(me);
 				yield syncTeams(me);
 				sendTokenToServer();
 			});
@@ -50372,7 +50355,6 @@
 			setConfig,
 			clearOpsStorage,
 			loadMeAndOps,
-			syncOps,
 			syncTeams,
 			loadConfig,
 			logoutPromise,
@@ -50380,6 +50362,7 @@
 			getAuthBearer,
 			setAuthBearer,
 			sendTokenToServer,
+			opsStore,
 			me,
 			loading,
 			routes,
