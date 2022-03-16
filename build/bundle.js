@@ -21366,7 +21366,8 @@
 	        this.order = obj.order ? Number(obj.order) : 0;
 	        this.assignedTo = obj.assignedTo ? obj.assignedTo : null;
 	        this.comment = obj.comment ? obj.comment : '';
-	        this.state = this.assignedTo && obj.state === 'pending' ? 'assigned' : obj.state;
+	        this.state =
+	            this.assignedTo && obj.state === 'pending' ? 'assigned' : obj.state;
 	        this.dependsOn = obj.dependsOn || [];
 	    }
 	    toServer() {
@@ -22337,6 +22338,10 @@
 	}
 	function getMarkerPromise(opID, taskID) {
 	    return genericGet(`/api/v1/draw/${opID}/marker/${taskID}`);
+	}
+	function taskCompletePromise(opID, taskID, complete) {
+	    const action = complete ? 'complete' : 'incomplete';
+	    return genericPut(`/api/v1/draw/${opID}/task/${taskID}/${action}`);
 	}
 	// local change: none // cache: none
 	function assignMarkerPromise(opID, markerID, agentID) {
@@ -34743,7 +34748,7 @@
 		return child_ctx;
 	}
 
-	// (279:46) 
+	// (281:46) 
 	function create_if_block_1$9(ctx) {
 		let td0;
 		let portallink0;
@@ -34795,14 +34800,14 @@
 				t2 = space();
 				td3 = element("td");
 				t3 = text(t3_value);
-				add_location(td0, file$a, 279, 10, 8524);
+				add_location(td0, file$a, 281, 10, 8660);
 				if (!src_url_equal(img.src, img_src_value = "https://cdn2.wasabee.rocks/img/swap.svg")) attr_dev(img, "src", img_src_value);
 				attr_dev(img, "height", "16");
 				attr_dev(img, "alt", "swap");
-				add_location(img, file$a, 283, 12, 8640);
-				add_location(td1, file$a, 282, 10, 8623);
-				add_location(td2, file$a, 290, 10, 8846);
-				add_location(td3, file$a, 293, 10, 8943);
+				add_location(img, file$a, 285, 12, 8776);
+				add_location(td1, file$a, 284, 10, 8759);
+				add_location(td2, file$a, 292, 10, 8982);
+				add_location(td3, file$a, 295, 10, 9079);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -34865,14 +34870,14 @@
 			block,
 			id: create_if_block_1$9.name,
 			type: "if",
-			source: "(279:46) ",
+			source: "(281:46) ",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (270:8) {#if step instanceof WasabeeMarker}
+	// (272:8) {#if step instanceof WasabeeMarker}
 	function create_if_block$b(ctx) {
 		let td0;
 		let portallink;
@@ -34906,11 +34911,11 @@
 				t2 = text(t2_value);
 				t3 = space();
 				td3 = element("td");
-				add_location(td0, file$a, 270, 10, 8267);
-				add_location(td1, file$a, 273, 10, 8362);
+				add_location(td0, file$a, 272, 10, 8403);
+				add_location(td1, file$a, 275, 10, 8498);
 				attr_dev(td2, "class", td2_class_value = /*step*/ ctx[38].type);
-				add_location(td2, file$a, 274, 10, 8379);
-				add_location(td3, file$a, 277, 10, 8460);
+				add_location(td2, file$a, 276, 10, 8515);
+				add_location(td3, file$a, 279, 10, 8596);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -34960,14 +34965,14 @@
 			block,
 			id: create_if_block$b.name,
 			type: "if",
-			source: "(270:8) {#if step instanceof WasabeeMarker}",
+			source: "(272:8) {#if step instanceof WasabeeMarker}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (301:12) {#each operation.zones as z (z.id)}
+	// (303:12) {#each operation.zones as z (z.id)}
 	function create_each_block_2$3(key_1, ctx) {
 		let option;
 		let t0_value = /*z*/ ctx[44].name + "";
@@ -34984,7 +34989,7 @@
 				t1 = space();
 				option.__value = option_value_value = /*z*/ ctx[44].id;
 				option.value = option.__value;
-				add_location(option, file$a, 301, 14, 9214);
+				add_location(option, file$a, 303, 14, 9350);
 				this.first = option;
 			},
 			m: function mount(target, anchor) {
@@ -35010,14 +35015,14 @@
 			block,
 			id: create_each_block_2$3.name,
 			type: "each",
-			source: "(301:12) {#each operation.zones as z (z.id)}",
+			source: "(303:12) {#each operation.zones as z (z.id)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (314:12) {#each agents as a (a.id)}
+	// (316:12) {#each agents as a (a.id)}
 	function create_each_block_1$3(key_1, ctx) {
 		let option;
 		let t0_value = /*a*/ ctx[41].name + "";
@@ -35034,7 +35039,7 @@
 				t1 = space();
 				option.__value = option_value_value = /*a*/ ctx[41].id;
 				option.value = option.__value;
-				add_location(option, file$a, 314, 14, 9571);
+				add_location(option, file$a, 316, 14, 9707);
 				this.first = option;
 			},
 			m: function mount(target, anchor) {
@@ -35060,14 +35065,14 @@
 			block,
 			id: create_each_block_1$3.name,
 			type: "each",
-			source: "(314:12) {#each agents as a (a.id)}",
+			source: "(316:12) {#each agents as a (a.id)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (254:4) {#each steps as step, i (step.ID)}
+	// (256:4) {#each steps as step, i (step.ID)}
 	function create_each_block$6(key_1, ctx) {
 		let tr;
 		let td0;
@@ -35209,33 +35214,33 @@
 				input1 = element("input");
 				t9 = space();
 				toggle_class(td0, "handle", /*enableDrag*/ ctx[4]);
-				add_location(td0, file$a, 266, 8, 8130);
+				add_location(td0, file$a, 268, 8, 8266);
 				attr_dev(td1, "class", "text-right");
-				add_location(td1, file$a, 268, 8, 8172);
+				add_location(td1, file$a, 270, 8, 8308);
 				option0.__value = "0";
 				option0.value = option0.__value;
-				add_location(option0, file$a, 299, 12, 9115);
+				add_location(option0, file$a, 301, 12, 9251);
 				if (/*step*/ ctx[38].zone === void 0) add_render_callback(select0_change_handler);
-				add_location(select0, file$a, 298, 10, 9039);
-				add_location(td2, file$a, 297, 8, 9024);
+				add_location(select0, file$a, 300, 10, 9175);
+				add_location(td2, file$a, 299, 8, 9160);
 				option1.__value = "";
 				option1.value = option1.__value;
-				add_location(option1, file$a, 312, 12, 9481);
+				add_location(option1, file$a, 314, 12, 9617);
 				if (/*step*/ ctx[38].assignedTo === void 0) add_render_callback(select1_change_handler);
-				add_location(select1, file$a, 308, 10, 9362);
-				add_location(td3, file$a, 307, 8, 9347);
-				add_location(input0, file$a, 321, 10, 9719);
-				add_location(td4, file$a, 320, 8, 9704);
+				add_location(select1, file$a, 310, 10, 9498);
+				add_location(td3, file$a, 309, 8, 9483);
+				add_location(input0, file$a, 323, 10, 9855);
+				add_location(td4, file$a, 322, 8, 9840);
 				attr_dev(input1, "type", "checkbox");
-				add_location(input1, file$a, 324, 10, 9847);
+				add_location(input1, file$a, 326, 10, 9983);
 				attr_dev(td5, "class", "text-center");
-				add_location(td5, file$a, 323, 8, 9812);
+				add_location(td5, file$a, 325, 8, 9948);
 				attr_dev(tr, "draggable", /*enableDrag*/ ctx[4]);
 				attr_dev(tr, "data-index", tr_data_index_value = /*i*/ ctx[40]);
 				attr_dev(tr, "class", "svelte-174nhuf");
 				toggle_class(tr, "shiftBottom", /*isOver*/ ctx[5] <= /*i*/ ctx[40] && /*i*/ ctx[40] < /*isDragged*/ ctx[6]);
 				toggle_class(tr, "shiftTop", /*isDragged*/ ctx[6] < /*i*/ ctx[40] && /*i*/ ctx[40] <= /*isOver*/ ctx[5]);
-				add_location(tr, file$a, 254, 6, 7775);
+				add_location(tr, file$a, 256, 6, 7911);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -35434,7 +35439,7 @@
 			block,
 			id: create_each_block$6.name,
 			type: "each",
-			source: "(254:4) {#each steps as step, i (step.ID)}",
+			source: "(256:4) {#each steps as step, i (step.ID)}",
 			ctx
 		});
 
@@ -35559,57 +35564,57 @@
 
 				attr_dev(div0, "class", "card-header");
 				attr_dev(div0, "id", "opName");
-				add_location(div0, file$a, 217, 2, 6569);
+				add_location(div0, file$a, 219, 2, 6705);
 				attr_dev(textarea, "class", "form-control");
-				add_location(textarea, file$a, 220, 6, 6706);
+				add_location(textarea, file$a, 222, 6, 6842);
 				attr_dev(ul, "class", "list-group list-group-flush");
-				add_location(ul, file$a, 219, 4, 6659);
+				add_location(ul, file$a, 221, 4, 6795);
 				attr_dev(button0, "class", "btn btn-success");
-				add_location(button0, file$a, 222, 4, 6785);
+				add_location(button0, file$a, 224, 4, 6921);
 				attr_dev(button1, "class", "btn btn-danger");
-				add_location(button1, file$a, 223, 4, 6860);
+				add_location(button1, file$a, 225, 4, 6996);
 				attr_dev(div1, "class", "card-body");
-				add_location(div1, file$a, 218, 2, 6631);
+				add_location(div1, file$a, 220, 2, 6767);
 				attr_dev(div2, "class", "card mb-2");
-				add_location(div2, file$a, 216, 0, 6543);
+				add_location(div2, file$a, 218, 0, 6679);
 				attr_dev(input, "type", "checkbox");
 				attr_dev(input, "class", "custom-control-input");
 				attr_dev(input, "id", "enableDrag");
-				add_location(input, file$a, 232, 10, 7117);
+				add_location(input, file$a, 234, 10, 7253);
 				attr_dev(label, "class", "custom-control-label");
 				attr_dev(label, "for", "enableDrag");
-				add_location(label, file$a, 238, 10, 7282);
+				add_location(label, file$a, 240, 10, 7418);
 				attr_dev(div3, "class", "custom-control custom-switch");
-				add_location(div3, file$a, 231, 9, 7064);
+				add_location(div3, file$a, 233, 9, 7200);
 				attr_dev(th0, "class", "pl-0 pr-0");
 				attr_dev(th0, "scope", "col");
-				add_location(th0, file$a, 230, 6, 7021);
+				add_location(th0, file$a, 232, 6, 7157);
 				attr_dev(th1, "scope", "col");
-				add_location(th1, file$a, 241, 6, 7371);
+				add_location(th1, file$a, 243, 6, 7507);
 				attr_dev(th2, "scope", "col");
-				add_location(th2, file$a, 242, 6, 7404);
+				add_location(th2, file$a, 244, 6, 7540);
 				attr_dev(th3, "scope", "col");
-				add_location(th3, file$a, 243, 6, 7438);
+				add_location(th3, file$a, 245, 6, 7574);
 				attr_dev(th4, "scope", "col");
-				add_location(th4, file$a, 244, 6, 7472);
+				add_location(th4, file$a, 246, 6, 7608);
 				attr_dev(th5, "scope", "col");
-				add_location(th5, file$a, 245, 6, 7509);
+				add_location(th5, file$a, 247, 6, 7645);
 				attr_dev(th6, "scope", "col");
-				add_location(th6, file$a, 246, 6, 7545);
+				add_location(th6, file$a, 248, 6, 7681);
 				attr_dev(th7, "scope", "col");
-				add_location(th7, file$a, 247, 6, 7577);
+				add_location(th7, file$a, 249, 6, 7713);
 				attr_dev(th8, "scope", "col");
-				add_location(th8, file$a, 248, 6, 7616);
+				add_location(th8, file$a, 250, 6, 7752);
 				attr_dev(th9, "scope", "col");
-				add_location(th9, file$a, 249, 6, 7655);
-				add_location(tr, file$a, 229, 4, 7010);
-				add_location(thead, file$a, 228, 2, 6998);
+				add_location(th9, file$a, 251, 6, 7791);
+				add_location(tr, file$a, 231, 4, 7146);
+				add_location(thead, file$a, 230, 2, 7134);
 				attr_dev(tbody, "id", "opSteps");
 				attr_dev(tbody, "class", "svelte-174nhuf");
-				add_location(tbody, file$a, 252, 2, 7709);
+				add_location(tbody, file$a, 254, 2, 7845);
 				attr_dev(table, "class", "table table-striped");
 				attr_dev(table, "id", "optable");
-				add_location(table, file$a, 227, 0, 6947);
+				add_location(table, file$a, 229, 0, 7083);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -35841,6 +35846,7 @@
 						yield assignMarkerPromise(operation.ID, step.ID, step.assignedTo);
 					}
 
+					if (step.state === 'pending') yield taskCompletePromise(operation.ID, step.ID, false);
 					refresh();
 				} catch(e) {
 					console.log(e);
@@ -36045,6 +36051,7 @@
 			setAssignmentStatus,
 			reverseLinkDirection,
 			updateOpPromise,
+			taskCompletePromise,
 			flip,
 			notifyOnError,
 			dispatch,
