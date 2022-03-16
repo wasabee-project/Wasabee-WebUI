@@ -17,7 +17,8 @@ export default class Task {
     this.order = obj.order ? Number(obj.order) : 0;
     this.assignedTo = obj.assignedTo ? obj.assignedTo : null;
     this.comment = obj.comment ? obj.comment : '';
-    this.state = obj.state;
+    this.state =
+      this.assignedTo && obj.state === 'pending' ? 'assigned' : obj.state;
     this.dependsOn = obj.dependsOn || [];
   }
 

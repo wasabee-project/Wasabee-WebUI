@@ -22,6 +22,7 @@
     setAssignmentStatus,
     reverseLinkDirection,
     updateOpPromise,
+    taskCompletePromise,
   } from '../server';
   import { flip } from 'svelte/animate';
   import { notifyOnError } from '../notify';
@@ -98,6 +99,8 @@
       } else {
         await assignMarkerPromise(operation.ID, step.ID, step.assignedTo);
       }
+      if (step.state === 'pending')
+        await taskCompletePromise(operation.ID, step.ID, false);
       refresh();
     } catch (e) {
       console.log(e);
