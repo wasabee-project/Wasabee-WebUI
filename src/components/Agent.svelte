@@ -30,10 +30,8 @@
       </div>
       {#if agent.communityname}
         <div>
-          <p>
-            <span class="font-weight-bolder">Community Name:</span>
-            <span class="agent-name">{agent.communityname}</span>
-          </p>
+          <span class="font-weight-bolder">Community Name:</span>
+          <span class="agent-name">{agent.communityname}</span>
         </div>
       {/if}
       {#if agent.vname}
@@ -86,5 +84,8 @@
 <style>
   .relative {
     position: relative;
+  }
+  .popover {
+    width: max-content;
   }
 </style>
