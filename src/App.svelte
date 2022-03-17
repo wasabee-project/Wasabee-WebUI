@@ -24,7 +24,7 @@
 
   import { getServer, setConfig } from './config';
 
-  import { clearOpsStorage, loadMeAndOps, syncOps, syncTeams } from './sync';
+  import { clearOpsStorage, loadMeAndOps, syncTeams } from './sync';
   import { loadConfig, logoutPromise } from './server';
 
   import { WasabeeMe } from './model';

@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Writable } from 'svelte/store';
   import type { WasabeeTeam } from '../model/';
+  import Agent from './Agent.svelte';
 
   export let teamStore: Writable<WasabeeTeam>;
   let team: WasabeeTeam = null;
@@ -29,7 +30,7 @@
         <tr>
           <td><img src={agent.pic} height="50" width="50" alt="agent pic" /></td
           >
-          <td>{agent.name}</td>
+          <td><Agent {agent} /></td>
           <td>
             {[
               [agent.Vverified, 'V'],
