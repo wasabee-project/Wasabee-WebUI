@@ -41989,7 +41989,7 @@
 				t0 = text(t0_value);
 				t1 = space();
 				if (if_block) if_block.c();
-				attr_dev(div, "class", "relative");
+				attr_dev(div, "class", "relative svelte-1ayf9u7");
 				add_location(div, file$6, 8, 0, 233);
 			},
 			l: function claim(nodes) {
