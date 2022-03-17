@@ -41647,18 +41647,18 @@
 				t11 = space();
 				span3 = element("span");
 				t12 = text(t12_value);
-				attr_dev(h3, "class", "text-lg font-semibold");
+				attr_dev(h3, "class", "font-weight-bolder");
 				add_location(h3, file$6, 16, 6, 452);
 				attr_dev(span0, "class", "font-weight-bolder");
-				add_location(span0, file$6, 21, 8, 541);
+				add_location(span0, file$6, 21, 8, 538);
 				attr_dev(span1, "class", "agent-name");
-				add_location(span1, file$6, 22, 8, 603);
-				add_location(div0, file$6, 20, 6, 527);
+				add_location(span1, file$6, 22, 8, 600);
+				add_location(div0, file$6, 20, 6, 524);
 				attr_dev(span2, "class", "font-weight-bolder");
-				add_location(span2, file$6, 72, 8, 2148);
+				add_location(span2, file$6, 72, 8, 2145);
 				attr_dev(span3, "class", "agent-name");
-				add_location(span3, file$6, 73, 8, 2207);
-				add_location(div1, file$6, 71, 6, 2134);
+				add_location(span3, file$6, 73, 8, 2204);
+				add_location(div1, file$6, 71, 6, 2131);
 				attr_dev(div2, "class", "shadow popover p-2");
 				add_location(div2, file$6, 12, 4, 337);
 			},
@@ -41800,11 +41800,11 @@
 				span1 = element("span");
 				t2 = text(t2_value);
 				attr_dev(span0, "class", "font-weight-bolder");
-				add_location(span0, file$6, 27, 12, 733);
+				add_location(span0, file$6, 27, 12, 730);
 				attr_dev(span1, "class", "agent-name");
-				add_location(span1, file$6, 28, 12, 801);
-				add_location(p, file$6, 26, 10, 717);
-				add_location(div, file$6, 25, 8, 701);
+				add_location(span1, file$6, 28, 12, 798);
+				add_location(p, file$6, 26, 10, 714);
+				add_location(div, file$6, 25, 8, 698);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -41871,16 +41871,16 @@
 				span2 = element("span");
 				if_block.c();
 				attr_dev(span0, "class", "font-weight-bolder");
-				add_location(span0, file$6, 34, 10, 945);
+				add_location(span0, file$6, 34, 10, 942);
 				attr_dev(span1, "class", "agent-name");
-				add_location(span1, file$6, 35, 10, 1003);
-				add_location(div0, file$6, 33, 8, 929);
+				add_location(span1, file$6, 35, 10, 1000);
+				add_location(div0, file$6, 33, 8, 926);
 				attr_dev(a, "href", "https://v.enl.one/");
 				attr_dev(a, "target", "_new");
-				add_location(a, file$6, 38, 10, 1088);
+				add_location(a, file$6, 38, 10, 1085);
 				attr_dev(span2, "id", "vstatus");
-				add_location(span2, file$6, 39, 10, 1155);
-				add_location(div1, file$6, 37, 8, 1072);
+				add_location(span2, file$6, 39, 10, 1152);
+				add_location(div1, file$6, 37, 8, 1069);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div0, anchor);
@@ -41970,7 +41970,7 @@
 				attr_dev(a, "v-if", "me.Vverified");
 				attr_dev(a, "href", a_href_value = 'https://v.enl.one/profile/' + /*agent*/ ctx[0].enlid);
 				attr_dev(a, "target", "_new");
-				add_location(a, file$6, 41, 14, 1223);
+				add_location(a, file$6, 41, 14, 1220);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, a, anchor);
@@ -42040,17 +42040,17 @@
 				span3 = element("span");
 				t10 = text(t10_value);
 				attr_dev(span0, "class", "font-weight-bolder");
-				add_location(span0, file$6, 54, 10, 1546);
+				add_location(span0, file$6, 54, 10, 1543);
 				attr_dev(span1, "class", "agent-name");
-				add_location(span1, file$6, 55, 10, 1608);
-				add_location(span2, file$6, 56, 10, 1668);
-				add_location(div0, file$6, 53, 8, 1530);
+				add_location(span1, file$6, 55, 10, 1605);
+				add_location(span2, file$6, 56, 10, 1665);
+				add_location(div0, file$6, 53, 8, 1527);
 				attr_dev(a, "href", "https://enl.rocks/");
 				attr_dev(a, "target", "_new");
-				add_location(a, file$6, 59, 10, 1737);
+				add_location(a, file$6, 59, 10, 1734);
 				attr_dev(span3, "id", "rocksstatus");
-				add_location(span3, file$6, 60, 10, 1812);
-				add_location(div1, file$6, 58, 8, 1721);
+				add_location(span3, file$6, 60, 10, 1809);
+				add_location(div1, file$6, 58, 8, 1718);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div0, anchor);
@@ -42111,10 +42111,10 @@
 				span1 = element("span");
 				t2 = text(t2_value);
 				attr_dev(span0, "class", "font-weight-bolder");
-				add_location(span0, file$6, 67, 10, 1989);
+				add_location(span0, file$6, 67, 10, 1986);
 				attr_dev(span1, "class", "agent-name");
-				add_location(span1, file$6, 68, 10, 2051);
-				add_location(div, file$6, 66, 8, 1973);
+				add_location(span1, file$6, 68, 10, 2048);
+				add_location(div, file$6, 66, 8, 1970);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
