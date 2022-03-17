@@ -17261,7 +17261,7 @@
 	}
 
 	// (76:36) 
-	function create_if_block_4$4(ctx) {
+	function create_if_block_4$5(ctx) {
 		let svg;
 		let path0;
 		let path1;
@@ -17297,7 +17297,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_4$4.name,
+			id: create_if_block_4$5.name,
 			type: "if",
 			source: "(76:36) ",
 			ctx
@@ -17307,7 +17307,7 @@
 	}
 
 	// (64:35) 
-	function create_if_block_3$7(ctx) {
+	function create_if_block_3$8(ctx) {
 		let svg;
 		let path;
 
@@ -17336,7 +17336,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_3$7.name,
+			id: create_if_block_3$8.name,
 			type: "if",
 			source: "(64:35) ",
 			ctx
@@ -17346,7 +17346,7 @@
 	}
 
 	// (45:4) {#if data.type === 'success'}
-	function create_if_block_2$b(ctx) {
+	function create_if_block_2$c(ctx) {
 		let svg;
 		let path0;
 		let path1;
@@ -17383,7 +17383,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_2$b.name,
+			id: create_if_block_2$c.name,
 			type: "if",
 			source: "(45:4) {#if data.type === 'success'}",
 			ctx
@@ -17397,9 +17397,9 @@
 		let if_block_anchor;
 
 		function select_block_type(ctx, dirty) {
-			if (/*data*/ ctx[1].type === 'success') return create_if_block_2$b;
-			if (/*data*/ ctx[1].type === 'info') return create_if_block_3$7;
-			if (/*data*/ ctx[1].type === 'error') return create_if_block_4$4;
+			if (/*data*/ ctx[1].type === 'success') return create_if_block_2$c;
+			if (/*data*/ ctx[1].type === 'info') return create_if_block_3$8;
+			if (/*data*/ ctx[1].type === 'error') return create_if_block_4$5;
 			return create_else_block$9;
 		}
 
@@ -18794,7 +18794,7 @@
 	}
 
 	// (62:6) {#if children}
-	function create_if_block_2$a(ctx) {
+	function create_if_block_2$b(ctx) {
 		let t;
 
 		const block_1 = {
@@ -18816,7 +18816,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block: block_1,
-			id: create_if_block_2$a.name,
+			id: create_if_block_2$b.name,
 			type: "if",
 			source: "(62:6) {#if children}",
 			ctx
@@ -18831,7 +18831,7 @@
 		let if_block;
 		let if_block_anchor;
 		let current;
-		const if_block_creators = [create_if_block_2$a, create_else_block_2$2];
+		const if_block_creators = [create_if_block_2$b, create_else_block_2$2];
 		const if_blocks = [];
 
 		function select_block_type_2(ctx, dirty) {
@@ -23525,7 +23525,7 @@
 	}
 
 	// (98:18) {#if i > 0}
-	function create_if_block_2$9(ctx) {
+	function create_if_block_2$a(ctx) {
 		let t;
 
 		const block = {
@@ -23542,7 +23542,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_2$9.name,
+			id: create_if_block_2$a.name,
 			type: "if",
 			source: "(98:18) {#if i > 0}",
 			ctx
@@ -23560,7 +23560,7 @@
 		let t1;
 		let t2;
 		let a_href_value;
-		let if_block = /*i*/ ctx[16] > 0 && create_if_block_2$9(ctx);
+		let if_block = /*i*/ ctx[16] > 0 && create_if_block_2$a(ctx);
 
 		const block = {
 			key: key_1,
@@ -23589,7 +23589,7 @@
 
 				if (/*i*/ ctx[16] > 0) {
 					if (if_block) ; else {
-						if_block = create_if_block_2$9(ctx);
+						if_block = create_if_block_2$a(ctx);
 						if_block.c();
 						if_block.m(t0.parentNode, t0);
 					}
@@ -24250,7 +24250,7 @@
 	}
 
 	// (67:10) {#if me.Vverified}
-	function create_if_block_5$1(ctx) {
+	function create_if_block_5$2(ctx) {
 		let a;
 		let t;
 		let a_href_value;
@@ -24280,7 +24280,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_5$1.name,
+			id: create_if_block_5$2.name,
 			type: "if",
 			source: "(67:10) {#if me.Vverified}",
 			ctx
@@ -24290,7 +24290,7 @@
 	}
 
 	// (154:8) {#if commJWT}
-	function create_if_block_4$3(ctx) {
+	function create_if_block_4$4(ctx) {
 		let p;
 		let t0;
 		let a;
@@ -24347,7 +24347,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_4$3.name,
+			id: create_if_block_4$4.name,
 			type: "if",
 			source: "(154:8) {#if commJWT}",
 			ctx
@@ -24357,7 +24357,7 @@
 	}
 
 	// (163:8) {#if newVerification}
-	function create_if_block_3$6(ctx) {
+	function create_if_block_3$7(ctx) {
 		let p;
 		let t0;
 		let a;
@@ -24388,7 +24388,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_3$6.name,
+			id: create_if_block_3$7.name,
 			type: "if",
 			source: "(163:8) {#if newVerification}",
 			ctx
@@ -24466,7 +24466,7 @@
 
 		function select_block_type_2(ctx, dirty) {
 			if (/*me*/ ctx[0].Telegram.Verified) return create_if_block_1$e;
-			if (/*me*/ ctx[0].Telegram.Authtoken) return create_if_block_2$8;
+			if (/*me*/ ctx[0].Telegram.Authtoken) return create_if_block_2$9;
 			return create_else_block$5;
 		}
 
@@ -24582,7 +24582,7 @@
 	}
 
 	// (183:42) 
-	function create_if_block_2$8(ctx) {
+	function create_if_block_2$9(ctx) {
 		let div;
 		let strong;
 		let t1;
@@ -24639,7 +24639,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_2$8.name,
+			id: create_if_block_2$9.name,
 			type: "if",
 			source: "(183:42) ",
 			ctx
@@ -24829,14 +24829,14 @@
 		let dispose;
 
 		function select_block_type(ctx, dirty) {
-			if (/*me*/ ctx[0].Vverified) return create_if_block_5$1;
+			if (/*me*/ ctx[0].Vverified) return create_if_block_5$2;
 			return create_else_block_2$1;
 		}
 
 		let current_block_type = select_block_type(ctx);
 		let if_block0 = current_block_type(ctx);
-		let if_block1 = /*commJWT*/ ctx[3] && create_if_block_4$3(ctx);
-		let if_block2 = /*newVerification*/ ctx[4] && create_if_block_3$6(ctx);
+		let if_block1 = /*commJWT*/ ctx[3] && create_if_block_4$4(ctx);
+		let if_block2 = /*newVerification*/ ctx[4] && create_if_block_3$7(ctx);
 
 		function select_block_type_1(ctx, dirty) {
 			if (/*me*/ ctx[0].Telegram) return create_if_block$k;
@@ -25336,7 +25336,7 @@
 					if (if_block1) {
 						if_block1.p(ctx, dirty);
 					} else {
-						if_block1 = create_if_block_4$3(ctx);
+						if_block1 = create_if_block_4$4(ctx);
 						if_block1.c();
 						if_block1.m(div9, t54);
 					}
@@ -25347,7 +25347,7 @@
 
 				if (/*newVerification*/ ctx[4]) {
 					if (if_block2) ; else {
-						if_block2 = create_if_block_3$6(ctx);
+						if_block2 = create_if_block_3$7(ctx);
 						if_block2.c();
 						if_block2.m(div9, null);
 					}
@@ -25704,7 +25704,7 @@
 	}
 
 	// (190:16) {#if teamsOps[team.ID]}
-	function create_if_block_4$2(ctx) {
+	function create_if_block_4$3(ctx) {
 		let each_blocks = [];
 		let each_1_lookup = new Map();
 		let each_1_anchor;
@@ -25753,7 +25753,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_4$2.name,
+			id: create_if_block_4$3.name,
 			type: "if",
 			source: "(190:16) {#if teamsOps[team.ID]}",
 			ctx
@@ -25763,7 +25763,7 @@
 	}
 
 	// (192:20) {#if i > 0}
-	function create_if_block_5(ctx) {
+	function create_if_block_5$1(ctx) {
 		let t;
 
 		const block = {
@@ -25780,7 +25780,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_5.name,
+			id: create_if_block_5$1.name,
 			type: "if",
 			source: "(192:20) {#if i > 0}",
 			ctx
@@ -25798,7 +25798,7 @@
 		let t1;
 		let t2;
 		let a_href_value;
-		let if_block = /*i*/ ctx[32] > 0 && create_if_block_5(ctx);
+		let if_block = /*i*/ ctx[32] > 0 && create_if_block_5$1(ctx);
 
 		const block = {
 			key: key_1,
@@ -25827,7 +25827,7 @@
 
 				if (/*i*/ ctx[32] > 0) {
 					if (if_block) ; else {
-						if_block = create_if_block_5(ctx);
+						if_block = create_if_block_5$1(ctx);
 						if_block.c();
 						if_block.m(t0.parentNode, t0);
 					}
@@ -25868,7 +25868,7 @@
 		let dispose;
 
 		function select_block_type_3(ctx, dirty) {
-			if (/*toDelete*/ ctx[2] === /*team*/ ctx[26].ID) return create_if_block_3$5;
+			if (/*toDelete*/ ctx[2] === /*team*/ ctx[26].ID) return create_if_block_3$6;
 			return create_else_block_3;
 		}
 
@@ -25934,7 +25934,7 @@
 		let dispose;
 
 		function select_block_type_2(ctx, dirty) {
-			if (/*toDelete*/ ctx[2] === /*team*/ ctx[26].ID) return create_if_block_2$7;
+			if (/*toDelete*/ ctx[2] === /*team*/ ctx[26].ID) return create_if_block_2$8;
 			return create_else_block_1;
 		}
 
@@ -26023,7 +26023,7 @@
 	}
 
 	// (213:20) {#if toDelete === team.ID}
-	function create_if_block_3$5(ctx) {
+	function create_if_block_3$6(ctx) {
 		let span;
 
 		const block = {
@@ -26042,7 +26042,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_3$5.name,
+			id: create_if_block_3$6.name,
 			type: "if",
 			source: "(213:20) {#if toDelete === team.ID}",
 			ctx
@@ -26081,7 +26081,7 @@
 	}
 
 	// (205:20) {#if toDelete === team.ID}
-	function create_if_block_2$7(ctx) {
+	function create_if_block_2$8(ctx) {
 		let span;
 
 		const block = {
@@ -26100,7 +26100,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_2$7.name,
+			id: create_if_block_2$8.name,
 			type: "if",
 			source: "(205:20) {#if toDelete === team.ID}",
 			ctx
@@ -26163,7 +26163,7 @@
 			return /*change_handler_2*/ ctx[20](/*team*/ ctx[26]);
 		}
 
-		let if_block0 = /*teamsOps*/ ctx[3][/*team*/ ctx[26].ID] && create_if_block_4$2(ctx);
+		let if_block0 = /*teamsOps*/ ctx[3][/*team*/ ctx[26].ID] && create_if_block_4$3(ctx);
 
 		function select_block_type_1(ctx, dirty) {
 			if (show_if == null || dirty[0] & /*teamsList*/ 16) show_if = !!/*isOwner*/ ctx[10](/*team*/ ctx[26]);
@@ -26286,7 +26286,7 @@
 					if (if_block0) {
 						if_block0.p(ctx, dirty);
 					} else {
-						if_block0 = create_if_block_4$2(ctx);
+						if_block0 = create_if_block_4$3(ctx);
 						if_block0.c();
 						if_block0.m(td5, null);
 					}
@@ -31953,7 +31953,7 @@
 	}
 
 	// (121:6) {#if assignmentsOnly}
-	function create_if_block_3$4(ctx) {
+	function create_if_block_3$5(ctx) {
 		let li;
 		let label;
 		let t;
@@ -32033,7 +32033,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_3$4.name,
+			id: create_if_block_3$5.name,
 			type: "if",
 			source: "(121:6) {#if assignmentsOnly}",
 			ctx
@@ -32093,7 +32093,7 @@
 	}
 
 	// (165:46) 
-	function create_if_block_2$6(ctx) {
+	function create_if_block_2$7(ctx) {
 		let td0;
 		let portallink0;
 		let t0;
@@ -32181,7 +32181,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_2$6.name,
+			id: create_if_block_2$7.name,
 			type: "if",
 			source: "(165:46) ",
 			ctx
@@ -32353,7 +32353,7 @@
 		let current;
 		let mounted;
 		let dispose;
-		const if_block_creators = [create_if_block_1$c, create_if_block_2$6];
+		const if_block_creators = [create_if_block_1$c, create_if_block_2$7];
 		const if_blocks = [];
 
 		function select_block_type(ctx, dirty) {
@@ -32586,7 +32586,7 @@
 		let t22;
 		let div3;
 		let current;
-		let if_block = /*assignmentsOnly*/ ctx[1] && create_if_block_3$4(ctx);
+		let if_block = /*assignmentsOnly*/ ctx[1] && create_if_block_3$5(ctx);
 		let each_value = /*steps*/ ctx[5];
 		validate_each_argument(each_value);
 		const get_key = ctx => /*step*/ ctx[20].ID;
@@ -32738,7 +32738,7 @@
 					if (if_block) {
 						if_block.p(ctx, dirty);
 					} else {
-						if_block = create_if_block_3$4(ctx);
+						if_block = create_if_block_3$5(ctx);
 						if_block.c();
 						if_block.m(ul, null);
 					}
@@ -33670,7 +33670,7 @@
 	}
 
 	// (272:14) {#if entry.to === selectedKey}
-	function create_if_block_3$3(ctx) {
+	function create_if_block_3$4(ctx) {
 		let tr;
 		let td0;
 		let t0_value = /*operation*/ ctx[1].zoneName(/*entry*/ ctx[41].zone) + "";
@@ -33714,7 +33714,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_3$3.name,
+			id: create_if_block_3$4.name,
 			type: "if",
 			source: "(272:14) {#if entry.to === selectedKey}",
 			ctx
@@ -33727,7 +33727,7 @@
 	function create_each_block_2$4(key_1, ctx) {
 		let first;
 		let if_block_anchor;
-		let if_block = /*entry*/ ctx[41].to === /*selectedKey*/ ctx[3] && create_if_block_3$3(ctx);
+		let if_block = /*entry*/ ctx[41].to === /*selectedKey*/ ctx[3] && create_if_block_3$4(ctx);
 
 		const block = {
 			key: key_1,
@@ -33750,7 +33750,7 @@
 					if (if_block) {
 						if_block.p(ctx, dirty);
 					} else {
-						if_block = create_if_block_3$3(ctx);
+						if_block = create_if_block_3$4(ctx);
 						if_block.c();
 						if_block.m(if_block_anchor.parentNode, if_block_anchor);
 					}
@@ -33778,7 +33778,7 @@
 	}
 
 	// (283:14) {#if id !== '[unassigned]'}
-	function create_if_block_2$5(ctx) {
+	function create_if_block_2$6(ctx) {
 		let tr;
 		let td0;
 		let t0_value = /*getAgentName*/ ctx[16](/*id*/ ctx[40]) + "";
@@ -33831,7 +33831,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_2$5.name,
+			id: create_if_block_2$6.name,
 			type: "if",
 			source: "(283:14) {#if id !== '[unassigned]'}",
 			ctx
@@ -33844,7 +33844,7 @@
 	function create_each_block_1$4(key_1, ctx) {
 		let first;
 		let if_block_anchor;
-		let if_block = /*id*/ ctx[40] !== '[unassigned]' && create_if_block_2$5(ctx);
+		let if_block = /*id*/ ctx[40] !== '[unassigned]' && create_if_block_2$6(ctx);
 
 		const block = {
 			key: key_1,
@@ -33867,7 +33867,7 @@
 					if (if_block) {
 						if_block.p(ctx, dirty);
 					} else {
-						if_block = create_if_block_2$5(ctx);
+						if_block = create_if_block_2$6(ctx);
 						if_block.c();
 						if_block.m(if_block_anchor.parentNode, if_block_anchor);
 					}
@@ -36833,7 +36833,7 @@
 	}
 
 	// (156:12) {#if marker.comment}
-	function create_if_block_4$1(ctx) {
+	function create_if_block_4$2(ctx) {
 		let div;
 		let t_value = /*marker*/ ctx[28].comment + "";
 		let t;
@@ -36858,7 +36858,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_4$1.name,
+			id: create_if_block_4$2.name,
 			type: "if",
 			source: "(156:12) {#if marker.comment}",
 			ctx
@@ -36868,7 +36868,7 @@
 	}
 
 	// (157:12) {#if marker.state != 'pending'}
-	function create_if_block_3$2(ctx) {
+	function create_if_block_3$3(ctx) {
 		let div;
 		let t_value = /*marker*/ ctx[28].state + "";
 		let t;
@@ -36893,7 +36893,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_3$2.name,
+			id: create_if_block_3$3.name,
 			type: "if",
 			source: "(157:12) {#if marker.state != 'pending'}",
 			ctx
@@ -36903,7 +36903,7 @@
 	}
 
 	// (158:12) {#if marker.assignedTo}
-	function create_if_block_2$4(ctx) {
+	function create_if_block_2$5(ctx) {
 		let div;
 		let t_value = /*getAgentName*/ ctx[7](/*marker*/ ctx[28].assignedTo) + "";
 		let t;
@@ -36928,7 +36928,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_2$4.name,
+			id: create_if_block_2$5.name,
 			type: "if",
 			source: "(158:12) {#if marker.assignedTo}",
 			ctx
@@ -36948,9 +36948,9 @@
 		let button;
 		let t5;
 		let button_href_value;
-		let if_block0 = /*marker*/ ctx[28].comment && create_if_block_4$1(ctx);
-		let if_block1 = /*marker*/ ctx[28].state != 'pending' && create_if_block_3$2(ctx);
-		let if_block2 = /*marker*/ ctx[28].assignedTo && create_if_block_2$4(ctx);
+		let if_block0 = /*marker*/ ctx[28].comment && create_if_block_4$2(ctx);
+		let if_block1 = /*marker*/ ctx[28].state != 'pending' && create_if_block_3$3(ctx);
+		let if_block2 = /*marker*/ ctx[28].assignedTo && create_if_block_2$5(ctx);
 
 		const block = {
 			c: function create() {
@@ -36988,7 +36988,7 @@
 					if (if_block0) {
 						if_block0.p(ctx, dirty);
 					} else {
-						if_block0 = create_if_block_4$1(ctx);
+						if_block0 = create_if_block_4$2(ctx);
 						if_block0.c();
 						if_block0.m(t2.parentNode, t2);
 					}
@@ -37001,7 +37001,7 @@
 					if (if_block1) {
 						if_block1.p(ctx, dirty);
 					} else {
-						if_block1 = create_if_block_3$2(ctx);
+						if_block1 = create_if_block_3$3(ctx);
 						if_block1.c();
 						if_block1.m(t3.parentNode, t3);
 					}
@@ -37014,7 +37014,7 @@
 					if (if_block2) {
 						if_block2.p(ctx, dirty);
 					} else {
-						if_block2 = create_if_block_2$4(ctx);
+						if_block2 = create_if_block_2$5(ctx);
 						if_block2.c();
 						if_block2.m(t4.parentNode, t4);
 					}
@@ -38325,7 +38325,7 @@
 	}
 
 	// (84:6) {#if isOwner}
-	function create_if_block_2$3(ctx) {
+	function create_if_block_2$4(ctx) {
 		let th;
 
 		const block = {
@@ -38344,7 +38344,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_2$3.name,
+			id: create_if_block_2$4.name,
 			type: "if",
 			source: "(84:6) {#if isOwner}",
 			ctx
@@ -38808,7 +38808,7 @@
 		let tbody;
 		let t9;
 		let if_block1_anchor;
-		let if_block0 = /*isOwner*/ ctx[6] && create_if_block_2$3(ctx);
+		let if_block0 = /*isOwner*/ ctx[6] && create_if_block_2$4(ctx);
 		let each_value_2 = /*teams*/ ctx[5];
 		validate_each_argument(each_value_2);
 		let each_blocks = [];
@@ -38891,7 +38891,7 @@
 
 				if (/*isOwner*/ ctx[6]) {
 					if (if_block0) ; else {
-						if_block0 = create_if_block_2$3(ctx);
+						if_block0 = create_if_block_2$4(ctx);
 						if_block0.c();
 						if_block0.m(tr, null);
 					}
@@ -39229,7 +39229,7 @@
 	}
 
 	// (301:50) 
-	function create_if_block_4(ctx) {
+	function create_if_block_4$1(ctx) {
 		let td0;
 		let portallink0;
 		let t;
@@ -39305,7 +39305,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_4.name,
+			id: create_if_block_4$1.name,
 			type: "if",
 			source: "(301:50) ",
 			ctx
@@ -39315,7 +39315,7 @@
 	}
 
 	// (294:12) {#if step instanceof WasabeeMarker}
-	function create_if_block_3$1(ctx) {
+	function create_if_block_3$2(ctx) {
 		let td0;
 		let portallink;
 		let t0;
@@ -39383,7 +39383,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_3$1.name,
+			id: create_if_block_3$2.name,
 			type: "if",
 			source: "(294:12) {#if step instanceof WasabeeMarker}",
 			ctx
@@ -39411,7 +39411,7 @@
 		let current;
 		let mounted;
 		let dispose;
-		const if_block_creators = [create_if_block_3$1, create_if_block_4];
+		const if_block_creators = [create_if_block_3$2, create_if_block_4$1];
 		const if_blocks = [];
 
 		function select_block_type(ctx, dirty) {
@@ -39880,7 +39880,7 @@
 	}
 
 	// (348:52) 
-	function create_if_block_2$2(ctx) {
+	function create_if_block_2$3(ctx) {
 		let td0;
 		let portallink0;
 		let t;
@@ -39956,7 +39956,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_2$2.name,
+			id: create_if_block_2$3.name,
 			type: "if",
 			source: "(348:52) ",
 			ctx
@@ -40062,7 +40062,7 @@
 		let current;
 		let mounted;
 		let dispose;
-		const if_block_creators = [create_if_block_1$7, create_if_block_2$2];
+		const if_block_creators = [create_if_block_1$7, create_if_block_2$3];
 		const if_blocks = [];
 
 		function select_block_type_2(ctx, dirty) {
@@ -41592,7 +41592,7 @@
 
 	// (12:2) {#if hovering}
 	function create_if_block$6(ctx) {
-		let div9;
+		let div2;
 		let h3;
 		let t0_value = /*agent*/ ctx[0].name + "";
 		let t0;
@@ -41604,73 +41604,25 @@
 		let t4_value = /*agent*/ ctx[0].name + "";
 		let t4;
 		let t5;
-		let div1;
-		let span2;
+		let t6;
 		let t7;
-		let span3;
-		let t8_value = /*agent*/ ctx[0].vname + "";
 		let t8;
 		let t9;
-		let div2;
-		let a0;
+		let div1;
+		let span2;
 		let t11;
-		let span4;
+		let span3;
+		let t12_value = /*agent*/ ctx[0].id + "";
 		let t12;
-		let div3;
-		let span5;
-		let t14;
-		let span6;
-		let t15_value = /*agent*/ ctx[0].rocksname + "";
-		let t15;
-		let t16;
-		let div4;
-		let a1;
-		let t18;
-		let span7;
-		let t19_value = (/*agent*/ ctx[0].rocks ? 'verified' : 'not verified') + "";
-		let t19;
-		let t20;
-		let div5;
-		let span8;
-		let t22;
-		let span9;
-		let t23_value = /*agent*/ ctx[0].id + "";
-		let t23;
-		let t24;
-		let div6;
-		let span10;
-		let t26;
-		let span11;
-		let t27_value = /*agent*/ ctx[0].level + "";
-		let t27;
-		let t28;
-		let div7;
-		let span12;
-		let t30;
-		let span13;
-		let t31_value = /*agent*/ ctx[0].intelname + "";
-		let t31;
-		let t32;
-		let div8;
-		let p;
-		let span14;
-		let t34;
-		let span15;
-		let t35_value = /*agent*/ ctx[0].communityname + "";
-		let t35;
-		let div9_intro;
-
-		function select_block_type(ctx, dirty) {
-			if (/*agent*/ ctx[0].Vverified) return create_if_block_1$5;
-			return create_else_block$2;
-		}
-
-		let current_block_type = select_block_type(ctx);
-		let if_block = current_block_type(ctx);
+		let div2_intro;
+		let if_block0 = /*agent*/ ctx[0].communityname && create_if_block_5(ctx);
+		let if_block1 = /*agent*/ ctx[0].vname && create_if_block_3$1(ctx);
+		let if_block2 = /*agent*/ ctx[0].rocksname && create_if_block_2$2(ctx);
+		let if_block3 = /*agent*/ ctx[0].intelname && create_if_block_1$5(ctx);
 
 		const block = {
 			c: function create() {
-				div9 = element("div");
+				div2 = element("div");
 				h3 = element("h3");
 				t0 = text(t0_value);
 				t1 = space();
@@ -41681,62 +41633,20 @@
 				span1 = element("span");
 				t4 = text(t4_value);
 				t5 = space();
+				if (if_block0) if_block0.c();
+				t6 = space();
+				if (if_block1) if_block1.c();
+				t7 = space();
+				if (if_block2) if_block2.c();
+				t8 = space();
+				if (if_block3) if_block3.c();
+				t9 = space();
 				div1 = element("div");
 				span2 = element("span");
-				span2.textContent = "V Name:";
-				t7 = space();
+				span2.textContent = "Google ID:";
+				t11 = space();
 				span3 = element("span");
-				t8 = text(t8_value);
-				t9 = space();
-				div2 = element("div");
-				a0 = element("a");
-				a0.textContent = "V Status";
-				t11 = text(":\n        ");
-				span4 = element("span");
-				if_block.c();
-				t12 = space();
-				div3 = element("div");
-				span5 = element("span");
-				span5.textContent = "Rocks Name:";
-				t14 = space();
-				span6 = element("span");
-				t15 = text(t15_value);
-				t16 = space();
-				div4 = element("div");
-				a1 = element("a");
-				a1.textContent = "enl.rocks Status";
-				t18 = text(":\n        ");
-				span7 = element("span");
-				t19 = text(t19_value);
-				t20 = space();
-				div5 = element("div");
-				span8 = element("span");
-				span8.textContent = "Google ID:";
-				t22 = space();
-				span9 = element("span");
-				t23 = text(t23_value);
-				t24 = space();
-				div6 = element("div");
-				span10 = element("span");
-				span10.textContent = "Level:";
-				t26 = space();
-				span11 = element("span");
-				t27 = text(t27_value);
-				t28 = space();
-				div7 = element("div");
-				span12 = element("span");
-				span12.textContent = "Intel Name:";
-				t30 = space();
-				span13 = element("span");
-				t31 = text(t31_value);
-				t32 = space();
-				div8 = element("div");
-				p = element("p");
-				span14 = element("span");
-				span14.textContent = "Community Name:";
-				t34 = space();
-				span15 = element("span");
-				t35 = text(t35_value);
+				t12 = text(t12_value);
 				attr_dev(h3, "class", "text-lg font-semibold");
 				add_location(h3, file$6, 16, 6, 452);
 				attr_dev(span0, "class", "font-weight-bolder");
@@ -41745,153 +41655,117 @@
 				add_location(span1, file$6, 22, 8, 603);
 				add_location(div0, file$6, 20, 6, 527);
 				attr_dev(span2, "class", "font-weight-bolder");
-				add_location(span2, file$6, 25, 8, 681);
+				add_location(span2, file$6, 72, 8, 2148);
 				attr_dev(span3, "class", "agent-name");
-				add_location(span3, file$6, 26, 8, 737);
-				add_location(div1, file$6, 24, 6, 667);
-				attr_dev(a0, "href", "https://v.enl.one/");
-				attr_dev(a0, "target", "_new");
-				add_location(a0, file$6, 29, 8, 816);
-				attr_dev(span4, "id", "vstatus");
-				add_location(span4, file$6, 30, 8, 881);
-				add_location(div2, file$6, 28, 6, 802);
-				attr_dev(span5, "class", "font-weight-bolder");
-				add_location(span5, file$6, 43, 8, 1206);
-				attr_dev(span6, "class", "agent-name");
-				add_location(span6, file$6, 44, 8, 1266);
-				add_location(div3, file$6, 42, 6, 1192);
-				attr_dev(a1, "href", "https://enl.rocks/");
-				attr_dev(a1, "target", "_new");
-				add_location(a1, file$6, 47, 8, 1349);
-				attr_dev(span7, "id", "rocksstatus");
-				add_location(span7, file$6, 48, 8, 1422);
-				add_location(div4, file$6, 46, 6, 1335);
-				attr_dev(span8, "class", "font-weight-bolder");
-				add_location(span8, file$6, 52, 8, 1538);
-				attr_dev(span9, "class", "agent-name");
-				add_location(span9, file$6, 53, 8, 1597);
-				add_location(div5, file$6, 51, 6, 1524);
-				attr_dev(span10, "class", "font-weight-bolder");
-				add_location(span10, file$6, 56, 8, 1673);
-				attr_dev(span11, "class", "agent-name");
-				add_location(span11, file$6, 57, 8, 1728);
-				add_location(div6, file$6, 55, 6, 1659);
-				attr_dev(span12, "class", "font-weight-bolder");
-				add_location(span12, file$6, 60, 8, 1807);
-				attr_dev(span13, "class", "agent-name");
-				add_location(span13, file$6, 61, 8, 1867);
-				add_location(div7, file$6, 59, 6, 1793);
-				attr_dev(span14, "class", "font-weight-bolder");
-				add_location(span14, file$6, 65, 10, 1964);
-				attr_dev(span15, "class", "agent-name");
-				add_location(span15, file$6, 66, 10, 2030);
-				add_location(p, file$6, 64, 8, 1950);
-				add_location(div8, file$6, 63, 6, 1936);
-				attr_dev(div9, "class", "shadow popover p-2");
-				add_location(div9, file$6, 12, 4, 337);
+				add_location(span3, file$6, 73, 8, 2207);
+				add_location(div1, file$6, 71, 6, 2134);
+				attr_dev(div2, "class", "shadow popover p-2");
+				add_location(div2, file$6, 12, 4, 337);
 			},
 			m: function mount(target, anchor) {
-				insert_dev(target, div9, anchor);
-				append_dev(div9, h3);
+				insert_dev(target, div2, anchor);
+				append_dev(div2, h3);
 				append_dev(h3, t0);
-				append_dev(div9, t1);
-				append_dev(div9, div0);
+				append_dev(div2, t1);
+				append_dev(div2, div0);
 				append_dev(div0, span0);
 				append_dev(div0, t3);
 				append_dev(div0, span1);
 				append_dev(span1, t4);
-				append_dev(div9, t5);
-				append_dev(div9, div1);
+				append_dev(div2, t5);
+				if (if_block0) if_block0.m(div2, null);
+				append_dev(div2, t6);
+				if (if_block1) if_block1.m(div2, null);
+				append_dev(div2, t7);
+				if (if_block2) if_block2.m(div2, null);
+				append_dev(div2, t8);
+				if (if_block3) if_block3.m(div2, null);
+				append_dev(div2, t9);
+				append_dev(div2, div1);
 				append_dev(div1, span2);
-				append_dev(div1, t7);
+				append_dev(div1, t11);
 				append_dev(div1, span3);
-				append_dev(span3, t8);
-				append_dev(div9, t9);
-				append_dev(div9, div2);
-				append_dev(div2, a0);
-				append_dev(div2, t11);
-				append_dev(div2, span4);
-				if_block.m(span4, null);
-				append_dev(div9, t12);
-				append_dev(div9, div3);
-				append_dev(div3, span5);
-				append_dev(div3, t14);
-				append_dev(div3, span6);
-				append_dev(span6, t15);
-				append_dev(div9, t16);
-				append_dev(div9, div4);
-				append_dev(div4, a1);
-				append_dev(div4, t18);
-				append_dev(div4, span7);
-				append_dev(span7, t19);
-				append_dev(div9, t20);
-				append_dev(div9, div5);
-				append_dev(div5, span8);
-				append_dev(div5, t22);
-				append_dev(div5, span9);
-				append_dev(span9, t23);
-				append_dev(div9, t24);
-				append_dev(div9, div6);
-				append_dev(div6, span10);
-				append_dev(div6, t26);
-				append_dev(div6, span11);
-				append_dev(span11, t27);
-				append_dev(div9, t28);
-				append_dev(div9, div7);
-				append_dev(div7, span12);
-				append_dev(div7, t30);
-				append_dev(div7, span13);
-				append_dev(span13, t31);
-				append_dev(div9, t32);
-				append_dev(div9, div8);
-				append_dev(div8, p);
-				append_dev(p, span14);
-				append_dev(p, t34);
-				append_dev(p, span15);
-				append_dev(span15, t35);
+				append_dev(span3, t12);
 			},
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
 				if (dirty & /*agent*/ 1 && t0_value !== (t0_value = /*agent*/ ctx[0].name + "")) set_data_dev(t0, t0_value);
 				if (dirty & /*agent*/ 1 && t4_value !== (t4_value = /*agent*/ ctx[0].name + "")) set_data_dev(t4, t4_value);
-				if (dirty & /*agent*/ 1 && t8_value !== (t8_value = /*agent*/ ctx[0].vname + "")) set_data_dev(t8, t8_value);
 
-				if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
-					if_block.p(ctx, dirty);
-				} else {
-					if_block.d(1);
-					if_block = current_block_type(ctx);
-
-					if (if_block) {
-						if_block.c();
-						if_block.m(span4, null);
+				if (/*agent*/ ctx[0].communityname) {
+					if (if_block0) {
+						if_block0.p(ctx, dirty);
+					} else {
+						if_block0 = create_if_block_5(ctx);
+						if_block0.c();
+						if_block0.m(div2, t6);
 					}
+				} else if (if_block0) {
+					if_block0.d(1);
+					if_block0 = null;
 				}
 
-				if (dirty & /*agent*/ 1 && t15_value !== (t15_value = /*agent*/ ctx[0].rocksname + "")) set_data_dev(t15, t15_value);
-				if (dirty & /*agent*/ 1 && t19_value !== (t19_value = (/*agent*/ ctx[0].rocks ? 'verified' : 'not verified') + "")) set_data_dev(t19, t19_value);
-				if (dirty & /*agent*/ 1 && t23_value !== (t23_value = /*agent*/ ctx[0].id + "")) set_data_dev(t23, t23_value);
-				if (dirty & /*agent*/ 1 && t27_value !== (t27_value = /*agent*/ ctx[0].level + "")) set_data_dev(t27, t27_value);
-				if (dirty & /*agent*/ 1 && t31_value !== (t31_value = /*agent*/ ctx[0].intelname + "")) set_data_dev(t31, t31_value);
-				if (dirty & /*agent*/ 1 && t35_value !== (t35_value = /*agent*/ ctx[0].communityname + "")) set_data_dev(t35, t35_value);
+				if (/*agent*/ ctx[0].vname) {
+					if (if_block1) {
+						if_block1.p(ctx, dirty);
+					} else {
+						if_block1 = create_if_block_3$1(ctx);
+						if_block1.c();
+						if_block1.m(div2, t7);
+					}
+				} else if (if_block1) {
+					if_block1.d(1);
+					if_block1 = null;
+				}
+
+				if (/*agent*/ ctx[0].rocksname) {
+					if (if_block2) {
+						if_block2.p(ctx, dirty);
+					} else {
+						if_block2 = create_if_block_2$2(ctx);
+						if_block2.c();
+						if_block2.m(div2, t8);
+					}
+				} else if (if_block2) {
+					if_block2.d(1);
+					if_block2 = null;
+				}
+
+				if (/*agent*/ ctx[0].intelname) {
+					if (if_block3) {
+						if_block3.p(ctx, dirty);
+					} else {
+						if_block3 = create_if_block_1$5(ctx);
+						if_block3.c();
+						if_block3.m(div2, t9);
+					}
+				} else if (if_block3) {
+					if_block3.d(1);
+					if_block3 = null;
+				}
+
+				if (dirty & /*agent*/ 1 && t12_value !== (t12_value = /*agent*/ ctx[0].id + "")) set_data_dev(t12, t12_value);
 			},
 			i: function intro(local) {
-				if (!div9_intro) {
+				if (!div2_intro) {
 					add_render_callback(() => {
-						div9_intro = create_in_transition(div9, scale, {
+						div2_intro = create_in_transition(div2, scale, {
 							duration: 150,
 							easing: quintOut,
 							opacity: 0
 						});
 
-						div9_intro.start();
+						div2_intro.start();
 					});
 				}
 			},
 			o: noop,
 			d: function destroy(detaching) {
-				if (detaching) detach_dev(div9);
-				if_block.d();
+				if (detaching) detach_dev(div2);
+				if (if_block0) if_block0.d();
+				if (if_block1) if_block1.d();
+				if (if_block2) if_block2.d();
+				if (if_block3) if_block3.d();
 			}
 		};
 
@@ -41906,7 +41780,156 @@
 		return block;
 	}
 
-	// (38:10) {:else}
+	// (25:6) {#if agent.communityname}
+	function create_if_block_5(ctx) {
+		let div;
+		let p;
+		let span0;
+		let t1;
+		let span1;
+		let t2_value = /*agent*/ ctx[0].communityname + "";
+		let t2;
+
+		const block = {
+			c: function create() {
+				div = element("div");
+				p = element("p");
+				span0 = element("span");
+				span0.textContent = "Community Name:";
+				t1 = space();
+				span1 = element("span");
+				t2 = text(t2_value);
+				attr_dev(span0, "class", "font-weight-bolder");
+				add_location(span0, file$6, 27, 12, 733);
+				attr_dev(span1, "class", "agent-name");
+				add_location(span1, file$6, 28, 12, 801);
+				add_location(p, file$6, 26, 10, 717);
+				add_location(div, file$6, 25, 8, 701);
+			},
+			m: function mount(target, anchor) {
+				insert_dev(target, div, anchor);
+				append_dev(div, p);
+				append_dev(p, span0);
+				append_dev(p, t1);
+				append_dev(p, span1);
+				append_dev(span1, t2);
+			},
+			p: function update(ctx, dirty) {
+				if (dirty & /*agent*/ 1 && t2_value !== (t2_value = /*agent*/ ctx[0].communityname + "")) set_data_dev(t2, t2_value);
+			},
+			d: function destroy(detaching) {
+				if (detaching) detach_dev(div);
+			}
+		};
+
+		dispatch_dev("SvelteRegisterBlock", {
+			block,
+			id: create_if_block_5.name,
+			type: "if",
+			source: "(25:6) {#if agent.communityname}",
+			ctx
+		});
+
+		return block;
+	}
+
+	// (33:6) {#if agent.vname}
+	function create_if_block_3$1(ctx) {
+		let div0;
+		let span0;
+		let t1;
+		let span1;
+		let t2_value = /*agent*/ ctx[0].vname + "";
+		let t2;
+		let t3;
+		let div1;
+		let a;
+		let t5;
+		let span2;
+
+		function select_block_type(ctx, dirty) {
+			if (/*agent*/ ctx[0].Vverified) return create_if_block_4;
+			return create_else_block$2;
+		}
+
+		let current_block_type = select_block_type(ctx);
+		let if_block = current_block_type(ctx);
+
+		const block = {
+			c: function create() {
+				div0 = element("div");
+				span0 = element("span");
+				span0.textContent = "V Name:";
+				t1 = space();
+				span1 = element("span");
+				t2 = text(t2_value);
+				t3 = space();
+				div1 = element("div");
+				a = element("a");
+				a.textContent = "V Status";
+				t5 = text(":\n          ");
+				span2 = element("span");
+				if_block.c();
+				attr_dev(span0, "class", "font-weight-bolder");
+				add_location(span0, file$6, 34, 10, 945);
+				attr_dev(span1, "class", "agent-name");
+				add_location(span1, file$6, 35, 10, 1003);
+				add_location(div0, file$6, 33, 8, 929);
+				attr_dev(a, "href", "https://v.enl.one/");
+				attr_dev(a, "target", "_new");
+				add_location(a, file$6, 38, 10, 1088);
+				attr_dev(span2, "id", "vstatus");
+				add_location(span2, file$6, 39, 10, 1155);
+				add_location(div1, file$6, 37, 8, 1072);
+			},
+			m: function mount(target, anchor) {
+				insert_dev(target, div0, anchor);
+				append_dev(div0, span0);
+				append_dev(div0, t1);
+				append_dev(div0, span1);
+				append_dev(span1, t2);
+				insert_dev(target, t3, anchor);
+				insert_dev(target, div1, anchor);
+				append_dev(div1, a);
+				append_dev(div1, t5);
+				append_dev(div1, span2);
+				if_block.m(span2, null);
+			},
+			p: function update(ctx, dirty) {
+				if (dirty & /*agent*/ 1 && t2_value !== (t2_value = /*agent*/ ctx[0].vname + "")) set_data_dev(t2, t2_value);
+
+				if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
+					if_block.p(ctx, dirty);
+				} else {
+					if_block.d(1);
+					if_block = current_block_type(ctx);
+
+					if (if_block) {
+						if_block.c();
+						if_block.m(span2, null);
+					}
+				}
+			},
+			d: function destroy(detaching) {
+				if (detaching) detach_dev(div0);
+				if (detaching) detach_dev(t3);
+				if (detaching) detach_dev(div1);
+				if_block.d();
+			}
+		};
+
+		dispatch_dev("SvelteRegisterBlock", {
+			block,
+			id: create_if_block_3$1.name,
+			type: "if",
+			source: "(33:6) {#if agent.vname}",
+			ctx
+		});
+
+		return block;
+	}
+
+	// (47:12) {:else}
 	function create_else_block$2(ctx) {
 		let t;
 
@@ -41927,15 +41950,15 @@
 			block,
 			id: create_else_block$2.name,
 			type: "else",
-			source: "(38:10) {:else}",
+			source: "(47:12) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (32:10) {#if agent.Vverified}
-	function create_if_block_1$5(ctx) {
+	// (41:12) {#if agent.Vverified}
+	function create_if_block_4(ctx) {
 		let a;
 		let t;
 		let a_href_value;
@@ -41947,7 +41970,7 @@
 				attr_dev(a, "v-if", "me.Vverified");
 				attr_dev(a, "href", a_href_value = 'https://v.enl.one/profile/' + /*agent*/ ctx[0].enlid);
 				attr_dev(a, "target", "_new");
-				add_location(a, file$6, 32, 12, 945);
+				add_location(a, file$6, 41, 14, 1223);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, a, anchor);
@@ -41965,9 +41988,154 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
+			id: create_if_block_4.name,
+			type: "if",
+			source: "(41:12) {#if agent.Vverified}",
+			ctx
+		});
+
+		return block;
+	}
+
+	// (53:6) {#if agent.rocksname}
+	function create_if_block_2$2(ctx) {
+		let div0;
+		let span0;
+		let t1;
+		let span1;
+		let t2_value = /*agent*/ ctx[0].rocksname + "";
+		let t2;
+		let t3;
+		let span2;
+		let t4;
+		let t5_value = /*agent*/ ctx[0].level + "";
+		let t5;
+		let t6;
+		let t7;
+		let div1;
+		let a;
+		let t9;
+		let span3;
+		let t10_value = (/*agent*/ ctx[0].rocks ? 'verified' : 'not verified') + "";
+		let t10;
+
+		const block = {
+			c: function create() {
+				div0 = element("div");
+				span0 = element("span");
+				span0.textContent = "Rocks Name:";
+				t1 = space();
+				span1 = element("span");
+				t2 = text(t2_value);
+				t3 = space();
+				span2 = element("span");
+				t4 = text("(L");
+				t5 = text(t5_value);
+				t6 = text(")");
+				t7 = space();
+				div1 = element("div");
+				a = element("a");
+				a.textContent = "enl.rocks Status";
+				t9 = text(":\n          ");
+				span3 = element("span");
+				t10 = text(t10_value);
+				attr_dev(span0, "class", "font-weight-bolder");
+				add_location(span0, file$6, 54, 10, 1546);
+				attr_dev(span1, "class", "agent-name");
+				add_location(span1, file$6, 55, 10, 1608);
+				add_location(span2, file$6, 56, 10, 1668);
+				add_location(div0, file$6, 53, 8, 1530);
+				attr_dev(a, "href", "https://enl.rocks/");
+				attr_dev(a, "target", "_new");
+				add_location(a, file$6, 59, 10, 1737);
+				attr_dev(span3, "id", "rocksstatus");
+				add_location(span3, file$6, 60, 10, 1812);
+				add_location(div1, file$6, 58, 8, 1721);
+			},
+			m: function mount(target, anchor) {
+				insert_dev(target, div0, anchor);
+				append_dev(div0, span0);
+				append_dev(div0, t1);
+				append_dev(div0, span1);
+				append_dev(span1, t2);
+				append_dev(div0, t3);
+				append_dev(div0, span2);
+				append_dev(span2, t4);
+				append_dev(span2, t5);
+				append_dev(span2, t6);
+				insert_dev(target, t7, anchor);
+				insert_dev(target, div1, anchor);
+				append_dev(div1, a);
+				append_dev(div1, t9);
+				append_dev(div1, span3);
+				append_dev(span3, t10);
+			},
+			p: function update(ctx, dirty) {
+				if (dirty & /*agent*/ 1 && t2_value !== (t2_value = /*agent*/ ctx[0].rocksname + "")) set_data_dev(t2, t2_value);
+				if (dirty & /*agent*/ 1 && t5_value !== (t5_value = /*agent*/ ctx[0].level + "")) set_data_dev(t5, t5_value);
+				if (dirty & /*agent*/ 1 && t10_value !== (t10_value = (/*agent*/ ctx[0].rocks ? 'verified' : 'not verified') + "")) set_data_dev(t10, t10_value);
+			},
+			d: function destroy(detaching) {
+				if (detaching) detach_dev(div0);
+				if (detaching) detach_dev(t7);
+				if (detaching) detach_dev(div1);
+			}
+		};
+
+		dispatch_dev("SvelteRegisterBlock", {
+			block,
+			id: create_if_block_2$2.name,
+			type: "if",
+			source: "(53:6) {#if agent.rocksname}",
+			ctx
+		});
+
+		return block;
+	}
+
+	// (66:6) {#if agent.intelname}
+	function create_if_block_1$5(ctx) {
+		let div;
+		let span0;
+		let t1;
+		let span1;
+		let t2_value = /*agent*/ ctx[0].intelname + "";
+		let t2;
+
+		const block = {
+			c: function create() {
+				div = element("div");
+				span0 = element("span");
+				span0.textContent = "Intel Name:";
+				t1 = space();
+				span1 = element("span");
+				t2 = text(t2_value);
+				attr_dev(span0, "class", "font-weight-bolder");
+				add_location(span0, file$6, 67, 10, 1989);
+				attr_dev(span1, "class", "agent-name");
+				add_location(span1, file$6, 68, 10, 2051);
+				add_location(div, file$6, 66, 8, 1973);
+			},
+			m: function mount(target, anchor) {
+				insert_dev(target, div, anchor);
+				append_dev(div, span0);
+				append_dev(div, t1);
+				append_dev(div, span1);
+				append_dev(span1, t2);
+			},
+			p: function update(ctx, dirty) {
+				if (dirty & /*agent*/ 1 && t2_value !== (t2_value = /*agent*/ ctx[0].intelname + "")) set_data_dev(t2, t2_value);
+			},
+			d: function destroy(detaching) {
+				if (detaching) detach_dev(div);
+			}
+		};
+
+		dispatch_dev("SvelteRegisterBlock", {
+			block,
 			id: create_if_block_1$5.name,
 			type: "if",
-			source: "(32:10) {#if agent.Vverified}",
+			source: "(66:6) {#if agent.intelname}",
 			ctx
 		});
 
@@ -41989,7 +42157,7 @@
 				t0 = text(t0_value);
 				t1 = space();
 				if (if_block) if_block.c();
-				attr_dev(div, "class", "relative svelte-1ayf9u7");
+				attr_dev(div, "class", "relative svelte-1omoz8x");
 				add_location(div, file$6, 8, 0, 233);
 			},
 			l: function claim(nodes) {
@@ -49528,7 +49696,7 @@
 	const { console: console_1 } = globals;
 	const file = "src/App.svelte";
 
-	// (111:0) {:else}
+	// (110:0) {:else}
 	function create_else_block(ctx) {
 		let header;
 		let navbar;
@@ -49580,8 +49748,8 @@
 				create_component(toastcontainer.$$.fragment);
 				t1 = space();
 				create_component(router.$$.fragment);
-				add_location(header, file, 111, 2, 3580);
-				add_location(main, file, 133, 2, 4440);
+				add_location(header, file, 110, 2, 3544);
+				add_location(main, file, 132, 2, 4404);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, header, anchor);
@@ -49644,14 +49812,14 @@
 			block,
 			id: create_else_block.name,
 			type: "else",
-			source: "(111:0) {:else}",
+			source: "(110:0) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (109:0) {#if !me}
+	// (108:0) {#if !me}
 	function create_if_block_1(ctx) {
 		let homepage;
 		let current;
@@ -49694,14 +49862,14 @@
 			block,
 			id: create_if_block_1.name,
 			type: "if",
-			source: "(109:0) {#if !me}",
+			source: "(108:0) {#if !me}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (117:19) <NavLink href="#/teams">
+	// (116:19) <NavLink href="#/teams">
 	function create_default_slot_16(ctx) {
 		let t;
 
@@ -49721,14 +49889,14 @@
 			block,
 			id: create_default_slot_16.name,
 			type: "slot",
-			source: "(117:19) <NavLink href=\\\"#/teams\\\">",
+			source: "(116:19) <NavLink href=\\\"#/teams\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (117:10) <NavItem>
+	// (116:10) <NavItem>
 	function create_default_slot_15(ctx) {
 		let navlink;
 		let current;
@@ -49777,14 +49945,14 @@
 			block,
 			id: create_default_slot_15.name,
 			type: "slot",
-			source: "(117:10) <NavItem>",
+			source: "(116:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (118:19) <NavLink href="#/operations">
+	// (117:19) <NavLink href="#/operations">
 	function create_default_slot_14(ctx) {
 		let t;
 
@@ -49804,14 +49972,14 @@
 			block,
 			id: create_default_slot_14.name,
 			type: "slot",
-			source: "(118:19) <NavLink href=\\\"#/operations\\\">",
+			source: "(117:19) <NavLink href=\\\"#/operations\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (118:10) <NavItem>
+	// (117:10) <NavItem>
 	function create_default_slot_13(ctx) {
 		let navlink;
 		let current;
@@ -49860,14 +50028,14 @@
 			block,
 			id: create_default_slot_13.name,
 			type: "slot",
-			source: "(118:10) <NavItem>",
+			source: "(117:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (120:13) <NavLink href="#/defensivekeys/">
+	// (119:13) <NavLink href="#/defensivekeys/">
 	function create_default_slot_12(ctx) {
 		let t;
 
@@ -49887,14 +50055,14 @@
 			block,
 			id: create_default_slot_12.name,
 			type: "slot",
-			source: "(120:13) <NavLink href=\\\"#/defensivekeys/\\\">",
+			source: "(119:13) <NavLink href=\\\"#/defensivekeys/\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (119:10) <NavItem             >
+	// (118:10) <NavItem             >
 	function create_default_slot_11(ctx) {
 		let navlink;
 		let current;
@@ -49943,14 +50111,14 @@
 			block,
 			id: create_default_slot_11.name,
 			type: "slot",
-			source: "(119:10) <NavItem             >",
+			source: "(118:10) <NavItem             >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (122:19) <NavLink href="#/settings">
+	// (121:19) <NavLink href="#/settings">
 	function create_default_slot_10(ctx) {
 		let t;
 
@@ -49970,14 +50138,14 @@
 			block,
 			id: create_default_slot_10.name,
 			type: "slot",
-			source: "(122:19) <NavLink href=\\\"#/settings\\\">",
+			source: "(121:19) <NavLink href=\\\"#/settings\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (122:10) <NavItem>
+	// (121:10) <NavItem>
 	function create_default_slot_9(ctx) {
 		let navlink;
 		let current;
@@ -50026,14 +50194,14 @@
 			block,
 			id: create_default_slot_9.name,
 			type: "slot",
-			source: "(122:10) <NavItem>",
+			source: "(121:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (123:19) <NavLink href="#/help">
+	// (122:19) <NavLink href="#/help">
 	function create_default_slot_8(ctx) {
 		let t;
 
@@ -50053,14 +50221,14 @@
 			block,
 			id: create_default_slot_8.name,
 			type: "slot",
-			source: "(123:19) <NavLink href=\\\"#/help\\\">",
+			source: "(122:19) <NavLink href=\\\"#/help\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (123:10) <NavItem>
+	// (122:10) <NavItem>
 	function create_default_slot_7(ctx) {
 		let navlink;
 		let current;
@@ -50109,14 +50277,14 @@
 			block,
 			id: create_default_slot_7.name,
 			type: "slot",
-			source: "(123:10) <NavItem>",
+			source: "(122:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (125:13) <NavLink href="#/" on:click={logout}>
+	// (124:13) <NavLink href="#/" on:click={logout}>
 	function create_default_slot_6(ctx) {
 		let t;
 
@@ -50136,14 +50304,14 @@
 			block,
 			id: create_default_slot_6.name,
 			type: "slot",
-			source: "(125:13) <NavLink href=\\\"#/\\\" on:click={logout}>",
+			source: "(124:13) <NavLink href=\\\"#/\\\" on:click={logout}>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (124:10) <NavItem             >
+	// (123:10) <NavItem             >
 	function create_default_slot_5(ctx) {
 		let navlink;
 		let current;
@@ -50194,14 +50362,14 @@
 			block,
 			id: create_default_slot_5.name,
 			type: "slot",
-			source: "(124:10) <NavItem             >",
+			source: "(123:10) <NavItem             >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (116:8) <Nav navbar>
+	// (115:8) <Nav navbar>
 	function create_default_slot_4(ctx) {
 		let navitem0;
 		let t0;
@@ -50374,14 +50542,14 @@
 			block,
 			id: create_default_slot_4.name,
 			type: "slot",
-			source: "(116:8) <Nav navbar>",
+			source: "(115:8) <Nav navbar>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (115:6) <Collapse toggler="#main-toggler" navbar expand="lg">
+	// (114:6) <Collapse toggler="#main-toggler" navbar expand="lg">
 	function create_default_slot_3(ctx) {
 		let nav;
 		let current;
@@ -50430,14 +50598,14 @@
 			block,
 			id: create_default_slot_3.name,
 			type: "slot",
-			source: "(115:6) <Collapse toggler=\\\"#main-toggler\\\" navbar expand=\\\"lg\\\">",
+			source: "(114:6) <Collapse toggler=\\\"#main-toggler\\\" navbar expand=\\\"lg\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (129:6) <NavLink disabled href="#">
+	// (128:6) <NavLink disabled href="#">
 	function create_default_slot_2(ctx) {
 		let t_value = getServer().replace('https://', '') + "";
 		let t;
@@ -50459,14 +50627,14 @@
 			block,
 			id: create_default_slot_2.name,
 			type: "slot",
-			source: "(129:6) <NavLink disabled href=\\\"#\\\">",
+			source: "(128:6) <NavLink disabled href=\\\"#\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (113:4) <Navbar container={false} color="dark" dark expand="lg">
+	// (112:4) <Navbar container={false} color="dark" dark expand="lg">
 	function create_default_slot_1(ctx) {
 		let navbartoggler;
 		let t0;
@@ -50559,14 +50727,14 @@
 			block,
 			id: create_default_slot_1.name,
 			type: "slot",
-			source: "(113:4) <Navbar container={false} color=\\\"dark\\\" dark expand=\\\"lg\\\">",
+			source: "(112:4) <Navbar container={false} color=\\\"dark\\\" dark expand=\\\"lg\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (135:4) <ToastContainer let:data>
+	// (134:4) <ToastContainer let:data>
 	function create_default_slot(ctx) {
 		let flattoast;
 		let current;
@@ -50607,14 +50775,14 @@
 			block,
 			id: create_default_slot.name,
 			type: "slot",
-			source: "(135:4) <ToastContainer let:data>",
+			source: "(134:4) <ToastContainer let:data>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (142:0) {#if loading}
+	// (141:0) {#if loading}
 	function create_if_block(ctx) {
 		let div;
 
@@ -50623,7 +50791,7 @@
 				div = element("div");
 				attr_dev(div, "id", "loading-animation");
 				attr_dev(div, "class", "svelte-1bcajx9");
-				add_location(div, file, 142, 2, 4611);
+				add_location(div, file, 141, 2, 4575);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -50637,7 +50805,7 @@
 			block,
 			id: create_if_block.name,
 			type: "if",
-			source: "(142:0) {#if loading}",
+			source: "(141:0) {#if loading}",
 			ctx
 		});
 
@@ -50711,22 +50879,22 @@
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
-				add_location(script, file, 101, 2, 3393);
-				add_location(strong, file, 149, 76, 4892);
+				add_location(script, file, 100, 2, 3357);
+				add_location(strong, file, 148, 76, 4856);
 				attr_dev(a0, "href", "https://v.enl.one/");
-				add_location(a0, file, 153, 6, 5008);
+				add_location(a0, file, 152, 6, 4972);
 				attr_dev(a1, "href", "https://enl.rocks");
-				add_location(a1, file, 154, 6, 5053);
+				add_location(a1, file, 153, 6, 5017);
 				attr_dev(a2, "href", "/privacy");
-				add_location(a2, file, 155, 6, 5114);
+				add_location(a2, file, 154, 6, 5078);
 				attr_dev(p0, "class", "text-muted small");
-				add_location(p0, file, 147, 4, 4712);
+				add_location(p0, file, 146, 4, 4676);
 				attr_dev(p1, "class", "text-muted text-right small");
-				add_location(p1, file, 157, 4, 5187);
+				add_location(p1, file, 156, 4, 5151);
 				attr_dev(div, "class", "p-5");
-				add_location(div, file, 146, 2, 4690);
+				add_location(div, file, 145, 2, 4654);
 				attr_dev(footer, "class", "mastfoot mx-5 mt-auto");
-				add_location(footer, file, 145, 0, 4649);
+				add_location(footer, file, 144, 0, 4613);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
