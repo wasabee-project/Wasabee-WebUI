@@ -41615,8 +41615,8 @@
 		let t12_value = /*agent*/ ctx[0].id + "";
 		let t12;
 		let div2_intro;
-		let if_block0 = /*agent*/ ctx[0].communityname && create_if_block_5(ctx);
-		let if_block1 = /*agent*/ ctx[0].vname && create_if_block_3$1(ctx);
+		let if_block0 = /*agent*/ ctx[0].communityname && create_if_block_6(ctx);
+		let if_block1 = /*agent*/ ctx[0].vname && create_if_block_4(ctx);
 		let if_block2 = /*agent*/ ctx[0].rocksname && create_if_block_2$2(ctx);
 		let if_block3 = /*agent*/ ctx[0].intelname && create_if_block_1$5(ctx);
 
@@ -41655,10 +41655,10 @@
 				add_location(span1, file$6, 22, 8, 600);
 				add_location(div0, file$6, 20, 6, 524);
 				attr_dev(span2, "class", "font-weight-bolder");
-				add_location(span2, file$6, 70, 8, 2112);
+				add_location(span2, file$6, 74, 8, 2235);
 				attr_dev(span3, "class", "agent-name");
-				add_location(span3, file$6, 71, 8, 2171);
-				add_location(div1, file$6, 69, 6, 2098);
+				add_location(span3, file$6, 75, 8, 2294);
+				add_location(div1, file$6, 73, 6, 2221);
 				attr_dev(div2, "class", "shadow popover p-2 svelte-rp9vtd");
 				add_location(div2, file$6, 12, 4, 337);
 			},
@@ -41696,7 +41696,7 @@
 					if (if_block0) {
 						if_block0.p(ctx, dirty);
 					} else {
-						if_block0 = create_if_block_5(ctx);
+						if_block0 = create_if_block_6(ctx);
 						if_block0.c();
 						if_block0.m(div2, t6);
 					}
@@ -41709,7 +41709,7 @@
 					if (if_block1) {
 						if_block1.p(ctx, dirty);
 					} else {
-						if_block1 = create_if_block_3$1(ctx);
+						if_block1 = create_if_block_4(ctx);
 						if_block1.c();
 						if_block1.m(div2, t7);
 					}
@@ -41781,7 +41781,7 @@
 	}
 
 	// (25:6) {#if agent.communityname}
-	function create_if_block_5(ctx) {
+	function create_if_block_6(ctx) {
 		let div;
 		let span0;
 		let t1;
@@ -41820,7 +41820,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_5.name,
+			id: create_if_block_6.name,
 			type: "if",
 			source: "(25:6) {#if agent.communityname}",
 			ctx
@@ -41830,7 +41830,7 @@
 	}
 
 	// (31:6) {#if agent.vname}
-	function create_if_block_3$1(ctx) {
+	function create_if_block_4(ctx) {
 		let div0;
 		let span0;
 		let t1;
@@ -41844,7 +41844,7 @@
 		let span2;
 
 		function select_block_type(ctx, dirty) {
-			if (/*agent*/ ctx[0].Vverified) return create_if_block_4;
+			if (/*agent*/ ctx[0].Vverified) return create_if_block_5;
 			return create_else_block$2;
 		}
 
@@ -41916,7 +41916,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_3$1.name,
+			id: create_if_block_4.name,
 			type: "if",
 			source: "(31:6) {#if agent.vname}",
 			ctx
@@ -41954,7 +41954,7 @@
 	}
 
 	// (39:12) {#if agent.Vverified}
-	function create_if_block_4(ctx) {
+	function create_if_block_5(ctx) {
 		let a;
 		let t;
 		let a_href_value;
@@ -41984,7 +41984,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_4.name,
+			id: create_if_block_5.name,
 			type: "if",
 			source: "(39:12) {#if agent.Vverified}",
 			ctx
@@ -41998,22 +41998,19 @@
 		let div0;
 		let span0;
 		let t1;
-		let span1;
+		let a0;
 		let t2_value = /*agent*/ ctx[0].rocksname + "";
 		let t2;
 		let t3;
-		let span2;
+		let a0_href_value;
 		let t4;
-		let t5_value = /*agent*/ ctx[0].level + "";
-		let t5;
-		let t6;
-		let t7;
 		let div1;
-		let a;
-		let t9;
-		let span3;
-		let t10_value = (/*agent*/ ctx[0].rocks ? 'verified' : 'not verified') + "";
-		let t10;
+		let a1;
+		let t6;
+		let span1;
+		let t7_value = (/*agent*/ ctx[0].rocks ? 'verified' : 'not verified') + "";
+		let t7;
+		let if_block = /*agent*/ ctx[0].level > 0 && create_if_block_3$1(ctx);
 
 		const block = {
 			c: function create() {
@@ -42021,59 +42018,71 @@
 				span0 = element("span");
 				span0.textContent = "Rocks Name:";
 				t1 = space();
-				span1 = element("span");
+				a0 = element("a");
 				t2 = text(t2_value);
 				t3 = space();
-				span2 = element("span");
-				t4 = text("(L");
-				t5 = text(t5_value);
-				t6 = text(")");
-				t7 = space();
+				if (if_block) if_block.c();
+				t4 = space();
 				div1 = element("div");
-				a = element("a");
-				a.textContent = "enl.rocks Status";
-				t9 = text(":\n          ");
-				span3 = element("span");
-				t10 = text(t10_value);
+				a1 = element("a");
+				a1.textContent = "enl.rocks Status";
+				t6 = text(":\n          ");
+				span1 = element("span");
+				t7 = text(t7_value);
 				attr_dev(span0, "class", "font-weight-bolder");
 				add_location(span0, file$6, 52, 10, 1510);
-				attr_dev(span1, "class", "agent-name");
-				add_location(span1, file$6, 53, 10, 1572);
-				add_location(span2, file$6, 54, 10, 1632);
+				attr_dev(a0, "href", a0_href_value = 'https://enlightened.rocks/u/' + /*agent*/ ctx[0].id);
+				attr_dev(a0, "class", "agent-name");
+				add_location(a0, file$6, 53, 10, 1572);
 				add_location(div0, file$6, 51, 8, 1494);
-				attr_dev(a, "href", "https://enl.rocks/");
-				attr_dev(a, "target", "_new");
-				add_location(a, file$6, 57, 10, 1701);
-				attr_dev(span3, "id", "rocksstatus");
-				add_location(span3, file$6, 58, 10, 1776);
-				add_location(div1, file$6, 56, 8, 1685);
+				attr_dev(a1, "href", "https://enl.rocks/");
+				attr_dev(a1, "target", "_new");
+				add_location(a1, file$6, 61, 10, 1824);
+				attr_dev(span1, "id", "rocksstatus");
+				add_location(span1, file$6, 62, 10, 1899);
+				add_location(div1, file$6, 60, 8, 1808);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div0, anchor);
 				append_dev(div0, span0);
 				append_dev(div0, t1);
-				append_dev(div0, span1);
-				append_dev(span1, t2);
-				append_dev(div0, t3);
-				append_dev(div0, span2);
-				append_dev(span2, t4);
-				append_dev(span2, t5);
-				append_dev(span2, t6);
-				insert_dev(target, t7, anchor);
+				append_dev(div0, a0);
+				append_dev(a0, t2);
+				append_dev(a0, t3);
+				if (if_block) if_block.m(a0, null);
+				insert_dev(target, t4, anchor);
 				insert_dev(target, div1, anchor);
-				append_dev(div1, a);
-				append_dev(div1, t9);
-				append_dev(div1, span3);
-				append_dev(span3, t10);
+				append_dev(div1, a1);
+				append_dev(div1, t6);
+				append_dev(div1, span1);
+				append_dev(span1, t7);
 			},
 			p: function update(ctx, dirty) {
 				if (dirty & /*agent*/ 1 && t2_value !== (t2_value = /*agent*/ ctx[0].rocksname + "")) set_data_dev(t2, t2_value);
-				if (dirty & /*agent*/ 1 && t5_value !== (t5_value = /*agent*/ ctx[0].level + "")) set_data_dev(t5, t5_value);
-				if (dirty & /*agent*/ 1 && t10_value !== (t10_value = (/*agent*/ ctx[0].rocks ? 'verified' : 'not verified') + "")) set_data_dev(t10, t10_value);
+
+				if (/*agent*/ ctx[0].level > 0) {
+					if (if_block) {
+						if_block.p(ctx, dirty);
+					} else {
+						if_block = create_if_block_3$1(ctx);
+						if_block.c();
+						if_block.m(a0, null);
+					}
+				} else if (if_block) {
+					if_block.d(1);
+					if_block = null;
+				}
+
+				if (dirty & /*agent*/ 1 && a0_href_value !== (a0_href_value = 'https://enlightened.rocks/u/' + /*agent*/ ctx[0].id)) {
+					attr_dev(a0, "href", a0_href_value);
+				}
+
+				if (dirty & /*agent*/ 1 && t7_value !== (t7_value = (/*agent*/ ctx[0].rocks ? 'verified' : 'not verified') + "")) set_data_dev(t7, t7_value);
 			},
 			d: function destroy(detaching) {
 				if (detaching) detach_dev(div0);
-				if (detaching) detach_dev(t7);
+				if (if_block) if_block.d();
+				if (detaching) detach_dev(t4);
 				if (detaching) detach_dev(div1);
 			}
 		};
@@ -42089,7 +42098,48 @@
 		return block;
 	}
 
-	// (64:6) {#if agent.intelname}
+	// (56:12) {#if agent.level > 0}
+	function create_if_block_3$1(ctx) {
+		let span;
+		let t0;
+		let t1_value = /*agent*/ ctx[0].level + "";
+		let t1;
+		let t2;
+
+		const block = {
+			c: function create() {
+				span = element("span");
+				t0 = text("(L");
+				t1 = text(t1_value);
+				t2 = text(")");
+				add_location(span, file$6, 56, 14, 1722);
+			},
+			m: function mount(target, anchor) {
+				insert_dev(target, span, anchor);
+				append_dev(span, t0);
+				append_dev(span, t1);
+				append_dev(span, t2);
+			},
+			p: function update(ctx, dirty) {
+				if (dirty & /*agent*/ 1 && t1_value !== (t1_value = /*agent*/ ctx[0].level + "")) set_data_dev(t1, t1_value);
+			},
+			d: function destroy(detaching) {
+				if (detaching) detach_dev(span);
+			}
+		};
+
+		dispatch_dev("SvelteRegisterBlock", {
+			block,
+			id: create_if_block_3$1.name,
+			type: "if",
+			source: "(56:12) {#if agent.level > 0}",
+			ctx
+		});
+
+		return block;
+	}
+
+	// (68:6) {#if agent.intelname}
 	function create_if_block_1$5(ctx) {
 		let div;
 		let span0;
@@ -42107,10 +42157,10 @@
 				span1 = element("span");
 				t2 = text(t2_value);
 				attr_dev(span0, "class", "font-weight-bolder");
-				add_location(span0, file$6, 65, 10, 1953);
+				add_location(span0, file$6, 69, 10, 2076);
 				attr_dev(span1, "class", "agent-name");
-				add_location(span1, file$6, 66, 10, 2015);
-				add_location(div, file$6, 64, 8, 1937);
+				add_location(span1, file$6, 70, 10, 2138);
+				add_location(div, file$6, 68, 8, 2060);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -42131,7 +42181,7 @@
 			block,
 			id: create_if_block_1$5.name,
 			type: "if",
-			source: "(64:6) {#if agent.intelname}",
+			source: "(68:6) {#if agent.intelname}",
 			ctx
 		});
 
