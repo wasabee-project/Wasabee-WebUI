@@ -57,8 +57,12 @@
       {#if agent.rocksname}
         <div>
           <span class="font-weight-bolder">Rocks Name:</span>
-          <span class="agent-name">{agent.rocksname}</span>
-          <span>(L{agent.level})</span>
+          <a href={'https://enlightened.rocks/u/' + agent.id} class="agent-name"
+            >{agent.rocksname}
+            {#if agent.level > 0}
+              <span>(L{agent.level})</span>
+            {/if}</a
+          >
         </div>
         <div>
           <a href="https://enl.rocks/" target="_new">enl.rocks Status</a>:
