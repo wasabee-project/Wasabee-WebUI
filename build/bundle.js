@@ -41655,11 +41655,11 @@
 				add_location(span1, file$6, 22, 8, 600);
 				add_location(div0, file$6, 20, 6, 524);
 				attr_dev(span2, "class", "font-weight-bolder");
-				add_location(span2, file$6, 72, 8, 2145);
+				add_location(span2, file$6, 70, 8, 2112);
 				attr_dev(span3, "class", "agent-name");
-				add_location(span3, file$6, 73, 8, 2204);
-				add_location(div1, file$6, 71, 6, 2131);
-				attr_dev(div2, "class", "shadow popover p-2");
+				add_location(span3, file$6, 71, 8, 2171);
+				add_location(div1, file$6, 69, 6, 2098);
+				attr_dev(div2, "class", "shadow popover p-2 svelte-rp9vtd");
 				add_location(div2, file$6, 12, 4, 337);
 			},
 			m: function mount(target, anchor) {
@@ -41783,7 +41783,6 @@
 	// (25:6) {#if agent.communityname}
 	function create_if_block_5(ctx) {
 		let div;
-		let p;
 		let span0;
 		let t1;
 		let span1;
@@ -41793,25 +41792,22 @@
 		const block = {
 			c: function create() {
 				div = element("div");
-				p = element("p");
 				span0 = element("span");
 				span0.textContent = "Community Name:";
 				t1 = space();
 				span1 = element("span");
 				t2 = text(t2_value);
 				attr_dev(span0, "class", "font-weight-bolder");
-				add_location(span0, file$6, 27, 12, 730);
+				add_location(span0, file$6, 26, 10, 714);
 				attr_dev(span1, "class", "agent-name");
-				add_location(span1, file$6, 28, 12, 798);
-				add_location(p, file$6, 26, 10, 714);
+				add_location(span1, file$6, 27, 10, 780);
 				add_location(div, file$6, 25, 8, 698);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
-				append_dev(div, p);
-				append_dev(p, span0);
-				append_dev(p, t1);
-				append_dev(p, span1);
+				append_dev(div, span0);
+				append_dev(div, t1);
+				append_dev(div, span1);
 				append_dev(span1, t2);
 			},
 			p: function update(ctx, dirty) {
@@ -41833,7 +41829,7 @@
 		return block;
 	}
 
-	// (33:6) {#if agent.vname}
+	// (31:6) {#if agent.vname}
 	function create_if_block_3$1(ctx) {
 		let div0;
 		let span0;
@@ -41871,16 +41867,16 @@
 				span2 = element("span");
 				if_block.c();
 				attr_dev(span0, "class", "font-weight-bolder");
-				add_location(span0, file$6, 34, 10, 942);
+				add_location(span0, file$6, 32, 10, 909);
 				attr_dev(span1, "class", "agent-name");
-				add_location(span1, file$6, 35, 10, 1000);
-				add_location(div0, file$6, 33, 8, 926);
+				add_location(span1, file$6, 33, 10, 967);
+				add_location(div0, file$6, 31, 8, 893);
 				attr_dev(a, "href", "https://v.enl.one/");
 				attr_dev(a, "target", "_new");
-				add_location(a, file$6, 38, 10, 1085);
+				add_location(a, file$6, 36, 10, 1052);
 				attr_dev(span2, "id", "vstatus");
-				add_location(span2, file$6, 39, 10, 1152);
-				add_location(div1, file$6, 37, 8, 1069);
+				add_location(span2, file$6, 37, 10, 1119);
+				add_location(div1, file$6, 35, 8, 1036);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div0, anchor);
@@ -41922,14 +41918,14 @@
 			block,
 			id: create_if_block_3$1.name,
 			type: "if",
-			source: "(33:6) {#if agent.vname}",
+			source: "(31:6) {#if agent.vname}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (47:12) {:else}
+	// (45:12) {:else}
 	function create_else_block$2(ctx) {
 		let t;
 
@@ -41950,14 +41946,14 @@
 			block,
 			id: create_else_block$2.name,
 			type: "else",
-			source: "(47:12) {:else}",
+			source: "(45:12) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (41:12) {#if agent.Vverified}
+	// (39:12) {#if agent.Vverified}
 	function create_if_block_4(ctx) {
 		let a;
 		let t;
@@ -41970,7 +41966,7 @@
 				attr_dev(a, "v-if", "me.Vverified");
 				attr_dev(a, "href", a_href_value = 'https://v.enl.one/profile/' + /*agent*/ ctx[0].enlid);
 				attr_dev(a, "target", "_new");
-				add_location(a, file$6, 41, 14, 1220);
+				add_location(a, file$6, 39, 14, 1187);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, a, anchor);
@@ -41990,14 +41986,14 @@
 			block,
 			id: create_if_block_4.name,
 			type: "if",
-			source: "(41:12) {#if agent.Vverified}",
+			source: "(39:12) {#if agent.Vverified}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (53:6) {#if agent.rocksname}
+	// (51:6) {#if agent.rocksname}
 	function create_if_block_2$2(ctx) {
 		let div0;
 		let span0;
@@ -42040,17 +42036,17 @@
 				span3 = element("span");
 				t10 = text(t10_value);
 				attr_dev(span0, "class", "font-weight-bolder");
-				add_location(span0, file$6, 54, 10, 1543);
+				add_location(span0, file$6, 52, 10, 1510);
 				attr_dev(span1, "class", "agent-name");
-				add_location(span1, file$6, 55, 10, 1605);
-				add_location(span2, file$6, 56, 10, 1665);
-				add_location(div0, file$6, 53, 8, 1527);
+				add_location(span1, file$6, 53, 10, 1572);
+				add_location(span2, file$6, 54, 10, 1632);
+				add_location(div0, file$6, 51, 8, 1494);
 				attr_dev(a, "href", "https://enl.rocks/");
 				attr_dev(a, "target", "_new");
-				add_location(a, file$6, 59, 10, 1734);
+				add_location(a, file$6, 57, 10, 1701);
 				attr_dev(span3, "id", "rocksstatus");
-				add_location(span3, file$6, 60, 10, 1809);
-				add_location(div1, file$6, 58, 8, 1718);
+				add_location(span3, file$6, 58, 10, 1776);
+				add_location(div1, file$6, 56, 8, 1685);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div0, anchor);
@@ -42086,14 +42082,14 @@
 			block,
 			id: create_if_block_2$2.name,
 			type: "if",
-			source: "(53:6) {#if agent.rocksname}",
+			source: "(51:6) {#if agent.rocksname}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (66:6) {#if agent.intelname}
+	// (64:6) {#if agent.intelname}
 	function create_if_block_1$5(ctx) {
 		let div;
 		let span0;
@@ -42111,10 +42107,10 @@
 				span1 = element("span");
 				t2 = text(t2_value);
 				attr_dev(span0, "class", "font-weight-bolder");
-				add_location(span0, file$6, 67, 10, 1986);
+				add_location(span0, file$6, 65, 10, 1953);
 				attr_dev(span1, "class", "agent-name");
-				add_location(span1, file$6, 68, 10, 2048);
-				add_location(div, file$6, 66, 8, 1970);
+				add_location(span1, file$6, 66, 10, 2015);
+				add_location(div, file$6, 64, 8, 1937);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -42135,7 +42131,7 @@
 			block,
 			id: create_if_block_1$5.name,
 			type: "if",
-			source: "(66:6) {#if agent.intelname}",
+			source: "(64:6) {#if agent.intelname}",
 			ctx
 		});
 
@@ -42157,7 +42153,7 @@
 				t0 = text(t0_value);
 				t1 = space();
 				if (if_block) if_block.c();
-				attr_dev(div, "class", "relative svelte-1omoz8x");
+				attr_dev(div, "class", "relative svelte-rp9vtd");
 				add_location(div, file$6, 8, 0, 233);
 			},
 			l: function claim(nodes) {
