@@ -37,37 +37,20 @@
       {#if agent.vname}
         <div>
           <span class="font-weight-bolder">V Name:</span>
-          <span class="agent-name">{agent.vname}</span>
-        </div>
-        <div>
-          <a href="https://v.enl.one/" target="_new">V Status</a>:
-          <span id="vstatus">
-            {#if agent.Vverified}
-              <a
-                v-if="me.Vverified"
-                href={'https://v.enl.one/profile/' + agent.enlid}
-                target="_new">verified</a
-              >
-            {:else}
-              unverified
-            {/if}
-          </span>
+          <a
+            target="_new"
+            href={'https://v.enl.one/profile/' + agent.enlid}
+            class="agent-name">{agent.vname} {agent.Vverified ? '✅' : '❌'}</a
+          >
         </div>
       {/if}
       {#if agent.rocksname}
         <div>
           <span class="font-weight-bolder">Rocks Name:</span>
-          <a href={'https://enlightened.rocks/u/' + agent.id} class="agent-name"
-            >{agent.rocksname}
-            {#if agent.level > 0}
-              <span>(L{agent.level})</span>
-            {/if}</a
-          >
-        </div>
-        <div>
-          <a href="https://enl.rocks/" target="_new">enl.rocks Status</a>:
-          <span id="rocksstatus"
-            >{agent.rocks ? 'verified' : 'not verified'}</span
+          <a
+            target="_new"
+            href={'https://enlightened.rocks/u/' + agent.id}
+            class="agent-name">{agent.rocksname} {agent.rocks ? '✅' : '❌'}</a
           >
         </div>
       {/if}
@@ -91,5 +74,8 @@
   }
   .popover {
     width: max-content;
+  }
+  a {
+    text-decoration: underline dotted;
   }
 </style>
