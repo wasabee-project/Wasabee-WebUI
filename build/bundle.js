@@ -15345,7 +15345,7 @@
 	const { Error: Error_1, Object: Object_1$4, console: console_1$b } = globals;
 
 	// (251:0) {:else}
-	function create_else_block$b(ctx) {
+	function create_else_block$a(ctx) {
 		let switch_instance;
 		let switch_instance_anchor;
 		let current;
@@ -15430,7 +15430,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_else_block$b.name,
+			id: create_else_block$a.name,
 			type: "else",
 			source: "(251:0) {:else}",
 			ctx
@@ -15542,7 +15542,7 @@
 		let if_block;
 		let if_block_anchor;
 		let current;
-		const if_block_creators = [create_if_block$s, create_else_block$b];
+		const if_block_creators = [create_if_block$s, create_else_block$a];
 		const if_blocks = [];
 
 		function select_block_type(ctx, dirty) {
@@ -16460,7 +16460,7 @@
 	const get_default_slot_context = ctx => ({ data: /*toast*/ ctx[14] });
 
 	// (107:10) {:else}
-	function create_else_block$a(ctx) {
+	function create_else_block$9(ctx) {
 		let current;
 		const default_slot_template = /*#slots*/ ctx[10].default;
 		const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[9], get_default_slot_context);
@@ -16508,7 +16508,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_else_block$a.name,
+			id: create_else_block$9.name,
 			type: "else",
 			source: "(107:10) {:else}",
 			ctx
@@ -16613,7 +16613,7 @@
 		let rect;
 		let stop_animation = noop;
 		let current;
-		const if_block_creators = [create_if_block$r, create_else_block$a];
+		const if_block_creators = [create_if_block$r, create_else_block$9];
 		const if_blocks = [];
 
 		function select_block_type(ctx, dirty) {
@@ -17215,7 +17215,7 @@
 	const get_icon_slot_context = ctx => ({});
 
 	// (92:4) {:else}
-	function create_else_block$9(ctx) {
+	function create_else_block$8(ctx) {
 		let svg;
 		let path0;
 		let path1;
@@ -17251,7 +17251,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_else_block$9.name,
+			id: create_else_block$8.name,
 			type: "else",
 			source: "(92:4) {:else}",
 			ctx
@@ -17400,7 +17400,7 @@
 			if (/*data*/ ctx[1].type === 'success') return create_if_block_2$c;
 			if (/*data*/ ctx[1].type === 'info') return create_if_block_3$8;
 			if (/*data*/ ctx[1].type === 'error') return create_if_block_4$5;
-			return create_else_block$9;
+			return create_else_block$8;
 		}
 
 		let current_block_type = select_block_type(ctx);
@@ -18624,7 +18624,7 @@
 		let current;
 		let mounted;
 		let dispose;
-		const if_block_creators = [create_if_block_1$g, create_else_block$8];
+		const if_block_creators = [create_if_block_1$g, create_else_block$7];
 		const if_blocks = [];
 
 		function select_block_type_1(ctx, dirty) {
@@ -18906,7 +18906,7 @@
 	}
 
 	// (46:4) {:else}
-	function create_else_block$8(ctx) {
+	function create_else_block$7(ctx) {
 		let current;
 		const default_slot_template = /*#slots*/ ctx[18].default;
 		const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[17], null);
@@ -18954,7 +18954,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block: block_1,
-			id: create_else_block$8.name,
+			id: create_else_block$7.name,
 			type: "else",
 			source: "(46:4) {:else}",
 			ctx
@@ -19882,7 +19882,7 @@
 	const file$v = "node_modules/sveltestrap/src/Navbar.svelte";
 
 	// (39:2) {:else}
-	function create_else_block$7(ctx) {
+	function create_else_block$6(ctx) {
 		let current;
 		const default_slot_template = /*#slots*/ ctx[10].default;
 		const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[11], null);
@@ -19930,7 +19930,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_else_block$7.name,
+			id: create_else_block$6.name,
 			type: "else",
 			source: "(39:2) {:else}",
 			ctx
@@ -20059,7 +20059,7 @@
 		let current_block_type_index;
 		let if_block;
 		let current;
-		const if_block_creators = [create_if_block$n, create_else_block$7];
+		const if_block_creators = [create_if_block$n, create_else_block$6];
 		const if_blocks = [];
 
 		function select_block_type(ctx, dirty) {
@@ -23631,7 +23631,7 @@
 
 		function select_block_type(ctx, dirty) {
 			if (/*toDelete*/ ctx[0] === /*op*/ ctx[11].ID) return create_if_block_1$f;
-			return create_else_block$6;
+			return create_else_block$5;
 		}
 
 		let current_block_type = select_block_type(ctx);
@@ -23690,7 +23690,7 @@
 	}
 
 	// (112:20) {:else}
-	function create_else_block$6(ctx) {
+	function create_else_block$5(ctx) {
 		let span;
 
 		const block = {
@@ -23709,7 +23709,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_else_block$6.name,
+			id: create_else_block$5.name,
 			type: "else",
 			source: "(112:20) {:else}",
 			ctx
@@ -24250,7 +24250,7 @@
 	}
 
 	// (67:10) {#if me.Vverified}
-	function create_if_block_5$2(ctx) {
+	function create_if_block_5$1(ctx) {
 		let a;
 		let t;
 		let a_href_value;
@@ -24280,7 +24280,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_5$2.name,
+			id: create_if_block_5$1.name,
 			type: "if",
 			source: "(67:10) {#if me.Vverified}",
 			ctx
@@ -24467,7 +24467,7 @@
 		function select_block_type_2(ctx, dirty) {
 			if (/*me*/ ctx[0].Telegram.Verified) return create_if_block_1$e;
 			if (/*me*/ ctx[0].Telegram.Authtoken) return create_if_block_2$9;
-			return create_else_block$5;
+			return create_else_block$4;
 		}
 
 		let current_block_type = select_block_type_2(ctx);
@@ -24515,7 +24515,7 @@
 	}
 
 	// (196:10) {:else}
-	function create_else_block$5(ctx) {
+	function create_else_block$4(ctx) {
 		let div;
 		let strong;
 		let t1;
@@ -24572,7 +24572,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_else_block$5.name,
+			id: create_else_block$4.name,
 			type: "else",
 			source: "(196:10) {:else}",
 			ctx
@@ -24829,7 +24829,7 @@
 		let dispose;
 
 		function select_block_type(ctx, dirty) {
-			if (/*me*/ ctx[0].Vverified) return create_if_block_5$2;
+			if (/*me*/ ctx[0].Vverified) return create_if_block_5$1;
 			return create_else_block_2$1;
 		}
 
@@ -25602,7 +25602,7 @@
 	}
 
 	// (157:8) {:else}
-	function create_else_block$4(ctx) {
+	function create_else_block$3(ctx) {
 		let each_blocks = [];
 		let each_1_lookup = new Map();
 		let each_1_anchor;
@@ -25651,7 +25651,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_else_block$4.name,
+			id: create_else_block$3.name,
 			type: "else",
 			source: "(157:8) {:else}",
 			ctx
@@ -25763,7 +25763,7 @@
 	}
 
 	// (192:20) {#if i > 0}
-	function create_if_block_5$1(ctx) {
+	function create_if_block_5(ctx) {
 		let t;
 
 		const block = {
@@ -25780,7 +25780,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_5$1.name,
+			id: create_if_block_5.name,
 			type: "if",
 			source: "(192:20) {#if i > 0}",
 			ctx
@@ -25798,7 +25798,7 @@
 		let t1;
 		let t2;
 		let a_href_value;
-		let if_block = /*i*/ ctx[32] > 0 && create_if_block_5$1(ctx);
+		let if_block = /*i*/ ctx[32] > 0 && create_if_block_5(ctx);
 
 		const block = {
 			key: key_1,
@@ -25827,7 +25827,7 @@
 
 				if (/*i*/ ctx[32] > 0) {
 					if (if_block) ; else {
-						if_block = create_if_block_5$1(ctx);
+						if_block = create_if_block_5(ctx);
 						if_block.c();
 						if_block.m(t0.parentNode, t0);
 					}
@@ -26364,7 +26364,7 @@
 
 		function select_block_type(ctx, dirty) {
 			if (!/*me*/ ctx[0].Teams.length) return create_if_block$j;
-			return create_else_block$4;
+			return create_else_block$3;
 		}
 
 		let current_block_type = select_block_type(ctx);
@@ -39558,7 +39558,7 @@
 	}
 
 	// (362:2) {:else}
-	function create_else_block$3(ctx) {
+	function create_else_block$2(ctx) {
 		let div;
 		let table;
 		let thead;
@@ -39644,7 +39644,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_else_block$3.name,
+			id: create_else_block$2.name,
 			type: "else",
 			source: "(362:2) {:else}",
 			ctx
@@ -40271,7 +40271,7 @@
 			each_1_lookup.set(key, each_blocks[i] = create_each_block_2(key, child_ctx));
 		}
 
-		const if_block_creators = [create_if_block$8, create_else_block$3];
+		const if_block_creators = [create_if_block$8, create_else_block$2];
 		const if_blocks = [];
 
 		function select_block_type_1(ctx, dirty) {
@@ -41615,8 +41615,8 @@
 		let t12_value = /*agent*/ ctx[0].id + "";
 		let t12;
 		let div2_intro;
-		let if_block0 = /*agent*/ ctx[0].communityname && create_if_block_6(ctx);
-		let if_block1 = /*agent*/ ctx[0].vname && create_if_block_4(ctx);
+		let if_block0 = /*agent*/ ctx[0].communityname && create_if_block_4(ctx);
+		let if_block1 = /*agent*/ ctx[0].vname && create_if_block_3$1(ctx);
 		let if_block2 = /*agent*/ ctx[0].rocksname && create_if_block_2$2(ctx);
 		let if_block3 = /*agent*/ ctx[0].intelname && create_if_block_1$5(ctx);
 
@@ -41655,11 +41655,11 @@
 				add_location(span1, file$6, 22, 8, 600);
 				add_location(div0, file$6, 20, 6, 524);
 				attr_dev(span2, "class", "font-weight-bolder");
-				add_location(span2, file$6, 74, 8, 2235);
+				add_location(span2, file$6, 57, 8, 1707);
 				attr_dev(span3, "class", "agent-name");
-				add_location(span3, file$6, 75, 8, 2294);
-				add_location(div1, file$6, 73, 6, 2221);
-				attr_dev(div2, "class", "shadow popover p-2 svelte-rp9vtd");
+				add_location(span3, file$6, 58, 8, 1766);
+				add_location(div1, file$6, 56, 6, 1693);
+				attr_dev(div2, "class", "shadow popover p-2 svelte-j0v5g7");
 				add_location(div2, file$6, 12, 4, 337);
 			},
 			m: function mount(target, anchor) {
@@ -41696,7 +41696,7 @@
 					if (if_block0) {
 						if_block0.p(ctx, dirty);
 					} else {
-						if_block0 = create_if_block_6(ctx);
+						if_block0 = create_if_block_4(ctx);
 						if_block0.c();
 						if_block0.m(div2, t6);
 					}
@@ -41709,7 +41709,7 @@
 					if (if_block1) {
 						if_block1.p(ctx, dirty);
 					} else {
-						if_block1 = create_if_block_4(ctx);
+						if_block1 = create_if_block_3$1(ctx);
 						if_block1.c();
 						if_block1.m(div2, t7);
 					}
@@ -41781,7 +41781,7 @@
 	}
 
 	// (25:6) {#if agent.communityname}
-	function create_if_block_6(ctx) {
+	function create_if_block_4(ctx) {
 		let div;
 		let span0;
 		let t1;
@@ -41820,7 +41820,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_6.name,
+			id: create_if_block_4.name,
 			type: "if",
 			source: "(25:6) {#if agent.communityname}",
 			ctx
@@ -41830,93 +41830,61 @@
 	}
 
 	// (31:6) {#if agent.vname}
-	function create_if_block_4(ctx) {
-		let div0;
-		let span0;
+	function create_if_block_3$1(ctx) {
+		let div;
+		let span;
 		let t1;
-		let span1;
+		let a;
 		let t2_value = /*agent*/ ctx[0].vname + "";
 		let t2;
 		let t3;
-		let div1;
-		let a;
-		let t5;
-		let span2;
-
-		function select_block_type(ctx, dirty) {
-			if (/*agent*/ ctx[0].Vverified) return create_if_block_5;
-			return create_else_block$2;
-		}
-
-		let current_block_type = select_block_type(ctx);
-		let if_block = current_block_type(ctx);
+		let t4_value = (/*agent*/ ctx[0].Vverified ? '✅' : '❌') + "";
+		let t4;
+		let a_href_value;
 
 		const block = {
 			c: function create() {
-				div0 = element("div");
-				span0 = element("span");
-				span0.textContent = "V Name:";
+				div = element("div");
+				span = element("span");
+				span.textContent = "V Name:";
 				t1 = space();
-				span1 = element("span");
+				a = element("a");
 				t2 = text(t2_value);
 				t3 = space();
-				div1 = element("div");
-				a = element("a");
-				a.textContent = "V Status";
-				t5 = text(":\n          ");
-				span2 = element("span");
-				if_block.c();
-				attr_dev(span0, "class", "font-weight-bolder");
-				add_location(span0, file$6, 32, 10, 909);
-				attr_dev(span1, "class", "agent-name");
-				add_location(span1, file$6, 33, 10, 967);
-				add_location(div0, file$6, 31, 8, 893);
-				attr_dev(a, "href", "https://v.enl.one/");
+				t4 = text(t4_value);
+				attr_dev(span, "class", "font-weight-bolder");
+				add_location(span, file$6, 32, 10, 909);
 				attr_dev(a, "target", "_new");
-				add_location(a, file$6, 36, 10, 1052);
-				attr_dev(span2, "id", "vstatus");
-				add_location(span2, file$6, 37, 10, 1119);
-				add_location(div1, file$6, 35, 8, 1036);
+				attr_dev(a, "href", a_href_value = 'https://v.enl.one/profile/' + /*agent*/ ctx[0].enlid);
+				attr_dev(a, "class", "agent-name svelte-j0v5g7");
+				add_location(a, file$6, 33, 10, 967);
+				add_location(div, file$6, 31, 8, 893);
 			},
 			m: function mount(target, anchor) {
-				insert_dev(target, div0, anchor);
-				append_dev(div0, span0);
-				append_dev(div0, t1);
-				append_dev(div0, span1);
-				append_dev(span1, t2);
-				insert_dev(target, t3, anchor);
-				insert_dev(target, div1, anchor);
-				append_dev(div1, a);
-				append_dev(div1, t5);
-				append_dev(div1, span2);
-				if_block.m(span2, null);
+				insert_dev(target, div, anchor);
+				append_dev(div, span);
+				append_dev(div, t1);
+				append_dev(div, a);
+				append_dev(a, t2);
+				append_dev(a, t3);
+				append_dev(a, t4);
 			},
 			p: function update(ctx, dirty) {
 				if (dirty & /*agent*/ 1 && t2_value !== (t2_value = /*agent*/ ctx[0].vname + "")) set_data_dev(t2, t2_value);
+				if (dirty & /*agent*/ 1 && t4_value !== (t4_value = (/*agent*/ ctx[0].Vverified ? '✅' : '❌') + "")) set_data_dev(t4, t4_value);
 
-				if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
-					if_block.p(ctx, dirty);
-				} else {
-					if_block.d(1);
-					if_block = current_block_type(ctx);
-
-					if (if_block) {
-						if_block.c();
-						if_block.m(span2, null);
-					}
+				if (dirty & /*agent*/ 1 && a_href_value !== (a_href_value = 'https://v.enl.one/profile/' + /*agent*/ ctx[0].enlid)) {
+					attr_dev(a, "href", a_href_value);
 				}
 			},
 			d: function destroy(detaching) {
-				if (detaching) detach_dev(div0);
-				if (detaching) detach_dev(t3);
-				if (detaching) detach_dev(div1);
-				if_block.d();
+				if (detaching) detach_dev(div);
 			}
 		};
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_4.name,
+			id: create_if_block_3$1.name,
 			type: "if",
 			source: "(31:6) {#if agent.vname}",
 			ctx
@@ -41925,165 +41893,56 @@
 		return block;
 	}
 
-	// (45:12) {:else}
-	function create_else_block$2(ctx) {
-		let t;
-
-		const block = {
-			c: function create() {
-				t = text("unverified");
-			},
-			m: function mount(target, anchor) {
-				insert_dev(target, t, anchor);
-			},
-			p: noop,
-			d: function destroy(detaching) {
-				if (detaching) detach_dev(t);
-			}
-		};
-
-		dispatch_dev("SvelteRegisterBlock", {
-			block,
-			id: create_else_block$2.name,
-			type: "else",
-			source: "(45:12) {:else}",
-			ctx
-		});
-
-		return block;
-	}
-
-	// (39:12) {#if agent.Vverified}
-	function create_if_block_5(ctx) {
+	// (41:6) {#if agent.rocksname}
+	function create_if_block_2$2(ctx) {
+		let div;
+		let span;
+		let t1;
 		let a;
-		let t;
+		let t2_value = /*agent*/ ctx[0].rocksname + "";
+		let t2;
+		let t3;
+		let t4_value = (/*agent*/ ctx[0].rocks ? '✅' : '❌') + "";
+		let t4;
 		let a_href_value;
 
 		const block = {
 			c: function create() {
+				div = element("div");
+				span = element("span");
+				span.textContent = "Rocks Name:";
+				t1 = space();
 				a = element("a");
-				t = text("verified");
-				attr_dev(a, "v-if", "me.Vverified");
-				attr_dev(a, "href", a_href_value = 'https://v.enl.one/profile/' + /*agent*/ ctx[0].enlid);
+				t2 = text(t2_value);
+				t3 = space();
+				t4 = text(t4_value);
+				attr_dev(span, "class", "font-weight-bolder");
+				add_location(span, file$6, 42, 10, 1227);
 				attr_dev(a, "target", "_new");
-				add_location(a, file$6, 39, 14, 1187);
+				attr_dev(a, "href", a_href_value = 'https://enlightened.rocks/u/' + /*agent*/ ctx[0].id);
+				attr_dev(a, "class", "agent-name svelte-j0v5g7");
+				add_location(a, file$6, 43, 10, 1289);
+				add_location(div, file$6, 41, 8, 1211);
 			},
 			m: function mount(target, anchor) {
-				insert_dev(target, a, anchor);
-				append_dev(a, t);
+				insert_dev(target, div, anchor);
+				append_dev(div, span);
+				append_dev(div, t1);
+				append_dev(div, a);
+				append_dev(a, t2);
+				append_dev(a, t3);
+				append_dev(a, t4);
 			},
 			p: function update(ctx, dirty) {
-				if (dirty & /*agent*/ 1 && a_href_value !== (a_href_value = 'https://v.enl.one/profile/' + /*agent*/ ctx[0].enlid)) {
+				if (dirty & /*agent*/ 1 && t2_value !== (t2_value = /*agent*/ ctx[0].rocksname + "")) set_data_dev(t2, t2_value);
+				if (dirty & /*agent*/ 1 && t4_value !== (t4_value = (/*agent*/ ctx[0].rocks ? '✅' : '❌') + "")) set_data_dev(t4, t4_value);
+
+				if (dirty & /*agent*/ 1 && a_href_value !== (a_href_value = 'https://enlightened.rocks/u/' + /*agent*/ ctx[0].id)) {
 					attr_dev(a, "href", a_href_value);
 				}
 			},
 			d: function destroy(detaching) {
-				if (detaching) detach_dev(a);
-			}
-		};
-
-		dispatch_dev("SvelteRegisterBlock", {
-			block,
-			id: create_if_block_5.name,
-			type: "if",
-			source: "(39:12) {#if agent.Vverified}",
-			ctx
-		});
-
-		return block;
-	}
-
-	// (51:6) {#if agent.rocksname}
-	function create_if_block_2$2(ctx) {
-		let div0;
-		let span0;
-		let t1;
-		let a0;
-		let t2_value = /*agent*/ ctx[0].rocksname + "";
-		let t2;
-		let t3;
-		let a0_href_value;
-		let t4;
-		let div1;
-		let a1;
-		let t6;
-		let span1;
-		let t7_value = (/*agent*/ ctx[0].rocks ? 'verified' : 'not verified') + "";
-		let t7;
-		let if_block = /*agent*/ ctx[0].level > 0 && create_if_block_3$1(ctx);
-
-		const block = {
-			c: function create() {
-				div0 = element("div");
-				span0 = element("span");
-				span0.textContent = "Rocks Name:";
-				t1 = space();
-				a0 = element("a");
-				t2 = text(t2_value);
-				t3 = space();
-				if (if_block) if_block.c();
-				t4 = space();
-				div1 = element("div");
-				a1 = element("a");
-				a1.textContent = "enl.rocks Status";
-				t6 = text(":\n          ");
-				span1 = element("span");
-				t7 = text(t7_value);
-				attr_dev(span0, "class", "font-weight-bolder");
-				add_location(span0, file$6, 52, 10, 1510);
-				attr_dev(a0, "href", a0_href_value = 'https://enlightened.rocks/u/' + /*agent*/ ctx[0].id);
-				attr_dev(a0, "class", "agent-name");
-				add_location(a0, file$6, 53, 10, 1572);
-				add_location(div0, file$6, 51, 8, 1494);
-				attr_dev(a1, "href", "https://enl.rocks/");
-				attr_dev(a1, "target", "_new");
-				add_location(a1, file$6, 61, 10, 1824);
-				attr_dev(span1, "id", "rocksstatus");
-				add_location(span1, file$6, 62, 10, 1899);
-				add_location(div1, file$6, 60, 8, 1808);
-			},
-			m: function mount(target, anchor) {
-				insert_dev(target, div0, anchor);
-				append_dev(div0, span0);
-				append_dev(div0, t1);
-				append_dev(div0, a0);
-				append_dev(a0, t2);
-				append_dev(a0, t3);
-				if (if_block) if_block.m(a0, null);
-				insert_dev(target, t4, anchor);
-				insert_dev(target, div1, anchor);
-				append_dev(div1, a1);
-				append_dev(div1, t6);
-				append_dev(div1, span1);
-				append_dev(span1, t7);
-			},
-			p: function update(ctx, dirty) {
-				if (dirty & /*agent*/ 1 && t2_value !== (t2_value = /*agent*/ ctx[0].rocksname + "")) set_data_dev(t2, t2_value);
-
-				if (/*agent*/ ctx[0].level > 0) {
-					if (if_block) {
-						if_block.p(ctx, dirty);
-					} else {
-						if_block = create_if_block_3$1(ctx);
-						if_block.c();
-						if_block.m(a0, null);
-					}
-				} else if (if_block) {
-					if_block.d(1);
-					if_block = null;
-				}
-
-				if (dirty & /*agent*/ 1 && a0_href_value !== (a0_href_value = 'https://enlightened.rocks/u/' + /*agent*/ ctx[0].id)) {
-					attr_dev(a0, "href", a0_href_value);
-				}
-
-				if (dirty & /*agent*/ 1 && t7_value !== (t7_value = (/*agent*/ ctx[0].rocks ? 'verified' : 'not verified') + "")) set_data_dev(t7, t7_value);
-			},
-			d: function destroy(detaching) {
-				if (detaching) detach_dev(div0);
-				if (if_block) if_block.d();
-				if (detaching) detach_dev(t4);
-				if (detaching) detach_dev(div1);
+				if (detaching) detach_dev(div);
 			}
 		};
 
@@ -42091,55 +41950,14 @@
 			block,
 			id: create_if_block_2$2.name,
 			type: "if",
-			source: "(51:6) {#if agent.rocksname}",
+			source: "(41:6) {#if agent.rocksname}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (56:12) {#if agent.level > 0}
-	function create_if_block_3$1(ctx) {
-		let span;
-		let t0;
-		let t1_value = /*agent*/ ctx[0].level + "";
-		let t1;
-		let t2;
-
-		const block = {
-			c: function create() {
-				span = element("span");
-				t0 = text("(L");
-				t1 = text(t1_value);
-				t2 = text(")");
-				add_location(span, file$6, 56, 14, 1722);
-			},
-			m: function mount(target, anchor) {
-				insert_dev(target, span, anchor);
-				append_dev(span, t0);
-				append_dev(span, t1);
-				append_dev(span, t2);
-			},
-			p: function update(ctx, dirty) {
-				if (dirty & /*agent*/ 1 && t1_value !== (t1_value = /*agent*/ ctx[0].level + "")) set_data_dev(t1, t1_value);
-			},
-			d: function destroy(detaching) {
-				if (detaching) detach_dev(span);
-			}
-		};
-
-		dispatch_dev("SvelteRegisterBlock", {
-			block,
-			id: create_if_block_3$1.name,
-			type: "if",
-			source: "(56:12) {#if agent.level > 0}",
-			ctx
-		});
-
-		return block;
-	}
-
-	// (68:6) {#if agent.intelname}
+	// (51:6) {#if agent.intelname}
 	function create_if_block_1$5(ctx) {
 		let div;
 		let span0;
@@ -42157,10 +41975,10 @@
 				span1 = element("span");
 				t2 = text(t2_value);
 				attr_dev(span0, "class", "font-weight-bolder");
-				add_location(span0, file$6, 69, 10, 2076);
+				add_location(span0, file$6, 52, 10, 1548);
 				attr_dev(span1, "class", "agent-name");
-				add_location(span1, file$6, 70, 10, 2138);
-				add_location(div, file$6, 68, 8, 2060);
+				add_location(span1, file$6, 53, 10, 1610);
+				add_location(div, file$6, 51, 8, 1532);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -42181,7 +41999,7 @@
 			block,
 			id: create_if_block_1$5.name,
 			type: "if",
-			source: "(68:6) {#if agent.intelname}",
+			source: "(51:6) {#if agent.intelname}",
 			ctx
 		});
 
@@ -42203,7 +42021,7 @@
 				t0 = text(t0_value);
 				t1 = space();
 				if (if_block) if_block.c();
-				attr_dev(div, "class", "relative svelte-rp9vtd");
+				attr_dev(div, "class", "relative svelte-j0v5g7");
 				add_location(div, file$6, 8, 0, 233);
 			},
 			l: function claim(nodes) {
