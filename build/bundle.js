@@ -42952,7 +42952,7 @@
 		return child_ctx;
 	}
 
-	// (18:0) {#if items.length > 0}
+	// (18:0) {#if items}
 	function create_if_block$8(ctx) {
 		let section;
 		let each_blocks = [];
@@ -42981,7 +42981,7 @@
 				}
 
 				attr_dev(section, "class", "svelte-zgeh3k");
-				add_location(section, file$9, 18, 2, 395);
+				add_location(section, file$9, 18, 2, 380);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, section, anchor);
@@ -43046,7 +43046,7 @@
 			block,
 			id: create_if_block$8.name,
 			type: "if",
-			source: "(18:0) {#if items.length > 0}",
+			source: "(18:0) {#if items}",
 			ctx
 		});
 
@@ -43076,7 +43076,7 @@
 				create_component(grouptree.$$.fragment);
 				t = space();
 				attr_dev(div, "class", "item svelte-zgeh3k");
-				add_location(div, file$9, 24, 6, 550);
+				add_location(div, file$9, 24, 6, 535);
 				this.first = div;
 			},
 			m: function mount(target, anchor) {
@@ -43124,7 +43124,7 @@
 		let t1;
 		let if_block_anchor;
 		let current;
-		let if_block = /*items*/ ctx[1].length > 0 && create_if_block$8(ctx);
+		let if_block = /*items*/ ctx[1] && create_if_block$8(ctx);
 
 		const block = {
 			c: function create() {
@@ -43133,7 +43133,7 @@
 				t1 = space();
 				if (if_block) if_block.c();
 				if_block_anchor = empty();
-				add_location(b, file$9, 15, 0, 355);
+				add_location(b, file$9, 15, 0, 351);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -43149,7 +43149,7 @@
 			p: function update(ctx, [dirty]) {
 				if (!current || dirty & /*text*/ 4) set_data_dev(t0, /*text*/ ctx[2]);
 
-				if (/*items*/ ctx[1].length > 0) {
+				if (/*items*/ ctx[1]) {
 					if (if_block) {
 						if_block.p(ctx, dirty);
 
@@ -43271,7 +43271,7 @@
 			}
 
 			if ($$self.$$.dirty & /*node*/ 64) {
-				$$invalidate(1, items = node ? node.items : []);
+				$$invalidate(1, items = node && node.items);
 			}
 		};
 
