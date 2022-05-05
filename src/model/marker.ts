@@ -1,4 +1,5 @@
 import Task from './task';
+import { generateId } from './utils';
 
 const markers = {
   MARKER_TYPE_CAPTURE: 'CapturePortalMarker',
@@ -15,6 +16,7 @@ const markers = {
   MARKER_TYPE_UPGRADE: 'UpgradePortalAlert',
   MARKER_TYPE_VIRUS: 'UseVirusPortalAlert',
 };
+
 const iconTypes = {
   CapturePortalMarker: 'capture',
   LetDecayPortalAlert: 'decay',
@@ -33,9 +35,17 @@ const iconTypes = {
 
 const markerTypes = new Set(Object.values(markers));
 
+interface MarkerAttribute {
+  ID: string;
+  name: string;
+  value: string;
+}
+
 export default class WasabeeMarker extends Task {
-  portalId: string;
-  type: string;
+  portalId: PortalID;
+  type: keyof typeof iconTypes;
+  // future compatibility
+  attributes?: MarkerAttribute[];
 
   // static properties is not supported by eslint yet
   static get markerTypes() {
@@ -50,13 +60,18 @@ export default class WasabeeMarker extends Task {
     super(obj);
     this.portalId = obj.portalId;
     this.type = obj.type;
+    this.attributes = obj.attributes ? Array.from(obj.attributes) : [];
   }
 
-  toJSON() {
-    return Object.assign(super.toJSON(), {
+  toJSON(): any {
+    return {
+      ...super.toJSON(),
+
       portalId: this.portalId,
       type: this.type,
-    });
+      // preserve data
+      attributes: this.attributes,
+    };
   }
 
   get friendlyType() {
@@ -65,7 +80,7 @@ export default class WasabeeMarker extends Task {
 
   get icon() {
     // at some point we are going to get consistent
-    var state: string = this.state;
+    let state: string = this.state;
     if (state == 'completed') state = 'done';
     if (state == 'acknowledged') state = 'acknowledge';
 
@@ -77,5 +92,48 @@ export default class WasabeeMarker extends Task {
       state +
       '.svg'
     );
+  }
+
+  /** Create a phase marker pair */
+  static createPhasePair(portalId: PortalID): [WasabeeMarker, WasabeeMarker] {
+    const startID = generateId();
+    const endID = generateId();
+    const start = new WasabeeMarker({
+      ID: startID,
+      portalId: portalId,
+      type: 'OtherPortalAlert',
+      attributes: [
+        { ID: generateId(), name: 'type', value: 'phase' },
+        { ID: generateId(), name: 'subtype', value: 'start' },
+        { ID: generateId(), name: 'pair', value: endID },
+      ],
+    });
+    const end = new WasabeeMarker({
+      ID: endID,
+      portalId: portalId,
+      type: 'OtherPortalAlert',
+      attributes: [
+        { ID: generateId(), name: 'type', value: 'phase' },
+        { ID: generateId(), name: 'subtype', value: 'end' },
+        { ID: generateId(), name: 'pair', value: startID },
+      ],
+      dependsOn: [startID],
+    });
+    return [start, end];
+  }
+
+  isPhaseMarker() {
+    if (this.type !== 'OtherPortalAlert') return false;
+    if (!this.attributes) return false;
+    return !!this.attributes.find(
+      (a) => a.name === 'type' && a.value === 'phase'
+    );
+  }
+
+  getPairedMarkerID() {
+    if (this.isPhaseMarker()) {
+      return this.attributes.find((a) => a.name === 'pair').value;
+    }
+    return null;
   }
 }
