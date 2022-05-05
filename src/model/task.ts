@@ -1,25 +1,59 @@
+import { generateId } from './utils';
+
 export type TaskState = 'pending' | 'assigned' | 'acknowledged' | 'completed';
 
-export default class Task {
+const States: TaskState[] = [
+  'pending',
+  'assigned',
+  'acknowledged',
+  'completed',
+];
+
+export function sanitizeState(v: string): TaskState {
+  return States.find((s) => s === v) || 'pending';
+}
+
+export interface ITask {
   ID: TaskID;
   order: number;
-  zone: number;
+  zone: ZoneID;
   assignedTo?: GoogleID;
   comment?: string;
+  dependsOn?: TaskID[];
+  assignments?: GoogleID[];
+  deltaminutes?: number;
+}
 
-  dependsOn: TaskID[];
+export default class Task implements ITask {
+  ID: TaskID;
+  order: number;
+  zone: ZoneID;
+  assignedTo?: GoogleID;
+  comment?: string;
+  dependsOn?: TaskID[];
+  assignments?: GoogleID[];
+  deltaminutes?: number;
 
   _state: TaskState;
 
   constructor(obj: any) {
-    this.ID = obj.ID;
-    this.zone = obj.zone ? Number(obj.zone) : 1;
-    this.order = obj.order ? Number(obj.order) : 0;
+    this.ID = obj.ID || generateId();
+    this.zone = +obj.zone || 1;
+    this.order = +obj.order || 0;
+    // to be replaced by .assignments
     this.assignedTo = obj.assignedTo ? obj.assignedTo : null;
     this.comment = obj.comment ? obj.comment : '';
-    this.state =
-      this.assignedTo && obj.state === 'pending' ? 'assigned' : obj.state;
-    this.dependsOn = obj.dependsOn || [];
+    this.state = obj._state || obj.state;
+    // need UI
+    this.deltaminutes = obj.deltaminutes;
+
+    // future compatibility
+    this.dependsOn = obj.dependsOn ? Array.from(obj.dependsOn) : [];
+    this.assignments = obj.assignments ? Array.from(obj.assignments) : [];
+
+    // for raw task
+    if (!this.assignedTo && obj.assignments && obj.assignments.length > 0)
+      this.assignedTo = obj.assignments[0];
   }
 
   toServer() {
@@ -33,8 +67,10 @@ export default class Task {
       order: Number(this.order),
       assignedTo: this.assignedTo,
       state: this._state,
-      dependsOn: this.dependsOn,
       comment: this.comment,
+      // preserve data
+      deltaminutes: this.deltaminutes,
+      dependsOn: this.dependsOn,
     };
   }
 
@@ -42,7 +78,7 @@ export default class Task {
     return this._state;
   }
 
-  set state(state) {
+  set state(state: TaskState) {
     switch (state) {
       case 'assigned': // fall-through
       case 'acknowledged':
@@ -68,11 +104,13 @@ export default class Task {
   }
 
   assign(gid?: GoogleID) {
-    if (gid !== this.assignedTo) this._state = gid ? 'pending' : 'assigned';
+    if (gid !== this.assignedTo) {
+      this._state = gid ? 'assigned' : 'pending';
+    }
     this.assignedTo = gid ? gid : null;
   }
 
-  complete(gid?: GoogleID) {
+  complete() {
     this._state = 'completed';
   }
 

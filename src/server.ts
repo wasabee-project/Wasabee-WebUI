@@ -2,10 +2,12 @@ import WasabeeMe from './model/me';
 import WasabeeOp from './model/operation';
 import { ServerError } from './error';
 import type { TaskState } from './model/task';
+import type WasabeeLink from './model/portal';
 import type WasabeePortal from './model/portal';
 import type WasabeeAgent from './model/agent';
 import type WasabeeTeam from './model/team';
-import { WasabeeLink, WasabeeMarker } from './model';
+import type { ITask } from './model/task';
+import { WasabeeMarker } from './model';
 
 import { getConfig, getServer } from './config';
 import { getAuthBearer } from './auth';
@@ -431,7 +433,7 @@ export function getMarkerPromise(opID: OpID, taskID: TaskID) {
 // tasks
 
 export function taskGetPromise(opID: OpID, taskID: TaskID) {
-  return genericGet<Task>(`/api/v1/draw/${opID}/task/${taskID}`);
+  return genericGet<ITask>(`/api/v1/draw/${opID}/task/${taskID}`);
 }
 
 export function taskOrderPromise(opID: OpID, taskID: TaskID, order: number) {
@@ -597,7 +599,7 @@ export function SetLinkState(opID: OpID, linkID: LinkID, state: TaskState) {
 
 export function setAssignmentStatus(
   op: WasabeeOp,
-  object: Task,
+  object: ITask,
   completed: boolean
 ) {
   let type = 'link';
@@ -640,12 +642,12 @@ export function setMarkerZone(opID: OpID, markerID: MarkerID, zone: ZoneID) {
   return genericPost(`/api/v1/draw/${opID}/marker/${markerID}/zone`, fd);
 }
 
-export function addTaskDepend(opID: OpID, task: Task, dep: TaskID) {
+export function addTaskDepend(opID: OpID, task: ITask, dep: TaskID) {
   return genericPut<IServerUpdate>(
     `/api/v1/draw/${opID}/task/${task.ID}/depend/${dep}`
   );
 }
-export function deleteTaskDepend(opID: OpID, task: Task, dep: TaskID) {
+export function deleteTaskDepend(opID: OpID, task: ITask, dep: TaskID) {
   return genericDelete<IServerUpdate>(
     `/api/v1/draw/${opID}/task/${task.ID}/depend/${dep}`
   );

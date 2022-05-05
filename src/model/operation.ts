@@ -3,6 +3,7 @@ import WasabeePortal from './portal';
 import WasabeeMarker from './marker';
 import WasabeeZone from './zone';
 import type WasabeeMe from './me';
+import type Task from './task';
 
 export type KeyOnHand = {
   portalId: PortalID;

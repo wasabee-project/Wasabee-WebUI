@@ -13,18 +13,6 @@ type TaskID = string;
 type LinkID = TaskID;
 type MarkerID = TaskID;
 
-interface Task {
-  ID: TaskID;
-  order: number;
-  zone: number;
-  assignedTo?: GoogleID;
-  completedBy?: GoogleID;
-  comment?: string;
-  state: 'pending' | 'assigned' | 'acknowledged' | 'completed';
-  completed: boolean;
-  dependsOn: TaskID[];
-}
-
 type WDKey = {
   Name: string;
   PortalID: string;

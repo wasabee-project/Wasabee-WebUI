@@ -4,7 +4,7 @@ import WasabeeMarker from './marker';
 import WasabeeMe from './me';
 import WasabeeOp from './operation';
 import WasabeePortal from './portal';
-import WasabeeTask from './task';
+import Task from './task';
 import WasabeeTeam from './team';
 import WasabeeZone from './zone';
 
@@ -15,7 +15,7 @@ export {
   WasabeeMe,
   WasabeeOp,
   WasabeePortal,
-  WasabeeTask,
+  Task,
   WasabeeTeam,
   WasabeeZone,
 };

@@ -8,6 +8,7 @@
     WasabeeAgent,
     WasabeeMarker,
     WasabeeLink,
+    Task,
   } from '../model';
 
   import PortalLink from './PortalLink.svelte';

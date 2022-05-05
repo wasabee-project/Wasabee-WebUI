@@ -10,6 +10,7 @@
     WasabeeMarker,
     WasabeeLink,
     WasabeeTeam,
+    Task,
   } from '../model';
 
   import { SetMarkerState, setAssignmentStatus } from '../server';

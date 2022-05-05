@@ -5,7 +5,7 @@
 
   import PortalLink from './PortalLink.svelte';
 
-  import { WasabeeOp, WasabeeMarker, WasabeeLink } from '../model';
+  import { WasabeeOp, WasabeeMarker, WasabeeLink, Task } from '../model';
   import {
     addTaskDepend,
     deleteTaskDepend,
