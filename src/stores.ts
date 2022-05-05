@@ -47,7 +47,9 @@ function OpsStore() {
     subscribe,
     updateFromMe: (me: WasabeeMe) => {
       if (me) {
-        const loaded = me.Ops.map((o) => o.ID).filter((id) => WasabeeOp.load(id));
+        const loaded = me.Ops.map((o) => o.ID).filter((id) =>
+          WasabeeOp.load(id)
+        );
         set({
           success: loaded,
           pending: me.Ops.map((o) => o.ID).filter((id) => !loaded.includes(id)),

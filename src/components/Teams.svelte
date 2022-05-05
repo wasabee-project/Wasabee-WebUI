@@ -84,10 +84,6 @@
   function isOwner(team: MeTeam) {
     return team.Owner == me.id;
   }
-  function getOwner(team: MeTeam) {
-    const agent = $agentsStore[team.Owner];
-    return agent ? agent.name : team.Owner;
-  }
   async function deleteTeam(t: MeTeam) {
     if (toDelete !== t.ID) toDelete = t.ID;
     else {

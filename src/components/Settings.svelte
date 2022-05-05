@@ -31,7 +31,7 @@
 
   async function communityVerify() {
     if (communityname) {
-      const res = await notifyOnError(getCommVerify(communityname));
+      await notifyOnError(getCommVerify(communityname));
       newVerification = true;
       notifyInfo('Community name verified');
       me = await getMe(true);
