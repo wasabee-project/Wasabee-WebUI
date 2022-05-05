@@ -2,12 +2,13 @@
   import Router from 'svelte-spa-router';
   import active from 'svelte-spa-router/active';
 
-  import OperationChecklist from './OperationChecklist.svelte';
-  import OperationKeys from './OperationKeys.svelte';
-  import OperationManage from './OperationManage.svelte';
-  import OperationMap from './OperationMap.svelte';
-  import OperationPermissions from './OperationPermissions.svelte';
-  import OperationGraph from './OperationGraph.svelte';
+  import OperationChecklist from './Operation/Checklist.svelte';
+  import OperationKeys from './Operation/Keys.svelte';
+  import OperationManage from './Operation/Manage.svelte';
+  import OperationMap from './Operation/Map.svelte';
+  import OperationPermissions from './Operation/Permissions.svelte';
+  import OperationGraph from './Operation/Graph.svelte';
+  import OperationGroup from './Operation/Group.svelte';
 
   import { wrap } from 'svelte-spa-router/wrap';
   import { writable } from 'svelte/store';
@@ -84,6 +85,17 @@
     }),
     '/graph': wrap({
       component: OperationGraph,
+      props: {
+        opStore: opStore,
+      },
+      conditions: [
+        () => {
+          return canWrite;
+        },
+      ],
+    }),
+    '/group': wrap({
+      component: OperationGroup,
       props: {
         opStore: opStore,
       },

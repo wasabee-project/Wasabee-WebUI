@@ -4,8 +4,8 @@
   import { wrap } from 'svelte-spa-router/wrap';
   import { writable } from 'svelte/store';
 
-  import DefensiveKeysList from './DefensiveKeysList.svelte';
-  import DefensiveKeysMap from './DefensiveKeysMap.svelte';
+  import DefensiveKeysList from './DefensiveKeys/List.svelte';
+  import DefensiveKeysMap from './DefensiveKeys/Map.svelte';
 
   import { dKeylistPromise } from '../server';
 

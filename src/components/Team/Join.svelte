@@ -2,8 +2,8 @@
   import { createEventDispatcher } from 'svelte';
   import { replace } from 'svelte-spa-router';
 
-  import { notifyInfo, notifyOnError } from '../notify';
-  import { joinTeamPromise } from '../server';
+  import { notifyInfo, notifyOnError } from '../../notify';
+  import { joinTeamPromise } from '../../server';
 
   export let params: any = {};
   export let teamid: TeamID;

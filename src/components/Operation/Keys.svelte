@@ -5,12 +5,12 @@
   import { Icon } from 'leaflet';
   import { LeafletMap, Marker, TileLayer } from 'svelte-leafletjs';
 
-  import type { WasabeeOp } from '../model';
+  import type { WasabeeOp } from '../../model';
   //import type { KeyOnHand } from "../model/operation";
 
-  import { WasabeeAgent, WasabeeMe, WasabeeTeam } from '../model';
-  import { opKeyPromise } from '../server';
-  import { notifyOnError } from '../notify';
+  import { WasabeeAgent, WasabeeMe, WasabeeTeam } from '../../model';
+  import { opKeyPromise } from '../../server';
+  import { notifyOnError } from '../../notify';
 
   const dispatch = createEventDispatcher();
   function refresh() {

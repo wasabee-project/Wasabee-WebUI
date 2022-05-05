@@ -2,11 +2,11 @@
   import Router from 'svelte-spa-router';
   import active from 'svelte-spa-router/active';
 
-  import TeamJoin from './TeamJoin.svelte';
-  import TeamList from './TeamList.svelte';
-  import TeamManage from './TeamManage.svelte';
-  import TeamAgentMap from './TeamAgentMap.svelte';
-  import TeamSettings from './TeamSettings.svelte';
+  import TeamJoin from './Team/Join.svelte';
+  import TeamList from './Team/List.svelte';
+  import TeamManage from './Team/Manage.svelte';
+  import TeamAgentMap from './Team/AgentMap.svelte';
+  import TeamSettings from './Team/Settings.svelte';
 
   import { wrap } from 'svelte-spa-router/wrap';
   import { writable } from 'svelte/store';

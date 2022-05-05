@@ -5,14 +5,14 @@
 
   import PortalLink from './PortalLink.svelte';
 
-  import { WasabeeOp, WasabeeMarker, WasabeeLink, Task } from '../model';
+  import { WasabeeOp, WasabeeMarker, WasabeeLink, Task } from '../../model';
   import {
     addTaskDepend,
     deleteTaskDepend,
     updateOpPromise,
     opPromise,
-  } from '../server';
-  import { notifyOnError } from '../notify';
+  } from '../../server';
+  import { notifyOnError } from '../../notify';
 
   export let opStore: Writable<WasabeeOp>;
   $: operation = $opStore;

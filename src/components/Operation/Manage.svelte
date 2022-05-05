@@ -2,14 +2,14 @@
   import type { Writable } from 'svelte/store';
   import { createEventDispatcher } from 'svelte';
 
-  import type { WasabeeOp } from '../model';
+  import type { WasabeeOp } from '../../model';
   import {
     WasabeeTeam,
     WasabeeAgent,
     WasabeeMarker,
     WasabeeLink,
     Task,
-  } from '../model';
+  } from '../../model';
 
   import PortalLink from './PortalLink.svelte';
 
@@ -24,9 +24,9 @@
     reverseLinkDirection,
     updateOpPromise,
     taskCompletePromise,
-  } from '../server';
+  } from '../../server';
   import { flip } from 'svelte/animate';
-  import { notifyOnError } from '../notify';
+  import { notifyOnError } from '../../notify';
 
   const dispatch = createEventDispatcher();
   function refresh() {

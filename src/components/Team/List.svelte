@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Writable } from 'svelte/store';
-  import type { WasabeeTeam } from '../model/';
-  import Agent from './Agent.svelte';
+  import type { WasabeeTeam } from '../../model/';
+  import Agent from '../Agent.svelte';
 
   export let teamStore: Writable<WasabeeTeam>;
   let team: WasabeeTeam = null;

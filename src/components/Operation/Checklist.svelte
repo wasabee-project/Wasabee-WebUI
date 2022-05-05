@@ -11,10 +11,10 @@
     WasabeeLink,
     WasabeeTeam,
     Task,
-  } from '../model';
+  } from '../../model';
 
-  import { SetMarkerState, setAssignmentStatus } from '../server';
-  import { notifyOnError } from '../notify';
+  import { SetMarkerState, setAssignmentStatus } from '../../server';
+  import { notifyOnError } from '../../notify';
 
   export let opStore: Writable<WasabeeOp>;
   let operation: WasabeeOp = null;

@@ -2,14 +2,14 @@
   import type { Writable } from 'svelte/store';
   import { createEventDispatcher } from 'svelte';
 
-  import type { WasabeeAgent, WasabeeTeam } from '../model/';
-  import { WasabeeMe } from '../model';
+  import type { WasabeeAgent, WasabeeTeam } from '../../model/';
+  import { WasabeeMe } from '../../model';
 
   import {
     addAgentToTeamPromise,
     removeAgentFromTeamPromise,
     setAgentTeamSquadPromise,
-  } from '../server';
+  } from '../../server';
 
   const dispatch = createEventDispatcher();
 

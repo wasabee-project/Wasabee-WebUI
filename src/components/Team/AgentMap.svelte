@@ -21,7 +21,7 @@
     popupAnchor: [-1, -48] as L.PointTuple,
   };
 
-  import type { WasabeeTeam } from '../model/';
+  import type { WasabeeTeam } from '../../model/';
 
   export let teamStore: Writable<WasabeeTeam>;
   let team: WasabeeTeam = null;

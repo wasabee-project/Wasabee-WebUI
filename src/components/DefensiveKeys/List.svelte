@@ -2,9 +2,9 @@
   import type { Writable } from 'svelte/store';
   import { createEventDispatcher } from 'svelte';
 
-  import { WasabeeAgent, WasabeeMe } from '../model';
+  import { WasabeeAgent, WasabeeMe } from '../../model';
 
-  import { dKeyPromise } from '../server';
+  import { dKeyPromise } from '../../server';
 
   const dispatch = createEventDispatcher();
   function refresh() {

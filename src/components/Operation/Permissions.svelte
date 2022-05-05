@@ -2,12 +2,12 @@
   import type { Writable } from 'svelte/store';
   import { createEventDispatcher } from 'svelte';
 
-  import type { WasabeeOp } from '../model';
-  import type { OpPermItem } from '../model/operation';
+  import type { WasabeeOp } from '../../model';
+  import type { OpPermItem } from '../../model/operation';
 
-  import WasabeeMe from '../model/me';
-  import { addPermPromise, delPermPromise } from '../server';
-  import { notifyOnError } from '../notify';
+  import WasabeeMe from '../../model/me';
+  import { addPermPromise, delPermPromise } from '../../server';
+  import { notifyOnError } from '../../notify';
 
   const dispatch = createEventDispatcher();
   function refresh() {

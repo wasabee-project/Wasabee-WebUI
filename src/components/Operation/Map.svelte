@@ -12,13 +12,13 @@
 
   import Geodesic from './Geodesic.svelte';
 
-  import { WasabeeAgent, WasabeeMe, WasabeeTeam } from '../model';
+  import { WasabeeAgent, WasabeeMe, WasabeeTeam } from '../../model';
   import type {
     WasabeeMarker,
     WasabeeLink,
     WasabeeOp,
     WasabeeZone,
-  } from '../model';
+  } from '../../model';
 
   export let opStore: Writable<WasabeeOp>;
   let operation: WasabeeOp = null;

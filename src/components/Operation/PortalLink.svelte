@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { WasabeeOp } from '../model';
+  import type { WasabeeOp } from '../../model';
 
   export let portalId: PortalID;
   export let operation: WasabeeOp;

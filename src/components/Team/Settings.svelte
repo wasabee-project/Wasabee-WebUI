@@ -14,10 +14,10 @@
     pullV,
     sendAnnounce,
     changeTeamOwnerPromise,
-  } from '../server';
+  } from '../../server';
 
-  import type { WasabeeTeam } from '../model/';
-  import { getServer } from '../config';
+  import type { WasabeeTeam } from '../../model/';
+  import { getServer } from '../../config';
 
   const dispatch = createEventDispatcher();
 
