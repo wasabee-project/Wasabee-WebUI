@@ -21663,12 +21663,12 @@
 	        return !!this.attributes.find((a) => a.name === 'type' && a.value === 'phase');
 	    }
 	    isPhaseStart() {
-	        if (!this.isPhaseMarker)
+	        if (!this.isPhaseMarker())
 	            return false;
 	        return !!this.attributes.find((a) => a.name === 'subtype' && a.value === 'start');
 	    }
 	    isPhaseEnd() {
-	        if (!this.isPhaseMarker)
+	        if (!this.isPhaseMarker())
 	            return false;
 	        return !!this.attributes.find((a) => a.name === 'subtype' && a.value === 'end');
 	    }
