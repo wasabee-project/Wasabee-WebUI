@@ -43548,8 +43548,8 @@
 				span1.textContent = "to";
 				t4 = space();
 				create_component(portallink1.$$.fragment);
-				add_location(span0, file$9, 16, 8, 625);
-				add_location(span1, file$9, 18, 8, 716);
+				add_location(span0, file$9, 16, 8, 613);
+				add_location(span1, file$9, 18, 8, 704);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span0, anchor);
@@ -43628,7 +43628,7 @@
 				create_component(portallink.$$.fragment);
 				attr_dev(img, "alt", img_alt_value = /*task*/ ctx[1].type + /*task*/ ctx[1].state);
 				if (!src_url_equal(img.src, img_src_value = /*task*/ ctx[1].icon)) attr_dev(img, "src", img_src_value);
-				attr_dev(img, "width", "1em");
+				attr_dev(img, "class", "svelte-1c73g5d");
 				add_location(img, file$9, 13, 8, 447);
 			},
 			m: function mount(target, anchor) {
@@ -43678,8 +43678,11 @@
 		return block;
 	}
 
-	// (26:9) {#if agent}
+	// (25:6) {#if agent}
 	function create_if_block$8(ctx) {
+		let span1;
+		let span0;
+		let t1;
 		let agent_1;
 		let current;
 
@@ -43690,10 +43693,21 @@
 
 		const block = {
 			c: function create() {
+				span1 = element("span");
+				span0 = element("span");
+				span0.textContent = "Agent:";
+				t1 = space();
 				create_component(agent_1.$$.fragment);
+				attr_dev(span0, "class", "label svelte-1c73g5d");
+				add_location(span0, file$9, 25, 11, 982);
+				attr_dev(span1, "class", "assign svelte-1c73g5d");
+				add_location(span1, file$9, 24, 17, 950);
 			},
 			m: function mount(target, anchor) {
-				mount_component(agent_1, target, anchor);
+				insert_dev(target, span1, anchor);
+				append_dev(span1, span0);
+				append_dev(span1, t1);
+				mount_component(agent_1, span1, null);
 				current = true;
 			},
 			p: function update(ctx, dirty) {
@@ -43711,7 +43725,8 @@
 				current = false;
 			},
 			d: function destroy(detaching) {
-				destroy_component(agent_1, detaching);
+				if (detaching) detach_dev(span1);
+				destroy_component(agent_1);
 			}
 		};
 
@@ -43719,7 +43734,7 @@
 			block,
 			id: create_if_block$8.name,
 			type: "if",
-			source: "(26:9) {#if agent}",
+			source: "(25:6) {#if agent}",
 			ctx
 		});
 
@@ -43734,19 +43749,24 @@
 		let if_block0;
 		let t0;
 		let h6;
-		let span0;
-		let t1_value = /*task*/ ctx[1].order + "";
-		let t1;
-		let t2;
 		let span1;
+		let span0;
+		let t2;
+		let t3_value = /*task*/ ctx[1].order + "";
 		let t3;
-		let span2;
-		let t4_value = /*task*/ ctx[1].state + "";
 		let t4;
 		let t5;
 		let span3;
-		let t6_value = /*operation*/ ctx[0].zoneName(/*task*/ ctx[1].zone) + "";
-		let t6;
+		let span2;
+		let t7;
+		let t8_value = /*task*/ ctx[1].state + "";
+		let t8;
+		let t9;
+		let span5;
+		let span4;
+		let t11;
+		let t12_value = /*operation*/ ctx[0].zoneName(/*task*/ ctx[1].zone) + "";
+		let t12;
 		let current;
 		const if_block_creators = [create_if_block_1$7, create_if_block_2$2];
 		const if_blocks = [];
@@ -43771,32 +43791,44 @@
 				if (if_block0) if_block0.c();
 				t0 = space();
 				h6 = element("h6");
-				span0 = element("span");
-				t1 = text(t1_value);
-				t2 = space();
 				span1 = element("span");
+				span0 = element("span");
+				span0.textContent = "Order:";
+				t2 = space();
+				t3 = text(t3_value);
+				t4 = space();
 				if (if_block1) if_block1.c();
-				t3 = space();
-				span2 = element("span");
-				t4 = text(t4_value);
 				t5 = space();
 				span3 = element("span");
-				t6 = text(t6_value);
+				span2 = element("span");
+				span2.textContent = "State:";
+				t7 = space();
+				t8 = text(t8_value);
+				t9 = space();
+				span5 = element("span");
+				span4 = element("span");
+				span4.textContent = "Zone:";
+				t11 = space();
+				t12 = text(t12_value);
 				attr_dev(h5, "class", "card-title");
 				add_location(h5, file$9, 11, 4, 373);
-				attr_dev(span0, "class", "order");
-				add_location(span0, file$9, 23, 6, 871);
-				attr_dev(span1, "class", "assign");
-				add_location(span1, file$9, 24, 6, 917);
-				attr_dev(span2, "class", "state");
-				add_location(span2, file$9, 27, 6, 1001);
-				attr_dev(span3, "class", "zone");
-				add_location(span3, file$9, 28, 6, 1047);
+				attr_dev(span0, "class", "label svelte-1c73g5d");
+				add_location(span0, file$9, 23, 26, 879);
+				attr_dev(span1, "class", "order");
+				add_location(span1, file$9, 23, 6, 859);
+				attr_dev(span2, "class", "label svelte-1c73g5d");
+				add_location(span2, file$9, 27, 26, 1081);
+				attr_dev(span3, "class", "state");
+				add_location(span3, file$9, 27, 6, 1061);
+				attr_dev(span4, "class", "label svelte-1c73g5d");
+				add_location(span4, file$9, 29, 9, 1169);
+				attr_dev(span5, "class", "zone");
+				add_location(span5, file$9, 28, 6, 1141);
 				attr_dev(h6, "class", "card-subtitle mb-2 text-muted");
-				add_location(h6, file$9, 22, 4, 822);
+				add_location(h6, file$9, 22, 4, 810);
 				attr_dev(div0, "class", "card-body");
 				add_location(div0, file$9, 10, 2, 345);
-				attr_dev(div1, "class", "card svelte-wlp481");
+				attr_dev(div1, "class", "card svelte-1c73g5d");
 				add_location(div1, file$9, 9, 0, 324);
 			},
 			l: function claim(nodes) {
@@ -43813,17 +43845,22 @@
 
 				append_dev(div0, t0);
 				append_dev(div0, h6);
-				append_dev(h6, span0);
-				append_dev(span0, t1);
-				append_dev(h6, t2);
 				append_dev(h6, span1);
-				if (if_block1) if_block1.m(span1, null);
-				append_dev(h6, t3);
-				append_dev(h6, span2);
-				append_dev(span2, t4);
+				append_dev(span1, span0);
+				append_dev(span1, t2);
+				append_dev(span1, t3);
+				append_dev(h6, t4);
+				if (if_block1) if_block1.m(h6, null);
 				append_dev(h6, t5);
 				append_dev(h6, span3);
-				append_dev(span3, t6);
+				append_dev(span3, span2);
+				append_dev(span3, t7);
+				append_dev(span3, t8);
+				append_dev(h6, t9);
+				append_dev(h6, span5);
+				append_dev(span5, span4);
+				append_dev(span5, t11);
+				append_dev(span5, t12);
 				current = true;
 			},
 			p: function update(ctx, [dirty]) {
@@ -43862,7 +43899,7 @@
 					}
 				}
 
-				if ((!current || dirty & /*task*/ 2) && t1_value !== (t1_value = /*task*/ ctx[1].order + "")) set_data_dev(t1, t1_value);
+				if ((!current || dirty & /*task*/ 2) && t3_value !== (t3_value = /*task*/ ctx[1].order + "")) set_data_dev(t3, t3_value);
 
 				if (/*agent*/ ctx[2]) {
 					if (if_block1) {
@@ -43875,7 +43912,7 @@
 						if_block1 = create_if_block$8(ctx);
 						if_block1.c();
 						transition_in(if_block1, 1);
-						if_block1.m(span1, null);
+						if_block1.m(h6, t5);
 					}
 				} else if (if_block1) {
 					group_outros();
@@ -43887,8 +43924,8 @@
 					check_outros();
 				}
 
-				if ((!current || dirty & /*task*/ 2) && t4_value !== (t4_value = /*task*/ ctx[1].state + "")) set_data_dev(t4, t4_value);
-				if ((!current || dirty & /*operation, task*/ 3) && t6_value !== (t6_value = /*operation*/ ctx[0].zoneName(/*task*/ ctx[1].zone) + "")) set_data_dev(t6, t6_value);
+				if ((!current || dirty & /*task*/ 2) && t8_value !== (t8_value = /*task*/ ctx[1].state + "")) set_data_dev(t8, t8_value);
+				if ((!current || dirty & /*operation, task*/ 3) && t12_value !== (t12_value = /*operation*/ ctx[0].zoneName(/*task*/ ctx[1].zone) + "")) set_data_dev(t12, t12_value);
 			},
 			i: function intro(local) {
 				if (current) return;
