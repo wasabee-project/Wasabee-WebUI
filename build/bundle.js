@@ -21662,6 +21662,16 @@
 	            return false;
 	        return !!this.attributes.find((a) => a.name === 'type' && a.value === 'phase');
 	    }
+	    isPhaseStart() {
+	        if (!this.isPhaseMarker)
+	            return false;
+	        return !!this.attributes.find((a) => a.name === 'subtype' && a.value === 'start');
+	    }
+	    isPhaseEnd() {
+	        if (!this.isPhaseMarker)
+	            return false;
+	        return !!this.attributes.find((a) => a.name === 'subtype' && a.value === 'end');
+	    }
 	    getPairedMarkerID() {
 	        if (this.isPhaseMarker()) {
 	            return this.attributes.find((a) => a.name === 'pair').value;
@@ -44648,16 +44658,16 @@
 				div2 = element("div");
 				create_component(grouptree.$$.fragment);
 				attr_dev(button, "class", "btn btn-primary");
-				add_location(button, file$7, 52, 4, 1454);
+				add_location(button, file$7, 52, 4, 1374);
 				attr_dev(div0, "class", "card-header");
 				attr_dev(div0, "id", "opName");
-				add_location(div0, file$7, 50, 2, 1391);
+				add_location(div0, file$7, 50, 2, 1311);
 				attr_dev(div1, "class", "card mb-2");
-				add_location(div1, file$7, 49, 0, 1365);
+				add_location(div1, file$7, 49, 0, 1285);
 				attr_dev(div2, "class", "col");
-				add_location(div2, file$7, 57, 2, 1562);
+				add_location(div2, file$7, 57, 2, 1482);
 				attr_dev(div3, "class", "row");
-				add_location(div3, file$7, 56, 0, 1542);
+				add_location(div3, file$7, 56, 0, 1462);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -44781,7 +44791,7 @@
 					const root = { id: 'root', text: 'op', items: [] };
 
 					for (const m of operation.markers) {
-						if (m.isPhaseMarker() && m.attributes['subtype'] === 'end') continue;
+						if (m.isPhaseEnd()) continue;
 						set_store_value(nodes, $nodes[m.ID] = { id: m.ID, task: m, text: m.ID, items: [] }, $nodes);
 						root.items.push({ id: m.ID });
 					}
@@ -44794,7 +44804,7 @@
 					set_store_value(nodes, $nodes[root.id] = root, $nodes);
 
 					for (const m of operation.markers) {
-						if (m.isPhaseMarker() && m.attributes['subtype'] === 'end') {
+						if (m.isPhaseEnd()) {
 							root.items = root.items.filter(v => !m.dependsOn.includes(v.id));
 							set_store_value(nodes, $nodes[m.getPairedMarkerID()].items = m.dependsOn.map(v => ({ id: v })), $nodes);
 						}
