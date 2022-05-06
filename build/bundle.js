@@ -17346,7 +17346,7 @@
 	}
 
 	// (45:4) {#if data.type === 'success'}
-	function create_if_block_2$c(ctx) {
+	function create_if_block_2$d(ctx) {
 		let svg;
 		let path0;
 		let path1;
@@ -17383,7 +17383,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_2$c.name,
+			id: create_if_block_2$d.name,
 			type: "if",
 			source: "(45:4) {#if data.type === 'success'}",
 			ctx
@@ -17397,7 +17397,7 @@
 		let if_block_anchor;
 
 		function select_block_type(ctx, dirty) {
-			if (/*data*/ ctx[1].type === 'success') return create_if_block_2$c;
+			if (/*data*/ ctx[1].type === 'success') return create_if_block_2$d;
 			if (/*data*/ ctx[1].type === 'info') return create_if_block_3$8;
 			if (/*data*/ ctx[1].type === 'error') return create_if_block_4$5;
 			return create_else_block$9;
@@ -18794,7 +18794,7 @@
 	}
 
 	// (62:6) {#if children}
-	function create_if_block_2$b(ctx) {
+	function create_if_block_2$c(ctx) {
 		let t;
 
 		const block_1 = {
@@ -18816,7 +18816,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block: block_1,
-			id: create_if_block_2$b.name,
+			id: create_if_block_2$c.name,
 			type: "if",
 			source: "(62:6) {#if children}",
 			ctx
@@ -18831,7 +18831,7 @@
 		let if_block;
 		let if_block_anchor;
 		let current;
-		const if_block_creators = [create_if_block_2$b, create_else_block_2$2];
+		const if_block_creators = [create_if_block_2$c, create_else_block_2$2];
 		const if_blocks = [];
 
 		function select_block_type_2(ctx, dirty) {
@@ -23591,7 +23591,7 @@
 	}
 
 	// (98:18) {#if i > 0}
-	function create_if_block_2$a(ctx) {
+	function create_if_block_2$b(ctx) {
 		let t;
 
 		const block = {
@@ -23608,7 +23608,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_2$a.name,
+			id: create_if_block_2$b.name,
 			type: "if",
 			source: "(98:18) {#if i > 0}",
 			ctx
@@ -23626,7 +23626,7 @@
 		let t1;
 		let t2;
 		let a_href_value;
-		let if_block = /*i*/ ctx[16] > 0 && create_if_block_2$a(ctx);
+		let if_block = /*i*/ ctx[16] > 0 && create_if_block_2$b(ctx);
 
 		const block = {
 			key: key_1,
@@ -23655,7 +23655,7 @@
 
 				if (/*i*/ ctx[16] > 0) {
 					if (if_block) ; else {
-						if_block = create_if_block_2$a(ctx);
+						if_block = create_if_block_2$b(ctx);
 						if_block.c();
 						if_block.m(t0.parentNode, t0);
 					}
@@ -24532,7 +24532,7 @@
 
 		function select_block_type_2(ctx, dirty) {
 			if (/*me*/ ctx[0].Telegram.Verified) return create_if_block_1$g;
-			if (/*me*/ ctx[0].Telegram.Authtoken) return create_if_block_2$9;
+			if (/*me*/ ctx[0].Telegram.Authtoken) return create_if_block_2$a;
 			return create_else_block$5;
 		}
 
@@ -24648,7 +24648,7 @@
 	}
 
 	// (183:42) 
-	function create_if_block_2$9(ctx) {
+	function create_if_block_2$a(ctx) {
 		let div;
 		let strong;
 		let t1;
@@ -24705,7 +24705,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_2$9.name,
+			id: create_if_block_2$a.name,
 			type: "if",
 			source: "(183:42) ",
 			ctx
@@ -26000,7 +26000,7 @@
 		let dispose;
 
 		function select_block_type_2(ctx, dirty) {
-			if (/*toDelete*/ ctx[2] === /*team*/ ctx[25].ID) return create_if_block_2$8;
+			if (/*toDelete*/ ctx[2] === /*team*/ ctx[25].ID) return create_if_block_2$9;
 			return create_else_block_1;
 		}
 
@@ -26147,7 +26147,7 @@
 	}
 
 	// (201:20) {#if toDelete === team.ID}
-	function create_if_block_2$8(ctx) {
+	function create_if_block_2$9(ctx) {
 		let span;
 
 		const block = {
@@ -26166,7 +26166,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_2$8.name,
+			id: create_if_block_2$9.name,
 			type: "if",
 			source: "(201:20) {#if toDelete === team.ID}",
 			ctx
@@ -32153,7 +32153,7 @@
 	}
 
 	// (165:46) 
-	function create_if_block_2$7(ctx) {
+	function create_if_block_2$8(ctx) {
 		let td0;
 		let portallink0;
 		let t0;
@@ -32241,7 +32241,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_2$7.name,
+			id: create_if_block_2$8.name,
 			type: "if",
 			source: "(165:46) ",
 			ctx
@@ -32413,7 +32413,7 @@
 		let current;
 		let mounted;
 		let dispose;
-		const if_block_creators = [create_if_block_1$e, create_if_block_2$7];
+		const if_block_creators = [create_if_block_1$e, create_if_block_2$8];
 		const if_blocks = [];
 
 		function select_block_type(ctx, dirty) {
@@ -33838,7 +33838,7 @@
 	}
 
 	// (283:14) {#if id !== '[unassigned]'}
-	function create_if_block_2$6(ctx) {
+	function create_if_block_2$7(ctx) {
 		let tr;
 		let td0;
 		let t0_value = /*getAgentName*/ ctx[16](/*id*/ ctx[40]) + "";
@@ -33891,7 +33891,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_2$6.name,
+			id: create_if_block_2$7.name,
 			type: "if",
 			source: "(283:14) {#if id !== '[unassigned]'}",
 			ctx
@@ -33904,7 +33904,7 @@
 	function create_each_block_1$4(key_1, ctx) {
 		let first;
 		let if_block_anchor;
-		let if_block = /*id*/ ctx[40] !== '[unassigned]' && create_if_block_2$6(ctx);
+		let if_block = /*id*/ ctx[40] !== '[unassigned]' && create_if_block_2$7(ctx);
 
 		const block = {
 			key: key_1,
@@ -33927,7 +33927,7 @@
 					if (if_block) {
 						if_block.p(ctx, dirty);
 					} else {
-						if_block = create_if_block_2$6(ctx);
+						if_block = create_if_block_2$7(ctx);
 						if_block.c();
 						if_block.m(if_block_anchor.parentNode, if_block_anchor);
 					}
@@ -36963,7 +36963,7 @@
 	}
 
 	// (158:12) {#if marker.assignedTo}
-	function create_if_block_2$5(ctx) {
+	function create_if_block_2$6(ctx) {
 		let div;
 		let t_value = /*getAgentName*/ ctx[7](/*marker*/ ctx[28].assignedTo) + "";
 		let t;
@@ -36988,7 +36988,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_2$5.name,
+			id: create_if_block_2$6.name,
 			type: "if",
 			source: "(158:12) {#if marker.assignedTo}",
 			ctx
@@ -37010,7 +37010,7 @@
 		let button_href_value;
 		let if_block0 = /*marker*/ ctx[28].comment && create_if_block_4$2(ctx);
 		let if_block1 = /*marker*/ ctx[28].state != 'pending' && create_if_block_3$3(ctx);
-		let if_block2 = /*marker*/ ctx[28].assignedTo && create_if_block_2$5(ctx);
+		let if_block2 = /*marker*/ ctx[28].assignedTo && create_if_block_2$6(ctx);
 
 		const block = {
 			c: function create() {
@@ -37074,7 +37074,7 @@
 					if (if_block2) {
 						if_block2.p(ctx, dirty);
 					} else {
-						if_block2 = create_if_block_2$5(ctx);
+						if_block2 = create_if_block_2$6(ctx);
 						if_block2.c();
 						if_block2.m(t4.parentNode, t4);
 					}
@@ -38385,7 +38385,7 @@
 	}
 
 	// (84:6) {#if isOwner}
-	function create_if_block_2$4(ctx) {
+	function create_if_block_2$5(ctx) {
 		let th;
 
 		const block = {
@@ -38404,7 +38404,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_2$4.name,
+			id: create_if_block_2$5.name,
 			type: "if",
 			source: "(84:6) {#if isOwner}",
 			ctx
@@ -38868,7 +38868,7 @@
 		let tbody;
 		let t9;
 		let if_block1_anchor;
-		let if_block0 = /*isOwner*/ ctx[6] && create_if_block_2$4(ctx);
+		let if_block0 = /*isOwner*/ ctx[6] && create_if_block_2$5(ctx);
 		let each_value_2 = /*teams*/ ctx[5];
 		validate_each_argument(each_value_2);
 		let each_blocks = [];
@@ -38951,7 +38951,7 @@
 
 				if (/*isOwner*/ ctx[6]) {
 					if (if_block0) ; else {
-						if_block0 = create_if_block_2$4(ctx);
+						if_block0 = create_if_block_2$5(ctx);
 						if_block0.c();
 						if_block0.m(tr, null);
 					}
@@ -39940,7 +39940,7 @@
 	}
 
 	// (348:52) 
-	function create_if_block_2$3(ctx) {
+	function create_if_block_2$4(ctx) {
 		let td0;
 		let portallink0;
 		let t;
@@ -40016,7 +40016,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_2$3.name,
+			id: create_if_block_2$4.name,
 			type: "if",
 			source: "(348:52) ",
 			ctx
@@ -40122,7 +40122,7 @@
 		let current;
 		let mounted;
 		let dispose;
-		const if_block_creators = [create_if_block_1$9, create_if_block_2$3];
+		const if_block_creators = [create_if_block_1$9, create_if_block_2$4];
 		const if_blocks = [];
 
 		function select_block_type_2(ctx, dirty) {
@@ -42944,10 +42944,14 @@
 	/* src/components/Operation/Group/Task.svelte generated by Svelte v3.42.5 */
 	const file$a = "src/components/Operation/Group/Task.svelte";
 
-	// (10:40) 
-	function create_if_block_1$8(ctx) {
+	// (19:44) 
+	function create_if_block_2$3(ctx) {
+		let span0;
+		let t1;
 		let portallink0;
-		let t;
+		let t2;
+		let span1;
+		let t4;
 		let portallink1;
 		let current;
 
@@ -42969,13 +42973,25 @@
 
 		const block = {
 			c: function create() {
+				span0 = element("span");
+				span0.textContent = "Link:";
+				t1 = space();
 				create_component(portallink0.$$.fragment);
-				t = space();
+				t2 = space();
+				span1 = element("span");
+				span1.textContent = "to";
+				t4 = space();
 				create_component(portallink1.$$.fragment);
+				add_location(span0, file$a, 19, 8, 658);
+				add_location(span1, file$a, 21, 8, 749);
 			},
 			m: function mount(target, anchor) {
+				insert_dev(target, span0, anchor);
+				insert_dev(target, t1, anchor);
 				mount_component(portallink0, target, anchor);
-				insert_dev(target, t, anchor);
+				insert_dev(target, t2, anchor);
+				insert_dev(target, span1, anchor);
+				insert_dev(target, t4, anchor);
 				mount_component(portallink1, target, anchor);
 				current = true;
 			},
@@ -43001,25 +43017,33 @@
 				current = false;
 			},
 			d: function destroy(detaching) {
+				if (detaching) detach_dev(span0);
+				if (detaching) detach_dev(t1);
 				destroy_component(portallink0, detaching);
-				if (detaching) detach_dev(t);
+				if (detaching) detach_dev(t2);
+				if (detaching) detach_dev(span1);
+				if (detaching) detach_dev(t4);
 				destroy_component(portallink1, detaching);
 			}
 		};
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_if_block_1$8.name,
+			id: create_if_block_2$3.name,
 			type: "if",
-			source: "(10:40) ",
+			source: "(19:44) ",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (8:2) {#if task instanceof WasabeeMarker}
-	function create_if_block$9(ctx) {
+	// (16:6) {#if task instanceof WasabeeMarker}
+	function create_if_block_1$8(ctx) {
+		let img;
+		let img_alt_value;
+		let img_src_value;
+		let t;
 		let portallink;
 		let current;
 
@@ -43033,13 +43057,28 @@
 
 		const block = {
 			c: function create() {
+				img = element("img");
+				t = space();
 				create_component(portallink.$$.fragment);
+				attr_dev(img, "alt", img_alt_value = /*task*/ ctx[1].type + /*task*/ ctx[1].state);
+				if (!src_url_equal(img.src, img_src_value = /*task*/ ctx[1].icon)) attr_dev(img, "src", img_src_value);
+				add_location(img, file$a, 16, 8, 492);
 			},
 			m: function mount(target, anchor) {
+				insert_dev(target, img, anchor);
+				insert_dev(target, t, anchor);
 				mount_component(portallink, target, anchor);
 				current = true;
 			},
 			p: function update(ctx, dirty) {
+				if (!current || dirty & /*task*/ 2 && img_alt_value !== (img_alt_value = /*task*/ ctx[1].type + /*task*/ ctx[1].state)) {
+					attr_dev(img, "alt", img_alt_value);
+				}
+
+				if (!current || dirty & /*task*/ 2 && !src_url_equal(img.src, img_src_value = /*task*/ ctx[1].icon)) {
+					attr_dev(img, "src", img_src_value);
+				}
+
 				const portallink_changes = {};
 				if (dirty & /*operation*/ 1) portallink_changes.operation = /*operation*/ ctx[0];
 				if (dirty & /*task*/ 2) portallink_changes.portalId = /*task*/ ctx[1].portalId;
@@ -43055,7 +43094,39 @@
 				current = false;
 			},
 			d: function destroy(detaching) {
+				if (detaching) detach_dev(img);
+				if (detaching) detach_dev(t);
 				destroy_component(portallink, detaching);
+			}
+		};
+
+		dispatch_dev("SvelteRegisterBlock", {
+			block,
+			id: create_if_block_1$8.name,
+			type: "if",
+			source: "(16:6) {#if task instanceof WasabeeMarker}",
+			ctx
+		});
+
+		return block;
+	}
+
+	// (29:9) {#if agent}
+	function create_if_block$9(ctx) {
+		let t;
+
+		const block = {
+			c: function create() {
+				t = text(/*agent*/ ctx[2]);
+			},
+			m: function mount(target, anchor) {
+				insert_dev(target, t, anchor);
+			},
+			p: function update(ctx, dirty) {
+				if (dirty & /*agent*/ 4) set_data_dev(t, /*agent*/ ctx[2]);
+			},
+			d: function destroy(detaching) {
+				if (detaching) detach_dev(t);
 			}
 		};
 
@@ -43063,7 +43134,7 @@
 			block,
 			id: create_if_block$9.name,
 			type: "if",
-			source: "(8:2) {#if task instanceof WasabeeMarker}",
+			source: "(29:9) {#if agent}",
 			ctx
 		});
 
@@ -43071,11 +43142,24 @@
 	}
 
 	function create_fragment$b(ctx) {
-		let div;
+		let div1;
+		let div0;
+		let h5;
 		let current_block_type_index;
-		let if_block;
+		let if_block0;
+		let t0;
+		let h6;
+		let span0;
+		let t1_value = /*task*/ ctx[1].order + "";
+		let t1;
+		let t2;
+		let span1;
+		let t3;
+		let span2;
+		let t4_value = /*task*/ ctx[1].state + "";
+		let t4;
 		let current;
-		const if_block_creators = [create_if_block$9, create_if_block_1$8];
+		const if_block_creators = [create_if_block_1$8, create_if_block_2$3];
 		const if_blocks = [];
 
 		function select_block_type(ctx, dirty) {
@@ -43085,25 +43169,64 @@
 		}
 
 		if (~(current_block_type_index = select_block_type(ctx))) {
-			if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+			if_block0 = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
 		}
+
+		let if_block1 = /*agent*/ ctx[2] && create_if_block$9(ctx);
 
 		const block = {
 			c: function create() {
-				div = element("div");
-				if (if_block) if_block.c();
-				add_location(div, file$a, 6, 0, 176);
+				div1 = element("div");
+				div0 = element("div");
+				h5 = element("h5");
+				if (if_block0) if_block0.c();
+				t0 = space();
+				h6 = element("h6");
+				span0 = element("span");
+				t1 = text(t1_value);
+				t2 = space();
+				span1 = element("span");
+				if (if_block1) if_block1.c();
+				t3 = space();
+				span2 = element("span");
+				t4 = text(t4_value);
+				attr_dev(h5, "class", "card-title");
+				add_location(h5, file$a, 14, 4, 418);
+				attr_dev(span0, "class", "order");
+				add_location(span0, file$a, 26, 6, 904);
+				attr_dev(span1, "class", "assign");
+				add_location(span1, file$a, 27, 6, 950);
+				attr_dev(span2, "class", "state");
+				add_location(span2, file$a, 30, 6, 1024);
+				attr_dev(h6, "class", "card-subtitle mb-2 text-muted");
+				add_location(h6, file$a, 25, 4, 855);
+				attr_dev(div0, "class", "card-body");
+				add_location(div0, file$a, 13, 2, 390);
+				attr_dev(div1, "class", "card");
+				add_location(div1, file$a, 12, 0, 369);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
 			},
 			m: function mount(target, anchor) {
-				insert_dev(target, div, anchor);
+				insert_dev(target, div1, anchor);
+				append_dev(div1, div0);
+				append_dev(div0, h5);
 
 				if (~current_block_type_index) {
-					if_blocks[current_block_type_index].m(div, null);
+					if_blocks[current_block_type_index].m(h5, null);
 				}
 
+				append_dev(div0, t0);
+				append_dev(div0, h6);
+				append_dev(h6, span0);
+				append_dev(span0, t1);
+				append_dev(h6, t2);
+				append_dev(h6, span1);
+				if (if_block1) if_block1.m(span1, null);
+				append_dev(h6, t3);
+				append_dev(h6, span2);
+				append_dev(span2, t4);
 				current = true;
 			},
 			p: function update(ctx, [dirty]) {
@@ -43115,7 +43238,7 @@
 						if_blocks[current_block_type_index].p(ctx, dirty);
 					}
 				} else {
-					if (if_block) {
+					if (if_block0) {
 						group_outros();
 
 						transition_out(if_blocks[previous_block_index], 1, 1, () => {
@@ -43126,37 +43249,56 @@
 					}
 
 					if (~current_block_type_index) {
-						if_block = if_blocks[current_block_type_index];
+						if_block0 = if_blocks[current_block_type_index];
 
-						if (!if_block) {
-							if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
-							if_block.c();
+						if (!if_block0) {
+							if_block0 = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+							if_block0.c();
 						} else {
-							if_block.p(ctx, dirty);
+							if_block0.p(ctx, dirty);
 						}
 
-						transition_in(if_block, 1);
-						if_block.m(div, null);
+						transition_in(if_block0, 1);
+						if_block0.m(h5, null);
 					} else {
-						if_block = null;
+						if_block0 = null;
 					}
 				}
+
+				if ((!current || dirty & /*task*/ 2) && t1_value !== (t1_value = /*task*/ ctx[1].order + "")) set_data_dev(t1, t1_value);
+
+				if (/*agent*/ ctx[2]) {
+					if (if_block1) {
+						if_block1.p(ctx, dirty);
+					} else {
+						if_block1 = create_if_block$9(ctx);
+						if_block1.c();
+						if_block1.m(span1, null);
+					}
+				} else if (if_block1) {
+					if_block1.d(1);
+					if_block1 = null;
+				}
+
+				if ((!current || dirty & /*task*/ 2) && t4_value !== (t4_value = /*task*/ ctx[1].state + "")) set_data_dev(t4, t4_value);
 			},
 			i: function intro(local) {
 				if (current) return;
-				transition_in(if_block);
+				transition_in(if_block0);
 				current = true;
 			},
 			o: function outro(local) {
-				transition_out(if_block);
+				transition_out(if_block0);
 				current = false;
 			},
 			d: function destroy(detaching) {
-				if (detaching) detach_dev(div);
+				if (detaching) detach_dev(div1);
 
 				if (~current_block_type_index) {
 					if_blocks[current_block_type_index].d();
 				}
+
+				if (if_block1) if_block1.d();
 			}
 		};
 
@@ -43172,6 +43314,10 @@
 	}
 
 	function instance$b($$self, $$props, $$invalidate) {
+		let agent;
+		let $agentsStore;
+		validate_store(agentsStore, 'agentsStore');
+		component_subscribe($$self, agentsStore, $$value => $$invalidate(3, $agentsStore = $$value));
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Task', slots, []);
 		let { operation } = $$props;
@@ -43191,20 +43337,34 @@
 			PortalLink,
 			WasabeeLink,
 			WasabeeMarker,
+			agentsStore,
 			operation,
-			task
+			task,
+			agent,
+			$agentsStore
 		});
 
 		$$self.$inject_state = $$props => {
 			if ('operation' in $$props) $$invalidate(0, operation = $$props.operation);
 			if ('task' in $$props) $$invalidate(1, task = $$props.task);
+			if ('agent' in $$props) $$invalidate(2, agent = $$props.agent);
 		};
 
 		if ($$props && "$$inject" in $$props) {
 			$$self.$inject_state($$props.$$inject);
 		}
 
-		return [operation, task];
+		$$self.$$.update = () => {
+			if ($$self.$$.dirty & /*task, $agentsStore*/ 10) {
+				$$invalidate(2, agent = task.assignedTo
+				? $agentsStore[task.assignedTo]
+					? $agentsStore[task.assignedTo].name
+					: task.assignedTo
+				: null);
+			}
+		};
+
+		return [operation, task, agent, $agentsStore];
 	}
 
 	class Task extends SvelteComponentDev {
@@ -43259,7 +43419,7 @@
 		return child_ctx;
 	}
 
-	// (22:0) {:else}
+	// (23:0) {:else}
 	function create_else_block$2(ctx) {
 		let p;
 		let t;
@@ -43268,7 +43428,7 @@
 			c: function create() {
 				p = element("p");
 				t = text(/*text*/ ctx[4]);
-				add_location(p, file$9, 22, 2, 564);
+				add_location(p, file$9, 23, 2, 603);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, p, anchor);
@@ -43288,14 +43448,14 @@
 			block,
 			id: create_else_block$2.name,
 			type: "else",
-			source: "(22:0) {:else}",
+			source: "(23:0) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (20:0) {#if task instanceof WasabeeTask}
+	// (21:0) {#if task instanceof WasabeeTask}
 	function create_if_block_1$7(ctx) {
 		let task_1;
 		let current;
@@ -43340,14 +43500,14 @@
 			block,
 			id: create_if_block_1$7.name,
 			type: "if",
-			source: "(20:0) {#if task instanceof WasabeeTask}",
+			source: "(21:0) {#if task instanceof WasabeeTask}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (26:0) {#if items}
+	// (27:0) {#if items}
 	function create_if_block$8(ctx) {
 		let section;
 		let each_blocks = [];
@@ -43376,7 +43536,7 @@
 				}
 
 				attr_dev(section, "class", "svelte-gs5v8v");
-				add_location(section, file$9, 26, 2, 599);
+				add_location(section, file$9, 27, 2, 638);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, section, anchor);
@@ -43405,8 +43565,10 @@
 					each_value = /*items*/ ctx[2];
 					validate_each_argument(each_value);
 					group_outros();
+					for (let i = 0; i < each_blocks.length; i += 1) each_blocks[i].r();
 					validate_each_keys(ctx, each_value, get_each_context$3, get_key);
-					each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, section, outro_and_destroy_block, create_each_block$3, null, get_each_context$3);
+					each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, section, fix_and_outro_and_destroy_block, create_each_block$3, null, get_each_context$3);
+					for (let i = 0; i < each_blocks.length; i += 1) each_blocks[i].a();
 					check_outros();
 				}
 
@@ -43447,18 +43609,20 @@
 			block,
 			id: create_if_block$8.name,
 			type: "if",
-			source: "(26:0) {#if items}",
+			source: "(27:0) {#if items}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (32:4) {#each items as item (item.id)}
+	// (33:4) {#each items as item (item.id)}
 	function create_each_block$3(key_1, ctx) {
 		let div;
 		let tree;
 		let t;
+		let rect;
+		let stop_animation = noop;
 		let current;
 
 		tree = new Tree({
@@ -43478,7 +43642,7 @@
 				create_component(tree.$$.fragment);
 				t = space();
 				attr_dev(div, "class", "item svelte-gs5v8v");
-				add_location(div, file$9, 32, 6, 775);
+				add_location(div, file$9, 33, 6, 814);
 				this.first = div;
 			},
 			m: function mount(target, anchor) {
@@ -43494,6 +43658,17 @@
 				if (dirty & /*nodes*/ 2) tree_changes.nodes = /*nodes*/ ctx[1];
 				if (dirty & /*operation*/ 1) tree_changes.operation = /*operation*/ ctx[0];
 				tree.$set(tree_changes);
+			},
+			r: function measure() {
+				rect = div.getBoundingClientRect();
+			},
+			f: function fix() {
+				fix_position(div);
+				stop_animation();
+			},
+			a: function animate() {
+				stop_animation();
+				stop_animation = create_animation(div, rect, flip, {});
 			},
 			i: function intro(local) {
 				if (current) return;
@@ -43514,7 +43689,7 @@
 			block,
 			id: create_each_block$3.name,
 			type: "each",
-			source: "(32:4) {#each items as item (item.id)}",
+			source: "(33:4) {#each items as item (item.id)}",
 			ctx
 		});
 
@@ -43678,6 +43853,7 @@
 
 		$$self.$capture_state = () => ({
 			dndzone,
+			flip,
 			WasabeeTask: Task$1,
 			Task,
 			operation,
