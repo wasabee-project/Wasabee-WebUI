@@ -44179,7 +44179,7 @@
 					each_blocks[i].c();
 				}
 
-				attr_dev(section, "class", "svelte-gs5v8v");
+				attr_dev(section, "class", "svelte-qk3vm9");
 				add_location(section, file$8, 27, 2, 638);
 			},
 			m: function mount(target, anchor) {
@@ -44285,7 +44285,7 @@
 				div = element("div");
 				create_component(tree.$$.fragment);
 				t = space();
-				attr_dev(div, "class", "item svelte-gs5v8v");
+				attr_dev(div, "class", "item svelte-qk3vm9");
 				add_location(div, file$8, 33, 6, 814);
 				this.first = div;
 			},
@@ -44620,10 +44620,14 @@
 		let t0_value = /*operation*/ ctx[1].name + "";
 		let t0;
 		let t1;
+		let button;
+		let t3;
 		let div3;
 		let div2;
 		let grouptree;
 		let current;
+		let mounted;
+		let dispose;
 
 		grouptree = new Tree({
 				props: {
@@ -44640,18 +44644,23 @@
 				div0 = element("div");
 				t0 = text(t0_value);
 				t1 = space();
+				button = element("button");
+				button.textContent = "Add group";
+				t3 = space();
 				div3 = element("div");
 				div2 = element("div");
 				create_component(grouptree.$$.fragment);
+				attr_dev(button, "class", "btn btn-primary");
+				add_location(button, file$7, 51, 4, 1431);
 				attr_dev(div0, "class", "card-header");
 				attr_dev(div0, "id", "opName");
-				add_location(div0, file$7, 34, 2, 756);
+				add_location(div0, file$7, 49, 2, 1368);
 				attr_dev(div1, "class", "card mb-2");
-				add_location(div1, file$7, 33, 0, 730);
+				add_location(div1, file$7, 48, 0, 1342);
 				attr_dev(div2, "class", "col");
-				add_location(div2, file$7, 40, 2, 852);
+				add_location(div2, file$7, 56, 2, 1539);
 				attr_dev(div3, "class", "row");
-				add_location(div3, file$7, 39, 0, 832);
+				add_location(div3, file$7, 55, 0, 1519);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -44660,11 +44669,18 @@
 				insert_dev(target, div1, anchor);
 				append_dev(div1, div0);
 				append_dev(div0, t0);
-				insert_dev(target, t1, anchor);
+				append_dev(div0, t1);
+				append_dev(div0, button);
+				insert_dev(target, t3, anchor);
 				insert_dev(target, div3, anchor);
 				append_dev(div3, div2);
 				mount_component(grouptree, div2, null);
 				current = true;
+
+				if (!mounted) {
+					dispose = listen_dev(button, "click", /*addGroup*/ ctx[3], false, false, false);
+					mounted = true;
+				}
 			},
 			p: function update(ctx, [dirty]) {
 				if ((!current || dirty & /*operation*/ 2) && t0_value !== (t0_value = /*operation*/ ctx[1].name + "")) set_data_dev(t0, t0_value);
@@ -44683,9 +44699,11 @@
 			},
 			d: function destroy(detaching) {
 				if (detaching) detach_dev(div1);
-				if (detaching) detach_dev(t1);
+				if (detaching) detach_dev(t3);
 				if (detaching) detach_dev(div3);
 				destroy_component(grouptree);
+				mounted = false;
+				dispose();
 			}
 		};
 
@@ -44702,12 +44720,12 @@
 
 	function instance$8($$self, $$props, $$invalidate) {
 		let operation;
-		let $nodes;
 
 		let $opStore,
 			$$unsubscribe_opStore = noop,
-			$$subscribe_opStore = () => ($$unsubscribe_opStore(), $$unsubscribe_opStore = subscribe(opStore, $$value => $$invalidate(3, $opStore = $$value)), opStore);
+			$$subscribe_opStore = () => ($$unsubscribe_opStore(), $$unsubscribe_opStore = subscribe(opStore, $$value => $$invalidate(4, $opStore = $$value)), opStore);
 
+		let $nodes;
 		$$self.$$.on_destroy.push(() => $$unsubscribe_opStore());
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Group', slots, []);
@@ -44716,7 +44734,14 @@
 		$$subscribe_opStore();
 		const nodes = writable({});
 		validate_store(nodes, 'nodes');
-		component_subscribe($$self, nodes, value => $$invalidate(4, $nodes = value));
+		component_subscribe($$self, nodes, value => $$invalidate(5, $nodes = value));
+
+		function addGroup() {
+			const somePortal = operation.opportals[0];
+			operation.markers.unshift(...WasabeeMarker.createPhasePair(somePortal.id));
+			set_store_value(opStore, $opStore = operation, $opStore);
+		}
+
 		const writable_props = ['opStore'];
 
 		Object.keys($$props).forEach(key => {
@@ -44729,12 +44754,14 @@
 
 		$$self.$capture_state = () => ({
 			writable,
+			WasabeeMarker,
 			GroupTree: Tree,
 			opStore,
 			nodes,
+			addGroup,
 			operation,
-			$nodes,
-			$opStore
+			$opStore,
+			$nodes
 		});
 
 		$$self.$inject_state = $$props => {
@@ -44747,7 +44774,7 @@
 		}
 
 		$$self.$$.update = () => {
-			if ($$self.$$.dirty & /*$opStore*/ 8) {
+			if ($$self.$$.dirty & /*$opStore*/ 16) {
 				$$invalidate(1, operation = $opStore);
 			}
 
@@ -44756,21 +44783,29 @@
 					const root = { id: 'root', text: 'op', items: [] };
 
 					for (const l of operation.links) {
-						set_store_value(nodes, $nodes[l.ID] = { id: l.ID, text: l.ID, task: l, items: [] }, $nodes);
+						set_store_value(nodes, $nodes[l.ID] = { id: l.ID, text: l.ID, task: l }, $nodes);
 						root.items.push({ id: l.ID });
 					}
 
 					for (const m of operation.markers) {
+						if (m.isPhaseMarker() && m.attributes['subtype'] === 'end') continue;
 						set_store_value(nodes, $nodes[m.ID] = { id: m.ID, task: m, text: m.ID, items: [] }, $nodes);
 						root.items.push({ id: m.ID });
 					}
 
 					set_store_value(nodes, $nodes[root.id] = root, $nodes);
+
+					for (const m of operation.markers) {
+						if (m.isPhaseMarker() && m.attributes['subtype'] === 'end') {
+							root.items = root.items.filter(v => !m.dependsOn.includes(v.id));
+							set_store_value(nodes, $nodes[m.getPairedMarkerID()].items = m.dependsOn.map(v => ({ id: v })), $nodes);
+						}
+					}
 				}
 			}
 		};
 
-		return [opStore, operation, nodes, $opStore];
+		return [opStore, operation, nodes, addGroup, $opStore];
 	}
 
 	class Group extends SvelteComponentDev {
