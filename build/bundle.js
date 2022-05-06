@@ -44780,15 +44780,15 @@
 				{
 					const root = { id: 'root', text: 'op', items: [] };
 
-					for (const l of operation.links) {
-						set_store_value(nodes, $nodes[l.ID] = { id: l.ID, text: l.ID, task: l }, $nodes);
-						root.items.push({ id: l.ID });
-					}
-
 					for (const m of operation.markers) {
 						if (m.isPhaseMarker() && m.attributes['subtype'] === 'end') continue;
 						set_store_value(nodes, $nodes[m.ID] = { id: m.ID, task: m, text: m.ID, items: [] }, $nodes);
 						root.items.push({ id: m.ID });
+					}
+
+					for (const l of operation.links) {
+						set_store_value(nodes, $nodes[l.ID] = { id: l.ID, text: l.ID, task: l }, $nodes);
+						root.items.push({ id: l.ID });
 					}
 
 					set_store_value(nodes, $nodes[root.id] = root, $nodes);
