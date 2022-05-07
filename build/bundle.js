@@ -44779,16 +44779,16 @@
 				div2 = element("div");
 				create_component(grouptree.$$.fragment);
 				attr_dev(button, "class", "btn btn-primary");
-				add_location(button, file$7, 54, 4, 1392);
+				add_location(button, file$7, 57, 4, 1508);
 				attr_dev(div0, "class", "card-header");
 				attr_dev(div0, "id", "opName");
-				add_location(div0, file$7, 52, 2, 1329);
+				add_location(div0, file$7, 55, 2, 1445);
 				attr_dev(div1, "class", "card mb-2");
-				add_location(div1, file$7, 51, 0, 1303);
+				add_location(div1, file$7, 54, 0, 1419);
 				attr_dev(div2, "class", "col");
-				add_location(div2, file$7, 59, 2, 1500);
+				add_location(div2, file$7, 62, 2, 1616);
 				attr_dev(div3, "class", "row");
-				add_location(div3, file$7, 58, 0, 1480);
+				add_location(div3, file$7, 61, 0, 1596);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -44927,8 +44927,9 @@
 
 					for (const m of operation.markers) {
 						if (m.isPhaseEnd()) {
-							root.items = root.items.filter(v => !m.dependsOn.includes(v.id));
-							ns[m.getPairedMarkerID()].items = m.dependsOn.map(v => ({ id: v }));
+							const pairId = m.getPairedMarkerID();
+							root.items = root.items.filter(v => !m.dependsOn.includes(v.id) || v.id === pairId);
+							ns[pairId].items = m.dependsOn.filter(v => v !== pairId).map(v => ({ id: v }));
 						}
 					}
 
