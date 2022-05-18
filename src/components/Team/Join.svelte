@@ -12,9 +12,13 @@
 
   const dispatch = createEventDispatcher();
 
+  function refresh(force = true) {
+    dispatch('routeEvent', { refresh: force });
+  }
+
   if (token) {
     notifyOnError(joinTeamPromise(teamid, token)).then(() => {
-      dispatch('refresh');
+      refresh();
       replace(`/team/${teamid}/list`);
       notifyInfo('Welcome aboard');
     });
