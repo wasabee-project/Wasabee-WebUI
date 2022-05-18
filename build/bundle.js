@@ -45509,9 +45509,13 @@
 		let token = params.token;
 		const dispatch = createEventDispatcher();
 
+		function refresh(force = true) {
+			dispatch('routeEvent', { refresh: force });
+		}
+
 		if (token) {
 			notifyOnError(joinTeamPromise(teamid, token)).then(() => {
-				dispatch('refresh');
+				refresh();
 				replace(`/team/${teamid}/list`);
 				notifyInfo('Welcome aboard');
 			});
@@ -45537,7 +45541,8 @@
 			params,
 			teamid,
 			token,
-			dispatch
+			dispatch,
+			refresh
 		});
 
 		$$self.$inject_state = $$props => {
