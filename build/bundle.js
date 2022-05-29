@@ -29298,16 +29298,16 @@
 				a = element("a");
 				t = text("verified");
 				attr_dev(a, "v-if", "me.Vverified");
-				attr_dev(a, "href", a_href_value = 'https://v.enl.one/profile/' + /*me*/ ctx[1].enlid);
+				attr_dev(a, "href", a_href_value = 'https://v.enl.one/profile/' + /*me*/ ctx[5].enlid);
 				attr_dev(a, "target", "_new");
-				add_location(a, file$r, 68, 12, 2520);
+				add_location(a, file$r, 68, 12, 2538);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, a, anchor);
 				append_dev(a, t);
 			},
 			p: function update(ctx, dirty) {
-				if (dirty & /*me*/ 2 && a_href_value !== (a_href_value = 'https://v.enl.one/profile/' + /*me*/ ctx[1].enlid)) {
+				if (dirty & /*me*/ 32 && a_href_value !== (a_href_value = 'https://v.enl.one/profile/' + /*me*/ ctx[5].enlid)) {
 					attr_dev(a, "href", a_href_value);
 				}
 			},
@@ -29349,12 +29349,12 @@
 				textarea = element("textarea");
 				attr_dev(a, "href", "https://community.ingress.com/en/activity");
 				attr_dev(a, "target", "_new");
-				add_location(a, file$r, 156, 33, 5356);
-				add_location(p, file$r, 155, 10, 5319);
+				add_location(a, file$r, 156, 33, 5374);
+				add_location(p, file$r, 155, 10, 5337);
 				textarea.readOnly = true;
-				textarea.value = /*commJWT*/ ctx[3];
+				textarea.value = /*commJWT*/ ctx[2];
 				attr_dev(textarea, "class", "svelte-1f48hch");
-				add_location(textarea, file$r, 161, 10, 5539);
+				add_location(textarea, file$r, 161, 10, 5557);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, p, anchor);
@@ -29370,8 +29370,8 @@
 				}
 			},
 			p: function update(ctx, dirty) {
-				if (dirty & /*commJWT*/ 8) {
-					prop_dev(textarea, "value", /*commJWT*/ ctx[3]);
+				if (dirty & /*commJWT*/ 4) {
+					prop_dev(textarea, "value", /*commJWT*/ ctx[2]);
 				}
 			},
 			d: function destroy(detaching) {
@@ -29410,8 +29410,8 @@
 				t2 = text(" thread.");
 				attr_dev(a, "href", "https://community.ingress.com/en/activity");
 				attr_dev(a, "target", "_new");
-				add_location(a, file$r, 165, 53, 5714);
-				add_location(p, file$r, 164, 10, 5657);
+				add_location(a, file$r, 165, 53, 5732);
+				add_location(p, file$r, 164, 10, 5675);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, p, anchor);
@@ -29444,7 +29444,7 @@
 		let t1;
 		let t2;
 		let a1;
-		let t3_value = /*me*/ ctx[1].lockey + "";
+		let t3_value = /*me*/ ctx[5].lockey + "";
 		let t3;
 		let a1_href_value;
 		let t4;
@@ -29460,10 +29460,10 @@
 				t3 = text(t3_value);
 				t4 = text("\n          to start the verification process.");
 				attr_dev(a0, "href", 'tg://resolve?domain=' + /*botname*/ ctx[6]);
-				add_location(a0, file$r, 211, 24, 7222);
-				attr_dev(a1, "href", a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[1].lockey);
-				add_location(a1, file$r, 216, 10, 7345);
-				add_location(div, file$r, 210, 8, 7192);
+				add_location(a0, file$r, 211, 24, 7240);
+				attr_dev(a1, "href", a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[5].lockey);
+				add_location(a1, file$r, 216, 10, 7363);
+				add_location(div, file$r, 210, 8, 7210);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -29476,9 +29476,9 @@
 				append_dev(div, t4);
 			},
 			p: function update(ctx, dirty) {
-				if (dirty & /*me*/ 2 && t3_value !== (t3_value = /*me*/ ctx[1].lockey + "")) set_data_dev(t3, t3_value);
+				if (dirty & /*me*/ 32 && t3_value !== (t3_value = /*me*/ ctx[5].lockey + "")) set_data_dev(t3, t3_value);
 
-				if (dirty & /*me*/ 2 && a1_href_value !== (a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[1].lockey)) {
+				if (dirty & /*me*/ 32 && a1_href_value !== (a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[5].lockey)) {
 					attr_dev(a1, "href", a1_href_value);
 				}
 			},
@@ -29503,8 +29503,8 @@
 		let div;
 
 		function select_block_type_2(ctx, dirty) {
-			if (/*me*/ ctx[1].Telegram.Verified) return create_if_block_1$g;
-			if (/*me*/ ctx[1].Telegram.Authtoken) return create_if_block_2$a;
+			if (/*me*/ ctx[5].Telegram.Verified) return create_if_block_1$g;
+			if (/*me*/ ctx[5].Telegram.Authtoken) return create_if_block_2$a;
 			return create_else_block$6;
 		}
 
@@ -29516,7 +29516,7 @@
 				div = element("div");
 				if_block.c();
 				attr_dev(div, "id", "telegramContent");
-				add_location(div, file$r, 178, 8, 6041);
+				add_location(div, file$r, 178, 8, 6059);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -29561,7 +29561,7 @@
 		let t2;
 		let t3;
 		let a1;
-		let t4_value = /*me*/ ctx[1].lockey + "";
+		let t4_value = /*me*/ ctx[5].lockey + "";
 		let t4;
 		let a1_href_value;
 		let t5;
@@ -29578,12 +29578,12 @@
 				a1 = element("a");
 				t4 = text(t4_value);
 				t5 = text("\n              to start the verification process. If you have sent this to the bot\n              and this step still shows here, log out and back in.");
-				add_location(strong, file$r, 198, 14, 6714);
+				add_location(strong, file$r, 198, 14, 6732);
 				attr_dev(a0, "href", 'tg://resolve?domain=' + /*botname*/ ctx[6]);
-				add_location(a0, file$r, 198, 53, 6753);
-				attr_dev(a1, "href", a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[1].lockey);
-				add_location(a1, file$r, 201, 14, 6856);
-				add_location(div, file$r, 197, 12, 6694);
+				add_location(a0, file$r, 198, 53, 6771);
+				attr_dev(a1, "href", a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[5].lockey);
+				add_location(a1, file$r, 201, 14, 6874);
+				add_location(div, file$r, 197, 12, 6712);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -29597,9 +29597,9 @@
 				append_dev(div, t5);
 			},
 			p: function update(ctx, dirty) {
-				if (dirty & /*me*/ 2 && t4_value !== (t4_value = /*me*/ ctx[1].lockey + "")) set_data_dev(t4, t4_value);
+				if (dirty & /*me*/ 32 && t4_value !== (t4_value = /*me*/ ctx[5].lockey + "")) set_data_dev(t4, t4_value);
 
-				if (dirty & /*me*/ 2 && a1_href_value !== (a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[1].lockey)) {
+				if (dirty & /*me*/ 32 && a1_href_value !== (a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[5].lockey)) {
 					attr_dev(a1, "href", a1_href_value);
 				}
 			},
@@ -29628,7 +29628,7 @@
 		let t2;
 		let t3;
 		let a1;
-		let t4_value = /*me*/ ctx[1].Telegram.Authtoken + "";
+		let t4_value = /*me*/ ctx[5].Telegram.Authtoken + "";
 		let t4;
 		let a1_href_value;
 		let t5;
@@ -29645,12 +29645,12 @@
 				a1 = element("a");
 				t4 = text(t4_value);
 				t5 = text("\n              to conclude verification.");
-				add_location(strong, file$r, 185, 14, 6271);
+				add_location(strong, file$r, 185, 14, 6289);
 				attr_dev(a0, "href", 'tg://resolve?domain=' + /*botname*/ ctx[6]);
-				add_location(a0, file$r, 185, 53, 6310);
-				attr_dev(a1, "href", a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[1].Telegram.Authtoken);
-				add_location(a1, file$r, 188, 14, 6413);
-				add_location(div, file$r, 184, 12, 6251);
+				add_location(a0, file$r, 185, 53, 6328);
+				attr_dev(a1, "href", a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[5].Telegram.Authtoken);
+				add_location(a1, file$r, 188, 14, 6431);
+				add_location(div, file$r, 184, 12, 6269);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -29664,9 +29664,9 @@
 				append_dev(div, t5);
 			},
 			p: function update(ctx, dirty) {
-				if (dirty & /*me*/ 2 && t4_value !== (t4_value = /*me*/ ctx[1].Telegram.Authtoken + "")) set_data_dev(t4, t4_value);
+				if (dirty & /*me*/ 32 && t4_value !== (t4_value = /*me*/ ctx[5].Telegram.Authtoken + "")) set_data_dev(t4, t4_value);
 
-				if (dirty & /*me*/ 2 && a1_href_value !== (a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[1].Telegram.Authtoken)) {
+				if (dirty & /*me*/ 32 && a1_href_value !== (a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[5].Telegram.Authtoken)) {
 					attr_dev(a1, "href", a1_href_value);
 				}
 			},
@@ -29690,7 +29690,7 @@
 	function create_if_block_1$g(ctx) {
 		let div;
 		let t0;
-		let t1_value = /*me*/ ctx[1].Telegram.ID + "";
+		let t1_value = /*me*/ ctx[5].Telegram.ID + "";
 		let t1;
 		let t2;
 
@@ -29700,7 +29700,7 @@
 				t0 = text("Telgram ID: ");
 				t1 = text(t1_value);
 				t2 = text(" (verified)");
-				add_location(div, file$r, 180, 12, 6117);
+				add_location(div, file$r, 180, 12, 6135);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -29709,7 +29709,7 @@
 				append_dev(div, t2);
 			},
 			p: function update(ctx, dirty) {
-				if (dirty & /*me*/ 2 && t1_value !== (t1_value = /*me*/ ctx[1].Telegram.ID + "")) set_data_dev(t1, t1_value);
+				if (dirty & /*me*/ 32 && t1_value !== (t1_value = /*me*/ ctx[5].Telegram.ID + "")) set_data_dev(t1, t1_value);
 			},
 			d: function destroy(detaching) {
 				if (detaching) detach_dev(div);
@@ -29739,14 +29739,14 @@
 		let span0;
 		let t5;
 		let span1;
-		let t6_value = /*me*/ ctx[1].name + "";
+		let t6_value = /*me*/ ctx[5].name + "";
 		let t6;
 		let t7;
 		let div2;
 		let span2;
 		let t9;
 		let span3;
-		let t10_value = /*me*/ ctx[1].vname + "";
+		let t10_value = /*me*/ ctx[5].vname + "";
 		let t10;
 		let t11;
 		let div3;
@@ -29758,14 +29758,14 @@
 		let span5;
 		let t16;
 		let span6;
-		let t17_value = /*me*/ ctx[1].rocksname + "";
+		let t17_value = /*me*/ ctx[5].rocksname + "";
 		let t17;
 		let t18;
 		let div5;
 		let a1;
 		let t20;
 		let span7;
-		let t21_value = (/*me*/ ctx[1].rocks ? 'verified' : 'not verified') + "";
+		let t21_value = (/*me*/ ctx[5].rocks ? 'verified' : 'not verified') + "";
 		let t21;
 		let t22;
 		let p0;
@@ -29776,14 +29776,14 @@
 		let span8;
 		let t26;
 		let span9;
-		let t27_value = /*me*/ ctx[1].id + "";
+		let t27_value = /*me*/ ctx[5].id + "";
 		let t27;
 		let t28;
 		let div7;
 		let span10;
 		let t30;
 		let span11;
-		let t31_value = /*me*/ ctx[1].level + "";
+		let t31_value = /*me*/ ctx[5].level + "";
 		let t31;
 		let t32;
 		let p1;
@@ -29798,7 +29798,7 @@
 		let span12;
 		let t40;
 		let span13;
-		let t41_value = /*me*/ ctx[1].intelname + "";
+		let t41_value = /*me*/ ctx[5].intelname + "";
 		let t41;
 		let t42;
 		let p2;
@@ -29809,7 +29809,7 @@
 		let span14;
 		let t46;
 		let span15;
-		let t47_value = /*me*/ ctx[1].communityname + "";
+		let t47_value = /*me*/ ctx[5].communityname + "";
 		let t47;
 		let t48;
 		let p4;
@@ -29837,7 +29837,7 @@
 		let t60;
 		let div17;
 		let code;
-		let t61_value = /*me*/ ctx[1].lockey + "";
+		let t61_value = /*me*/ ctx[5].lockey + "";
 		let t61;
 		let t62;
 		let div16;
@@ -29867,17 +29867,17 @@
 		let dispose;
 
 		function select_block_type(ctx, dirty) {
-			if (/*me*/ ctx[1].Vverified) return create_if_block_5$1;
+			if (/*me*/ ctx[5].Vverified) return create_if_block_5$1;
 			return create_else_block_2$1;
 		}
 
 		let current_block_type = select_block_type(ctx);
 		let if_block0 = current_block_type(ctx);
-		let if_block1 = /*commJWT*/ ctx[3] && create_if_block_4$4(ctx);
-		let if_block2 = /*newVerification*/ ctx[4] && create_if_block_3$8(ctx);
+		let if_block1 = /*commJWT*/ ctx[2] && create_if_block_4$4(ctx);
+		let if_block2 = /*newVerification*/ ctx[3] && create_if_block_3$8(ctx);
 
 		function select_block_type_1(ctx, dirty) {
-			if (/*me*/ ctx[1].Telegram) return create_if_block$m;
+			if (/*me*/ ctx[5].Telegram) return create_if_block$m;
 			return create_else_block_1$1;
 		}
 
@@ -30037,146 +30037,146 @@
 				t75 = space();
 				div26 = element("div");
 				div26.textContent = "This can potentially create a large number of Wasabee teams at once.\n        Only use this if you are sure you need it.";
-				add_location(h1, file$r, 52, 2, 1987);
+				add_location(h1, file$r, 52, 2, 2005);
 				attr_dev(div0, "class", "card-header");
-				add_location(div0, file$r, 54, 4, 2035);
+				add_location(div0, file$r, 54, 4, 2053);
 				attr_dev(span0, "class", "font-weight-bolder");
-				add_location(span0, file$r, 57, 8, 2125);
+				add_location(span0, file$r, 57, 8, 2143);
 				attr_dev(span1, "class", "agent-name");
-				add_location(span1, file$r, 58, 8, 2187);
-				add_location(div1, file$r, 56, 6, 2111);
+				add_location(span1, file$r, 58, 8, 2205);
+				add_location(div1, file$r, 56, 6, 2129);
 				attr_dev(span2, "class", "font-weight-bolder");
-				add_location(span2, file$r, 61, 8, 2262);
+				add_location(span2, file$r, 61, 8, 2280);
 				attr_dev(span3, "class", "agent-name");
-				add_location(span3, file$r, 62, 8, 2318);
-				add_location(div2, file$r, 60, 6, 2248);
+				add_location(span3, file$r, 62, 8, 2336);
+				add_location(div2, file$r, 60, 6, 2266);
 				attr_dev(a0, "href", "https://v.enl.one/");
 				attr_dev(a0, "target", "_new");
-				add_location(a0, file$r, 65, 8, 2394);
+				add_location(a0, file$r, 65, 8, 2412);
 				attr_dev(span4, "id", "vstatus");
-				add_location(span4, file$r, 66, 8, 2459);
-				add_location(div3, file$r, 64, 6, 2380);
+				add_location(span4, file$r, 66, 8, 2477);
+				add_location(div3, file$r, 64, 6, 2398);
 				attr_dev(span5, "class", "font-weight-bolder");
-				add_location(span5, file$r, 79, 8, 2778);
+				add_location(span5, file$r, 79, 8, 2796);
 				attr_dev(span6, "class", "agent-name");
-				add_location(span6, file$r, 80, 8, 2838);
-				add_location(div4, file$r, 78, 6, 2764);
+				add_location(span6, file$r, 80, 8, 2856);
+				add_location(div4, file$r, 78, 6, 2782);
 				attr_dev(a1, "href", "https://enl.rocks/");
 				attr_dev(a1, "target", "_new");
-				add_location(a1, file$r, 83, 8, 2918);
+				add_location(a1, file$r, 83, 8, 2936);
 				attr_dev(span7, "id", "rocksstatus");
-				add_location(span7, file$r, 84, 8, 2991);
+				add_location(span7, file$r, 84, 8, 3009);
 				attr_dev(a2, "href", "#tooltip");
 				attr_dev(a2, "class", "tooltip-display");
 				attr_dev(a2, "data-toggle", "tooltip");
 				attr_dev(a2, "title", ".Rocks verification typically only takes place in relationship to anomolies. Lack of verification does not mean you don't have a .rocks account, it just means you've not been verified at an anomaly event");
-				add_location(a2, file$r, 87, 13, 3101);
-				add_location(em0, file$r, 86, 10, 3084);
-				add_location(p0, file$r, 85, 8, 3070);
-				add_location(div5, file$r, 82, 6, 2904);
+				add_location(a2, file$r, 87, 13, 3119);
+				add_location(em0, file$r, 86, 10, 3102);
+				add_location(p0, file$r, 85, 8, 3088);
+				add_location(div5, file$r, 82, 6, 2922);
 				attr_dev(span8, "class", "font-weight-bolder");
-				add_location(span8, file$r, 98, 8, 3557);
+				add_location(span8, file$r, 98, 8, 3575);
 				attr_dev(span9, "class", "agent-name");
-				add_location(span9, file$r, 99, 8, 3616);
-				add_location(div6, file$r, 97, 6, 3543);
+				add_location(span9, file$r, 99, 8, 3634);
+				add_location(div6, file$r, 97, 6, 3561);
 				attr_dev(span10, "class", "font-weight-bolder");
-				add_location(span10, file$r, 102, 8, 3689);
+				add_location(span10, file$r, 102, 8, 3707);
 				attr_dev(span11, "class", "agent-name");
-				add_location(span11, file$r, 103, 8, 3744);
+				add_location(span11, file$r, 103, 8, 3762);
 				attr_dev(a3, "href", "https://v.enl.one/");
-				add_location(a3, file$r, 107, 12, 3866);
+				add_location(a3, file$r, 107, 12, 3884);
 				attr_dev(a4, "href", "https://enlightened.rocks");
-				add_location(a4, file$r, 108, 12, 3920);
-				add_location(em1, file$r, 105, 10, 3809);
-				add_location(p1, file$r, 104, 8, 3795);
-				add_location(div7, file$r, 101, 6, 3675);
+				add_location(a4, file$r, 108, 12, 3938);
+				add_location(em1, file$r, 105, 10, 3827);
+				add_location(p1, file$r, 104, 8, 3813);
+				add_location(div7, file$r, 101, 6, 3693);
 				attr_dev(span12, "class", "font-weight-bolder");
-				add_location(span12, file$r, 115, 8, 4148);
+				add_location(span12, file$r, 115, 8, 4166);
 				attr_dev(span13, "class", "agent-name");
-				add_location(span13, file$r, 116, 8, 4208);
-				add_location(div8, file$r, 114, 6, 4134);
-				add_location(em2, file$r, 119, 8, 4286);
-				add_location(p2, file$r, 118, 6, 4274);
+				add_location(span13, file$r, 116, 8, 4226);
+				add_location(div8, file$r, 114, 6, 4152);
+				add_location(em2, file$r, 119, 8, 4304);
+				add_location(p2, file$r, 118, 6, 4292);
 				attr_dev(span14, "class", "font-weight-bolder");
-				add_location(span14, file$r, 126, 10, 4458);
+				add_location(span14, file$r, 126, 10, 4476);
 				attr_dev(span15, "class", "agent-name");
-				add_location(span15, file$r, 127, 10, 4524);
-				add_location(p3, file$r, 125, 8, 4444);
+				add_location(span15, file$r, 127, 10, 4542);
+				add_location(p3, file$r, 125, 8, 4462);
 				attr_dev(input0, "type", "text");
 				attr_dev(input0, "pattern", '[a-zA-Z0-9]{3,}');
-				attr_dev(input0, "placeholder", input0_placeholder_value = /*me*/ ctx[1].communityname || 'My Agent Name');
+				attr_dev(input0, "placeholder", input0_placeholder_value = /*me*/ ctx[5].communityname || 'My Agent Name');
 				attr_dev(input0, "class", "svelte-1f48hch");
-				toggle_class(input0, "unverified", /*commMayAskProof*/ ctx[5]);
-				add_location(input0, file$r, 131, 12, 4630);
-				add_location(label, file$r, 130, 10, 4610);
+				toggle_class(input0, "unverified", /*commMayAskProof*/ ctx[4]);
+				add_location(input0, file$r, 131, 12, 4648);
+				add_location(label, file$r, 130, 10, 4628);
 				attr_dev(button0, "class", "btn btn-info");
-				button0.disabled = button0_disabled_value = !/*commMayAskProof*/ ctx[5];
-				add_location(button0, file$r, 139, 10, 4903);
+				button0.disabled = button0_disabled_value = !/*commMayAskProof*/ ctx[4];
+				add_location(button0, file$r, 139, 10, 4921);
 				attr_dev(button1, "class", "btn btn-success");
-				button1.disabled = button1_disabled_value = !/*commMayAskProof*/ ctx[5];
-				add_location(button1, file$r, 146, 10, 5086);
-				add_location(p4, file$r, 129, 8, 4596);
-				add_location(div9, file$r, 124, 6, 4430);
+				button1.disabled = button1_disabled_value = !/*commMayAskProof*/ ctx[4];
+				add_location(button1, file$r, 146, 10, 5104);
+				add_location(p4, file$r, 129, 8, 4614);
+				add_location(div9, file$r, 124, 6, 4448);
 				attr_dev(div10, "class", "card-body");
-				add_location(div10, file$r, 55, 4, 2081);
+				add_location(div10, file$r, 55, 4, 2099);
 				attr_dev(div11, "class", "card mb-2");
-				add_location(div11, file$r, 53, 2, 2007);
+				add_location(div11, file$r, 53, 2, 2025);
 				attr_dev(div12, "class", "card-header");
-				add_location(div12, file$r, 175, 4, 5941);
+				add_location(div12, file$r, 175, 4, 5959);
 				attr_dev(div13, "class", "card-body");
-				add_location(div13, file$r, 176, 4, 5985);
+				add_location(div13, file$r, 176, 4, 6003);
 				attr_dev(div14, "class", "card mb-2");
-				add_location(div14, file$r, 174, 2, 5913);
+				add_location(div14, file$r, 174, 2, 5931);
 				attr_dev(div15, "class", "card-header");
-				add_location(div15, file$r, 225, 4, 7574);
+				add_location(div15, file$r, 225, 4, 7592);
 				attr_dev(code, "id", "ott");
 				attr_dev(code, "class", "svelte-1f48hch");
-				add_location(code, file$r, 227, 6, 7654);
+				add_location(code, file$r, 227, 6, 7672);
 				attr_dev(div16, "class", "small dim");
-				add_location(div16, file$r, 228, 6, 7694);
+				add_location(div16, file$r, 228, 6, 7712);
 				attr_dev(div17, "class", "card-body");
-				add_location(div17, file$r, 226, 4, 7624);
+				add_location(div17, file$r, 226, 4, 7642);
 				attr_dev(div18, "class", "card mb-2");
-				add_location(div18, file$r, 224, 2, 7546);
+				add_location(div18, file$r, 224, 2, 7564);
 				attr_dev(div19, "class", "card-header");
-				add_location(div19, file$r, 234, 4, 7862);
+				add_location(div19, file$r, 234, 4, 7880);
 				attr_dev(input1, "type", "text");
 				attr_dev(input1, "id", "vapi");
 				attr_dev(input1, "placeholder", "0123456789abcdef0123456789abcdef0123456789");
-				add_location(input1, file$r, 237, 8, 7966);
+				add_location(input1, file$r, 237, 8, 7984);
 				attr_dev(div20, "id", "vapidiv");
-				add_location(div20, file$r, 236, 6, 7939);
+				add_location(div20, file$r, 236, 6, 7957);
 				attr_dev(div21, "class", "small dim");
-				add_location(div21, file$r, 245, 6, 8191);
+				add_location(div21, file$r, 245, 6, 8209);
 				attr_dev(div22, "class", "card-body");
-				add_location(div22, file$r, 235, 4, 7909);
+				add_location(div22, file$r, 235, 4, 7927);
 				attr_dev(div23, "class", "card mb-2");
-				add_location(div23, file$r, 233, 2, 7834);
+				add_location(div23, file$r, 233, 2, 7852);
 				attr_dev(div24, "class", "card-header");
-				add_location(div24, file$r, 251, 4, 8355);
+				add_location(div24, file$r, 251, 4, 8373);
 				option0.__value = "team";
 				option0.value = option0.__value;
-				add_location(option0, file$r, 255, 10, 8524);
+				add_location(option0, file$r, 255, 10, 8542);
 				option1.__value = "role";
 				option1.value = option1.__value;
-				add_location(option1, file$r, 256, 10, 8599);
+				add_location(option1, file$r, 256, 10, 8617);
 				attr_dev(select, "name", "vimportmode");
-				if (/*vimportmode*/ ctx[2] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[14].call(select));
-				add_location(select, file$r, 254, 8, 8461);
+				if (/*vimportmode*/ ctx[1] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[14].call(select));
+				add_location(select, file$r, 254, 8, 8479);
 				attr_dev(input2, "type", "button");
 				attr_dev(input2, "id", "vimport");
 				input2.value = "V team import";
-				add_location(input2, file$r, 260, 8, 8724);
+				add_location(input2, file$r, 260, 8, 8742);
 				attr_dev(div25, "id", "vapidiv");
-				add_location(div25, file$r, 253, 6, 8434);
+				add_location(div25, file$r, 253, 6, 8452);
 				attr_dev(div26, "class", "small dim");
-				add_location(div26, file$r, 267, 6, 8869);
+				add_location(div26, file$r, 267, 6, 8887);
 				attr_dev(div27, "class", "card-body");
-				add_location(div27, file$r, 252, 4, 8404);
+				add_location(div27, file$r, 252, 4, 8422);
 				attr_dev(div28, "class", "card mb-2");
-				add_location(div28, file$r, 250, 2, 8327);
+				add_location(div28, file$r, 250, 2, 8345);
 				attr_dev(div29, "class", "container");
-				add_location(div29, file$r, 51, 0, 1961);
+				add_location(div29, file$r, 51, 0, 1979);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -30295,7 +30295,7 @@
 				append_dev(div23, div22);
 				append_dev(div22, div20);
 				append_dev(div20, input1);
-				set_input_value(input1, /*me*/ ctx[1].vapi);
+				set_input_value(input1, /*me*/ ctx[5].vapi);
 				append_dev(div22, t67);
 				append_dev(div22, div21);
 				append_dev(div29, t69);
@@ -30307,7 +30307,7 @@
 				append_dev(div25, select);
 				append_dev(select, option0);
 				append_dev(select, option1);
-				select_option(select, /*vimportmode*/ ctx[2]);
+				select_option(select, /*vimportmode*/ ctx[1]);
 				append_dev(div25, t74);
 				append_dev(div25, input2);
 				append_dev(div27, t75);
@@ -30328,8 +30328,8 @@
 				}
 			},
 			p: function update(ctx, [dirty]) {
-				if (dirty & /*me*/ 2 && t6_value !== (t6_value = /*me*/ ctx[1].name + "")) set_data_dev(t6, t6_value);
-				if (dirty & /*me*/ 2 && t10_value !== (t10_value = /*me*/ ctx[1].vname + "")) set_data_dev(t10, t10_value);
+				if (dirty & /*me*/ 32 && t6_value !== (t6_value = /*me*/ ctx[5].name + "")) set_data_dev(t6, t6_value);
+				if (dirty & /*me*/ 32 && t10_value !== (t10_value = /*me*/ ctx[5].vname + "")) set_data_dev(t10, t10_value);
 
 				if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block0) {
 					if_block0.p(ctx, dirty);
@@ -30343,14 +30343,14 @@
 					}
 				}
 
-				if (dirty & /*me*/ 2 && t17_value !== (t17_value = /*me*/ ctx[1].rocksname + "")) set_data_dev(t17, t17_value);
-				if (dirty & /*me*/ 2 && t21_value !== (t21_value = (/*me*/ ctx[1].rocks ? 'verified' : 'not verified') + "")) set_data_dev(t21, t21_value);
-				if (dirty & /*me*/ 2 && t27_value !== (t27_value = /*me*/ ctx[1].id + "")) set_data_dev(t27, t27_value);
-				if (dirty & /*me*/ 2 && t31_value !== (t31_value = /*me*/ ctx[1].level + "")) set_data_dev(t31, t31_value);
-				if (dirty & /*me*/ 2 && t41_value !== (t41_value = /*me*/ ctx[1].intelname + "")) set_data_dev(t41, t41_value);
-				if (dirty & /*me*/ 2 && t47_value !== (t47_value = /*me*/ ctx[1].communityname + "")) set_data_dev(t47, t47_value);
+				if (dirty & /*me*/ 32 && t17_value !== (t17_value = /*me*/ ctx[5].rocksname + "")) set_data_dev(t17, t17_value);
+				if (dirty & /*me*/ 32 && t21_value !== (t21_value = (/*me*/ ctx[5].rocks ? 'verified' : 'not verified') + "")) set_data_dev(t21, t21_value);
+				if (dirty & /*me*/ 32 && t27_value !== (t27_value = /*me*/ ctx[5].id + "")) set_data_dev(t27, t27_value);
+				if (dirty & /*me*/ 32 && t31_value !== (t31_value = /*me*/ ctx[5].level + "")) set_data_dev(t31, t31_value);
+				if (dirty & /*me*/ 32 && t41_value !== (t41_value = /*me*/ ctx[5].intelname + "")) set_data_dev(t41, t41_value);
+				if (dirty & /*me*/ 32 && t47_value !== (t47_value = /*me*/ ctx[5].communityname + "")) set_data_dev(t47, t47_value);
 
-				if (dirty & /*me*/ 2 && input0_placeholder_value !== (input0_placeholder_value = /*me*/ ctx[1].communityname || 'My Agent Name')) {
+				if (dirty & /*me*/ 32 && input0_placeholder_value !== (input0_placeholder_value = /*me*/ ctx[5].communityname || 'My Agent Name')) {
 					attr_dev(input0, "placeholder", input0_placeholder_value);
 				}
 
@@ -30358,19 +30358,19 @@
 					set_input_value(input0, /*communityname*/ ctx[0]);
 				}
 
-				if (dirty & /*commMayAskProof*/ 32) {
-					toggle_class(input0, "unverified", /*commMayAskProof*/ ctx[5]);
+				if (dirty & /*commMayAskProof*/ 16) {
+					toggle_class(input0, "unverified", /*commMayAskProof*/ ctx[4]);
 				}
 
-				if (dirty & /*commMayAskProof*/ 32 && button0_disabled_value !== (button0_disabled_value = !/*commMayAskProof*/ ctx[5])) {
+				if (dirty & /*commMayAskProof*/ 16 && button0_disabled_value !== (button0_disabled_value = !/*commMayAskProof*/ ctx[4])) {
 					prop_dev(button0, "disabled", button0_disabled_value);
 				}
 
-				if (dirty & /*commMayAskProof*/ 32 && button1_disabled_value !== (button1_disabled_value = !/*commMayAskProof*/ ctx[5])) {
+				if (dirty & /*commMayAskProof*/ 16 && button1_disabled_value !== (button1_disabled_value = !/*commMayAskProof*/ ctx[4])) {
 					prop_dev(button1, "disabled", button1_disabled_value);
 				}
 
-				if (/*commJWT*/ ctx[3]) {
+				if (/*commJWT*/ ctx[2]) {
 					if (if_block1) {
 						if_block1.p(ctx, dirty);
 					} else {
@@ -30383,7 +30383,7 @@
 					if_block1 = null;
 				}
 
-				if (/*newVerification*/ ctx[4]) {
+				if (/*newVerification*/ ctx[3]) {
 					if (if_block2) ; else {
 						if_block2 = create_if_block_3$8(ctx);
 						if_block2.c();
@@ -30406,14 +30406,14 @@
 					}
 				}
 
-				if (dirty & /*me*/ 2 && t61_value !== (t61_value = /*me*/ ctx[1].lockey + "")) set_data_dev(t61, t61_value);
+				if (dirty & /*me*/ 32 && t61_value !== (t61_value = /*me*/ ctx[5].lockey + "")) set_data_dev(t61, t61_value);
 
-				if (dirty & /*me*/ 2 && input1.value !== /*me*/ ctx[1].vapi) {
-					set_input_value(input1, /*me*/ ctx[1].vapi);
+				if (dirty & /*me*/ 32 && input1.value !== /*me*/ ctx[5].vapi) {
+					set_input_value(input1, /*me*/ ctx[5].vapi);
 				}
 
-				if (dirty & /*vimportmode*/ 4) {
-					select_option(select, /*vimportmode*/ ctx[2]);
+				if (dirty & /*vimportmode*/ 2) {
+					select_option(select, /*vimportmode*/ ctx[1]);
 				}
 			},
 			i: noop,
@@ -30493,7 +30493,7 @@
 
 		let botname = getConfig().botname;
 		let vimportmode = 'team';
-		let communityname = me.communityname || '';
+		let communityname = $meStore.communityname || '';
 		let commJWT = '';
 		let newVerification = false;
 
@@ -30501,7 +30501,7 @@
 			return __awaiter(this, void 0, void 0, function* () {
 				if (communityname) {
 					const res = yield notifyOnError(getCommJWT(communityname));
-					$$invalidate(3, commJWT = res.jwt);
+					$$invalidate(2, commJWT = res.jwt);
 				}
 			});
 		}
@@ -30510,7 +30510,7 @@
 			return __awaiter(this, void 0, void 0, function* () {
 				if (communityname) {
 					yield notifyOnError(getCommVerify(communityname));
-					$$invalidate(4, newVerification = true);
+					$$invalidate(3, newVerification = true);
 					notifyInfo('Community name verified');
 					meStore.refresh();
 				}
@@ -30534,14 +30534,14 @@
 
 		function input1_input_handler() {
 			me.vapi = this.value;
-			($$invalidate(1, me), $$invalidate(10, $meStore));
+			($$invalidate(5, me), $$invalidate(10, $meStore));
 		}
 
 		const change_handler = () => setVAPIkey(me.vapi);
 
 		function select_change_handler() {
 			vimportmode = select_value(this);
-			$$invalidate(2, vimportmode);
+			$$invalidate(1, vimportmode);
 		}
 
 		$$self.$capture_state = () => ({
@@ -30563,20 +30563,20 @@
 			communityVerify,
 			commJWTClick,
 			vimport,
-			me,
 			commMayAskProof,
+			me,
 			$meStore
 		});
 
 		$$self.$inject_state = $$props => {
 			if ('__awaiter' in $$props) __awaiter = $$props.__awaiter;
 			if ('botname' in $$props) $$invalidate(6, botname = $$props.botname);
-			if ('vimportmode' in $$props) $$invalidate(2, vimportmode = $$props.vimportmode);
+			if ('vimportmode' in $$props) $$invalidate(1, vimportmode = $$props.vimportmode);
 			if ('communityname' in $$props) $$invalidate(0, communityname = $$props.communityname);
-			if ('commJWT' in $$props) $$invalidate(3, commJWT = $$props.commJWT);
-			if ('newVerification' in $$props) $$invalidate(4, newVerification = $$props.newVerification);
-			if ('me' in $$props) $$invalidate(1, me = $$props.me);
-			if ('commMayAskProof' in $$props) $$invalidate(5, commMayAskProof = $$props.commMayAskProof);
+			if ('commJWT' in $$props) $$invalidate(2, commJWT = $$props.commJWT);
+			if ('newVerification' in $$props) $$invalidate(3, newVerification = $$props.newVerification);
+			if ('commMayAskProof' in $$props) $$invalidate(4, commMayAskProof = $$props.commMayAskProof);
+			if ('me' in $$props) $$invalidate(5, me = $$props.me);
 		};
 
 		if ($$props && "$$inject" in $$props) {
@@ -30585,21 +30585,21 @@
 
 		$$self.$$.update = () => {
 			if ($$self.$$.dirty & /*$meStore*/ 1024) {
-				$$invalidate(1, me = $meStore);
+				$$invalidate(5, me = $meStore);
 			}
 
-			if ($$self.$$.dirty & /*communityname, me*/ 3) {
-				$$invalidate(5, commMayAskProof = communityname && (!me.communityname || communityname !== me.communityname));
+			if ($$self.$$.dirty & /*communityname, $meStore*/ 1025) {
+				$$invalidate(4, commMayAskProof = communityname && (!$meStore.communityname || communityname !== $meStore.communityname));
 			}
 		};
 
 		return [
 			communityname,
-			me,
 			vimportmode,
 			commJWT,
 			newVerification,
 			commMayAskProof,
+			me,
 			botname,
 			communityProof,
 			communityVerify,
