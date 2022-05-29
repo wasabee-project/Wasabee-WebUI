@@ -28341,16 +28341,6 @@
 		}
 	}
 
-	function MeStore() {
-	    const { subscribe, set } = writable(null);
-	    return {
-	        subscribe,
-	        set,
-	        refresh: () => mePromise().then((me) => set(new WasabeeMe(me))),
-	        reset: () => set(null),
-	    };
-	}
-	const meStore = MeStore();
 	function AgentsStore() {
 	    const { subscribe, set, update } = writable({});
 	    return {
@@ -28549,14 +28539,14 @@
 
 	function get_each_context$e(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[12] = list[i];
+		child_ctx[11] = list[i];
 		return child_ctx;
 	}
 
 	function get_each_context_1$7(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[15] = list[i];
-		child_ctx[17] = i;
+		child_ctx[14] = list[i];
+		child_ctx[16] = i;
 		return child_ctx;
 	}
 
@@ -28592,11 +28582,11 @@
 		let first;
 		let t0;
 		let a;
-		let t1_value = /*getTeamName*/ ctx[4](/*teamid*/ ctx[15]) + "";
+		let t1_value = /*getTeamName*/ ctx[4](/*teamid*/ ctx[14]) + "";
 		let t1;
 		let t2;
 		let a_href_value;
-		let if_block = /*i*/ ctx[17] > 0 && create_if_block_2$b(ctx);
+		let if_block = /*i*/ ctx[16] > 0 && create_if_block_2$b(ctx);
 
 		const block = {
 			key: key_1,
@@ -28608,8 +28598,8 @@
 				a = element("a");
 				t1 = text(t1_value);
 				t2 = space();
-				attr_dev(a, "href", a_href_value = '#/team/' + /*teamid*/ ctx[15] + '/list');
-				add_location(a, file$s, 98, 18, 3089);
+				attr_dev(a, "href", a_href_value = '#/team/' + /*teamid*/ ctx[14] + '/list');
+				add_location(a, file$s, 98, 18, 3082);
 				this.first = first;
 			},
 			m: function mount(target, anchor) {
@@ -28623,7 +28613,7 @@
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
 
-				if (/*i*/ ctx[17] > 0) {
+				if (/*i*/ ctx[16] > 0) {
 					if (if_block) ; else {
 						if_block = create_if_block_2$b(ctx);
 						if_block.c();
@@ -28634,9 +28624,9 @@
 					if_block = null;
 				}
 
-				if (dirty & /*ops*/ 2 && t1_value !== (t1_value = /*getTeamName*/ ctx[4](/*teamid*/ ctx[15]) + "")) set_data_dev(t1, t1_value);
+				if (dirty & /*ops*/ 2 && t1_value !== (t1_value = /*getTeamName*/ ctx[4](/*teamid*/ ctx[14]) + "")) set_data_dev(t1, t1_value);
 
-				if (dirty & /*ops*/ 2 && a_href_value !== (a_href_value = '#/team/' + /*teamid*/ ctx[15] + '/list')) {
+				if (dirty & /*ops*/ 2 && a_href_value !== (a_href_value = '#/team/' + /*teamid*/ ctx[14] + '/list')) {
 					attr_dev(a, "href", a_href_value);
 				}
 			},
@@ -28666,7 +28656,7 @@
 		let dispose;
 
 		function select_block_type(ctx, dirty) {
-			if (/*toDelete*/ ctx[0] === /*op*/ ctx[12].ID) return create_if_block_1$h;
+			if (/*toDelete*/ ctx[0] === /*op*/ ctx[11].ID) return create_if_block_1$h;
 			return create_else_block$7;
 		}
 
@@ -28674,7 +28664,7 @@
 		let if_block = current_block_type(ctx);
 
 		function click_handler() {
-			return /*click_handler*/ ctx[10](/*op*/ ctx[12]);
+			return /*click_handler*/ ctx[9](/*op*/ ctx[11]);
 		}
 
 		const block = {
@@ -28682,7 +28672,7 @@
 				button = element("button");
 				if_block.c();
 				attr_dev(button, "class", "btn btn-danger btn-sm");
-				add_location(button, file$s, 105, 18, 3304);
+				add_location(button, file$s, 105, 18, 3297);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -28733,7 +28723,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Delete";
-				add_location(span, file$s, 112, 22, 3571);
+				add_location(span, file$s, 112, 22, 3564);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -28762,7 +28752,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Confirm?";
-				add_location(span, file$s, 110, 22, 3499);
+				add_location(span, file$s, 110, 22, 3492);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -28788,12 +28778,12 @@
 		let tr;
 		let td0;
 		let a;
-		let t0_value = /*op*/ ctx[12].name + "";
+		let t0_value = /*op*/ ctx[11].name + "";
 		let t0;
 		let a_href_value;
 		let t1;
 		let td1;
-		let t2_value = /*op*/ ctx[12].comment + "";
+		let t2_value = /*op*/ ctx[11].comment + "";
 		let t2;
 		let t3;
 		let td2;
@@ -28802,9 +28792,9 @@
 		let t4;
 		let td3;
 		let t5;
-		let each_value_1 = /*filterTeamsID*/ ctx[3](/*op*/ ctx[12].teamlist);
+		let each_value_1 = /*filterTeamsID*/ ctx[3](/*op*/ ctx[11].teamlist);
 		validate_each_argument(each_value_1);
-		const get_key = ctx => /*teamid*/ ctx[15];
+		const get_key = ctx => /*teamid*/ ctx[14];
 		validate_each_keys(ctx, each_value_1, get_each_context_1$7, get_key);
 
 		for (let i = 0; i < each_value_1.length; i += 1) {
@@ -28813,7 +28803,7 @@
 			each_1_lookup.set(key, each_blocks[i] = create_each_block_1$7(key, child_ctx));
 		}
 
-		let if_block = /*op*/ ctx[12].own && create_if_block$n(ctx);
+		let if_block = /*op*/ ctx[11].own && create_if_block$n(ctx);
 
 		const block = {
 			key: key_1,
@@ -28837,13 +28827,13 @@
 				td3 = element("td");
 				if (if_block) if_block.c();
 				t5 = space();
-				attr_dev(a, "href", a_href_value = '#/operation/' + /*op*/ ctx[12].ID + '/list');
-				add_location(a, file$s, 92, 16, 2829);
-				add_location(td0, file$s, 91, 14, 2808);
-				add_location(td1, file$s, 94, 14, 2920);
-				add_location(td2, file$s, 95, 14, 2956);
-				add_location(td3, file$s, 103, 14, 3252);
-				add_location(tr, file$s, 90, 12, 2789);
+				attr_dev(a, "href", a_href_value = '#/operation/' + /*op*/ ctx[11].ID + '/list');
+				add_location(a, file$s, 92, 16, 2822);
+				add_location(td0, file$s, 91, 14, 2801);
+				add_location(td1, file$s, 94, 14, 2913);
+				add_location(td2, file$s, 95, 14, 2949);
+				add_location(td3, file$s, 103, 14, 3245);
+				add_location(tr, file$s, 90, 12, 2782);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -28868,22 +28858,22 @@
 			},
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
-				if (dirty & /*ops*/ 2 && t0_value !== (t0_value = /*op*/ ctx[12].name + "")) set_data_dev(t0, t0_value);
+				if (dirty & /*ops*/ 2 && t0_value !== (t0_value = /*op*/ ctx[11].name + "")) set_data_dev(t0, t0_value);
 
-				if (dirty & /*ops*/ 2 && a_href_value !== (a_href_value = '#/operation/' + /*op*/ ctx[12].ID + '/list')) {
+				if (dirty & /*ops*/ 2 && a_href_value !== (a_href_value = '#/operation/' + /*op*/ ctx[11].ID + '/list')) {
 					attr_dev(a, "href", a_href_value);
 				}
 
-				if (dirty & /*ops*/ 2 && t2_value !== (t2_value = /*op*/ ctx[12].comment + "")) set_data_dev(t2, t2_value);
+				if (dirty & /*ops*/ 2 && t2_value !== (t2_value = /*op*/ ctx[11].comment + "")) set_data_dev(t2, t2_value);
 
 				if (dirty & /*filterTeamsID, ops, getTeamName*/ 26) {
-					each_value_1 = /*filterTeamsID*/ ctx[3](/*op*/ ctx[12].teamlist);
+					each_value_1 = /*filterTeamsID*/ ctx[3](/*op*/ ctx[11].teamlist);
 					validate_each_argument(each_value_1);
 					validate_each_keys(ctx, each_value_1, get_each_context_1$7, get_key);
 					each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value_1, each_1_lookup, td2, destroy_block, create_each_block_1$7, null, get_each_context_1$7);
 				}
 
-				if (/*op*/ ctx[12].own) {
+				if (/*op*/ ctx[11].own) {
 					if (if_block) {
 						if_block.p(ctx, dirty);
 					} else {
@@ -28944,7 +28934,7 @@
 		let dispose;
 		let each_value = /*ops*/ ctx[1];
 		validate_each_argument(each_value);
-		const get_key = ctx => /*op*/ ctx[12].ID;
+		const get_key = ctx => /*op*/ ctx[11].ID;
 		validate_each_keys(ctx, each_value, get_each_context$e, get_key);
 
 		for (let i = 0; i < each_value.length; i += 1) {
@@ -28985,28 +28975,28 @@
 				}
 
 				attr_dev(button, "class", "btn btn-primary");
-				add_location(button, file$s, 77, 8, 2369);
-				add_location(h1, file$s, 75, 6, 2337);
+				add_location(button, file$s, 77, 8, 2362);
+				add_location(h1, file$s, 75, 6, 2330);
 				attr_dev(th0, "scope", "col");
-				add_location(th0, file$s, 82, 12, 2542);
+				add_location(th0, file$s, 82, 12, 2535);
 				attr_dev(th1, "scope", "col");
-				add_location(th1, file$s, 83, 12, 2585);
+				add_location(th1, file$s, 83, 12, 2578);
 				attr_dev(th2, "scope", "col");
-				add_location(th2, file$s, 84, 12, 2626);
-				add_location(th3, file$s, 85, 12, 2665);
-				add_location(tr, file$s, 81, 10, 2525);
+				add_location(th2, file$s, 84, 12, 2619);
+				add_location(th3, file$s, 85, 12, 2658);
+				add_location(tr, file$s, 81, 10, 2518);
 				attr_dev(thead, "class", "thead");
-				add_location(thead, file$s, 80, 8, 2493);
+				add_location(thead, file$s, 80, 8, 2486);
 				attr_dev(tbody, "id", "ops");
-				add_location(tbody, file$s, 88, 8, 2724);
+				add_location(tbody, file$s, 88, 8, 2717);
 				attr_dev(table, "class", "table table-striped");
-				add_location(table, file$s, 79, 6, 2449);
+				add_location(table, file$s, 79, 6, 2442);
 				attr_dev(div0, "class", "col");
-				add_location(div0, file$s, 74, 4, 2313);
+				add_location(div0, file$s, 74, 4, 2306);
 				attr_dev(div1, "class", "row");
-				add_location(div1, file$s, 73, 2, 2291);
+				add_location(div1, file$s, 73, 2, 2284);
 				attr_dev(div2, "class", "container");
-				add_location(div2, file$s, 72, 0, 2265);
+				add_location(div2, file$s, 72, 0, 2258);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -29075,13 +29065,9 @@
 	}
 
 	function instance$v($$self, $$props, $$invalidate) {
-		let me;
-		let $meStore;
 		let $opsStore;
-		validate_store(meStore, 'meStore');
-		component_subscribe($$self, meStore, $$value => $$invalidate(8, $meStore = $$value));
 		validate_store(opsStore, 'opsStore');
-		component_subscribe($$self, opsStore, $$value => $$invalidate(9, $opsStore = $$value));
+		component_subscribe($$self, opsStore, $$value => $$invalidate(8, $opsStore = $$value));
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Operations', slots, []);
 
@@ -29121,6 +29107,7 @@
 				});
 		};
 
+		let me = WasabeeMe.get();
 		let toDelete = null;
 		opsStore.updateFromMe(me);
 		let ops = [];
@@ -29129,7 +29116,7 @@
 		function refresh() {
 			return __awaiter(this, void 0, void 0, function* () {
 				yield loadMeAndOps();
-				set_store_value(meStore, $meStore = WasabeeMe.get(), $meStore);
+				$$invalidate(6, me = WasabeeMe.get());
 			});
 		}
 
@@ -29170,8 +29157,8 @@
 			WasabeeOp,
 			deleteOpPromise,
 			loadMeAndOps,
-			meStore,
 			opsStore,
+			me,
 			toDelete,
 			ops,
 			teamMap,
@@ -29179,17 +29166,15 @@
 			filterTeamsID,
 			getTeamName,
 			deleteOp,
-			me,
-			$meStore,
 			$opsStore
 		});
 
 		$$self.$inject_state = $$props => {
 			if ('__awaiter' in $$props) __awaiter = $$props.__awaiter;
+			if ('me' in $$props) $$invalidate(6, me = $$props.me);
 			if ('toDelete' in $$props) $$invalidate(0, toDelete = $$props.toDelete);
 			if ('ops' in $$props) $$invalidate(1, ops = $$props.ops);
-			if ('teamMap' in $$props) $$invalidate(6, teamMap = $$props.teamMap);
-			if ('me' in $$props) $$invalidate(7, me = $$props.me);
+			if ('teamMap' in $$props) $$invalidate(7, teamMap = $$props.teamMap);
 		};
 
 		if ($$props && "$$inject" in $$props) {
@@ -29197,11 +29182,7 @@
 		}
 
 		$$self.$$.update = () => {
-			if ($$self.$$.dirty & /*$meStore*/ 256) {
-				$$invalidate(7, me = $meStore);
-			}
-
-			if ($$self.$$.dirty & /*$opsStore, me*/ 640) {
+			if ($$self.$$.dirty & /*$opsStore, me*/ 320) {
 				{
 					const os = [];
 					const lsk = new Set($opsStore.success);
@@ -29230,7 +29211,7 @@
 						teamMap.set(t.ID, t.Name);
 					}
 
-					(($$invalidate(6, teamMap), $$invalidate(7, me)), $$invalidate(8, $meStore));
+					($$invalidate(7, teamMap), $$invalidate(6, me));
 				}
 			}
 		};
@@ -29242,9 +29223,8 @@
 			filterTeamsID,
 			getTeamName,
 			deleteOp,
-			teamMap,
 			me,
-			$meStore,
+			teamMap,
 			$opsStore,
 			click_handler
 		];
@@ -29267,7 +29247,7 @@
 	/* src/components/Settings.svelte generated by Svelte v3.42.5 */
 	const file$r = "src/components/Settings.svelte";
 
-	// (72:10) {:else}
+	// (73:10) {:else}
 	function create_else_block_2$1(ctx) {
 		let t;
 
@@ -29288,14 +29268,14 @@
 			block,
 			id: create_else_block_2$1.name,
 			type: "else",
-			source: "(72:10) {:else}",
+			source: "(73:10) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (66:10) {#if me.Vverified}
+	// (67:10) {#if me.Vverified}
 	function create_if_block_5$1(ctx) {
 		let a;
 		let t;
@@ -29306,16 +29286,16 @@
 				a = element("a");
 				t = text("verified");
 				attr_dev(a, "v-if", "me.Vverified");
-				attr_dev(a, "href", a_href_value = 'https://v.enl.one/profile/' + /*me*/ ctx[1].enlid);
+				attr_dev(a, "href", a_href_value = 'https://v.enl.one/profile/' + /*me*/ ctx[0].enlid);
 				attr_dev(a, "target", "_new");
-				add_location(a, file$r, 66, 12, 2482);
+				add_location(a, file$r, 67, 12, 2530);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, a, anchor);
 				append_dev(a, t);
 			},
 			p: function update(ctx, dirty) {
-				if (dirty & /*me*/ 2 && a_href_value !== (a_href_value = 'https://v.enl.one/profile/' + /*me*/ ctx[1].enlid)) {
+				if (dirty & /*me*/ 1 && a_href_value !== (a_href_value = 'https://v.enl.one/profile/' + /*me*/ ctx[0].enlid)) {
 					attr_dev(a, "href", a_href_value);
 				}
 			},
@@ -29328,14 +29308,14 @@
 			block,
 			id: create_if_block_5$1.name,
 			type: "if",
-			source: "(66:10) {#if me.Vverified}",
+			source: "(67:10) {#if me.Vverified}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (153:8) {#if commJWT}
+	// (154:8) {#if commJWT}
 	function create_if_block_4$4(ctx) {
 		let p;
 		let t0;
@@ -29357,12 +29337,12 @@
 				textarea = element("textarea");
 				attr_dev(a, "href", "https://community.ingress.com/en/activity");
 				attr_dev(a, "target", "_new");
-				add_location(a, file$r, 154, 33, 5318);
-				add_location(p, file$r, 153, 10, 5281);
+				add_location(a, file$r, 155, 33, 5366);
+				add_location(p, file$r, 154, 10, 5329);
 				textarea.readOnly = true;
 				textarea.value = /*commJWT*/ ctx[3];
 				attr_dev(textarea, "class", "svelte-1f48hch");
-				add_location(textarea, file$r, 159, 10, 5501);
+				add_location(textarea, file$r, 160, 10, 5549);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, p, anchor);
@@ -29395,14 +29375,14 @@
 			block,
 			id: create_if_block_4$4.name,
 			type: "if",
-			source: "(153:8) {#if commJWT}",
+			source: "(154:8) {#if commJWT}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (162:8) {#if newVerification}
+	// (163:8) {#if newVerification}
 	function create_if_block_3$8(ctx) {
 		let p;
 		let t0;
@@ -29418,8 +29398,8 @@
 				t2 = text(" thread.");
 				attr_dev(a, "href", "https://community.ingress.com/en/activity");
 				attr_dev(a, "target", "_new");
-				add_location(a, file$r, 163, 53, 5676);
-				add_location(p, file$r, 162, 10, 5619);
+				add_location(a, file$r, 164, 53, 5724);
+				add_location(p, file$r, 163, 10, 5667);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, p, anchor);
@@ -29436,14 +29416,14 @@
 			block,
 			id: create_if_block_3$8.name,
 			type: "if",
-			source: "(162:8) {#if newVerification}",
+			source: "(163:8) {#if newVerification}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (208:6) {:else}
+	// (209:6) {:else}
 	function create_else_block_1$1(ctx) {
 		let div;
 		let t0;
@@ -29452,7 +29432,7 @@
 		let t1;
 		let t2;
 		let a1;
-		let t3_value = /*me*/ ctx[1].lockey + "";
+		let t3_value = /*me*/ ctx[0].lockey + "";
 		let t3;
 		let a1_href_value;
 		let t4;
@@ -29468,10 +29448,10 @@
 				t3 = text(t3_value);
 				t4 = text("\n          to start the verification process.");
 				attr_dev(a0, "href", 'tg://resolve?domain=' + /*botname*/ ctx[6]);
-				add_location(a0, file$r, 209, 24, 7184);
-				attr_dev(a1, "href", a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[1].lockey);
-				add_location(a1, file$r, 214, 10, 7307);
-				add_location(div, file$r, 208, 8, 7154);
+				add_location(a0, file$r, 210, 24, 7232);
+				attr_dev(a1, "href", a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[0].lockey);
+				add_location(a1, file$r, 215, 10, 7355);
+				add_location(div, file$r, 209, 8, 7202);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -29484,9 +29464,9 @@
 				append_dev(div, t4);
 			},
 			p: function update(ctx, dirty) {
-				if (dirty & /*me*/ 2 && t3_value !== (t3_value = /*me*/ ctx[1].lockey + "")) set_data_dev(t3, t3_value);
+				if (dirty & /*me*/ 1 && t3_value !== (t3_value = /*me*/ ctx[0].lockey + "")) set_data_dev(t3, t3_value);
 
-				if (dirty & /*me*/ 2 && a1_href_value !== (a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[1].lockey)) {
+				if (dirty & /*me*/ 1 && a1_href_value !== (a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[0].lockey)) {
 					attr_dev(a1, "href", a1_href_value);
 				}
 			},
@@ -29499,20 +29479,20 @@
 			block,
 			id: create_else_block_1$1.name,
 			type: "else",
-			source: "(208:6) {:else}",
+			source: "(209:6) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (176:6) {#if me.Telegram}
+	// (177:6) {#if me.Telegram}
 	function create_if_block$m(ctx) {
 		let div;
 
 		function select_block_type_2(ctx, dirty) {
-			if (/*me*/ ctx[1].Telegram.Verified) return create_if_block_1$g;
-			if (/*me*/ ctx[1].Telegram.Authtoken) return create_if_block_2$a;
+			if (/*me*/ ctx[0].Telegram.Verified) return create_if_block_1$g;
+			if (/*me*/ ctx[0].Telegram.Authtoken) return create_if_block_2$a;
 			return create_else_block$6;
 		}
 
@@ -29524,7 +29504,7 @@
 				div = element("div");
 				if_block.c();
 				attr_dev(div, "id", "telegramContent");
-				add_location(div, file$r, 176, 8, 6003);
+				add_location(div, file$r, 177, 8, 6051);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -29553,14 +29533,14 @@
 			block,
 			id: create_if_block$m.name,
 			type: "if",
-			source: "(176:6) {#if me.Telegram}",
+			source: "(177:6) {#if me.Telegram}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (195:10) {:else}
+	// (196:10) {:else}
 	function create_else_block$6(ctx) {
 		let div;
 		let strong;
@@ -29569,7 +29549,7 @@
 		let t2;
 		let t3;
 		let a1;
-		let t4_value = /*me*/ ctx[1].lockey + "";
+		let t4_value = /*me*/ ctx[0].lockey + "";
 		let t4;
 		let a1_href_value;
 		let t5;
@@ -29586,12 +29566,12 @@
 				a1 = element("a");
 				t4 = text(t4_value);
 				t5 = text("\n              to start the verification process. If you have sent this to the bot\n              and this step still shows here, log out and back in.");
-				add_location(strong, file$r, 196, 14, 6676);
+				add_location(strong, file$r, 197, 14, 6724);
 				attr_dev(a0, "href", 'tg://resolve?domain=' + /*botname*/ ctx[6]);
-				add_location(a0, file$r, 196, 53, 6715);
-				attr_dev(a1, "href", a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[1].lockey);
-				add_location(a1, file$r, 199, 14, 6818);
-				add_location(div, file$r, 195, 12, 6656);
+				add_location(a0, file$r, 197, 53, 6763);
+				attr_dev(a1, "href", a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[0].lockey);
+				add_location(a1, file$r, 200, 14, 6866);
+				add_location(div, file$r, 196, 12, 6704);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -29605,9 +29585,9 @@
 				append_dev(div, t5);
 			},
 			p: function update(ctx, dirty) {
-				if (dirty & /*me*/ 2 && t4_value !== (t4_value = /*me*/ ctx[1].lockey + "")) set_data_dev(t4, t4_value);
+				if (dirty & /*me*/ 1 && t4_value !== (t4_value = /*me*/ ctx[0].lockey + "")) set_data_dev(t4, t4_value);
 
-				if (dirty & /*me*/ 2 && a1_href_value !== (a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[1].lockey)) {
+				if (dirty & /*me*/ 1 && a1_href_value !== (a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[0].lockey)) {
 					attr_dev(a1, "href", a1_href_value);
 				}
 			},
@@ -29620,14 +29600,14 @@
 			block,
 			id: create_else_block$6.name,
 			type: "else",
-			source: "(195:10) {:else}",
+			source: "(196:10) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (182:42) 
+	// (183:42) 
 	function create_if_block_2$a(ctx) {
 		let div;
 		let strong;
@@ -29636,7 +29616,7 @@
 		let t2;
 		let t3;
 		let a1;
-		let t4_value = /*me*/ ctx[1].Telegram.Authtoken + "";
+		let t4_value = /*me*/ ctx[0].Telegram.Authtoken + "";
 		let t4;
 		let a1_href_value;
 		let t5;
@@ -29653,12 +29633,12 @@
 				a1 = element("a");
 				t4 = text(t4_value);
 				t5 = text("\n              to conclude verification.");
-				add_location(strong, file$r, 183, 14, 6233);
+				add_location(strong, file$r, 184, 14, 6281);
 				attr_dev(a0, "href", 'tg://resolve?domain=' + /*botname*/ ctx[6]);
-				add_location(a0, file$r, 183, 53, 6272);
-				attr_dev(a1, "href", a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[1].Telegram.Authtoken);
-				add_location(a1, file$r, 186, 14, 6375);
-				add_location(div, file$r, 182, 12, 6213);
+				add_location(a0, file$r, 184, 53, 6320);
+				attr_dev(a1, "href", a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[0].Telegram.Authtoken);
+				add_location(a1, file$r, 187, 14, 6423);
+				add_location(div, file$r, 183, 12, 6261);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -29672,9 +29652,9 @@
 				append_dev(div, t5);
 			},
 			p: function update(ctx, dirty) {
-				if (dirty & /*me*/ 2 && t4_value !== (t4_value = /*me*/ ctx[1].Telegram.Authtoken + "")) set_data_dev(t4, t4_value);
+				if (dirty & /*me*/ 1 && t4_value !== (t4_value = /*me*/ ctx[0].Telegram.Authtoken + "")) set_data_dev(t4, t4_value);
 
-				if (dirty & /*me*/ 2 && a1_href_value !== (a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[1].Telegram.Authtoken)) {
+				if (dirty & /*me*/ 1 && a1_href_value !== (a1_href_value = 'https://telegram.me/' + /*botname*/ ctx[6] + '?start=' + /*me*/ ctx[0].Telegram.Authtoken)) {
 					attr_dev(a1, "href", a1_href_value);
 				}
 			},
@@ -29687,18 +29667,18 @@
 			block,
 			id: create_if_block_2$a.name,
 			type: "if",
-			source: "(182:42) ",
+			source: "(183:42) ",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (178:10) {#if me.Telegram.Verified}
+	// (179:10) {#if me.Telegram.Verified}
 	function create_if_block_1$g(ctx) {
 		let div;
 		let t0;
-		let t1_value = /*me*/ ctx[1].Telegram.ID + "";
+		let t1_value = /*me*/ ctx[0].Telegram.ID + "";
 		let t1;
 		let t2;
 
@@ -29708,7 +29688,7 @@
 				t0 = text("Telgram ID: ");
 				t1 = text(t1_value);
 				t2 = text(" (verified)");
-				add_location(div, file$r, 178, 12, 6079);
+				add_location(div, file$r, 179, 12, 6127);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -29717,7 +29697,7 @@
 				append_dev(div, t2);
 			},
 			p: function update(ctx, dirty) {
-				if (dirty & /*me*/ 2 && t1_value !== (t1_value = /*me*/ ctx[1].Telegram.ID + "")) set_data_dev(t1, t1_value);
+				if (dirty & /*me*/ 1 && t1_value !== (t1_value = /*me*/ ctx[0].Telegram.ID + "")) set_data_dev(t1, t1_value);
 			},
 			d: function destroy(detaching) {
 				if (detaching) detach_dev(div);
@@ -29728,7 +29708,7 @@
 			block,
 			id: create_if_block_1$g.name,
 			type: "if",
-			source: "(178:10) {#if me.Telegram.Verified}",
+			source: "(179:10) {#if me.Telegram.Verified}",
 			ctx
 		});
 
@@ -29747,14 +29727,14 @@
 		let span0;
 		let t5;
 		let span1;
-		let t6_value = /*me*/ ctx[1].name + "";
+		let t6_value = /*me*/ ctx[0].name + "";
 		let t6;
 		let t7;
 		let div2;
 		let span2;
 		let t9;
 		let span3;
-		let t10_value = /*me*/ ctx[1].vname + "";
+		let t10_value = /*me*/ ctx[0].vname + "";
 		let t10;
 		let t11;
 		let div3;
@@ -29766,14 +29746,14 @@
 		let span5;
 		let t16;
 		let span6;
-		let t17_value = /*me*/ ctx[1].rocksname + "";
+		let t17_value = /*me*/ ctx[0].rocksname + "";
 		let t17;
 		let t18;
 		let div5;
 		let a1;
 		let t20;
 		let span7;
-		let t21_value = (/*me*/ ctx[1].rocks ? 'verified' : 'not verified') + "";
+		let t21_value = (/*me*/ ctx[0].rocks ? 'verified' : 'not verified') + "";
 		let t21;
 		let t22;
 		let p0;
@@ -29784,14 +29764,14 @@
 		let span8;
 		let t26;
 		let span9;
-		let t27_value = /*me*/ ctx[1].id + "";
+		let t27_value = /*me*/ ctx[0].id + "";
 		let t27;
 		let t28;
 		let div7;
 		let span10;
 		let t30;
 		let span11;
-		let t31_value = /*me*/ ctx[1].level + "";
+		let t31_value = /*me*/ ctx[0].level + "";
 		let t31;
 		let t32;
 		let p1;
@@ -29806,7 +29786,7 @@
 		let span12;
 		let t40;
 		let span13;
-		let t41_value = /*me*/ ctx[1].intelname + "";
+		let t41_value = /*me*/ ctx[0].intelname + "";
 		let t41;
 		let t42;
 		let p2;
@@ -29817,7 +29797,7 @@
 		let span14;
 		let t46;
 		let span15;
-		let t47_value = /*me*/ ctx[1].communityname + "";
+		let t47_value = /*me*/ ctx[0].communityname + "";
 		let t47;
 		let t48;
 		let p4;
@@ -29845,7 +29825,7 @@
 		let t60;
 		let div17;
 		let code;
-		let t61_value = /*me*/ ctx[1].lockey + "";
+		let t61_value = /*me*/ ctx[0].lockey + "";
 		let t61;
 		let t62;
 		let div16;
@@ -29875,7 +29855,7 @@
 		let dispose;
 
 		function select_block_type(ctx, dirty) {
-			if (/*me*/ ctx[1].Vverified) return create_if_block_5$1;
+			if (/*me*/ ctx[0].Vverified) return create_if_block_5$1;
 			return create_else_block_2$1;
 		}
 
@@ -29885,7 +29865,7 @@
 		let if_block2 = /*newVerification*/ ctx[4] && create_if_block_3$8(ctx);
 
 		function select_block_type_1(ctx, dirty) {
-			if (/*me*/ ctx[1].Telegram) return create_if_block$m;
+			if (/*me*/ ctx[0].Telegram) return create_if_block$m;
 			return create_else_block_1$1;
 		}
 
@@ -30045,146 +30025,146 @@
 				t75 = space();
 				div26 = element("div");
 				div26.textContent = "This can potentially create a large number of Wasabee teams at once.\n        Only use this if you are sure you need it.";
-				add_location(h1, file$r, 50, 2, 1949);
+				add_location(h1, file$r, 51, 2, 1997);
 				attr_dev(div0, "class", "card-header");
-				add_location(div0, file$r, 52, 4, 1997);
+				add_location(div0, file$r, 53, 4, 2045);
 				attr_dev(span0, "class", "font-weight-bolder");
-				add_location(span0, file$r, 55, 8, 2087);
+				add_location(span0, file$r, 56, 8, 2135);
 				attr_dev(span1, "class", "agent-name");
-				add_location(span1, file$r, 56, 8, 2149);
-				add_location(div1, file$r, 54, 6, 2073);
+				add_location(span1, file$r, 57, 8, 2197);
+				add_location(div1, file$r, 55, 6, 2121);
 				attr_dev(span2, "class", "font-weight-bolder");
-				add_location(span2, file$r, 59, 8, 2224);
+				add_location(span2, file$r, 60, 8, 2272);
 				attr_dev(span3, "class", "agent-name");
-				add_location(span3, file$r, 60, 8, 2280);
-				add_location(div2, file$r, 58, 6, 2210);
+				add_location(span3, file$r, 61, 8, 2328);
+				add_location(div2, file$r, 59, 6, 2258);
 				attr_dev(a0, "href", "https://v.enl.one/");
 				attr_dev(a0, "target", "_new");
-				add_location(a0, file$r, 63, 8, 2356);
+				add_location(a0, file$r, 64, 8, 2404);
 				attr_dev(span4, "id", "vstatus");
-				add_location(span4, file$r, 64, 8, 2421);
-				add_location(div3, file$r, 62, 6, 2342);
+				add_location(span4, file$r, 65, 8, 2469);
+				add_location(div3, file$r, 63, 6, 2390);
 				attr_dev(span5, "class", "font-weight-bolder");
-				add_location(span5, file$r, 77, 8, 2740);
+				add_location(span5, file$r, 78, 8, 2788);
 				attr_dev(span6, "class", "agent-name");
-				add_location(span6, file$r, 78, 8, 2800);
-				add_location(div4, file$r, 76, 6, 2726);
+				add_location(span6, file$r, 79, 8, 2848);
+				add_location(div4, file$r, 77, 6, 2774);
 				attr_dev(a1, "href", "https://enl.rocks/");
 				attr_dev(a1, "target", "_new");
-				add_location(a1, file$r, 81, 8, 2880);
+				add_location(a1, file$r, 82, 8, 2928);
 				attr_dev(span7, "id", "rocksstatus");
-				add_location(span7, file$r, 82, 8, 2953);
+				add_location(span7, file$r, 83, 8, 3001);
 				attr_dev(a2, "href", "#tooltip");
 				attr_dev(a2, "class", "tooltip-display");
 				attr_dev(a2, "data-toggle", "tooltip");
 				attr_dev(a2, "title", ".Rocks verification typically only takes place in relationship to anomolies. Lack of verification does not mean you don't have a .rocks account, it just means you've not been verified at an anomaly event");
-				add_location(a2, file$r, 85, 13, 3063);
-				add_location(em0, file$r, 84, 10, 3046);
-				add_location(p0, file$r, 83, 8, 3032);
-				add_location(div5, file$r, 80, 6, 2866);
+				add_location(a2, file$r, 86, 13, 3111);
+				add_location(em0, file$r, 85, 10, 3094);
+				add_location(p0, file$r, 84, 8, 3080);
+				add_location(div5, file$r, 81, 6, 2914);
 				attr_dev(span8, "class", "font-weight-bolder");
-				add_location(span8, file$r, 96, 8, 3519);
+				add_location(span8, file$r, 97, 8, 3567);
 				attr_dev(span9, "class", "agent-name");
-				add_location(span9, file$r, 97, 8, 3578);
-				add_location(div6, file$r, 95, 6, 3505);
+				add_location(span9, file$r, 98, 8, 3626);
+				add_location(div6, file$r, 96, 6, 3553);
 				attr_dev(span10, "class", "font-weight-bolder");
-				add_location(span10, file$r, 100, 8, 3651);
+				add_location(span10, file$r, 101, 8, 3699);
 				attr_dev(span11, "class", "agent-name");
-				add_location(span11, file$r, 101, 8, 3706);
+				add_location(span11, file$r, 102, 8, 3754);
 				attr_dev(a3, "href", "https://v.enl.one/");
-				add_location(a3, file$r, 105, 12, 3828);
+				add_location(a3, file$r, 106, 12, 3876);
 				attr_dev(a4, "href", "https://enlightened.rocks");
-				add_location(a4, file$r, 106, 12, 3882);
-				add_location(em1, file$r, 103, 10, 3771);
-				add_location(p1, file$r, 102, 8, 3757);
-				add_location(div7, file$r, 99, 6, 3637);
+				add_location(a4, file$r, 107, 12, 3930);
+				add_location(em1, file$r, 104, 10, 3819);
+				add_location(p1, file$r, 103, 8, 3805);
+				add_location(div7, file$r, 100, 6, 3685);
 				attr_dev(span12, "class", "font-weight-bolder");
-				add_location(span12, file$r, 113, 8, 4110);
+				add_location(span12, file$r, 114, 8, 4158);
 				attr_dev(span13, "class", "agent-name");
-				add_location(span13, file$r, 114, 8, 4170);
-				add_location(div8, file$r, 112, 6, 4096);
-				add_location(em2, file$r, 117, 8, 4248);
-				add_location(p2, file$r, 116, 6, 4236);
+				add_location(span13, file$r, 115, 8, 4218);
+				add_location(div8, file$r, 113, 6, 4144);
+				add_location(em2, file$r, 118, 8, 4296);
+				add_location(p2, file$r, 117, 6, 4284);
 				attr_dev(span14, "class", "font-weight-bolder");
-				add_location(span14, file$r, 124, 10, 4420);
+				add_location(span14, file$r, 125, 10, 4468);
 				attr_dev(span15, "class", "agent-name");
-				add_location(span15, file$r, 125, 10, 4486);
-				add_location(p3, file$r, 123, 8, 4406);
+				add_location(span15, file$r, 126, 10, 4534);
+				add_location(p3, file$r, 124, 8, 4454);
 				attr_dev(input0, "type", "text");
 				attr_dev(input0, "pattern", '[a-zA-Z0-9]{3,}');
-				attr_dev(input0, "placeholder", input0_placeholder_value = /*me*/ ctx[1].communityname || 'My Agent Name');
+				attr_dev(input0, "placeholder", input0_placeholder_value = /*me*/ ctx[0].communityname || 'My Agent Name');
 				attr_dev(input0, "class", "svelte-1f48hch");
 				toggle_class(input0, "unverified", /*commMayAskProof*/ ctx[5]);
-				add_location(input0, file$r, 129, 12, 4592);
-				add_location(label, file$r, 128, 10, 4572);
+				add_location(input0, file$r, 130, 12, 4640);
+				add_location(label, file$r, 129, 10, 4620);
 				attr_dev(button0, "class", "btn btn-info");
 				button0.disabled = button0_disabled_value = !/*commMayAskProof*/ ctx[5];
-				add_location(button0, file$r, 137, 10, 4865);
+				add_location(button0, file$r, 138, 10, 4913);
 				attr_dev(button1, "class", "btn btn-success");
 				button1.disabled = button1_disabled_value = !/*commMayAskProof*/ ctx[5];
-				add_location(button1, file$r, 144, 10, 5048);
-				add_location(p4, file$r, 127, 8, 4558);
-				add_location(div9, file$r, 122, 6, 4392);
+				add_location(button1, file$r, 145, 10, 5096);
+				add_location(p4, file$r, 128, 8, 4606);
+				add_location(div9, file$r, 123, 6, 4440);
 				attr_dev(div10, "class", "card-body");
-				add_location(div10, file$r, 53, 4, 2043);
+				add_location(div10, file$r, 54, 4, 2091);
 				attr_dev(div11, "class", "card mb-2");
-				add_location(div11, file$r, 51, 2, 1969);
+				add_location(div11, file$r, 52, 2, 2017);
 				attr_dev(div12, "class", "card-header");
-				add_location(div12, file$r, 173, 4, 5903);
+				add_location(div12, file$r, 174, 4, 5951);
 				attr_dev(div13, "class", "card-body");
-				add_location(div13, file$r, 174, 4, 5947);
+				add_location(div13, file$r, 175, 4, 5995);
 				attr_dev(div14, "class", "card mb-2");
-				add_location(div14, file$r, 172, 2, 5875);
+				add_location(div14, file$r, 173, 2, 5923);
 				attr_dev(div15, "class", "card-header");
-				add_location(div15, file$r, 223, 4, 7536);
+				add_location(div15, file$r, 224, 4, 7584);
 				attr_dev(code, "id", "ott");
 				attr_dev(code, "class", "svelte-1f48hch");
-				add_location(code, file$r, 225, 6, 7616);
+				add_location(code, file$r, 226, 6, 7664);
 				attr_dev(div16, "class", "small dim");
-				add_location(div16, file$r, 226, 6, 7656);
+				add_location(div16, file$r, 227, 6, 7704);
 				attr_dev(div17, "class", "card-body");
-				add_location(div17, file$r, 224, 4, 7586);
+				add_location(div17, file$r, 225, 4, 7634);
 				attr_dev(div18, "class", "card mb-2");
-				add_location(div18, file$r, 222, 2, 7508);
+				add_location(div18, file$r, 223, 2, 7556);
 				attr_dev(div19, "class", "card-header");
-				add_location(div19, file$r, 232, 4, 7824);
+				add_location(div19, file$r, 233, 4, 7872);
 				attr_dev(input1, "type", "text");
 				attr_dev(input1, "id", "vapi");
 				attr_dev(input1, "placeholder", "0123456789abcdef0123456789abcdef0123456789");
-				add_location(input1, file$r, 235, 8, 7928);
+				add_location(input1, file$r, 236, 8, 7976);
 				attr_dev(div20, "id", "vapidiv");
-				add_location(div20, file$r, 234, 6, 7901);
+				add_location(div20, file$r, 235, 6, 7949);
 				attr_dev(div21, "class", "small dim");
-				add_location(div21, file$r, 243, 6, 8153);
+				add_location(div21, file$r, 244, 6, 8201);
 				attr_dev(div22, "class", "card-body");
-				add_location(div22, file$r, 233, 4, 7871);
+				add_location(div22, file$r, 234, 4, 7919);
 				attr_dev(div23, "class", "card mb-2");
-				add_location(div23, file$r, 231, 2, 7796);
+				add_location(div23, file$r, 232, 2, 7844);
 				attr_dev(div24, "class", "card-header");
-				add_location(div24, file$r, 249, 4, 8317);
+				add_location(div24, file$r, 250, 4, 8365);
 				option0.__value = "team";
 				option0.value = option0.__value;
-				add_location(option0, file$r, 253, 10, 8486);
+				add_location(option0, file$r, 254, 10, 8534);
 				option1.__value = "role";
 				option1.value = option1.__value;
-				add_location(option1, file$r, 254, 10, 8561);
+				add_location(option1, file$r, 255, 10, 8609);
 				attr_dev(select, "name", "vimportmode");
-				if (/*vimportmode*/ ctx[2] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[14].call(select));
-				add_location(select, file$r, 252, 8, 8423);
+				if (/*vimportmode*/ ctx[2] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[13].call(select));
+				add_location(select, file$r, 253, 8, 8471);
 				attr_dev(input2, "type", "button");
 				attr_dev(input2, "id", "vimport");
 				input2.value = "V team import";
-				add_location(input2, file$r, 258, 8, 8686);
+				add_location(input2, file$r, 259, 8, 8734);
 				attr_dev(div25, "id", "vapidiv");
-				add_location(div25, file$r, 251, 6, 8396);
+				add_location(div25, file$r, 252, 6, 8444);
 				attr_dev(div26, "class", "small dim");
-				add_location(div26, file$r, 265, 6, 8831);
+				add_location(div26, file$r, 266, 6, 8879);
 				attr_dev(div27, "class", "card-body");
-				add_location(div27, file$r, 250, 4, 8366);
+				add_location(div27, file$r, 251, 4, 8414);
 				attr_dev(div28, "class", "card mb-2");
-				add_location(div28, file$r, 248, 2, 8289);
+				add_location(div28, file$r, 249, 2, 8337);
 				attr_dev(div29, "class", "container");
-				add_location(div29, file$r, 49, 0, 1923);
+				add_location(div29, file$r, 50, 0, 1971);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -30270,7 +30250,7 @@
 				append_dev(div9, p4);
 				append_dev(p4, label);
 				append_dev(label, input0);
-				set_input_value(input0, /*communityname*/ ctx[0]);
+				set_input_value(input0, /*communityname*/ ctx[1]);
 				append_dev(p4, t49);
 				append_dev(p4, button0);
 				append_dev(button0, t50);
@@ -30303,7 +30283,7 @@
 				append_dev(div23, div22);
 				append_dev(div22, div20);
 				append_dev(div20, input1);
-				set_input_value(input1, /*me*/ ctx[1].vapi);
+				set_input_value(input1, /*me*/ ctx[0].vapi);
 				append_dev(div22, t67);
 				append_dev(div22, div21);
 				append_dev(div29, t69);
@@ -30323,12 +30303,12 @@
 
 				if (!mounted) {
 					dispose = [
-						listen_dev(input0, "input", /*input0_input_handler*/ ctx[11]),
+						listen_dev(input0, "input", /*input0_input_handler*/ ctx[10]),
 						listen_dev(button0, "click", /*communityProof*/ ctx[7], false, false, false),
 						listen_dev(button1, "click", /*communityVerify*/ ctx[8], false, false, false),
-						listen_dev(input1, "input", /*input1_input_handler*/ ctx[12]),
-						listen_dev(input1, "change", /*change_handler*/ ctx[13], false, false, false),
-						listen_dev(select, "change", /*select_change_handler*/ ctx[14]),
+						listen_dev(input1, "input", /*input1_input_handler*/ ctx[11]),
+						listen_dev(input1, "change", /*change_handler*/ ctx[12], false, false, false),
+						listen_dev(select, "change", /*select_change_handler*/ ctx[13]),
 						listen_dev(input2, "click", /*vimport*/ ctx[9], false, false, false)
 					];
 
@@ -30336,8 +30316,8 @@
 				}
 			},
 			p: function update(ctx, [dirty]) {
-				if (dirty & /*me*/ 2 && t6_value !== (t6_value = /*me*/ ctx[1].name + "")) set_data_dev(t6, t6_value);
-				if (dirty & /*me*/ 2 && t10_value !== (t10_value = /*me*/ ctx[1].vname + "")) set_data_dev(t10, t10_value);
+				if (dirty & /*me*/ 1 && t6_value !== (t6_value = /*me*/ ctx[0].name + "")) set_data_dev(t6, t6_value);
+				if (dirty & /*me*/ 1 && t10_value !== (t10_value = /*me*/ ctx[0].vname + "")) set_data_dev(t10, t10_value);
 
 				if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block0) {
 					if_block0.p(ctx, dirty);
@@ -30351,19 +30331,19 @@
 					}
 				}
 
-				if (dirty & /*me*/ 2 && t17_value !== (t17_value = /*me*/ ctx[1].rocksname + "")) set_data_dev(t17, t17_value);
-				if (dirty & /*me*/ 2 && t21_value !== (t21_value = (/*me*/ ctx[1].rocks ? 'verified' : 'not verified') + "")) set_data_dev(t21, t21_value);
-				if (dirty & /*me*/ 2 && t27_value !== (t27_value = /*me*/ ctx[1].id + "")) set_data_dev(t27, t27_value);
-				if (dirty & /*me*/ 2 && t31_value !== (t31_value = /*me*/ ctx[1].level + "")) set_data_dev(t31, t31_value);
-				if (dirty & /*me*/ 2 && t41_value !== (t41_value = /*me*/ ctx[1].intelname + "")) set_data_dev(t41, t41_value);
-				if (dirty & /*me*/ 2 && t47_value !== (t47_value = /*me*/ ctx[1].communityname + "")) set_data_dev(t47, t47_value);
+				if (dirty & /*me*/ 1 && t17_value !== (t17_value = /*me*/ ctx[0].rocksname + "")) set_data_dev(t17, t17_value);
+				if (dirty & /*me*/ 1 && t21_value !== (t21_value = (/*me*/ ctx[0].rocks ? 'verified' : 'not verified') + "")) set_data_dev(t21, t21_value);
+				if (dirty & /*me*/ 1 && t27_value !== (t27_value = /*me*/ ctx[0].id + "")) set_data_dev(t27, t27_value);
+				if (dirty & /*me*/ 1 && t31_value !== (t31_value = /*me*/ ctx[0].level + "")) set_data_dev(t31, t31_value);
+				if (dirty & /*me*/ 1 && t41_value !== (t41_value = /*me*/ ctx[0].intelname + "")) set_data_dev(t41, t41_value);
+				if (dirty & /*me*/ 1 && t47_value !== (t47_value = /*me*/ ctx[0].communityname + "")) set_data_dev(t47, t47_value);
 
-				if (dirty & /*me*/ 2 && input0_placeholder_value !== (input0_placeholder_value = /*me*/ ctx[1].communityname || 'My Agent Name')) {
+				if (dirty & /*me*/ 1 && input0_placeholder_value !== (input0_placeholder_value = /*me*/ ctx[0].communityname || 'My Agent Name')) {
 					attr_dev(input0, "placeholder", input0_placeholder_value);
 				}
 
-				if (dirty & /*communityname*/ 1 && input0.value !== /*communityname*/ ctx[0]) {
-					set_input_value(input0, /*communityname*/ ctx[0]);
+				if (dirty & /*communityname*/ 2 && input0.value !== /*communityname*/ ctx[1]) {
+					set_input_value(input0, /*communityname*/ ctx[1]);
 				}
 
 				if (dirty & /*commMayAskProof*/ 32) {
@@ -30414,10 +30394,10 @@
 					}
 				}
 
-				if (dirty & /*me*/ 2 && t61_value !== (t61_value = /*me*/ ctx[1].lockey + "")) set_data_dev(t61, t61_value);
+				if (dirty & /*me*/ 1 && t61_value !== (t61_value = /*me*/ ctx[0].lockey + "")) set_data_dev(t61, t61_value);
 
-				if (dirty & /*me*/ 2 && input1.value !== /*me*/ ctx[1].vapi) {
-					set_input_value(input1, /*me*/ ctx[1].vapi);
+				if (dirty & /*me*/ 1 && input1.value !== /*me*/ ctx[0].vapi) {
+					set_input_value(input1, /*me*/ ctx[0].vapi);
 				}
 
 				if (dirty & /*vimportmode*/ 4) {
@@ -30455,11 +30435,7 @@
 	}
 
 	function instance$u($$self, $$props, $$invalidate) {
-		let me;
 		let commMayAskProof;
-		let $meStore;
-		validate_store(meStore, 'meStore');
-		component_subscribe($$self, meStore, $$value => $$invalidate(10, $meStore = $$value));
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Settings', slots, []);
 
@@ -30499,6 +30475,7 @@
 				});
 		};
 
+		let me = WasabeeMe.get();
 		let botname = getConfig().botname;
 		let vimportmode = 'team';
 		let communityname = me.communityname || '';
@@ -30520,7 +30497,7 @@
 					yield notifyOnError(getCommVerify(communityname));
 					$$invalidate(4, newVerification = true);
 					notifyInfo('Community name verified');
-					meStore.refresh();
+					$$invalidate(0, me = yield getMe(true));
 				}
 			});
 		}
@@ -30537,12 +30514,12 @@
 
 		function input0_input_handler() {
 			communityname = this.value;
-			$$invalidate(0, communityname);
+			$$invalidate(1, communityname);
 		}
 
 		function input1_input_handler() {
 			me.vapi = this.value;
-			($$invalidate(1, me), $$invalidate(10, $meStore));
+			$$invalidate(0, me);
 		}
 
 		const change_handler = () => setVAPIkey(me.vapi);
@@ -30554,6 +30531,7 @@
 
 		$$self.$capture_state = () => ({
 			__awaiter,
+			WasabeeMe,
 			getConfig,
 			notifyInfo,
 			notifyOnError,
@@ -30561,7 +30539,8 @@
 			getCommVerify,
 			importVteams,
 			setVAPIkey,
-			meStore,
+			getMe,
+			me,
 			botname,
 			vimportmode,
 			communityname,
@@ -30571,19 +30550,17 @@
 			communityVerify,
 			commJWTClick,
 			vimport,
-			me,
-			commMayAskProof,
-			$meStore
+			commMayAskProof
 		});
 
 		$$self.$inject_state = $$props => {
 			if ('__awaiter' in $$props) __awaiter = $$props.__awaiter;
+			if ('me' in $$props) $$invalidate(0, me = $$props.me);
 			if ('botname' in $$props) $$invalidate(6, botname = $$props.botname);
 			if ('vimportmode' in $$props) $$invalidate(2, vimportmode = $$props.vimportmode);
-			if ('communityname' in $$props) $$invalidate(0, communityname = $$props.communityname);
+			if ('communityname' in $$props) $$invalidate(1, communityname = $$props.communityname);
 			if ('commJWT' in $$props) $$invalidate(3, commJWT = $$props.commJWT);
 			if ('newVerification' in $$props) $$invalidate(4, newVerification = $$props.newVerification);
-			if ('me' in $$props) $$invalidate(1, me = $$props.me);
 			if ('commMayAskProof' in $$props) $$invalidate(5, commMayAskProof = $$props.commMayAskProof);
 		};
 
@@ -30592,18 +30569,14 @@
 		}
 
 		$$self.$$.update = () => {
-			if ($$self.$$.dirty & /*$meStore*/ 1024) {
-				$$invalidate(1, me = $meStore);
-			}
-
 			if ($$self.$$.dirty & /*communityname, me*/ 3) {
 				$$invalidate(5, commMayAskProof = communityname && (!me.communityname || communityname !== me.communityname));
 			}
 		};
 
 		return [
-			communityname,
 			me,
+			communityname,
 			vimportmode,
 			commJWT,
 			newVerification,
@@ -30612,7 +30585,6 @@
 			communityProof,
 			communityVerify,
 			vimport,
-			$meStore,
 			input0_input_handler,
 			input1_input_handler,
 			change_handler,
@@ -30641,17 +30613,17 @@
 
 	function get_each_context$d(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[26] = list[i];
-		child_ctx[27] = list;
-		child_ctx[28] = i;
+		child_ctx[25] = list[i];
+		child_ctx[26] = list;
+		child_ctx[27] = i;
 		return child_ctx;
 	}
 
 	function get_each_context_1$6(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[29] = list[i][0];
-		child_ctx[30] = list[i][1];
-		child_ctx[32] = i;
+		child_ctx[28] = list[i][0];
+		child_ctx[29] = list[i][1];
+		child_ctx[31] = i;
 		return child_ctx;
 	}
 
@@ -30662,7 +30634,7 @@
 		let each_1_anchor;
 		let each_value = /*teamsList*/ ctx[4];
 		validate_each_argument(each_value);
-		const get_key = ctx => /*team*/ ctx[26].ID;
+		const get_key = ctx => /*team*/ ctx[25].ID;
 		validate_each_keys(ctx, each_value, get_each_context$d, get_key);
 
 		for (let i = 0; i < each_value.length; i += 1) {
@@ -30729,8 +30701,8 @@
 				t0 = text("You are not on any teams, have your operator add you with this\n              GoogleID: ");
 				t1 = text(t1_value);
 				attr_dev(td, "colspan", "6");
-				add_location(td, file$q, 147, 12, 4394);
-				add_location(tr, file$q, 146, 10, 4377);
+				add_location(td, file$q, 147, 12, 4387);
+				add_location(tr, file$q, 146, 10, 4370);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, tr, anchor);
@@ -30762,9 +30734,9 @@
 		let each_blocks = [];
 		let each_1_lookup = new Map();
 		let each_1_anchor;
-		let each_value_1 = /*teamsOps*/ ctx[3][/*team*/ ctx[26].ID];
+		let each_value_1 = /*teamsOps*/ ctx[3][/*team*/ ctx[25].ID];
 		validate_each_argument(each_value_1);
-		const get_key = ctx => /*opID*/ ctx[29];
+		const get_key = ctx => /*opID*/ ctx[28];
 		validate_each_keys(ctx, each_value_1, get_each_context_1$6, get_key);
 
 		for (let i = 0; i < each_value_1.length; i += 1) {
@@ -30790,7 +30762,7 @@
 			},
 			p: function update(ctx, dirty) {
 				if (dirty[0] & /*teamsOps, teamsList*/ 24) {
-					each_value_1 = /*teamsOps*/ ctx[3][/*team*/ ctx[26].ID];
+					each_value_1 = /*teamsOps*/ ctx[3][/*team*/ ctx[25].ID];
 					validate_each_argument(each_value_1);
 					validate_each_keys(ctx, each_value_1, get_each_context_1$6, get_key);
 					each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value_1, each_1_lookup, each_1_anchor.parentNode, destroy_block, create_each_block_1$6, each_1_anchor, get_each_context_1$6);
@@ -30848,11 +30820,11 @@
 		let first;
 		let t0;
 		let a;
-		let t1_value = /*opName*/ ctx[30] + "";
+		let t1_value = /*opName*/ ctx[29] + "";
 		let t1;
 		let t2;
 		let a_href_value;
-		let if_block = /*i*/ ctx[32] > 0 && create_if_block_5(ctx);
+		let if_block = /*i*/ ctx[31] > 0 && create_if_block_5(ctx);
 
 		const block = {
 			key: key_1,
@@ -30864,8 +30836,8 @@
 				a = element("a");
 				t1 = text(t1_value);
 				t2 = space();
-				attr_dev(a, "href", a_href_value = '#/operation/' + /*opID*/ ctx[29] + '/list');
-				add_location(a, file$q, 188, 20, 5690);
+				attr_dev(a, "href", a_href_value = '#/operation/' + /*opID*/ ctx[28] + '/list');
+				add_location(a, file$q, 188, 20, 5683);
 				this.first = first;
 			},
 			m: function mount(target, anchor) {
@@ -30879,7 +30851,7 @@
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
 
-				if (/*i*/ ctx[32] > 0) {
+				if (/*i*/ ctx[31] > 0) {
 					if (if_block) ; else {
 						if_block = create_if_block_5(ctx);
 						if_block.c();
@@ -30890,9 +30862,9 @@
 					if_block = null;
 				}
 
-				if (dirty[0] & /*teamsOps, teamsList*/ 24 && t1_value !== (t1_value = /*opName*/ ctx[30] + "")) set_data_dev(t1, t1_value);
+				if (dirty[0] & /*teamsOps, teamsList*/ 24 && t1_value !== (t1_value = /*opName*/ ctx[29] + "")) set_data_dev(t1, t1_value);
 
-				if (dirty[0] & /*teamsOps, teamsList*/ 24 && a_href_value !== (a_href_value = '#/operation/' + /*opID*/ ctx[29] + '/list')) {
+				if (dirty[0] & /*teamsOps, teamsList*/ 24 && a_href_value !== (a_href_value = '#/operation/' + /*opID*/ ctx[28] + '/list')) {
 					attr_dev(a, "href", a_href_value);
 				}
 			},
@@ -30922,7 +30894,7 @@
 		let dispose;
 
 		function select_block_type_3(ctx, dirty) {
-			if (/*toDelete*/ ctx[2] === /*team*/ ctx[26].ID) return create_if_block_3$7;
+			if (/*toDelete*/ ctx[2] === /*team*/ ctx[25].ID) return create_if_block_3$7;
 			return create_else_block_3;
 		}
 
@@ -30930,7 +30902,7 @@
 		let if_block = current_block_type(ctx);
 
 		function click_handler_1() {
-			return /*click_handler_1*/ ctx[23](/*team*/ ctx[26]);
+			return /*click_handler_1*/ ctx[22](/*team*/ ctx[25]);
 		}
 
 		const block = {
@@ -30938,7 +30910,7 @@
 				button = element("button");
 				if_block.c();
 				attr_dev(button, "class", "btn btn-warning btn-sm svelte-15nu3fx");
-				add_location(button, file$q, 204, 18, 6252);
+				add_location(button, file$q, 204, 18, 6245);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -30988,7 +30960,7 @@
 		let dispose;
 
 		function select_block_type_2(ctx, dirty) {
-			if (/*toDelete*/ ctx[2] === /*team*/ ctx[26].ID) return create_if_block_2$9;
+			if (/*toDelete*/ ctx[2] === /*team*/ ctx[25].ID) return create_if_block_2$9;
 			return create_else_block_1;
 		}
 
@@ -30996,7 +30968,7 @@
 		let if_block = current_block_type(ctx);
 
 		function click_handler() {
-			return /*click_handler*/ ctx[22](/*team*/ ctx[26]);
+			return /*click_handler*/ ctx[21](/*team*/ ctx[25]);
 		}
 
 		const block = {
@@ -31004,7 +30976,7 @@
 				button = element("button");
 				if_block.c();
 				attr_dev(button, "class", "btn btn-danger btn-sm svelte-15nu3fx");
-				add_location(button, file$q, 196, 18, 5930);
+				add_location(button, file$q, 196, 18, 5923);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -31055,7 +31027,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Leave";
-				add_location(span, file$q, 209, 27, 6479);
+				add_location(span, file$q, 209, 27, 6472);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -31084,7 +31056,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Confirm?";
-				add_location(span, file$q, 208, 46, 6430);
+				add_location(span, file$q, 208, 46, 6423);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -31113,7 +31085,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Delete";
-				add_location(span, file$q, 201, 27, 6157);
+				add_location(span, file$q, 201, 27, 6150);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -31142,7 +31114,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Confirm?";
-				add_location(span, file$q, 200, 46, 6108);
+				add_location(span, file$q, 200, 46, 6101);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -31168,12 +31140,12 @@
 		let tr;
 		let td0;
 		let a;
-		let t0_value = /*team*/ ctx[26].Name + "";
+		let t0_value = /*team*/ ctx[25].Name + "";
 		let t0;
 		let a_href_value;
 		let t1;
 		let td1;
-		let t2_value = /*team*/ ctx[26].ownerName + "";
+		let t2_value = /*team*/ ctx[25].ownerName + "";
 		let t2;
 		let t3;
 		let td2;
@@ -31194,33 +31166,33 @@
 		let dispose;
 
 		function input0_change_handler() {
-			/*input0_change_handler*/ ctx[16].call(input0, /*each_value*/ ctx[27], /*team_index*/ ctx[28]);
+			/*input0_change_handler*/ ctx[15].call(input0, /*each_value*/ ctx[26], /*team_index*/ ctx[27]);
 		}
 
 		function change_handler() {
-			return /*change_handler*/ ctx[17](/*team*/ ctx[26]);
+			return /*change_handler*/ ctx[16](/*team*/ ctx[25]);
 		}
 
 		function input1_change_handler() {
-			/*input1_change_handler*/ ctx[18].call(input1, /*each_value*/ ctx[27], /*team_index*/ ctx[28]);
+			/*input1_change_handler*/ ctx[17].call(input1, /*each_value*/ ctx[26], /*team_index*/ ctx[27]);
 		}
 
 		function change_handler_1() {
-			return /*change_handler_1*/ ctx[19](/*team*/ ctx[26]);
+			return /*change_handler_1*/ ctx[18](/*team*/ ctx[25]);
 		}
 
 		function input2_change_handler() {
-			/*input2_change_handler*/ ctx[20].call(input2, /*each_value*/ ctx[27], /*team_index*/ ctx[28]);
+			/*input2_change_handler*/ ctx[19].call(input2, /*each_value*/ ctx[26], /*team_index*/ ctx[27]);
 		}
 
 		function change_handler_2() {
-			return /*change_handler_2*/ ctx[21](/*team*/ ctx[26]);
+			return /*change_handler_2*/ ctx[20](/*team*/ ctx[25]);
 		}
 
-		let if_block0 = /*teamsOps*/ ctx[3][/*team*/ ctx[26].ID] && create_if_block_4$3(ctx);
+		let if_block0 = /*teamsOps*/ ctx[3][/*team*/ ctx[25].ID] && create_if_block_4$3(ctx);
 
 		function select_block_type_1(ctx, dirty) {
-			if (show_if == null || dirty[0] & /*teamsList*/ 16) show_if = !!/*isOwner*/ ctx[10](/*team*/ ctx[26]);
+			if (show_if == null || dirty[0] & /*teamsList*/ 16) show_if = !!/*isOwner*/ ctx[10](/*team*/ ctx[25]);
 			if (show_if) return create_if_block_1$f;
 			return create_else_block_2;
 		}
@@ -31255,22 +31227,22 @@
 				td6 = element("td");
 				if_block1.c();
 				t8 = space();
-				attr_dev(a, "href", a_href_value = '#/team/' + /*team*/ ctx[26].ID + '/list');
-				add_location(a, file$q, 156, 16, 4668);
-				add_location(td0, file$q, 155, 14, 4647);
-				add_location(td1, file$q, 160, 14, 4794);
+				attr_dev(a, "href", a_href_value = '#/team/' + /*team*/ ctx[25].ID + '/list');
+				add_location(a, file$q, 156, 16, 4661);
+				add_location(td0, file$q, 155, 14, 4640);
+				add_location(td1, file$q, 160, 14, 4787);
 				attr_dev(input0, "type", "checkbox");
-				add_location(input0, file$q, 164, 16, 4887);
-				add_location(td2, file$q, 163, 14, 4866);
+				add_location(input0, file$q, 164, 16, 4880);
+				add_location(td2, file$q, 163, 14, 4859);
 				attr_dev(input1, "type", "checkbox");
-				add_location(input1, file$q, 171, 16, 5101);
-				add_location(td3, file$q, 170, 14, 5080);
+				add_location(input1, file$q, 171, 16, 5094);
+				add_location(td3, file$q, 170, 14, 5073);
 				attr_dev(input2, "type", "checkbox");
-				add_location(input2, file$q, 178, 16, 5319);
-				add_location(td4, file$q, 177, 14, 5298);
-				add_location(td5, file$q, 184, 14, 5514);
-				add_location(td6, file$q, 194, 14, 5871);
-				add_location(tr, file$q, 154, 12, 4628);
+				add_location(input2, file$q, 178, 16, 5312);
+				add_location(td4, file$q, 177, 14, 5291);
+				add_location(td5, file$q, 184, 14, 5507);
+				add_location(td6, file$q, 194, 14, 5864);
+				add_location(tr, file$q, 154, 12, 4621);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -31284,15 +31256,15 @@
 				append_dev(tr, t3);
 				append_dev(tr, td2);
 				append_dev(td2, input0);
-				input0.checked = /*team*/ ctx[26].State;
+				input0.checked = /*team*/ ctx[25].State;
 				append_dev(tr, t4);
 				append_dev(tr, td3);
 				append_dev(td3, input1);
-				input1.checked = /*team*/ ctx[26].ShareWD;
+				input1.checked = /*team*/ ctx[25].ShareWD;
 				append_dev(tr, t5);
 				append_dev(tr, td4);
 				append_dev(td4, input2);
-				input2.checked = /*team*/ ctx[26].LoadWD;
+				input2.checked = /*team*/ ctx[25].LoadWD;
 				append_dev(tr, t6);
 				append_dev(tr, td5);
 				if (if_block0) if_block0.m(td5, null);
@@ -31316,27 +31288,27 @@
 			},
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
-				if (dirty[0] & /*teamsList*/ 16 && t0_value !== (t0_value = /*team*/ ctx[26].Name + "")) set_data_dev(t0, t0_value);
+				if (dirty[0] & /*teamsList*/ 16 && t0_value !== (t0_value = /*team*/ ctx[25].Name + "")) set_data_dev(t0, t0_value);
 
-				if (dirty[0] & /*teamsList*/ 16 && a_href_value !== (a_href_value = '#/team/' + /*team*/ ctx[26].ID + '/list')) {
+				if (dirty[0] & /*teamsList*/ 16 && a_href_value !== (a_href_value = '#/team/' + /*team*/ ctx[25].ID + '/list')) {
 					attr_dev(a, "href", a_href_value);
 				}
 
-				if (dirty[0] & /*teamsList*/ 16 && t2_value !== (t2_value = /*team*/ ctx[26].ownerName + "")) set_data_dev(t2, t2_value);
+				if (dirty[0] & /*teamsList*/ 16 && t2_value !== (t2_value = /*team*/ ctx[25].ownerName + "")) set_data_dev(t2, t2_value);
 
 				if (dirty[0] & /*teamsList*/ 16) {
-					input0.checked = /*team*/ ctx[26].State;
+					input0.checked = /*team*/ ctx[25].State;
 				}
 
 				if (dirty[0] & /*teamsList*/ 16) {
-					input1.checked = /*team*/ ctx[26].ShareWD;
+					input1.checked = /*team*/ ctx[25].ShareWD;
 				}
 
 				if (dirty[0] & /*teamsList*/ 16) {
-					input2.checked = /*team*/ ctx[26].LoadWD;
+					input2.checked = /*team*/ ctx[25].LoadWD;
 				}
 
-				if (/*teamsOps*/ ctx[3][/*team*/ ctx[26].ID]) {
+				if (/*teamsOps*/ ctx[3][/*team*/ ctx[25].ID]) {
 					if (if_block0) {
 						if_block0.p(ctx, dirty);
 					} else {
@@ -31467,35 +31439,35 @@
 				button1 = element("button");
 				button1.textContent = "New Team";
 				attr_dev(button0, "class", "btn btn-primary");
-				add_location(button0, file$q, 130, 12, 3941);
-				add_location(h1, file$q, 129, 4, 3924);
-				add_location(th0, file$q, 135, 10, 4104);
-				add_location(th1, file$q, 136, 10, 4128);
-				add_location(th2, file$q, 137, 10, 4153);
-				add_location(th3, file$q, 138, 10, 4187);
-				add_location(th4, file$q, 139, 10, 4220);
-				add_location(th5, file$q, 140, 10, 4252);
-				add_location(th6, file$q, 141, 10, 4275);
-				add_location(tr, file$q, 134, 8, 4089);
+				add_location(button0, file$q, 130, 12, 3934);
+				add_location(h1, file$q, 129, 4, 3917);
+				add_location(th0, file$q, 135, 10, 4097);
+				add_location(th1, file$q, 136, 10, 4121);
+				add_location(th2, file$q, 137, 10, 4146);
+				add_location(th3, file$q, 138, 10, 4180);
+				add_location(th4, file$q, 139, 10, 4213);
+				add_location(th5, file$q, 140, 10, 4245);
+				add_location(th6, file$q, 141, 10, 4268);
+				add_location(tr, file$q, 134, 8, 4082);
 				attr_dev(thead, "class", "thead");
-				add_location(thead, file$q, 133, 6, 4059);
+				add_location(thead, file$q, 133, 6, 4052);
 				attr_dev(tbody, "id", "teams");
 				attr_dev(tbody, "class", "svelte-15nu3fx");
-				add_location(tbody, file$q, 144, 6, 4317);
+				add_location(tbody, file$q, 144, 6, 4310);
 				attr_dev(table, "class", "table table-striped");
-				add_location(table, file$q, 132, 4, 4017);
+				add_location(table, file$q, 132, 4, 4010);
 				attr_dev(input, "type", "text");
 				attr_dev(input, "placeholder", "New Team");
-				add_location(input, file$q, 221, 8, 6713);
-				add_location(label, file$q, 219, 6, 6679);
+				add_location(input, file$q, 221, 8, 6706);
+				add_location(label, file$q, 219, 6, 6672);
 				attr_dev(button1, "class", "btn btn-info");
-				add_location(button1, file$q, 227, 6, 6842);
+				add_location(button1, file$q, 227, 6, 6835);
 				attr_dev(div0, "class", "col");
-				add_location(div0, file$q, 218, 4, 6655);
+				add_location(div0, file$q, 218, 4, 6648);
 				attr_dev(div1, "class", "row");
-				add_location(div1, file$q, 128, 2, 3902);
+				add_location(div1, file$q, 128, 2, 3895);
 				attr_dev(div2, "class", "container");
-				add_location(div2, file$q, 127, 0, 3876);
+				add_location(div2, file$q, 127, 0, 3869);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -31538,7 +31510,7 @@
 				if (!mounted) {
 					dispose = [
 						listen_dev(button0, "click", /*refresh*/ ctx[5], false, false, false),
-						listen_dev(input, "input", /*input_input_handler*/ ctx[24]),
+						listen_dev(input, "input", /*input_input_handler*/ ctx[23]),
 						listen_dev(button1, "click", /*createTeam*/ ctx[6], false, false, false)
 					];
 
@@ -31584,17 +31556,13 @@
 	}
 
 	function instance$t($$self, $$props, $$invalidate) {
-		let me;
 		let teamsList;
 		let $agentsStore;
-		let $meStore;
 		let $opsStore;
 		validate_store(agentsStore, 'agentsStore');
 		component_subscribe($$self, agentsStore, $$value => $$invalidate(13, $agentsStore = $$value));
-		validate_store(meStore, 'meStore');
-		component_subscribe($$self, meStore, $$value => $$invalidate(14, $meStore = $$value));
 		validate_store(opsStore, 'opsStore');
-		component_subscribe($$self, opsStore, $$value => $$invalidate(15, $opsStore = $$value));
+		component_subscribe($$self, opsStore, $$value => $$invalidate(14, $opsStore = $$value));
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Teams', slots, []);
 
@@ -31634,6 +31602,7 @@
 				});
 		};
 
+		let me = WasabeeMe.get();
 		let newTeamName = '';
 		let toDelete = null;
 		let teamsOps;
@@ -31641,7 +31610,7 @@
 		function refresh() {
 			return __awaiter(this, void 0, void 0, function* () {
 				yield loadMeAndOps();
-				set_store_value(meStore, $meStore = WasabeeMe.get(), $meStore);
+				$$invalidate(0, me = WasabeeMe.get());
 			});
 		}
 
@@ -31739,21 +31708,21 @@
 
 		function input0_change_handler(each_value, team_index) {
 			each_value[team_index].State = this.checked;
-			((($$invalidate(4, teamsList), $$invalidate(0, me)), $$invalidate(13, $agentsStore)), $$invalidate(14, $meStore));
+			(($$invalidate(4, teamsList), $$invalidate(0, me)), $$invalidate(13, $agentsStore));
 		}
 
 		const change_handler = team => setTeamState(team);
 
 		function input1_change_handler(each_value, team_index) {
 			each_value[team_index].ShareWD = this.checked;
-			((($$invalidate(4, teamsList), $$invalidate(0, me)), $$invalidate(13, $agentsStore)), $$invalidate(14, $meStore));
+			(($$invalidate(4, teamsList), $$invalidate(0, me)), $$invalidate(13, $agentsStore));
 		}
 
 		const change_handler_1 = team => setTeamShareWD(team);
 
 		function input2_change_handler(each_value, team_index) {
 			each_value[team_index].LoadWD = this.checked;
-			((($$invalidate(4, teamsList), $$invalidate(0, me)), $$invalidate(13, $agentsStore)), $$invalidate(14, $meStore));
+			(($$invalidate(4, teamsList), $$invalidate(0, me)), $$invalidate(13, $agentsStore));
 		}
 
 		const change_handler_2 = team => setTeamLoadWD(team);
@@ -31777,8 +31746,8 @@
 			newTeamPromise,
 			loadMeAndOps,
 			agentsStore,
-			meStore,
 			opsStore,
+			me,
 			newTeamName,
 			toDelete,
 			teamsOps,
@@ -31790,19 +31759,17 @@
 			isOwner,
 			deleteTeam,
 			leaveTeam,
-			me,
 			teamsList,
 			$agentsStore,
-			$meStore,
 			$opsStore
 		});
 
 		$$self.$inject_state = $$props => {
 			if ('__awaiter' in $$props) __awaiter = $$props.__awaiter;
+			if ('me' in $$props) $$invalidate(0, me = $$props.me);
 			if ('newTeamName' in $$props) $$invalidate(1, newTeamName = $$props.newTeamName);
 			if ('toDelete' in $$props) $$invalidate(2, toDelete = $$props.toDelete);
 			if ('teamsOps' in $$props) $$invalidate(3, teamsOps = $$props.teamsOps);
-			if ('me' in $$props) $$invalidate(0, me = $$props.me);
 			if ('teamsList' in $$props) $$invalidate(4, teamsList = $$props.teamsList);
 		};
 
@@ -31811,11 +31778,7 @@
 		}
 
 		$$self.$$.update = () => {
-			if ($$self.$$.dirty[0] & /*$meStore*/ 16384) {
-				$$invalidate(0, me = $meStore);
-			}
-
-			if ($$self.$$.dirty[0] & /*$opsStore*/ 32768) {
+			if ($$self.$$.dirty[0] & /*$opsStore*/ 16384) {
 				{
 					const teams = {};
 
@@ -31858,7 +31821,6 @@
 			deleteTeam,
 			leaveTeam,
 			$agentsStore,
-			$meStore,
 			$opsStore,
 			input0_change_handler,
 			change_handler,
@@ -58468,7 +58430,7 @@
 		return child_ctx;
 	}
 
-	// (138:0) {:else}
+	// (139:0) {:else}
 	function create_else_block(ctx) {
 		let header;
 		let navbar;
@@ -58520,8 +58482,8 @@
 				create_component(toastcontainer.$$.fragment);
 				t1 = space();
 				create_component(router.$$.fragment);
-				add_location(header, file, 138, 2, 4392);
-				add_location(main, file, 169, 2, 5440);
+				add_location(header, file, 139, 2, 4389);
+				add_location(main, file, 170, 2, 5437);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, header, anchor);
@@ -58584,14 +58546,14 @@
 			block,
 			id: create_else_block.name,
 			type: "else",
-			source: "(138:0) {:else}",
+			source: "(139:0) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (136:0) {#if !$meStore}
+	// (137:0) {#if !me}
 	function create_if_block_1(ctx) {
 		let homepage;
 		let current;
@@ -58634,14 +58596,14 @@
 			block,
 			id: create_if_block_1.name,
 			type: "if",
-			source: "(136:0) {#if !$meStore}",
+			source: "(137:0) {#if !me}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (144:19) <NavLink href="#/teams">
+	// (145:19) <NavLink href="#/teams">
 	function create_default_slot_16(ctx) {
 		let t;
 
@@ -58661,14 +58623,14 @@
 			block,
 			id: create_default_slot_16.name,
 			type: "slot",
-			source: "(144:19) <NavLink href=\\\"#/teams\\\">",
+			source: "(145:19) <NavLink href=\\\"#/teams\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (144:10) <NavItem>
+	// (145:10) <NavItem>
 	function create_default_slot_15(ctx) {
 		let navlink;
 		let current;
@@ -58717,14 +58679,14 @@
 			block,
 			id: create_default_slot_15.name,
 			type: "slot",
-			source: "(144:10) <NavItem>",
+			source: "(145:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (145:19) <NavLink href="#/operations">
+	// (146:19) <NavLink href="#/operations">
 	function create_default_slot_14(ctx) {
 		let t;
 
@@ -58744,14 +58706,14 @@
 			block,
 			id: create_default_slot_14.name,
 			type: "slot",
-			source: "(145:19) <NavLink href=\\\"#/operations\\\">",
+			source: "(146:19) <NavLink href=\\\"#/operations\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (145:10) <NavItem>
+	// (146:10) <NavItem>
 	function create_default_slot_13(ctx) {
 		let navlink;
 		let current;
@@ -58800,14 +58762,14 @@
 			block,
 			id: create_default_slot_13.name,
 			type: "slot",
-			source: "(145:10) <NavItem>",
+			source: "(146:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (147:13) <NavLink href="#/defensivekeys/">
+	// (148:13) <NavLink href="#/defensivekeys/">
 	function create_default_slot_12(ctx) {
 		let t;
 
@@ -58827,14 +58789,14 @@
 			block,
 			id: create_default_slot_12.name,
 			type: "slot",
-			source: "(147:13) <NavLink href=\\\"#/defensivekeys/\\\">",
+			source: "(148:13) <NavLink href=\\\"#/defensivekeys/\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (146:10) <NavItem             >
+	// (147:10) <NavItem             >
 	function create_default_slot_11(ctx) {
 		let navlink;
 		let current;
@@ -58883,14 +58845,14 @@
 			block,
 			id: create_default_slot_11.name,
 			type: "slot",
-			source: "(146:10) <NavItem             >",
+			source: "(147:10) <NavItem             >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (149:19) <NavLink href="#/settings">
+	// (150:19) <NavLink href="#/settings">
 	function create_default_slot_10(ctx) {
 		let t;
 
@@ -58910,14 +58872,14 @@
 			block,
 			id: create_default_slot_10.name,
 			type: "slot",
-			source: "(149:19) <NavLink href=\\\"#/settings\\\">",
+			source: "(150:19) <NavLink href=\\\"#/settings\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (149:10) <NavItem>
+	// (150:10) <NavItem>
 	function create_default_slot_9(ctx) {
 		let navlink;
 		let current;
@@ -58966,14 +58928,14 @@
 			block,
 			id: create_default_slot_9.name,
 			type: "slot",
-			source: "(149:10) <NavItem>",
+			source: "(150:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (150:19) <NavLink href="#/help">
+	// (151:19) <NavLink href="#/help">
 	function create_default_slot_8(ctx) {
 		let t;
 
@@ -58993,14 +58955,14 @@
 			block,
 			id: create_default_slot_8.name,
 			type: "slot",
-			source: "(150:19) <NavLink href=\\\"#/help\\\">",
+			source: "(151:19) <NavLink href=\\\"#/help\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (150:10) <NavItem>
+	// (151:10) <NavItem>
 	function create_default_slot_7(ctx) {
 		let navlink;
 		let current;
@@ -59049,14 +59011,14 @@
 			block,
 			id: create_default_slot_7.name,
 			type: "slot",
-			source: "(150:10) <NavItem>",
+			source: "(151:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (152:13) <NavLink href="#/" on:click={logout}>
+	// (153:13) <NavLink href="#/" on:click={logout}>
 	function create_default_slot_6(ctx) {
 		let t;
 
@@ -59076,14 +59038,14 @@
 			block,
 			id: create_default_slot_6.name,
 			type: "slot",
-			source: "(152:13) <NavLink href=\\\"#/\\\" on:click={logout}>",
+			source: "(153:13) <NavLink href=\\\"#/\\\" on:click={logout}>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (151:10) <NavItem             >
+	// (152:10) <NavItem             >
 	function create_default_slot_5(ctx) {
 		let navlink;
 		let current;
@@ -59134,14 +59096,14 @@
 			block,
 			id: create_default_slot_5.name,
 			type: "slot",
-			source: "(151:10) <NavItem             >",
+			source: "(152:10) <NavItem             >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (143:8) <Nav navbar>
+	// (144:8) <Nav navbar>
 	function create_default_slot_4(ctx) {
 		let navitem0;
 		let t0;
@@ -59314,14 +59276,14 @@
 			block,
 			id: create_default_slot_4.name,
 			type: "slot",
-			source: "(143:8) <Nav navbar>",
+			source: "(144:8) <Nav navbar>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (142:6) <Collapse toggler="#main-toggler" navbar expand="lg">
+	// (143:6) <Collapse toggler="#main-toggler" navbar expand="lg">
 	function create_default_slot_3(ctx) {
 		let nav;
 		let current;
@@ -59370,14 +59332,14 @@
 			block,
 			id: create_default_slot_3.name,
 			type: "slot",
-			source: "(142:6) <Collapse toggler=\\\"#main-toggler\\\" navbar expand=\\\"lg\\\">",
+			source: "(143:6) <Collapse toggler=\\\"#main-toggler\\\" navbar expand=\\\"lg\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (162:8) {#each getServers() as server}
+	// (163:8) {#each getServers() as server}
 	function create_each_block(ctx) {
 		let option;
 		let t0_value = /*server*/ ctx[11].name + "";
@@ -59391,7 +59353,7 @@
 				t1 = space();
 				option.__value = /*server*/ ctx[11].url;
 				option.value = option.__value;
-				add_location(option, file, 162, 10, 5307);
+				add_location(option, file, 163, 10, 5304);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, option, anchor);
@@ -59408,14 +59370,14 @@
 			block,
 			id: create_each_block.name,
 			type: "each",
-			source: "(162:8) {#each getServers() as server}",
+			source: "(163:8) {#each getServers() as server}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (156:6) <Input         type="select"         name="select"         value={getServer()}         on:change={serverChangeEvent}       >
+	// (157:6) <Input         type="select"         name="select"         value={getServer()}         on:change={serverChangeEvent}       >
 	function create_default_slot_2(ctx) {
 		let each_1_anchor;
 		let each_value = getServers();
@@ -59476,14 +59438,14 @@
 			block,
 			id: create_default_slot_2.name,
 			type: "slot",
-			source: "(156:6) <Input         type=\\\"select\\\"         name=\\\"select\\\"         value={getServer()}         on:change={serverChangeEvent}       >",
+			source: "(157:6) <Input         type=\\\"select\\\"         name=\\\"select\\\"         value={getServer()}         on:change={serverChangeEvent}       >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (140:4) <Navbar container={false} color="dark" dark expand="lg">
+	// (141:4) <Navbar container={false} color="dark" dark expand="lg">
 	function create_default_slot_1(ctx) {
 		let navbartoggler;
 		let t0;
@@ -59579,14 +59541,14 @@
 			block,
 			id: create_default_slot_1.name,
 			type: "slot",
-			source: "(140:4) <Navbar container={false} color=\\\"dark\\\" dark expand=\\\"lg\\\">",
+			source: "(141:4) <Navbar container={false} color=\\\"dark\\\" dark expand=\\\"lg\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (171:4) <ToastContainer let:data>
+	// (172:4) <ToastContainer let:data>
 	function create_default_slot(ctx) {
 		let flattoast;
 		let current;
@@ -59627,14 +59589,14 @@
 			block,
 			id: create_default_slot.name,
 			type: "slot",
-			source: "(171:4) <ToastContainer let:data>",
+			source: "(172:4) <ToastContainer let:data>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (178:0) {#if loading}
+	// (179:0) {#if loading}
 	function create_if_block(ctx) {
 		let div;
 
@@ -59643,7 +59605,7 @@
 				div = element("div");
 				attr_dev(div, "id", "loading-animation");
 				attr_dev(div, "class", "svelte-1bcajx9");
-				add_location(div, file, 178, 2, 5611);
+				add_location(div, file, 179, 2, 5608);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -59657,7 +59619,7 @@
 			block,
 			id: create_if_block.name,
 			type: "if",
-			source: "(178:0) {#if loading}",
+			source: "(179:0) {#if loading}",
 			ctx
 		});
 
@@ -59693,7 +59655,7 @@
 		const if_blocks = [];
 
 		function select_block_type(ctx, dirty) {
-			if (!/*$meStore*/ ctx[0]) return 0;
+			if (!/*me*/ ctx[0]) return 0;
 			return 1;
 		}
 
@@ -59731,22 +59693,22 @@
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
-				add_location(script, file, 128, 2, 4199);
-				add_location(strong, file, 185, 76, 5892);
+				add_location(script, file, 129, 2, 4202);
+				add_location(strong, file, 186, 76, 5889);
 				attr_dev(a0, "href", "https://v.enl.one/");
-				add_location(a0, file, 189, 6, 6008);
+				add_location(a0, file, 190, 6, 6005);
 				attr_dev(a1, "href", "https://enl.rocks");
-				add_location(a1, file, 190, 6, 6053);
+				add_location(a1, file, 191, 6, 6050);
 				attr_dev(a2, "href", "/privacy");
-				add_location(a2, file, 191, 6, 6114);
+				add_location(a2, file, 192, 6, 6111);
 				attr_dev(p0, "class", "text-muted small");
-				add_location(p0, file, 183, 4, 5712);
+				add_location(p0, file, 184, 4, 5709);
 				attr_dev(p1, "class", "text-muted text-right small");
-				add_location(p1, file, 193, 4, 6187);
+				add_location(p1, file, 194, 4, 6184);
 				attr_dev(div, "class", "p-5");
-				add_location(div, file, 182, 2, 5690);
+				add_location(div, file, 183, 2, 5687);
 				attr_dev(footer, "class", "mastfoot mx-5 mt-auto");
-				add_location(footer, file, 181, 0, 5649);
+				add_location(footer, file, 182, 0, 5646);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -59851,10 +59813,7 @@
 	}
 
 	function instance($$self, $$props, $$invalidate) {
-		let $meStore;
 		let $location;
-		validate_store(meStore, 'meStore');
-		component_subscribe($$self, meStore, $$value => $$invalidate(0, $meStore = $$value));
 		validate_store(location$2, 'location');
 		component_subscribe($$self, location$2, $$value => $$invalidate(8, $location = $$value));
 		let { $$slots: slots = {}, $$scope } = $$props;
@@ -59896,6 +59855,7 @@
 				});
 		};
 
+		let me;
 		let loading = false;
 
 		// try use last used server
@@ -59905,11 +59865,11 @@
 			loadConfig().then(config => {
 				setConfig(config);
 
-				loadMeAndOps().then(() => {
-					set_store_value(meStore, $meStore = WasabeeMe.get(), $meStore);
+				loadMeAndOps().then(() => __awaiter(void 0, void 0, void 0, function* () {
+					$$invalidate(0, me = WasabeeMe.get());
 					sendTokenToServer();
 					$$invalidate(1, loading = false);
-				}).catch(() => {
+				})).catch(() => {
 					setAuthBearer();
 					$$invalidate(1, loading = false);
 				});
@@ -59927,8 +59887,7 @@
 			'/help': Help,
 			'/defensivekeys/*': DefensiveKeys,
 			'/team/:teamid/*': Team,
-			'/operation/:opid/*': Operation,
-			'*': Teams
+			'/operation/:opid/*': Operation
 		};
 
 		function logout() {
@@ -59947,7 +59906,7 @@
 				delete localStorage['sentToServer'];
 
 				//window.location.href = '/';
-				meStore.reset();
+				$$invalidate(0, me = null);
 			});
 		}
 
@@ -59961,11 +59920,11 @@
 
 		function onLogin(ev) {
 			return __awaiter(this, void 0, void 0, function* () {
-				set_store_value(meStore, $meStore = new WasabeeMe(ev.detail), $meStore);
-				$meStore.store();
+				$$invalidate(0, me = new WasabeeMe(ev.detail));
+				me.store();
 				setConfig(yield loadConfig());
-				opsStore.updateFromMe($meStore);
-				yield syncTeams($meStore);
+				opsStore.updateFromMe(me);
+				yield syncTeams(me);
 				sendTokenToServer();
 			});
 		}
@@ -59986,7 +59945,7 @@
 
 				// virtual login
 				try {
-					yield meStore.refresh();
+					$$invalidate(0, me = yield getMe(true));
 				} catch(_a) {
 					// clear auth on failure
 					setAuthBearer();
@@ -59995,10 +59954,10 @@
 					return;
 				}
 
+				me.store();
 				if (!($location in routes)) replace('/teams');
-				$meStore.store();
-				opsStore.updateFromMe($meStore);
-				yield syncTeams($meStore);
+				opsStore.updateFromMe(me);
+				yield syncTeams(me);
 
 				// firebase
 				sendTokenToServer();
@@ -60048,7 +60007,8 @@
 			setAuthBearer,
 			sendTokenToServer,
 			opsStore,
-			meStore,
+			getMe,
+			me,
 			loading,
 			routes,
 			logout,
@@ -60056,12 +60016,12 @@
 			loadAuth2,
 			onLogin,
 			serverChangeEvent,
-			$meStore,
 			$location
 		});
 
 		$$self.$inject_state = $$props => {
 			if ('__awaiter' in $$props) __awaiter = $$props.__awaiter;
+			if ('me' in $$props) $$invalidate(0, me = $$props.me);
 			if ('loading' in $$props) $$invalidate(1, loading = $$props.loading);
 			if ('disabled' in $$props) $$invalidate(2, disabled = $$props.disabled);
 		};
@@ -60071,21 +60031,12 @@
 		}
 
 		$$self.$$.update = () => {
-			if ($$self.$$.dirty & /*$meStore*/ 1) {
-				if ($meStore) $$invalidate(1, loading = false);
+			if ($$self.$$.dirty & /*me*/ 1) {
+				if (me) $$invalidate(1, loading = false);
 			}
 		};
 
-		return [
-			$meStore,
-			loading,
-			disabled,
-			routes,
-			logout,
-			loadAuth2,
-			onLogin,
-			serverChangeEvent
-		];
+		return [me, loading, disabled, routes, logout, loadAuth2, onLogin, serverChangeEvent];
 	}
 
 	class App extends SvelteComponentDev {
