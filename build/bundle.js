@@ -28609,7 +28609,7 @@
 				t1 = text(t1_value);
 				t2 = space();
 				attr_dev(a, "href", a_href_value = '#/team/' + /*teamid*/ ctx[15] + '/list');
-				add_location(a, file$s, 98, 18, 3083);
+				add_location(a, file$s, 98, 18, 3089);
 				this.first = first;
 			},
 			m: function mount(target, anchor) {
@@ -28682,7 +28682,7 @@
 				button = element("button");
 				if_block.c();
 				attr_dev(button, "class", "btn btn-danger btn-sm");
-				add_location(button, file$s, 105, 18, 3298);
+				add_location(button, file$s, 105, 18, 3304);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -28733,7 +28733,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Delete";
-				add_location(span, file$s, 112, 22, 3565);
+				add_location(span, file$s, 112, 22, 3571);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -28762,7 +28762,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Confirm?";
-				add_location(span, file$s, 110, 22, 3493);
+				add_location(span, file$s, 110, 22, 3499);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -28838,12 +28838,12 @@
 				if (if_block) if_block.c();
 				t5 = space();
 				attr_dev(a, "href", a_href_value = '#/operation/' + /*op*/ ctx[12].ID + '/list');
-				add_location(a, file$s, 92, 16, 2823);
-				add_location(td0, file$s, 91, 14, 2802);
-				add_location(td1, file$s, 94, 14, 2914);
-				add_location(td2, file$s, 95, 14, 2950);
-				add_location(td3, file$s, 103, 14, 3246);
-				add_location(tr, file$s, 90, 12, 2783);
+				add_location(a, file$s, 92, 16, 2829);
+				add_location(td0, file$s, 91, 14, 2808);
+				add_location(td1, file$s, 94, 14, 2920);
+				add_location(td2, file$s, 95, 14, 2956);
+				add_location(td3, file$s, 103, 14, 3252);
+				add_location(tr, file$s, 90, 12, 2789);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -28985,28 +28985,28 @@
 				}
 
 				attr_dev(button, "class", "btn btn-primary");
-				add_location(button, file$s, 77, 8, 2363);
-				add_location(h1, file$s, 75, 6, 2331);
+				add_location(button, file$s, 77, 8, 2369);
+				add_location(h1, file$s, 75, 6, 2337);
 				attr_dev(th0, "scope", "col");
-				add_location(th0, file$s, 82, 12, 2536);
+				add_location(th0, file$s, 82, 12, 2542);
 				attr_dev(th1, "scope", "col");
-				add_location(th1, file$s, 83, 12, 2579);
+				add_location(th1, file$s, 83, 12, 2585);
 				attr_dev(th2, "scope", "col");
-				add_location(th2, file$s, 84, 12, 2620);
-				add_location(th3, file$s, 85, 12, 2659);
-				add_location(tr, file$s, 81, 10, 2519);
+				add_location(th2, file$s, 84, 12, 2626);
+				add_location(th3, file$s, 85, 12, 2665);
+				add_location(tr, file$s, 81, 10, 2525);
 				attr_dev(thead, "class", "thead");
-				add_location(thead, file$s, 80, 8, 2487);
+				add_location(thead, file$s, 80, 8, 2493);
 				attr_dev(tbody, "id", "ops");
-				add_location(tbody, file$s, 88, 8, 2718);
+				add_location(tbody, file$s, 88, 8, 2724);
 				attr_dev(table, "class", "table table-striped");
-				add_location(table, file$s, 79, 6, 2443);
+				add_location(table, file$s, 79, 6, 2449);
 				attr_dev(div0, "class", "col");
-				add_location(div0, file$s, 74, 4, 2307);
+				add_location(div0, file$s, 74, 4, 2313);
 				attr_dev(div1, "class", "row");
-				add_location(div1, file$s, 73, 2, 2285);
+				add_location(div1, file$s, 73, 2, 2291);
 				attr_dev(div2, "class", "container");
-				add_location(div2, file$s, 72, 0, 2259);
+				add_location(div2, file$s, 72, 0, 2265);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -29076,12 +29076,12 @@
 
 	function instance$v($$self, $$props, $$invalidate) {
 		let me;
-		let $opsStore;
 		let $meStore;
-		validate_store(opsStore, 'opsStore');
-		component_subscribe($$self, opsStore, $$value => $$invalidate(8, $opsStore = $$value));
+		let $opsStore;
 		validate_store(meStore, 'meStore');
-		component_subscribe($$self, meStore, $$value => $$invalidate(9, $meStore = $$value));
+		component_subscribe($$self, meStore, $$value => $$invalidate(8, $meStore = $$value));
+		validate_store(opsStore, 'opsStore');
+		component_subscribe($$self, opsStore, $$value => $$invalidate(9, $opsStore = $$value));
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Operations', slots, []);
 
@@ -29129,7 +29129,7 @@
 		function refresh() {
 			return __awaiter(this, void 0, void 0, function* () {
 				yield loadMeAndOps();
-				$$invalidate(7, me = WasabeeMe.get());
+				set_store_value(meStore, $meStore = WasabeeMe.get(), $meStore);
 			});
 		}
 
@@ -29180,8 +29180,8 @@
 			getTeamName,
 			deleteOp,
 			me,
-			$opsStore,
-			$meStore
+			$meStore,
+			$opsStore
 		});
 
 		$$self.$inject_state = $$props => {
@@ -29197,11 +29197,11 @@
 		}
 
 		$$self.$$.update = () => {
-			if ($$self.$$.dirty & /*$meStore*/ 512) {
+			if ($$self.$$.dirty & /*$meStore*/ 256) {
 				$$invalidate(7, me = $meStore);
 			}
 
-			if ($$self.$$.dirty & /*$opsStore, me*/ 384) {
+			if ($$self.$$.dirty & /*$opsStore, me*/ 640) {
 				{
 					const os = [];
 					const lsk = new Set($opsStore.success);
@@ -29230,7 +29230,7 @@
 						teamMap.set(t.ID, t.Name);
 					}
 
-					(($$invalidate(6, teamMap), $$invalidate(7, me)), $$invalidate(9, $meStore));
+					(($$invalidate(6, teamMap), $$invalidate(7, me)), $$invalidate(8, $meStore));
 				}
 			}
 		};
@@ -29244,8 +29244,8 @@
 			deleteOp,
 			teamMap,
 			me,
-			$opsStore,
 			$meStore,
+			$opsStore,
 			click_handler
 		];
 	}
@@ -30729,8 +30729,8 @@
 				t0 = text("You are not on any teams, have your operator add you with this\n              GoogleID: ");
 				t1 = text(t1_value);
 				attr_dev(td, "colspan", "6");
-				add_location(td, file$q, 147, 12, 4388);
-				add_location(tr, file$q, 146, 10, 4371);
+				add_location(td, file$q, 147, 12, 4394);
+				add_location(tr, file$q, 146, 10, 4377);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, tr, anchor);
@@ -30865,7 +30865,7 @@
 				t1 = text(t1_value);
 				t2 = space();
 				attr_dev(a, "href", a_href_value = '#/operation/' + /*opID*/ ctx[29] + '/list');
-				add_location(a, file$q, 188, 20, 5684);
+				add_location(a, file$q, 188, 20, 5690);
 				this.first = first;
 			},
 			m: function mount(target, anchor) {
@@ -30938,7 +30938,7 @@
 				button = element("button");
 				if_block.c();
 				attr_dev(button, "class", "btn btn-warning btn-sm svelte-15nu3fx");
-				add_location(button, file$q, 204, 18, 6246);
+				add_location(button, file$q, 204, 18, 6252);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -31004,7 +31004,7 @@
 				button = element("button");
 				if_block.c();
 				attr_dev(button, "class", "btn btn-danger btn-sm svelte-15nu3fx");
-				add_location(button, file$q, 196, 18, 5924);
+				add_location(button, file$q, 196, 18, 5930);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -31055,7 +31055,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Leave";
-				add_location(span, file$q, 209, 27, 6473);
+				add_location(span, file$q, 209, 27, 6479);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -31084,7 +31084,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Confirm?";
-				add_location(span, file$q, 208, 46, 6424);
+				add_location(span, file$q, 208, 46, 6430);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -31113,7 +31113,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Delete";
-				add_location(span, file$q, 201, 27, 6151);
+				add_location(span, file$q, 201, 27, 6157);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -31142,7 +31142,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Confirm?";
-				add_location(span, file$q, 200, 46, 6102);
+				add_location(span, file$q, 200, 46, 6108);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -31256,21 +31256,21 @@
 				if_block1.c();
 				t8 = space();
 				attr_dev(a, "href", a_href_value = '#/team/' + /*team*/ ctx[26].ID + '/list');
-				add_location(a, file$q, 156, 16, 4662);
-				add_location(td0, file$q, 155, 14, 4641);
-				add_location(td1, file$q, 160, 14, 4788);
+				add_location(a, file$q, 156, 16, 4668);
+				add_location(td0, file$q, 155, 14, 4647);
+				add_location(td1, file$q, 160, 14, 4794);
 				attr_dev(input0, "type", "checkbox");
-				add_location(input0, file$q, 164, 16, 4881);
-				add_location(td2, file$q, 163, 14, 4860);
+				add_location(input0, file$q, 164, 16, 4887);
+				add_location(td2, file$q, 163, 14, 4866);
 				attr_dev(input1, "type", "checkbox");
-				add_location(input1, file$q, 171, 16, 5095);
-				add_location(td3, file$q, 170, 14, 5074);
+				add_location(input1, file$q, 171, 16, 5101);
+				add_location(td3, file$q, 170, 14, 5080);
 				attr_dev(input2, "type", "checkbox");
-				add_location(input2, file$q, 178, 16, 5313);
-				add_location(td4, file$q, 177, 14, 5292);
-				add_location(td5, file$q, 184, 14, 5508);
-				add_location(td6, file$q, 194, 14, 5865);
-				add_location(tr, file$q, 154, 12, 4622);
+				add_location(input2, file$q, 178, 16, 5319);
+				add_location(td4, file$q, 177, 14, 5298);
+				add_location(td5, file$q, 184, 14, 5514);
+				add_location(td6, file$q, 194, 14, 5871);
+				add_location(tr, file$q, 154, 12, 4628);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -31467,35 +31467,35 @@
 				button1 = element("button");
 				button1.textContent = "New Team";
 				attr_dev(button0, "class", "btn btn-primary");
-				add_location(button0, file$q, 130, 12, 3935);
-				add_location(h1, file$q, 129, 4, 3918);
-				add_location(th0, file$q, 135, 10, 4098);
-				add_location(th1, file$q, 136, 10, 4122);
-				add_location(th2, file$q, 137, 10, 4147);
-				add_location(th3, file$q, 138, 10, 4181);
-				add_location(th4, file$q, 139, 10, 4214);
-				add_location(th5, file$q, 140, 10, 4246);
-				add_location(th6, file$q, 141, 10, 4269);
-				add_location(tr, file$q, 134, 8, 4083);
+				add_location(button0, file$q, 130, 12, 3941);
+				add_location(h1, file$q, 129, 4, 3924);
+				add_location(th0, file$q, 135, 10, 4104);
+				add_location(th1, file$q, 136, 10, 4128);
+				add_location(th2, file$q, 137, 10, 4153);
+				add_location(th3, file$q, 138, 10, 4187);
+				add_location(th4, file$q, 139, 10, 4220);
+				add_location(th5, file$q, 140, 10, 4252);
+				add_location(th6, file$q, 141, 10, 4275);
+				add_location(tr, file$q, 134, 8, 4089);
 				attr_dev(thead, "class", "thead");
-				add_location(thead, file$q, 133, 6, 4053);
+				add_location(thead, file$q, 133, 6, 4059);
 				attr_dev(tbody, "id", "teams");
 				attr_dev(tbody, "class", "svelte-15nu3fx");
-				add_location(tbody, file$q, 144, 6, 4311);
+				add_location(tbody, file$q, 144, 6, 4317);
 				attr_dev(table, "class", "table table-striped");
-				add_location(table, file$q, 132, 4, 4011);
+				add_location(table, file$q, 132, 4, 4017);
 				attr_dev(input, "type", "text");
 				attr_dev(input, "placeholder", "New Team");
-				add_location(input, file$q, 221, 8, 6707);
-				add_location(label, file$q, 219, 6, 6673);
+				add_location(input, file$q, 221, 8, 6713);
+				add_location(label, file$q, 219, 6, 6679);
 				attr_dev(button1, "class", "btn btn-info");
-				add_location(button1, file$q, 227, 6, 6836);
+				add_location(button1, file$q, 227, 6, 6842);
 				attr_dev(div0, "class", "col");
-				add_location(div0, file$q, 218, 4, 6649);
+				add_location(div0, file$q, 218, 4, 6655);
 				attr_dev(div1, "class", "row");
-				add_location(div1, file$q, 128, 2, 3896);
+				add_location(div1, file$q, 128, 2, 3902);
 				attr_dev(div2, "class", "container");
-				add_location(div2, file$q, 127, 0, 3870);
+				add_location(div2, file$q, 127, 0, 3876);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -31587,14 +31587,14 @@
 		let me;
 		let teamsList;
 		let $agentsStore;
-		let $opsStore;
 		let $meStore;
+		let $opsStore;
 		validate_store(agentsStore, 'agentsStore');
 		component_subscribe($$self, agentsStore, $$value => $$invalidate(13, $agentsStore = $$value));
-		validate_store(opsStore, 'opsStore');
-		component_subscribe($$self, opsStore, $$value => $$invalidate(14, $opsStore = $$value));
 		validate_store(meStore, 'meStore');
-		component_subscribe($$self, meStore, $$value => $$invalidate(15, $meStore = $$value));
+		component_subscribe($$self, meStore, $$value => $$invalidate(14, $meStore = $$value));
+		validate_store(opsStore, 'opsStore');
+		component_subscribe($$self, opsStore, $$value => $$invalidate(15, $opsStore = $$value));
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Teams', slots, []);
 
@@ -31641,7 +31641,7 @@
 		function refresh() {
 			return __awaiter(this, void 0, void 0, function* () {
 				yield loadMeAndOps();
-				$$invalidate(0, me = WasabeeMe.get());
+				set_store_value(meStore, $meStore = WasabeeMe.get(), $meStore);
 			});
 		}
 
@@ -31739,21 +31739,21 @@
 
 		function input0_change_handler(each_value, team_index) {
 			each_value[team_index].State = this.checked;
-			((($$invalidate(4, teamsList), $$invalidate(0, me)), $$invalidate(13, $agentsStore)), $$invalidate(15, $meStore));
+			((($$invalidate(4, teamsList), $$invalidate(0, me)), $$invalidate(13, $agentsStore)), $$invalidate(14, $meStore));
 		}
 
 		const change_handler = team => setTeamState(team);
 
 		function input1_change_handler(each_value, team_index) {
 			each_value[team_index].ShareWD = this.checked;
-			((($$invalidate(4, teamsList), $$invalidate(0, me)), $$invalidate(13, $agentsStore)), $$invalidate(15, $meStore));
+			((($$invalidate(4, teamsList), $$invalidate(0, me)), $$invalidate(13, $agentsStore)), $$invalidate(14, $meStore));
 		}
 
 		const change_handler_1 = team => setTeamShareWD(team);
 
 		function input2_change_handler(each_value, team_index) {
 			each_value[team_index].LoadWD = this.checked;
-			((($$invalidate(4, teamsList), $$invalidate(0, me)), $$invalidate(13, $agentsStore)), $$invalidate(15, $meStore));
+			((($$invalidate(4, teamsList), $$invalidate(0, me)), $$invalidate(13, $agentsStore)), $$invalidate(14, $meStore));
 		}
 
 		const change_handler_2 = team => setTeamLoadWD(team);
@@ -31793,8 +31793,8 @@
 			me,
 			teamsList,
 			$agentsStore,
-			$opsStore,
-			$meStore
+			$meStore,
+			$opsStore
 		});
 
 		$$self.$inject_state = $$props => {
@@ -31811,11 +31811,11 @@
 		}
 
 		$$self.$$.update = () => {
-			if ($$self.$$.dirty[0] & /*$meStore*/ 32768) {
+			if ($$self.$$.dirty[0] & /*$meStore*/ 16384) {
 				$$invalidate(0, me = $meStore);
 			}
 
-			if ($$self.$$.dirty[0] & /*$opsStore*/ 16384) {
+			if ($$self.$$.dirty[0] & /*$opsStore*/ 32768) {
 				{
 					const teams = {};
 
@@ -31858,8 +31858,8 @@
 			deleteTeam,
 			leaveTeam,
 			$agentsStore,
-			$opsStore,
 			$meStore,
+			$opsStore,
 			input0_change_handler,
 			change_handler,
 			input1_change_handler,
