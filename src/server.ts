@@ -83,7 +83,7 @@ export function oneTimeToken(token: string) {
 // returns a promise to WasabeeMe -- should be called only by WasabeeMe.waitGet()
 // use WasabeeMe.cacheGet or WasabeeMe.waitGet for caching
 export function mePromise() {
-  return genericGet('/api/v1/me');
+  return genericGet<WasabeeMe>('/api/v1/me');
 }
 
 export function getCommJWT(name: string) {

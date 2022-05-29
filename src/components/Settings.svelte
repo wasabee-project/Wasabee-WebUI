@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { WasabeeMe } from '../model';
   import { getConfig } from '../config';
   import { notifyInfo, notifyOnError } from '../notify';
   import {
@@ -8,19 +7,19 @@
     importVteams,
     setVAPIkey,
   } from '../server';
-  import { getMe } from '../cache';
-
-  let me: WasabeeMe = WasabeeMe.get();
+  import { meStore } from '../stores';
 
   let botname: string = getConfig().botname;
   let vimportmode: string = 'team';
 
-  let communityname = me.communityname || '';
+  let communityname = $meStore.communityname || '';
   let commJWT = '';
   let newVerification = false;
 
   $: commMayAskProof =
-    communityname && (!me.communityname || communityname !== me.communityname);
+    communityname &&
+    (!$meStore.communityname || communityname !== $meStore.communityname);
+  $: me = $meStore; // shortcut
 
   async function communityProof() {
     if (communityname) {
@@ -34,7 +33,7 @@
       await notifyOnError(getCommVerify(communityname));
       newVerification = true;
       notifyInfo('Community name verified');
-      me = await getMe(true);
+      meStore.refresh();
     }
   }
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { WasabeeMe, WasabeeOp } from '../model';
+  import { WasabeeOp } from '../model';
 
   import {
     SetTeamState,
@@ -14,9 +14,9 @@
 
   import type { MeTeam } from '../model/me';
 
-  import { agentsStore, opsStore } from '../stores';
+  import { agentsStore, meStore, opsStore } from '../stores';
 
-  let me: WasabeeMe = WasabeeMe.get();
+  $: me = $meStore; // shortcut
   let newTeamName: string = '';
   let toDelete: TeamID | null = null;
 
@@ -39,7 +39,6 @@
 
   async function refresh() {
     await loadMeAndOps();
-    me = WasabeeMe.get();
   }
 
   async function createTeam() {

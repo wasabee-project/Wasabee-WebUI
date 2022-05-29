@@ -1,16 +1,16 @@
 <script lang="ts">
-  import { WasabeeMe, WasabeeOp } from '../model';
+  import { WasabeeOp } from '../model';
   import { deleteOpPromise } from '../server';
 
   import type { OpPermItem } from '../model/operation';
 
   import { loadMeAndOps } from '../sync';
-  import { opsStore } from '../stores';
+  import { meStore, opsStore } from '../stores';
 
-  let me: WasabeeMe = WasabeeMe.get();
+  $: me = $meStore;
   let toDelete: OpID | null = null;
 
-  opsStore.updateFromMe(me);
+  opsStore.updateFromMe($meStore);
 
   type Op = {
     ID: OpID;
@@ -48,7 +48,6 @@
 
   async function refresh() {
     await loadMeAndOps();
-    me = WasabeeMe.get();
   }
 
   function filterTeamsID(teams: OpPermItem[]) {

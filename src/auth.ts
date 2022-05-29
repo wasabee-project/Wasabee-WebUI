@@ -11,7 +11,6 @@ function promiseLogin(options: gapi.auth2.AuthorizeConfig) {
           }`
         );
       }
-      console.log(response);
       resolve(response.access_token);
     });
   });

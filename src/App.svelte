@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Router from 'svelte-spa-router';
+  import Router, { location, replace } from 'svelte-spa-router';
   import { fade } from 'svelte/transition';
   import { ToastContainer, FlatToast } from 'svelte-toasts';
 
@@ -10,6 +10,7 @@
     Nav,
     NavItem,
     NavLink,
+    Input,
   } from 'sveltestrap';
 
   import Help from './components/Help.svelte';
@@ -22,16 +23,16 @@
   import Operation from './components/Operation.svelte';
   import Team from './components/Team.svelte';
 
-  import { getServer, setConfig } from './config';
+  import { getServer, getServers, setConfig, setServer } from './config';
 
-  import { clearOpsStorage, loadMeAndOps, syncTeams } from './sync';
+  import { clearOpsStorage, loadMeAndOps } from './sync';
   import { loadConfig, logoutPromise } from './server';
 
   import { WasabeeMe } from './model';
   import { getAuthBearer, setAuthBearer } from './auth';
 
   import { sendTokenToServer } from './firebase';
-  import { opsStore } from './stores';
+  import { meStore, opsStore, teamsStore } from './stores';
 
   let me: WasabeeMe | null;
 
@@ -87,6 +88,7 @@
     delete localStorage['sentToServer'];
     //window.location.href = '/';
     me = null;
+    meStore.reset();
   }
 
   let disabled = true;
@@ -98,9 +100,42 @@
   async function onLogin(ev: { detail: any }) {
     me = new WasabeeMe(ev.detail);
     me.store();
+    $meStore = me;
     setConfig(await loadConfig());
     opsStore.updateFromMe(me);
-    await syncTeams(me);
+    await teamsStore.updateFromMe(me);
+    sendTokenToServer();
+  }
+
+  async function serverChangeEvent(e: Event) {
+    const value = (e.target as HTMLInputElement).value;
+    // virtual ligout
+    clearOpsStorage();
+    WasabeeMe.purge();
+
+    try {
+      // switch server
+      setServer(value);
+      setConfig(await loadConfig());
+
+      // virtual login
+      me = await meStore.refresh();
+    } catch {
+      // clear auth on failure
+      meStore.reset();
+      me = null;
+      setAuthBearer();
+      delete localStorage['sentToServer'];
+      return;
+    }
+    me.store();
+
+    if (!($location in routes)) replace('/teams');
+
+    opsStore.updateFromMe(me);
+    await teamsStore.updateFromMe(me);
+
+    // firebase
     sendTokenToServer();
   }
 </script>
@@ -113,7 +148,7 @@
     on:load={loadAuth2}></script>
 </svelte:head>
 
-{#if !me}
+{#if !$meStore}
   <HomePage on:login={onLogin} {disabled} />
 {:else}
   <header>
@@ -133,9 +168,18 @@
           >
         </Nav>
       </Collapse>
-      <NavLink disabled href="#">
-        {getServer().replace('https://', '')}
-      </NavLink>
+      <Input
+        type="select"
+        name="select"
+        value={getServer()}
+        on:change={serverChangeEvent}
+      >
+        {#each getServers() as server}
+          <option value={server.url}>
+            {server.name}
+          </option>
+        {/each}
+      </Input>
     </Navbar>
   </header>
   <main in:fade={{ duration: 500 }}>
