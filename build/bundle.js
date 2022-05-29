@@ -58466,7 +58466,7 @@
 		return child_ctx;
 	}
 
-	// (141:0) {:else}
+	// (142:0) {:else}
 	function create_else_block(ctx) {
 		let header;
 		let navbar;
@@ -58518,8 +58518,8 @@
 				create_component(toastcontainer.$$.fragment);
 				t1 = space();
 				create_component(router.$$.fragment);
-				add_location(header, file, 141, 2, 4483);
-				add_location(main, file, 172, 2, 5531);
+				add_location(header, file, 142, 2, 4506);
+				add_location(main, file, 173, 2, 5554);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, header, anchor);
@@ -58582,14 +58582,14 @@
 			block,
 			id: create_else_block.name,
 			type: "else",
-			source: "(141:0) {:else}",
+			source: "(142:0) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (139:0) {#if !$meStore}
+	// (140:0) {#if !$meStore}
 	function create_if_block_1(ctx) {
 		let homepage;
 		let current;
@@ -58632,14 +58632,14 @@
 			block,
 			id: create_if_block_1.name,
 			type: "if",
-			source: "(139:0) {#if !$meStore}",
+			source: "(140:0) {#if !$meStore}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (147:19) <NavLink href="#/teams">
+	// (148:19) <NavLink href="#/teams">
 	function create_default_slot_16(ctx) {
 		let t;
 
@@ -58659,14 +58659,14 @@
 			block,
 			id: create_default_slot_16.name,
 			type: "slot",
-			source: "(147:19) <NavLink href=\\\"#/teams\\\">",
+			source: "(148:19) <NavLink href=\\\"#/teams\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (147:10) <NavItem>
+	// (148:10) <NavItem>
 	function create_default_slot_15(ctx) {
 		let navlink;
 		let current;
@@ -58715,14 +58715,14 @@
 			block,
 			id: create_default_slot_15.name,
 			type: "slot",
-			source: "(147:10) <NavItem>",
+			source: "(148:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (148:19) <NavLink href="#/operations">
+	// (149:19) <NavLink href="#/operations">
 	function create_default_slot_14(ctx) {
 		let t;
 
@@ -58742,14 +58742,14 @@
 			block,
 			id: create_default_slot_14.name,
 			type: "slot",
-			source: "(148:19) <NavLink href=\\\"#/operations\\\">",
+			source: "(149:19) <NavLink href=\\\"#/operations\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (148:10) <NavItem>
+	// (149:10) <NavItem>
 	function create_default_slot_13(ctx) {
 		let navlink;
 		let current;
@@ -58798,14 +58798,14 @@
 			block,
 			id: create_default_slot_13.name,
 			type: "slot",
-			source: "(148:10) <NavItem>",
+			source: "(149:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (150:13) <NavLink href="#/defensivekeys/">
+	// (151:13) <NavLink href="#/defensivekeys/">
 	function create_default_slot_12(ctx) {
 		let t;
 
@@ -58825,14 +58825,14 @@
 			block,
 			id: create_default_slot_12.name,
 			type: "slot",
-			source: "(150:13) <NavLink href=\\\"#/defensivekeys/\\\">",
+			source: "(151:13) <NavLink href=\\\"#/defensivekeys/\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (149:10) <NavItem             >
+	// (150:10) <NavItem             >
 	function create_default_slot_11(ctx) {
 		let navlink;
 		let current;
@@ -58881,14 +58881,14 @@
 			block,
 			id: create_default_slot_11.name,
 			type: "slot",
-			source: "(149:10) <NavItem             >",
+			source: "(150:10) <NavItem             >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (152:19) <NavLink href="#/settings">
+	// (153:19) <NavLink href="#/settings">
 	function create_default_slot_10(ctx) {
 		let t;
 
@@ -58908,14 +58908,14 @@
 			block,
 			id: create_default_slot_10.name,
 			type: "slot",
-			source: "(152:19) <NavLink href=\\\"#/settings\\\">",
+			source: "(153:19) <NavLink href=\\\"#/settings\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (152:10) <NavItem>
+	// (153:10) <NavItem>
 	function create_default_slot_9(ctx) {
 		let navlink;
 		let current;
@@ -58964,14 +58964,14 @@
 			block,
 			id: create_default_slot_9.name,
 			type: "slot",
-			source: "(152:10) <NavItem>",
+			source: "(153:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (153:19) <NavLink href="#/help">
+	// (154:19) <NavLink href="#/help">
 	function create_default_slot_8(ctx) {
 		let t;
 
@@ -58991,14 +58991,14 @@
 			block,
 			id: create_default_slot_8.name,
 			type: "slot",
-			source: "(153:19) <NavLink href=\\\"#/help\\\">",
+			source: "(154:19) <NavLink href=\\\"#/help\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (153:10) <NavItem>
+	// (154:10) <NavItem>
 	function create_default_slot_7(ctx) {
 		let navlink;
 		let current;
@@ -59047,14 +59047,14 @@
 			block,
 			id: create_default_slot_7.name,
 			type: "slot",
-			source: "(153:10) <NavItem>",
+			source: "(154:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (155:13) <NavLink href="#/" on:click={logout}>
+	// (156:13) <NavLink href="#/" on:click={logout}>
 	function create_default_slot_6(ctx) {
 		let t;
 
@@ -59074,14 +59074,14 @@
 			block,
 			id: create_default_slot_6.name,
 			type: "slot",
-			source: "(155:13) <NavLink href=\\\"#/\\\" on:click={logout}>",
+			source: "(156:13) <NavLink href=\\\"#/\\\" on:click={logout}>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (154:10) <NavItem             >
+	// (155:10) <NavItem             >
 	function create_default_slot_5(ctx) {
 		let navlink;
 		let current;
@@ -59132,14 +59132,14 @@
 			block,
 			id: create_default_slot_5.name,
 			type: "slot",
-			source: "(154:10) <NavItem             >",
+			source: "(155:10) <NavItem             >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (146:8) <Nav navbar>
+	// (147:8) <Nav navbar>
 	function create_default_slot_4(ctx) {
 		let navitem0;
 		let t0;
@@ -59312,14 +59312,14 @@
 			block,
 			id: create_default_slot_4.name,
 			type: "slot",
-			source: "(146:8) <Nav navbar>",
+			source: "(147:8) <Nav navbar>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (145:6) <Collapse toggler="#main-toggler" navbar expand="lg">
+	// (146:6) <Collapse toggler="#main-toggler" navbar expand="lg">
 	function create_default_slot_3(ctx) {
 		let nav;
 		let current;
@@ -59368,14 +59368,14 @@
 			block,
 			id: create_default_slot_3.name,
 			type: "slot",
-			source: "(145:6) <Collapse toggler=\\\"#main-toggler\\\" navbar expand=\\\"lg\\\">",
+			source: "(146:6) <Collapse toggler=\\\"#main-toggler\\\" navbar expand=\\\"lg\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (165:8) {#each getServers() as server}
+	// (166:8) {#each getServers() as server}
 	function create_each_block(ctx) {
 		let option;
 		let t0_value = /*server*/ ctx[12].name + "";
@@ -59389,7 +59389,7 @@
 				t1 = space();
 				option.__value = /*server*/ ctx[12].url;
 				option.value = option.__value;
-				add_location(option, file, 165, 10, 5398);
+				add_location(option, file, 166, 10, 5421);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, option, anchor);
@@ -59406,14 +59406,14 @@
 			block,
 			id: create_each_block.name,
 			type: "each",
-			source: "(165:8) {#each getServers() as server}",
+			source: "(166:8) {#each getServers() as server}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (159:6) <Input         type="select"         name="select"         value={getServer()}         on:change={serverChangeEvent}       >
+	// (160:6) <Input         type="select"         name="select"         value={getServer()}         on:change={serverChangeEvent}       >
 	function create_default_slot_2(ctx) {
 		let each_1_anchor;
 		let each_value = getServers();
@@ -59474,14 +59474,14 @@
 			block,
 			id: create_default_slot_2.name,
 			type: "slot",
-			source: "(159:6) <Input         type=\\\"select\\\"         name=\\\"select\\\"         value={getServer()}         on:change={serverChangeEvent}       >",
+			source: "(160:6) <Input         type=\\\"select\\\"         name=\\\"select\\\"         value={getServer()}         on:change={serverChangeEvent}       >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (143:4) <Navbar container={false} color="dark" dark expand="lg">
+	// (144:4) <Navbar container={false} color="dark" dark expand="lg">
 	function create_default_slot_1(ctx) {
 		let navbartoggler;
 		let t0;
@@ -59577,14 +59577,14 @@
 			block,
 			id: create_default_slot_1.name,
 			type: "slot",
-			source: "(143:4) <Navbar container={false} color=\\\"dark\\\" dark expand=\\\"lg\\\">",
+			source: "(144:4) <Navbar container={false} color=\\\"dark\\\" dark expand=\\\"lg\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (174:4) <ToastContainer let:data>
+	// (175:4) <ToastContainer let:data>
 	function create_default_slot(ctx) {
 		let flattoast;
 		let current;
@@ -59625,14 +59625,14 @@
 			block,
 			id: create_default_slot.name,
 			type: "slot",
-			source: "(174:4) <ToastContainer let:data>",
+			source: "(175:4) <ToastContainer let:data>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (181:0) {#if loading}
+	// (182:0) {#if loading}
 	function create_if_block(ctx) {
 		let div;
 
@@ -59641,7 +59641,7 @@
 				div = element("div");
 				attr_dev(div, "id", "loading-animation");
 				attr_dev(div, "class", "svelte-1bcajx9");
-				add_location(div, file, 181, 2, 5702);
+				add_location(div, file, 182, 2, 5725);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -59655,7 +59655,7 @@
 			block,
 			id: create_if_block.name,
 			type: "if",
-			source: "(181:0) {#if loading}",
+			source: "(182:0) {#if loading}",
 			ctx
 		});
 
@@ -59729,22 +59729,22 @@
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
-				add_location(script, file, 131, 2, 4290);
-				add_location(strong, file, 188, 76, 5983);
+				add_location(script, file, 132, 2, 4313);
+				add_location(strong, file, 189, 76, 6006);
 				attr_dev(a0, "href", "https://v.enl.one/");
-				add_location(a0, file, 192, 6, 6099);
+				add_location(a0, file, 193, 6, 6122);
 				attr_dev(a1, "href", "https://enl.rocks");
-				add_location(a1, file, 193, 6, 6144);
+				add_location(a1, file, 194, 6, 6167);
 				attr_dev(a2, "href", "/privacy");
-				add_location(a2, file, 194, 6, 6205);
+				add_location(a2, file, 195, 6, 6228);
 				attr_dev(p0, "class", "text-muted small");
-				add_location(p0, file, 186, 4, 5803);
+				add_location(p0, file, 187, 4, 5826);
 				attr_dev(p1, "class", "text-muted text-right small");
-				add_location(p1, file, 196, 4, 6278);
+				add_location(p1, file, 197, 4, 6301);
 				attr_dev(div, "class", "p-5");
-				add_location(div, file, 185, 2, 5781);
+				add_location(div, file, 186, 2, 5804);
 				attr_dev(footer, "class", "mastfoot mx-5 mt-auto");
-				add_location(footer, file, 184, 0, 5740);
+				add_location(footer, file, 185, 0, 5763);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -59992,6 +59992,7 @@
 					// clear auth on failure
 					meStore.reset();
 
+					$$invalidate(8, me = null);
 					setAuthBearer();
 					delete localStorage['sentToServer'];
 					return;
