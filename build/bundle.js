@@ -58427,7 +58427,7 @@
 
 	function get_each_context(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[11] = list[i];
+		child_ctx[10] = list[i];
 		return child_ctx;
 	}
 
@@ -58460,8 +58460,8 @@
 					$$slots: {
 						default: [
 							create_default_slot,
-							({ data }) => ({ 10: data }),
-							({ data }) => data ? 1024 : 0
+							({ data }) => ({ 9: data }),
+							({ data }) => data ? 512 : 0
 						]
 					},
 					$$scope: { ctx }
@@ -58483,8 +58483,8 @@
 				create_component(toastcontainer.$$.fragment);
 				t1 = space();
 				create_component(router.$$.fragment);
-				add_location(header, file, 138, 2, 4350);
-				add_location(main, file, 164, 2, 5359);
+				add_location(header, file, 138, 2, 4318);
+				add_location(main, file, 164, 2, 5327);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, header, anchor);
@@ -58499,14 +58499,14 @@
 			p: function update(ctx, dirty) {
 				const navbar_changes = {};
 
-				if (dirty & /*$$scope*/ 16384) {
+				if (dirty & /*$$scope*/ 8192) {
 					navbar_changes.$$scope = { dirty, ctx };
 				}
 
 				navbar.$set(navbar_changes);
 				const toastcontainer_changes = {};
 
-				if (dirty & /*$$scope, data*/ 17408) {
+				if (dirty & /*$$scope, data*/ 8704) {
 					toastcontainer_changes.$$scope = { dirty, ctx };
 				}
 
@@ -58656,7 +58656,7 @@
 			p: function update(ctx, dirty) {
 				const navlink_changes = {};
 
-				if (dirty & /*$$scope*/ 16384) {
+				if (dirty & /*$$scope*/ 8192) {
 					navlink_changes.$$scope = { dirty, ctx };
 				}
 
@@ -58739,7 +58739,7 @@
 			p: function update(ctx, dirty) {
 				const navlink_changes = {};
 
-				if (dirty & /*$$scope*/ 16384) {
+				if (dirty & /*$$scope*/ 8192) {
 					navlink_changes.$$scope = { dirty, ctx };
 				}
 
@@ -58822,7 +58822,7 @@
 			p: function update(ctx, dirty) {
 				const navlink_changes = {};
 
-				if (dirty & /*$$scope*/ 16384) {
+				if (dirty & /*$$scope*/ 8192) {
 					navlink_changes.$$scope = { dirty, ctx };
 				}
 
@@ -58905,7 +58905,7 @@
 			p: function update(ctx, dirty) {
 				const navlink_changes = {};
 
-				if (dirty & /*$$scope*/ 16384) {
+				if (dirty & /*$$scope*/ 8192) {
 					navlink_changes.$$scope = { dirty, ctx };
 				}
 
@@ -58988,7 +58988,7 @@
 			p: function update(ctx, dirty) {
 				const navlink_changes = {};
 
-				if (dirty & /*$$scope*/ 16384) {
+				if (dirty & /*$$scope*/ 8192) {
 					navlink_changes.$$scope = { dirty, ctx };
 				}
 
@@ -59073,7 +59073,7 @@
 			p: function update(ctx, dirty) {
 				const navlink_changes = {};
 
-				if (dirty & /*$$scope*/ 16384) {
+				if (dirty & /*$$scope*/ 8192) {
 					navlink_changes.$$scope = { dirty, ctx };
 				}
 
@@ -59198,42 +59198,42 @@
 			p: function update(ctx, dirty) {
 				const navitem0_changes = {};
 
-				if (dirty & /*$$scope*/ 16384) {
+				if (dirty & /*$$scope*/ 8192) {
 					navitem0_changes.$$scope = { dirty, ctx };
 				}
 
 				navitem0.$set(navitem0_changes);
 				const navitem1_changes = {};
 
-				if (dirty & /*$$scope*/ 16384) {
+				if (dirty & /*$$scope*/ 8192) {
 					navitem1_changes.$$scope = { dirty, ctx };
 				}
 
 				navitem1.$set(navitem1_changes);
 				const navitem2_changes = {};
 
-				if (dirty & /*$$scope*/ 16384) {
+				if (dirty & /*$$scope*/ 8192) {
 					navitem2_changes.$$scope = { dirty, ctx };
 				}
 
 				navitem2.$set(navitem2_changes);
 				const navitem3_changes = {};
 
-				if (dirty & /*$$scope*/ 16384) {
+				if (dirty & /*$$scope*/ 8192) {
 					navitem3_changes.$$scope = { dirty, ctx };
 				}
 
 				navitem3.$set(navitem3_changes);
 				const navitem4_changes = {};
 
-				if (dirty & /*$$scope*/ 16384) {
+				if (dirty & /*$$scope*/ 8192) {
 					navitem4_changes.$$scope = { dirty, ctx };
 				}
 
 				navitem4.$set(navitem4_changes);
 				const navitem5_changes = {};
 
-				if (dirty & /*$$scope*/ 16384) {
+				if (dirty & /*$$scope*/ 8192) {
 					navitem5_changes.$$scope = { dirty, ctx };
 				}
 
@@ -59309,7 +59309,7 @@
 			p: function update(ctx, dirty) {
 				const nav_changes = {};
 
-				if (dirty & /*$$scope*/ 16384) {
+				if (dirty & /*$$scope*/ 8192) {
 					nav_changes.$$scope = { dirty, ctx };
 				}
 
@@ -59343,7 +59343,7 @@
 	// (157:8) {#each getServers() as server}
 	function create_each_block(ctx) {
 		let option;
-		let t0_value = /*server*/ ctx[11].name + "";
+		let t0_value = /*server*/ ctx[10].name + "";
 		let t0;
 		let t1;
 
@@ -59352,9 +59352,9 @@
 				option = element("option");
 				t0 = text(t0_value);
 				t1 = space();
-				option.__value = /*server*/ ctx[11].url;
+				option.__value = /*server*/ ctx[10].url;
 				option.value = option.__value;
-				add_location(option, file, 157, 10, 5226);
+				add_location(option, file, 157, 10, 5194);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, option, anchor);
@@ -59503,14 +59503,14 @@
 			p: function update(ctx, dirty) {
 				const collapse_changes = {};
 
-				if (dirty & /*$$scope*/ 16384) {
+				if (dirty & /*$$scope*/ 8192) {
 					collapse_changes.$$scope = { dirty, ctx };
 				}
 
 				collapse.$set(collapse_changes);
 				const input_changes = {};
 
-				if (dirty & /*$$scope*/ 16384) {
+				if (dirty & /*$$scope*/ 8192) {
 					input_changes.$$scope = { dirty, ctx };
 				}
 
@@ -59555,7 +59555,7 @@
 		let current;
 
 		flattoast = new FlatToast({
-				props: { data: /*data*/ ctx[10] },
+				props: { data: /*data*/ ctx[9] },
 				$$inline: true
 			});
 
@@ -59569,7 +59569,7 @@
 			},
 			p: function update(ctx, dirty) {
 				const flattoast_changes = {};
-				if (dirty & /*data*/ 1024) flattoast_changes.data = /*data*/ ctx[10];
+				if (dirty & /*data*/ 512) flattoast_changes.data = /*data*/ ctx[9];
 				flattoast.$set(flattoast_changes);
 			},
 			i: function intro(local) {
@@ -59606,7 +59606,7 @@
 				div = element("div");
 				attr_dev(div, "id", "loading-animation");
 				attr_dev(div, "class", "svelte-1bcajx9");
-				add_location(div, file, 173, 2, 5530);
+				add_location(div, file, 173, 2, 5498);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -59694,22 +59694,22 @@
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
-				add_location(script, file, 128, 2, 4163);
-				add_location(strong, file, 180, 76, 5811);
+				add_location(script, file, 128, 2, 4131);
+				add_location(strong, file, 180, 76, 5779);
 				attr_dev(a0, "href", "https://v.enl.one/");
-				add_location(a0, file, 184, 6, 5927);
+				add_location(a0, file, 184, 6, 5895);
 				attr_dev(a1, "href", "https://enl.rocks");
-				add_location(a1, file, 185, 6, 5972);
+				add_location(a1, file, 185, 6, 5940);
 				attr_dev(a2, "href", "/privacy");
-				add_location(a2, file, 186, 6, 6033);
+				add_location(a2, file, 186, 6, 6001);
 				attr_dev(p0, "class", "text-muted small");
-				add_location(p0, file, 178, 4, 5631);
+				add_location(p0, file, 178, 4, 5599);
 				attr_dev(p1, "class", "text-muted text-right small");
-				add_location(p1, file, 188, 4, 6106);
+				add_location(p1, file, 188, 4, 6074);
 				attr_dev(div, "class", "p-5");
-				add_location(div, file, 177, 2, 5609);
+				add_location(div, file, 177, 2, 5577);
 				attr_dev(footer, "class", "mastfoot mx-5 mt-auto");
-				add_location(footer, file, 176, 0, 5568);
+				add_location(footer, file, 176, 0, 5536);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -59814,9 +59814,6 @@
 	}
 
 	function instance($$self, $$props, $$invalidate) {
-		let $location;
-		validate_store(location$2, 'location');
-		component_subscribe($$self, location$2, $$value => $$invalidate(8, $location = $$value));
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('App', slots, []);
 
@@ -59938,6 +59935,7 @@
 				clearOpsStorage();
 
 				WasabeeMe.purge();
+				$$invalidate(0, me = null);
 
 				// switch server
 				setServer(value);
@@ -59958,7 +59956,6 @@
 				me.store();
 				opsStore.updateFromMe(me);
 				yield syncTeams(me);
-				replace($location);
 
 				// firebase
 				sendTokenToServer();
@@ -59974,8 +59971,6 @@
 		$$self.$capture_state = () => ({
 			__awaiter,
 			Router,
-			replace,
-			location: location$2,
 			fade,
 			ToastContainer,
 			FlatToast,
@@ -60016,8 +60011,7 @@
 			disabled,
 			loadAuth2,
 			onLogin,
-			serverChangeEvent,
-			$location
+			serverChangeEvent
 		});
 
 		$$self.$inject_state = $$props => {
