@@ -58518,8 +58518,8 @@
 				create_component(toastcontainer.$$.fragment);
 				t1 = space();
 				create_component(router.$$.fragment);
-				add_location(header, file, 142, 2, 4506);
-				add_location(main, file, 173, 2, 5554);
+				add_location(header, file, 142, 2, 4522);
+				add_location(main, file, 173, 2, 5570);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, header, anchor);
@@ -59389,7 +59389,7 @@
 				t1 = space();
 				option.__value = /*server*/ ctx[12].url;
 				option.value = option.__value;
-				add_location(option, file, 166, 10, 5421);
+				add_location(option, file, 166, 10, 5437);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, option, anchor);
@@ -59641,7 +59641,7 @@
 				div = element("div");
 				attr_dev(div, "id", "loading-animation");
 				attr_dev(div, "class", "svelte-1bcajx9");
-				add_location(div, file, 182, 2, 5725);
+				add_location(div, file, 182, 2, 5741);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -59729,22 +59729,22 @@
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
-				add_location(script, file, 132, 2, 4313);
-				add_location(strong, file, 189, 76, 6006);
+				add_location(script, file, 132, 2, 4329);
+				add_location(strong, file, 189, 76, 6022);
 				attr_dev(a0, "href", "https://v.enl.one/");
-				add_location(a0, file, 193, 6, 6122);
+				add_location(a0, file, 193, 6, 6138);
 				attr_dev(a1, "href", "https://enl.rocks");
-				add_location(a1, file, 194, 6, 6167);
+				add_location(a1, file, 194, 6, 6183);
 				attr_dev(a2, "href", "/privacy");
-				add_location(a2, file, 195, 6, 6228);
+				add_location(a2, file, 195, 6, 6244);
 				attr_dev(p0, "class", "text-muted small");
-				add_location(p0, file, 187, 4, 5826);
+				add_location(p0, file, 187, 4, 5842);
 				attr_dev(p1, "class", "text-muted text-right small");
-				add_location(p1, file, 197, 4, 6301);
+				add_location(p1, file, 197, 4, 6317);
 				attr_dev(div, "class", "p-5");
-				add_location(div, file, 186, 2, 5804);
+				add_location(div, file, 186, 2, 5820);
 				attr_dev(footer, "class", "mastfoot mx-5 mt-auto");
-				add_location(footer, file, 185, 0, 5763);
+				add_location(footer, file, 185, 0, 5779);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -59980,13 +59980,13 @@
 
 				WasabeeMe.purge();
 
-				// switch server
-				setServer(value);
-
-				setConfig(yield loadConfig());
-
-				// virtual login
 				try {
+					// switch server
+					setServer(value);
+
+					setConfig(yield loadConfig());
+
+					// virtual login
 					$$invalidate(8, me = yield meStore.refresh());
 				} catch(_a) {
 					// clear auth on failure
