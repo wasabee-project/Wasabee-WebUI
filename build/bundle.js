@@ -28341,6 +28341,22 @@
 		}
 	}
 
+	function MeStore() {
+	    const { subscribe, set } = writable(null);
+	    return {
+	        subscribe,
+	        set,
+	        refresh: async () => {
+	            const me = await getMe(true);
+	            if (me)
+	                me.store();
+	            set(me);
+	            return me;
+	        },
+	        reset: () => set(null),
+	    };
+	}
+	const meStore = MeStore();
 	function AgentsStore() {
 	    const { subscribe, set, update } = writable({});
 	    return {
@@ -28474,10 +28490,8 @@
 	    return null;
 	}
 
-	async function syncMe() {
-	    const nme = await getMe(true);
-	    nme.store();
-	    return nme;
+	function syncMe() {
+	    return meStore.refresh();
 	}
 	async function loadMeAndOps() {
 	    try {
