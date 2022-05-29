@@ -28341,93 +28341,6 @@
 		}
 	}
 
-	function MeStore() {
-	    const { subscribe, set } = writable(null);
-	    return {
-	        subscribe,
-	        set,
-	        refresh: async () => {
-	            const me = await getMe(true);
-	            if (me)
-	                me.store();
-	            set(me);
-	            return me;
-	        },
-	        reset: () => set(null),
-	    };
-	}
-	const meStore = MeStore();
-	function AgentsStore() {
-	    const { subscribe, set, update } = writable({});
-	    return {
-	        subscribe,
-	        set,
-	        updateAgent(agent) {
-	            update((r) => (Object.assign(Object.assign({}, r), { [agent.id]: agent })));
-	        },
-	        reset: () => set({}),
-	    };
-	}
-	const agentsStore = AgentsStore();
-	function TeamsStore() {
-	    const { subscribe, set, update } = writable({});
-	    return {
-	        subscribe,
-	        set,
-	        updateTeam(team) {
-	            update((r) => (Object.assign(Object.assign({}, r), { [team.id]: team })));
-	        },
-	        reset: () => set({}),
-	    };
-	}
-	const teamsStore = TeamsStore();
-	function OpsStore() {
-	    const { subscribe, set, update } = writable({
-	        success: [],
-	        pending: [],
-	        failed: [],
-	    });
-	    return {
-	        subscribe,
-	        updateFromMe: (me) => {
-	            if (me) {
-	                const loaded = me.Ops.map((o) => o.ID).filter((id) => WasabeeOp.load(id));
-	                set({
-	                    success: loaded,
-	                    pending: me.Ops.map((o) => o.ID).filter((id) => !loaded.includes(id)),
-	                    failed: [],
-	                });
-	                for (const op of me.Ops) {
-	                    opPromise(op.ID)
-	                        .then((op) => {
-	                        op.store();
-	                        update((ops) => ({
-	                            success: ops.success.filter((o) => o !== op.ID).concat(op.ID),
-	                            pending: ops.pending.filter((o) => o !== op.ID),
-	                            failed: ops.failed,
-	                        }));
-	                    })
-	                        .catch(() => {
-	                        update((ops) => ({
-	                            success: ops.success.filter((o) => o !== op.ID),
-	                            pending: ops.pending.filter((o) => o !== op.ID),
-	                            failed: [...ops.failed, op.ID],
-	                        }));
-	                    });
-	                }
-	            }
-	        },
-	        updateOp: (opID) => {
-	            update((ops) => ({
-	                success: ops.success.filter((o) => o !== opID).concat(opID),
-	                pending: ops.pending.filter((o) => o !== opID),
-	                failed: ops.failed.filter((o) => o !== opID),
-	            }));
-	        },
-	    };
-	}
-	const opsStore = OpsStore();
-
 	async function getMe(force = false) {
 	    if (!force) {
 	        const lsme = WasabeeMe.get();
@@ -28490,6 +28403,111 @@
 	    return null;
 	}
 
+	function MeStore() {
+	    const { subscribe, set } = writable(null);
+	    return {
+	        subscribe,
+	        set,
+	        refresh: async () => {
+	            const me = await getMe(true);
+	            if (me)
+	                me.store();
+	            set(me);
+	            return me;
+	        },
+	        reset: () => set(null),
+	    };
+	}
+	const meStore = MeStore();
+	function AgentsStore() {
+	    const { subscribe, set, update } = writable({});
+	    return {
+	        subscribe,
+	        set,
+	        updateAgent(agent) {
+	            update((r) => (Object.assign(Object.assign({}, r), { [agent.id]: agent })));
+	        },
+	        reset: () => set({}),
+	    };
+	}
+	const agentsStore = AgentsStore();
+	function TeamsStore() {
+	    const { subscribe, set, update } = writable({});
+	    return {
+	        subscribe,
+	        set,
+	        async updateFromMe(me) {
+	            const meTeams = new Set(me.Teams.map((t) => t.ID));
+	            const teamPromises = new Array();
+	            for (const t of meTeams)
+	                teamPromises.push(getTeam(t, 300));
+	            try {
+	                const results = await Promise.allSettled(teamPromises);
+	                for (const r of results) {
+	                    if (r.status != 'fulfilled') {
+	                        console.log(r);
+	                        // throw new Error("team load failed, please refresh");
+	                    }
+	                }
+	            }
+	            catch (e) {
+	                console.log(e);
+	            }
+	        },
+	        updateTeam(team) {
+	            update((r) => (Object.assign(Object.assign({}, r), { [team.id]: team })));
+	        },
+	        reset: () => set({}),
+	    };
+	}
+	const teamsStore = TeamsStore();
+	function OpsStore() {
+	    const { subscribe, set, update } = writable({
+	        success: [],
+	        pending: [],
+	        failed: [],
+	    });
+	    return {
+	        subscribe,
+	        updateFromMe: (me) => {
+	            if (me) {
+	                const loaded = me.Ops.map((o) => o.ID).filter((id) => WasabeeOp.load(id));
+	                set({
+	                    success: loaded,
+	                    pending: me.Ops.map((o) => o.ID).filter((id) => !loaded.includes(id)),
+	                    failed: [],
+	                });
+	                for (const op of me.Ops) {
+	                    opPromise(op.ID)
+	                        .then((op) => {
+	                        op.store();
+	                        update((ops) => ({
+	                            success: ops.success.filter((o) => o !== op.ID).concat(op.ID),
+	                            pending: ops.pending.filter((o) => o !== op.ID),
+	                            failed: ops.failed,
+	                        }));
+	                    })
+	                        .catch(() => {
+	                        update((ops) => ({
+	                            success: ops.success.filter((o) => o !== op.ID),
+	                            pending: ops.pending.filter((o) => o !== op.ID),
+	                            failed: [...ops.failed, op.ID],
+	                        }));
+	                    });
+	                }
+	            }
+	        },
+	        updateOp: (opID) => {
+	            update((ops) => ({
+	                success: ops.success.filter((o) => o !== opID).concat(opID),
+	                pending: ops.pending.filter((o) => o !== opID),
+	                failed: ops.failed.filter((o) => o !== opID),
+	            }));
+	        },
+	    };
+	}
+	const opsStore = OpsStore();
+
 	function syncMe() {
 	    return meStore.refresh();
 	}
@@ -28499,8 +28517,7 @@
 	        if (nme) {
 	            // load all available ops and teams
 	            opsStore.updateFromMe(nme);
-	            //await syncOps(nme);
-	            await syncTeams(nme);
+	            await teamsStore.updateFromMe(nme);
 	        }
 	        else {
 	            console.log(nme);
@@ -28524,25 +28541,6 @@
 	function clearOpsStorage() {
 	    for (const id of opsList()) {
 	        delete localStorage[id];
-	    }
-	}
-	async function syncTeams(me) {
-	    const meTeams = new Set(me.Teams.map((t) => t.ID));
-	    const teamPromises = new Array();
-	    for (const t of meTeams)
-	        teamPromises.push(getTeam(t, 300));
-	    try {
-	        const results = await Promise.allSettled(teamPromises);
-	        for (const r of results) {
-	            if (r.status != 'fulfilled') {
-	                console.log(r);
-	                // throw new Error("team load failed, please refresh");
-	            }
-	        }
-	    }
-	    catch (e) {
-	        console.log(e);
-	        return;
 	    }
 	}
 
@@ -58496,8 +58494,8 @@
 				create_component(toastcontainer.$$.fragment);
 				t1 = space();
 				create_component(router.$$.fragment);
-				add_location(header, file, 139, 2, 4389);
-				add_location(main, file, 170, 2, 5437);
+				add_location(header, file, 139, 2, 4418);
+				add_location(main, file, 170, 2, 5466);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, header, anchor);
@@ -59367,7 +59365,7 @@
 				t1 = space();
 				option.__value = /*server*/ ctx[11].url;
 				option.value = option.__value;
-				add_location(option, file, 163, 10, 5304);
+				add_location(option, file, 163, 10, 5333);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, option, anchor);
@@ -59619,7 +59617,7 @@
 				div = element("div");
 				attr_dev(div, "id", "loading-animation");
 				attr_dev(div, "class", "svelte-1bcajx9");
-				add_location(div, file, 179, 2, 5608);
+				add_location(div, file, 179, 2, 5637);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -59707,22 +59705,22 @@
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
-				add_location(script, file, 129, 2, 4202);
-				add_location(strong, file, 186, 76, 5889);
+				add_location(script, file, 129, 2, 4231);
+				add_location(strong, file, 186, 76, 5918);
 				attr_dev(a0, "href", "https://v.enl.one/");
-				add_location(a0, file, 190, 6, 6005);
+				add_location(a0, file, 190, 6, 6034);
 				attr_dev(a1, "href", "https://enl.rocks");
-				add_location(a1, file, 191, 6, 6050);
+				add_location(a1, file, 191, 6, 6079);
 				attr_dev(a2, "href", "/privacy");
-				add_location(a2, file, 192, 6, 6111);
+				add_location(a2, file, 192, 6, 6140);
 				attr_dev(p0, "class", "text-muted small");
-				add_location(p0, file, 184, 4, 5709);
+				add_location(p0, file, 184, 4, 5738);
 				attr_dev(p1, "class", "text-muted text-right small");
-				add_location(p1, file, 194, 4, 6184);
+				add_location(p1, file, 194, 4, 6213);
 				attr_dev(div, "class", "p-5");
-				add_location(div, file, 183, 2, 5687);
+				add_location(div, file, 183, 2, 5716);
 				attr_dev(footer, "class", "mastfoot mx-5 mt-auto");
-				add_location(footer, file, 182, 0, 5646);
+				add_location(footer, file, 182, 0, 5675);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -59938,7 +59936,7 @@
 				me.store();
 				setConfig(yield loadConfig());
 				opsStore.updateFromMe(me);
-				yield syncTeams(me);
+				yield teamsStore.updateFromMe(me);
 				sendTokenToServer();
 			});
 		}
@@ -59971,7 +59969,7 @@
 				me.store();
 				if (!($location in routes)) replace('/teams');
 				opsStore.updateFromMe(me);
-				yield syncTeams(me);
+				yield teamsStore.updateFromMe(me);
 
 				// firebase
 				sendTokenToServer();
@@ -60013,7 +60011,6 @@
 			setServer,
 			clearOpsStorage,
 			loadMeAndOps,
-			syncTeams,
 			loadConfig,
 			logoutPromise,
 			WasabeeMe,
@@ -60021,6 +60018,7 @@
 			setAuthBearer,
 			sendTokenToServer,
 			opsStore,
+			teamsStore,
 			getMe,
 			me,
 			loading,
