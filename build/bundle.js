@@ -58484,7 +58484,7 @@
 				t1 = space();
 				create_component(router.$$.fragment);
 				add_location(header, file, 110, 2, 3563);
-				add_location(main, file, 136, 2, 4559);
+				add_location(main, file, 136, 2, 4556);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, header, anchor);
@@ -59284,63 +59284,7 @@
 		return block;
 	}
 
-	// (114:6) <Collapse toggler="#main-toggler" navbar expand="lg">
-	function create_default_slot_3(ctx) {
-		let nav;
-		let current;
-
-		nav = new Nav({
-				props: {
-					navbar: true,
-					$$slots: { default: [create_default_slot_4] },
-					$$scope: { ctx }
-				},
-				$$inline: true
-			});
-
-		const block = {
-			c: function create() {
-				create_component(nav.$$.fragment);
-			},
-			m: function mount(target, anchor) {
-				mount_component(nav, target, anchor);
-				current = true;
-			},
-			p: function update(ctx, dirty) {
-				const nav_changes = {};
-
-				if (dirty & /*$$scope*/ 4096) {
-					nav_changes.$$scope = { dirty, ctx };
-				}
-
-				nav.$set(nav_changes);
-			},
-			i: function intro(local) {
-				if (current) return;
-				transition_in(nav.$$.fragment, local);
-				current = true;
-			},
-			o: function outro(local) {
-				transition_out(nav.$$.fragment, local);
-				current = false;
-			},
-			d: function destroy(detaching) {
-				destroy_component(nav, detaching);
-			}
-		};
-
-		dispatch_dev("SvelteRegisterBlock", {
-			block,
-			id: create_default_slot_3.name,
-			type: "slot",
-			source: "(114:6) <Collapse toggler=\\\"#main-toggler\\\" navbar expand=\\\"lg\\\">",
-			ctx
-		});
-
-		return block;
-	}
-
-	// (129:8) {#each getServers() as server}
+	// (128:10) {#each getServers() as server}
 	function create_each_block(ctx) {
 		let option;
 		let t0_value = /*server*/ ctx[9].name + "";
@@ -59354,8 +59298,7 @@
 				t1 = space();
 				option.__value = /*server*/ ctx[9].url;
 				option.value = option.__value;
-				option.selected = /*server*/ ctx[9].url == getServer();
-				add_location(option, file, 129, 10, 4389);
+				add_location(option, file, 128, 12, 4397);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, option, anchor);
@@ -59372,15 +59315,15 @@
 			block,
 			id: create_each_block.name,
 			type: "each",
-			source: "(129:8) {#each getServers() as server}",
+			source: "(128:10) {#each getServers() as server}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (128:6) <Input type="select" name="select">
-	function create_default_slot_2(ctx) {
+	// (127:8) <Input type="select" name="select" value={getServer()}>
+	function create_default_slot_3(ctx) {
 		let each_1_anchor;
 		let each_value = getServers();
 		validate_each_argument(each_value);
@@ -59406,7 +59349,7 @@
 				insert_dev(target, each_1_anchor, anchor);
 			},
 			p: function update(ctx, dirty) {
-				if (dirty & /*getServers, getServer*/ 0) {
+				if (dirty & /*getServers*/ 0) {
 					each_value = getServers();
 					validate_each_argument(each_value);
 					let i;
@@ -59438,9 +59381,93 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
+			id: create_default_slot_3.name,
+			type: "slot",
+			source: "(127:8) <Input type=\\\"select\\\" name=\\\"select\\\" value={getServer()}>",
+			ctx
+		});
+
+		return block;
+	}
+
+	// (114:6) <Collapse toggler="#main-toggler" navbar expand="lg">
+	function create_default_slot_2(ctx) {
+		let nav;
+		let t;
+		let input;
+		let current;
+
+		nav = new Nav({
+				props: {
+					navbar: true,
+					$$slots: { default: [create_default_slot_4] },
+					$$scope: { ctx }
+				},
+				$$inline: true
+			});
+
+		input = new Input({
+				props: {
+					type: "select",
+					name: "select",
+					value: getServer(),
+					$$slots: { default: [create_default_slot_3] },
+					$$scope: { ctx }
+				},
+				$$inline: true
+			});
+
+		const block = {
+			c: function create() {
+				create_component(nav.$$.fragment);
+				t = space();
+				create_component(input.$$.fragment);
+			},
+			m: function mount(target, anchor) {
+				mount_component(nav, target, anchor);
+				insert_dev(target, t, anchor);
+				mount_component(input, target, anchor);
+				current = true;
+			},
+			p: function update(ctx, dirty) {
+				const nav_changes = {};
+
+				if (dirty & /*$$scope*/ 4096) {
+					nav_changes.$$scope = { dirty, ctx };
+				}
+
+				nav.$set(nav_changes);
+				const input_changes = {};
+
+				if (dirty & /*$$scope*/ 4096) {
+					input_changes.$$scope = { dirty, ctx };
+				}
+
+				input.$set(input_changes);
+			},
+			i: function intro(local) {
+				if (current) return;
+				transition_in(nav.$$.fragment, local);
+				transition_in(input.$$.fragment, local);
+				current = true;
+			},
+			o: function outro(local) {
+				transition_out(nav.$$.fragment, local);
+				transition_out(input.$$.fragment, local);
+				current = false;
+			},
+			d: function destroy(detaching) {
+				destroy_component(nav, detaching);
+				if (detaching) detach_dev(t);
+				destroy_component(input, detaching);
+			}
+		};
+
+		dispatch_dev("SvelteRegisterBlock", {
+			block,
 			id: create_default_slot_2.name,
 			type: "slot",
-			source: "(128:6) <Input type=\\\"select\\\" name=\\\"select\\\">",
+			source: "(114:6) <Collapse toggler=\\\"#main-toggler\\\" navbar expand=\\\"lg\\\">",
 			ctx
 		});
 
@@ -59450,10 +59477,8 @@
 	// (112:4) <Navbar container={false} color="dark" dark expand="lg">
 	function create_default_slot_1(ctx) {
 		let navbartoggler;
-		let t0;
+		let t;
 		let collapse;
-		let t1;
-		let input;
 		let current;
 
 		navbartoggler = new NavbarToggler({
@@ -59466,16 +59491,6 @@
 					toggler: "#main-toggler",
 					navbar: true,
 					expand: "lg",
-					$$slots: { default: [create_default_slot_3] },
-					$$scope: { ctx }
-				},
-				$$inline: true
-			});
-
-		input = new Input({
-				props: {
-					type: "select",
-					name: "select",
 					$$slots: { default: [create_default_slot_2] },
 					$$scope: { ctx }
 				},
@@ -59485,17 +59500,13 @@
 		const block = {
 			c: function create() {
 				create_component(navbartoggler.$$.fragment);
-				t0 = space();
+				t = space();
 				create_component(collapse.$$.fragment);
-				t1 = space();
-				create_component(input.$$.fragment);
 			},
 			m: function mount(target, anchor) {
 				mount_component(navbartoggler, target, anchor);
-				insert_dev(target, t0, anchor);
+				insert_dev(target, t, anchor);
 				mount_component(collapse, target, anchor);
-				insert_dev(target, t1, anchor);
-				mount_component(input, target, anchor);
 				current = true;
 			},
 			p: function update(ctx, dirty) {
@@ -59506,33 +59517,22 @@
 				}
 
 				collapse.$set(collapse_changes);
-				const input_changes = {};
-
-				if (dirty & /*$$scope*/ 4096) {
-					input_changes.$$scope = { dirty, ctx };
-				}
-
-				input.$set(input_changes);
 			},
 			i: function intro(local) {
 				if (current) return;
 				transition_in(navbartoggler.$$.fragment, local);
 				transition_in(collapse.$$.fragment, local);
-				transition_in(input.$$.fragment, local);
 				current = true;
 			},
 			o: function outro(local) {
 				transition_out(navbartoggler.$$.fragment, local);
 				transition_out(collapse.$$.fragment, local);
-				transition_out(input.$$.fragment, local);
 				current = false;
 			},
 			d: function destroy(detaching) {
 				destroy_component(navbartoggler, detaching);
-				if (detaching) detach_dev(t0);
+				if (detaching) detach_dev(t);
 				destroy_component(collapse, detaching);
-				if (detaching) detach_dev(t1);
-				destroy_component(input, detaching);
 			}
 		};
 
@@ -59604,7 +59604,7 @@
 				div = element("div");
 				attr_dev(div, "id", "loading-animation");
 				attr_dev(div, "class", "svelte-1bcajx9");
-				add_location(div, file, 145, 2, 4730);
+				add_location(div, file, 145, 2, 4727);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -59693,21 +59693,21 @@
 				script.async = true;
 				script.defer = true;
 				add_location(script, file, 100, 2, 3376);
-				add_location(strong, file, 152, 76, 5011);
+				add_location(strong, file, 152, 76, 5008);
 				attr_dev(a0, "href", "https://v.enl.one/");
-				add_location(a0, file, 156, 6, 5127);
+				add_location(a0, file, 156, 6, 5124);
 				attr_dev(a1, "href", "https://enl.rocks");
-				add_location(a1, file, 157, 6, 5172);
+				add_location(a1, file, 157, 6, 5169);
 				attr_dev(a2, "href", "/privacy");
-				add_location(a2, file, 158, 6, 5233);
+				add_location(a2, file, 158, 6, 5230);
 				attr_dev(p0, "class", "text-muted small");
-				add_location(p0, file, 150, 4, 4831);
+				add_location(p0, file, 150, 4, 4828);
 				attr_dev(p1, "class", "text-muted text-right small");
-				add_location(p1, file, 160, 4, 5306);
+				add_location(p1, file, 160, 4, 5303);
 				attr_dev(div, "class", "p-5");
-				add_location(div, file, 149, 2, 4809);
+				add_location(div, file, 149, 2, 4806);
 				attr_dev(footer, "class", "mastfoot mx-5 mt-auto");
-				add_location(footer, file, 148, 0, 4768);
+				add_location(footer, file, 148, 0, 4765);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
