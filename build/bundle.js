@@ -59945,9 +59945,9 @@
 				delete localStorage['sentToServer'];
 
 				//window.location.href = '/';
-				$$invalidate(8, me = null);
-
 				meStore.reset();
+
+				$$invalidate(8, me = null);
 			});
 		}
 
