@@ -89,8 +89,8 @@
     setAuthBearer();
     delete localStorage['sentToServer'];
     //window.location.href = '/';
-    me = null;
     meStore.reset();
+    me = null;
   }
 
   let disabled = true;

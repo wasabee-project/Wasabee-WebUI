@@ -12,15 +12,17 @@
 
   import { loadMeAndOps } from '../sync';
 
-  import type { MeTeam } from '../model/me';
+  import type { MeTeam, WasabeeMe } from '../model/me';
 
   import { agentsStore, meStore, opsStore } from '../stores';
 
-  $: me = $meStore; // shortcut
   let newTeamName: string = '';
   let toDelete: TeamID | null = null;
 
   let teamsOps: { [teamId: TeamID]: [OpID, string][] };
+
+  let me: WasabeeMe = null;
+  $: if ($meStore) me = $meStore; // shortcut
 
   $: {
     const teams = {};

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { WasabeeOp } from '../model';
+  import { WasabeeMe, WasabeeOp } from '../model';
   import { deleteOpPromise } from '../server';
 
   import type { OpPermItem } from '../model/operation';
@@ -7,8 +7,9 @@
   import { loadMeAndOps } from '../sync';
   import { meStore, opsStore } from '../stores';
 
-  $: me = $meStore;
   let toDelete: OpID | null = null;
+  let me: WasabeeMe = null;
+  $: if ($meStore) me = $meStore; // shortcut
 
   opsStore.updateFromMe($meStore);
 
