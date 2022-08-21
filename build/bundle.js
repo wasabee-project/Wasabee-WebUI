@@ -41807,7 +41807,7 @@
 		return child_ctx;
 	}
 
-	// (234:46) 
+	// (234:51) 
 	function create_if_block_1$c(ctx) {
 		let td0;
 		let portallink0;
@@ -41820,7 +41820,7 @@
 		let portallink1;
 		let t2;
 		let td3;
-		let t3_value = /*calculateDistance*/ ctx[5](/*step*/ ctx[31]) + "";
+		let t3_value = /*calculateDistance*/ ctx[5](/*step*/ ctx[31].task) + "";
 		let t3;
 		let current;
 		let mounted;
@@ -41828,7 +41828,7 @@
 
 		portallink0 = new PortalLink({
 				props: {
-					portalId: /*step*/ ctx[31].fromPortalId,
+					portalId: /*step*/ ctx[31].task.fromPortalId,
 					operation: /*operation*/ ctx[1]
 				},
 				$$inline: true
@@ -41840,7 +41840,7 @@
 
 		portallink1 = new PortalLink({
 				props: {
-					portalId: /*step*/ ctx[31].toPortalId,
+					portalId: /*step*/ ctx[31].task.toPortalId,
 					operation: /*operation*/ ctx[1]
 				},
 				$$inline: true
@@ -41859,15 +41859,15 @@
 				t2 = space();
 				td3 = element("td");
 				t3 = text(t3_value);
-				add_location(td0, file$e, 234, 10, 7584);
+				add_location(td0, file$e, 234, 10, 7609);
 				if (!src_url_equal(img.src, img_src_value = "https://cdn2.wasabee.rocks/img/swap.svg")) attr_dev(img, "src", img_src_value);
 				attr_dev(img, "height", "16");
 				attr_dev(img, "alt", "swap");
 				attr_dev(img, "class", "dark-filter-invert");
-				add_location(img, file$e, 238, 12, 7700);
-				add_location(td1, file$e, 237, 10, 7683);
-				add_location(td2, file$e, 246, 10, 7947);
-				add_location(td3, file$e, 249, 10, 8044);
+				add_location(img, file$e, 238, 12, 7730);
+				add_location(td1, file$e, 237, 10, 7713);
+				add_location(td2, file$e, 246, 10, 7982);
+				add_location(td3, file$e, 249, 10, 8084);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -41891,14 +41891,14 @@
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
 				const portallink0_changes = {};
-				if (dirty[0] & /*steps*/ 8) portallink0_changes.portalId = /*step*/ ctx[31].fromPortalId;
+				if (dirty[0] & /*steps*/ 8) portallink0_changes.portalId = /*step*/ ctx[31].task.fromPortalId;
 				if (dirty[0] & /*operation*/ 2) portallink0_changes.operation = /*operation*/ ctx[1];
 				portallink0.$set(portallink0_changes);
 				const portallink1_changes = {};
-				if (dirty[0] & /*steps*/ 8) portallink1_changes.portalId = /*step*/ ctx[31].toPortalId;
+				if (dirty[0] & /*steps*/ 8) portallink1_changes.portalId = /*step*/ ctx[31].task.toPortalId;
 				if (dirty[0] & /*operation*/ 2) portallink1_changes.operation = /*operation*/ ctx[1];
 				portallink1.$set(portallink1_changes);
-				if ((!current || dirty[0] & /*steps*/ 8) && t3_value !== (t3_value = /*calculateDistance*/ ctx[5](/*step*/ ctx[31]) + "")) set_data_dev(t3, t3_value);
+				if ((!current || dirty[0] & /*steps*/ 8) && t3_value !== (t3_value = /*calculateDistance*/ ctx[5](/*step*/ ctx[31].task) + "")) set_data_dev(t3, t3_value);
 			},
 			i: function intro(local) {
 				if (current) return;
@@ -41930,14 +41930,14 @@
 			block,
 			id: create_if_block_1$c.name,
 			type: "if",
-			source: "(234:46) ",
+			source: "(234:51) ",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (225:8) {#if step instanceof WasabeeMarker}
+	// (225:8) {#if step.task instanceof WasabeeMarker}
 	function create_if_block$e(ctx) {
 		let td0;
 		let portallink;
@@ -41945,7 +41945,7 @@
 		let td1;
 		let t1;
 		let td2;
-		let t2_value = /*step*/ ctx[31].friendlyType + "";
+		let t2_value = /*step*/ ctx[31].task.friendlyType + "";
 		let t2;
 		let td2_class_value;
 		let t3;
@@ -41954,7 +41954,7 @@
 
 		portallink = new PortalLink({
 				props: {
-					portalId: /*step*/ ctx[31].portalId,
+					portalId: /*step*/ ctx[31].task.portalId,
 					operation: /*operation*/ ctx[1]
 				},
 				$$inline: true
@@ -41971,11 +41971,11 @@
 				t2 = text(t2_value);
 				t3 = space();
 				td3 = element("td");
-				add_location(td0, file$e, 225, 10, 7327);
-				add_location(td1, file$e, 228, 10, 7422);
-				attr_dev(td2, "class", td2_class_value = /*step*/ ctx[31].type);
-				add_location(td2, file$e, 229, 10, 7439);
-				add_location(td3, file$e, 232, 10, 7520);
+				add_location(td0, file$e, 225, 10, 7332);
+				add_location(td1, file$e, 228, 10, 7432);
+				attr_dev(td2, "class", td2_class_value = /*step*/ ctx[31].task.type);
+				add_location(td2, file$e, 229, 10, 7449);
+				add_location(td3, file$e, 232, 10, 7540);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -41991,12 +41991,12 @@
 			},
 			p: function update(ctx, dirty) {
 				const portallink_changes = {};
-				if (dirty[0] & /*steps*/ 8) portallink_changes.portalId = /*step*/ ctx[31].portalId;
+				if (dirty[0] & /*steps*/ 8) portallink_changes.portalId = /*step*/ ctx[31].task.portalId;
 				if (dirty[0] & /*operation*/ 2) portallink_changes.operation = /*operation*/ ctx[1];
 				portallink.$set(portallink_changes);
-				if ((!current || dirty[0] & /*steps*/ 8) && t2_value !== (t2_value = /*step*/ ctx[31].friendlyType + "")) set_data_dev(t2, t2_value);
+				if ((!current || dirty[0] & /*steps*/ 8) && t2_value !== (t2_value = /*step*/ ctx[31].task.friendlyType + "")) set_data_dev(t2, t2_value);
 
-				if (!current || dirty[0] & /*steps, operation*/ 10 && td2_class_value !== (td2_class_value = /*step*/ ctx[31].type)) {
+				if (!current || dirty[0] & /*steps, operation*/ 10 && td2_class_value !== (td2_class_value = /*step*/ ctx[31].task.type)) {
 					attr_dev(td2, "class", td2_class_value);
 				}
 			},
@@ -42025,7 +42025,7 @@
 			block,
 			id: create_if_block$e.name,
 			type: "if",
-			source: "(225:8) {#if step instanceof WasabeeMarker}",
+			source: "(225:8) {#if step.task instanceof WasabeeMarker}",
 			ctx
 		});
 
@@ -42049,7 +42049,7 @@
 				t1 = space();
 				option.__value = option_value_value = /*z*/ ctx[37].id;
 				option.value = option.__value;
-				add_location(option, file$e, 260, 14, 8360);
+				add_location(option, file$e, 260, 14, 8405);
 				this.first = option;
 			},
 			m: function mount(target, anchor) {
@@ -42099,7 +42099,7 @@
 				t1 = space();
 				option.__value = option_value_value = /*a*/ ctx[34].id;
 				option.value = option.__value;
-				add_location(option, file$e, 273, 14, 8727);
+				add_location(option, file$e, 273, 14, 8772);
 				this.first = option;
 			},
 			m: function mount(target, anchor) {
@@ -42171,8 +42171,8 @@
 		const if_blocks = [];
 
 		function select_block_type(ctx, dirty) {
-			if (/*step*/ ctx[31] instanceof WasabeeMarker) return 0;
-			if (/*step*/ ctx[31] instanceof WasabeeLink) return 1;
+			if (/*step*/ ctx[31].task instanceof WasabeeMarker) return 0;
+			if (/*step*/ ctx[31].task instanceof WasabeeLink) return 1;
 			return -1;
 		}
 
@@ -42279,22 +42279,22 @@
 				add_location(td1, file$e, 223, 8, 7227);
 				option0.__value = "0";
 				option0.value = option0.__value;
-				add_location(option0, file$e, 258, 12, 8261);
+				add_location(option0, file$e, 258, 12, 8306);
 				if (/*step*/ ctx[31].task.zone === void 0) add_render_callback(select0_change_handler);
-				add_location(select0, file$e, 254, 10, 8140);
-				add_location(td2, file$e, 253, 8, 8125);
+				add_location(select0, file$e, 254, 10, 8185);
+				add_location(td2, file$e, 253, 8, 8170);
 				option1.__value = "";
 				option1.value = option1.__value;
-				add_location(option1, file$e, 271, 12, 8637);
+				add_location(option1, file$e, 271, 12, 8682);
 				if (/*step*/ ctx[31].task.assignedTo === void 0) add_render_callback(select1_change_handler);
-				add_location(select1, file$e, 267, 10, 8508);
-				add_location(td3, file$e, 266, 8, 8493);
-				add_location(input0, file$e, 280, 10, 8875);
-				add_location(td4, file$e, 279, 8, 8860);
+				add_location(select1, file$e, 267, 10, 8553);
+				add_location(td3, file$e, 266, 8, 8538);
+				add_location(input0, file$e, 280, 10, 8920);
+				add_location(td4, file$e, 279, 8, 8905);
 				attr_dev(input1, "type", "checkbox");
-				add_location(input1, file$e, 286, 10, 9047);
+				add_location(input1, file$e, 286, 10, 9092);
 				attr_dev(td5, "class", "text-center");
-				add_location(td5, file$e, 285, 8, 9012);
+				add_location(td5, file$e, 285, 8, 9057);
 				add_location(tr, file$e, 220, 6, 7096);
 				this.first = tr;
 			},
@@ -42998,7 +42998,7 @@
 			$$invalidate(4, enableDrag);
 		}
 
-		const click_handler = step => reverseLink(step);
+		const click_handler = step => reverseLink(step.task);
 
 		function select0_change_handler(each_value, step_index) {
 			each_value[step_index].task.zone = select_value(this);
@@ -59661,7 +59661,7 @@
 				p1.textContent = "Copyright © The Wasabee Team 2021. All Rights Reserved";
 				t14 = space();
 				p2 = element("p");
-				p2.textContent = "Build date: Sun, 21 Aug 2022 18:16:30 GMT";
+				p2.textContent = "Build date: Sun, 21 Aug 2022 18:21:53 GMT";
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
