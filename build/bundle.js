@@ -39956,14 +39956,15 @@
 				t2 = space();
 				td3 = element("td");
 				t3 = text(t3_value);
-				add_location(td0, file$e, 281, 10, 8669);
+				add_location(td0, file$e, 281, 10, 8700);
 				if (!src_url_equal(img.src, img_src_value = "https://cdn2.wasabee.rocks/img/swap.svg")) attr_dev(img, "src", img_src_value);
 				attr_dev(img, "height", "16");
 				attr_dev(img, "alt", "swap");
-				add_location(img, file$e, 285, 12, 8785);
-				add_location(td1, file$e, 284, 10, 8768);
-				add_location(td2, file$e, 292, 10, 8991);
-				add_location(td3, file$e, 295, 10, 9088);
+				attr_dev(img, "class", "dark-filter-invert");
+				add_location(img, file$e, 285, 12, 8816);
+				add_location(td1, file$e, 284, 10, 8799);
+				add_location(td2, file$e, 293, 10, 9063);
+				add_location(td3, file$e, 296, 10, 9160);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -40067,11 +40068,11 @@
 				t2 = text(t2_value);
 				t3 = space();
 				td3 = element("td");
-				add_location(td0, file$e, 272, 10, 8412);
-				add_location(td1, file$e, 275, 10, 8507);
+				add_location(td0, file$e, 272, 10, 8443);
+				add_location(td1, file$e, 275, 10, 8538);
 				attr_dev(td2, "class", td2_class_value = /*step*/ ctx[38].type);
-				add_location(td2, file$e, 276, 10, 8524);
-				add_location(td3, file$e, 279, 10, 8605);
+				add_location(td2, file$e, 276, 10, 8555);
+				add_location(td3, file$e, 279, 10, 8636);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -40128,7 +40129,7 @@
 		return block;
 	}
 
-	// (303:12) {#each operation.zones as z (z.id)}
+	// (304:12) {#each operation.zones as z (z.id)}
 	function create_each_block_2$3(key_1, ctx) {
 		let option;
 		let t0_value = /*z*/ ctx[44].name + "";
@@ -40145,7 +40146,7 @@
 				t1 = space();
 				option.__value = option_value_value = /*z*/ ctx[44].id;
 				option.value = option.__value;
-				add_location(option, file$e, 303, 14, 9359);
+				add_location(option, file$e, 304, 14, 9431);
 				this.first = option;
 			},
 			m: function mount(target, anchor) {
@@ -40171,14 +40172,14 @@
 			block,
 			id: create_each_block_2$3.name,
 			type: "each",
-			source: "(303:12) {#each operation.zones as z (z.id)}",
+			source: "(304:12) {#each operation.zones as z (z.id)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (316:12) {#each agents as a (a.id)}
+	// (317:12) {#each agents as a (a.id)}
 	function create_each_block_1$3(key_1, ctx) {
 		let option;
 		let t0_value = /*a*/ ctx[41].name + "";
@@ -40195,7 +40196,7 @@
 				t1 = space();
 				option.__value = option_value_value = /*a*/ ctx[41].id;
 				option.value = option.__value;
-				add_location(option, file$e, 316, 14, 9716);
+				add_location(option, file$e, 317, 14, 9788);
 				this.first = option;
 			},
 			m: function mount(target, anchor) {
@@ -40221,7 +40222,7 @@
 			block,
 			id: create_each_block_1$3.name,
 			type: "each",
-			source: "(316:12) {#each agents as a (a.id)}",
+			source: "(317:12) {#each agents as a (a.id)}",
 			ctx
 		});
 
@@ -40370,27 +40371,28 @@
 				input1 = element("input");
 				t9 = space();
 				toggle_class(td0, "handle", /*enableDrag*/ ctx[4]);
+				toggle_class(td0, "dark-filter-invert", true);
 				add_location(td0, file$e, 268, 8, 8275);
 				attr_dev(td1, "class", "text-right");
-				add_location(td1, file$e, 270, 8, 8317);
+				add_location(td1, file$e, 270, 8, 8348);
 				option0.__value = "0";
 				option0.value = option0.__value;
-				add_location(option0, file$e, 301, 12, 9260);
+				add_location(option0, file$e, 302, 12, 9332);
 				if (/*step*/ ctx[38].zone === void 0) add_render_callback(select0_change_handler);
-				add_location(select0, file$e, 300, 10, 9184);
-				add_location(td2, file$e, 299, 8, 9169);
+				add_location(select0, file$e, 301, 10, 9256);
+				add_location(td2, file$e, 300, 8, 9241);
 				option1.__value = "";
 				option1.value = option1.__value;
-				add_location(option1, file$e, 314, 12, 9626);
+				add_location(option1, file$e, 315, 12, 9698);
 				if (/*step*/ ctx[38].assignedTo === void 0) add_render_callback(select1_change_handler);
-				add_location(select1, file$e, 310, 10, 9507);
-				add_location(td3, file$e, 309, 8, 9492);
-				add_location(input0, file$e, 323, 10, 9864);
-				add_location(td4, file$e, 322, 8, 9849);
+				add_location(select1, file$e, 311, 10, 9579);
+				add_location(td3, file$e, 310, 8, 9564);
+				add_location(input0, file$e, 324, 10, 9936);
+				add_location(td4, file$e, 323, 8, 9921);
 				attr_dev(input1, "type", "checkbox");
-				add_location(input1, file$e, 326, 10, 9992);
+				add_location(input1, file$e, 327, 10, 10064);
 				attr_dev(td5, "class", "text-center");
-				add_location(td5, file$e, 325, 8, 9957);
+				add_location(td5, file$e, 326, 8, 10029);
 				attr_dev(tr, "draggable", /*enableDrag*/ ctx[4]);
 				attr_dev(tr, "data-index", tr_data_index_value = /*i*/ ctx[40]);
 				attr_dev(tr, "class", "svelte-174nhuf");
