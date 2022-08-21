@@ -7,6 +7,7 @@ import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
 import serve from 'rollup-plugin-serve';
 import css from 'rollup-plugin-css-only';
+import replace from '@rollup/plugin-replace';
 
 import { createFilter } from '@rollup/pluginutils';
 
@@ -88,6 +89,10 @@ export default [
       typescript({
         sourceMap: sourcemap,
         inlineSources: true,
+      }),
+
+      replace({
+        __buildDate__: () => new Date().toUTCString(),
       }),
 
       // If we're building for production (npm run build

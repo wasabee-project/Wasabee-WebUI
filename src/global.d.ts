@@ -22,3 +22,5 @@ type WDKey = {
   Count: number;
   CapID: string;
 };
+
+const __buildDate__: string;

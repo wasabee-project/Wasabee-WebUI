@@ -34,6 +34,8 @@
   import { sendTokenToServer } from './firebase';
   import { meStore, opsStore, teamsStore } from './stores';
 
+  const buildDate = __buildDate__;
+
   let me: WasabeeMe | null;
 
   let loading = false;
@@ -208,6 +210,9 @@
     </p>
     <p class="text-muted text-right small">
       Copyright &copy; The Wasabee Team 2021. All Rights Reserved
+    </p>
+    <p class="text-muted text-right small">
+      Build date: {buildDate}
     </p>
   </div>
 </footer>
