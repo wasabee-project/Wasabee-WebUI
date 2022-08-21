@@ -270,7 +270,7 @@
         class:shiftBottom={isOver <= i && i < isDragged}
         class:shiftTop={isDragged < i && i <= isOver}
       >
-        <td class:handle={enableDrag} />
+        <td class:handle={enableDrag} class:dark-filter-invert={true} />
 
         <td class="text-right">{step.order}</td>
         {#if step instanceof WasabeeMarker}
@@ -292,6 +292,7 @@
               src="https://cdn2.wasabee.rocks/img/swap.svg"
               height="16"
               alt="swap"
+              class="dark-filter-invert"
             />
           </td>
           <td>
