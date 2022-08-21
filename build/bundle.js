@@ -39879,6 +39879,1909 @@
 		}
 	}
 
+	// external events
+	const FINALIZE_EVENT_NAME = "finalize";
+	const CONSIDER_EVENT_NAME = "consider";
+
+	/**
+	 * @typedef {Object} Info
+	 * @property {string} trigger
+	 * @property {string} id
+	 * @property {string} source
+	 * @param {Node} el
+	 * @param {Array} items
+	 * @param {Info} info
+	 */
+	function dispatchFinalizeEvent(el, items, info) {
+	    el.dispatchEvent(
+	        new CustomEvent(FINALIZE_EVENT_NAME, {
+	            detail: {items, info}
+	        })
+	    );
+	}
+
+	/**
+	 * Dispatches a consider event
+	 * @param {Node} el
+	 * @param {Array} items
+	 * @param {Info} info
+	 */
+	function dispatchConsiderEvent(el, items, info) {
+	    el.dispatchEvent(
+	        new CustomEvent(CONSIDER_EVENT_NAME, {
+	            detail: {items, info}
+	        })
+	    );
+	}
+
+	// internal events
+	const DRAGGED_ENTERED_EVENT_NAME = "draggedEntered";
+	const DRAGGED_LEFT_EVENT_NAME = "draggedLeft";
+	const DRAGGED_OVER_INDEX_EVENT_NAME = "draggedOverIndex";
+	const DRAGGED_LEFT_DOCUMENT_EVENT_NAME = "draggedLeftDocument";
+
+	const DRAGGED_LEFT_TYPES = {
+	    LEFT_FOR_ANOTHER: "leftForAnother",
+	    OUTSIDE_OF_ANY: "outsideOfAny"
+	};
+
+	function dispatchDraggedElementEnteredContainer(containerEl, indexObj, draggedEl) {
+	    containerEl.dispatchEvent(
+	        new CustomEvent(DRAGGED_ENTERED_EVENT_NAME, {
+	            detail: {indexObj, draggedEl}
+	        })
+	    );
+	}
+
+	/**
+	 * @param containerEl - the dropzone the element left
+	 * @param draggedEl - the dragged element
+	 * @param theOtherDz - the new dropzone the element entered
+	 */
+	function dispatchDraggedElementLeftContainerForAnother(containerEl, draggedEl, theOtherDz) {
+	    containerEl.dispatchEvent(
+	        new CustomEvent(DRAGGED_LEFT_EVENT_NAME, {
+	            detail: {draggedEl, type: DRAGGED_LEFT_TYPES.LEFT_FOR_ANOTHER, theOtherDz}
+	        })
+	    );
+	}
+
+	function dispatchDraggedElementLeftContainerForNone(containerEl, draggedEl) {
+	    containerEl.dispatchEvent(
+	        new CustomEvent(DRAGGED_LEFT_EVENT_NAME, {
+	            detail: {draggedEl, type: DRAGGED_LEFT_TYPES.OUTSIDE_OF_ANY}
+	        })
+	    );
+	}
+	function dispatchDraggedElementIsOverIndex(containerEl, indexObj, draggedEl) {
+	    containerEl.dispatchEvent(
+	        new CustomEvent(DRAGGED_OVER_INDEX_EVENT_NAME, {
+	            detail: {indexObj, draggedEl}
+	        })
+	    );
+	}
+	function dispatchDraggedLeftDocument(draggedEl) {
+	    window.dispatchEvent(
+	        new CustomEvent(DRAGGED_LEFT_DOCUMENT_EVENT_NAME, {
+	            detail: {draggedEl}
+	        })
+	    );
+	}
+
+	const TRIGGERS = {
+	    DRAG_STARTED: "dragStarted",
+	    DRAGGED_ENTERED: DRAGGED_ENTERED_EVENT_NAME,
+	    DRAGGED_ENTERED_ANOTHER: "dragEnteredAnother",
+	    DRAGGED_OVER_INDEX: DRAGGED_OVER_INDEX_EVENT_NAME,
+	    DRAGGED_LEFT: DRAGGED_LEFT_EVENT_NAME,
+	    DRAGGED_LEFT_ALL: "draggedLeftAll",
+	    DROPPED_INTO_ZONE: "droppedIntoZone",
+	    DROPPED_INTO_ANOTHER: "droppedIntoAnother",
+	    DROPPED_OUTSIDE_OF_ANY: "droppedOutsideOfAny",
+	    DRAG_STOPPED: "dragStopped"
+	};
+
+	const SOURCES = {
+	    POINTER: "pointer",
+	    KEYBOARD: "keyboard"
+	};
+
+	const SHADOW_ITEM_MARKER_PROPERTY_NAME = "isDndShadowItem";
+	const SHADOW_ELEMENT_ATTRIBUTE_NAME = "data-is-dnd-shadow-item";
+	const SHADOW_PLACEHOLDER_ITEM_ID = "id:dnd-shadow-placeholder-0000";
+	const DRAGGED_ELEMENT_ID = "dnd-action-dragged-el";
+
+	let ITEM_ID_KEY = "id";
+	let activeDndZoneCount = 0;
+	function incrementActiveDropZoneCount() {
+	    activeDndZoneCount++;
+	}
+	function decrementActiveDropZoneCount() {
+	    if (activeDndZoneCount === 0) {
+	        throw new Error("Bug! trying to decrement when there are no dropzones");
+	    }
+	    activeDndZoneCount--;
+	}
+
+	const isOnServer = typeof window === "undefined";
+
+	// This is based off https://stackoverflow.com/questions/27745438/how-to-compute-getboundingclientrect-without-considering-transforms/57876601#57876601
+	// It removes the transforms that are potentially applied by the flip animations
+	/**
+	 * Gets the bounding rect but removes transforms (ex: flip animation)
+	 * @param {HTMLElement} el
+	 * @return {{top: number, left: number, bottom: number, right: number}}
+	 */
+	function getBoundingRectNoTransforms(el) {
+	    let ta;
+	    const rect = el.getBoundingClientRect();
+	    const style = getComputedStyle(el);
+	    const tx = style.transform;
+
+	    if (tx) {
+	        let sx, sy, dx, dy;
+	        if (tx.startsWith("matrix3d(")) {
+	            ta = tx.slice(9, -1).split(/, /);
+	            sx = +ta[0];
+	            sy = +ta[5];
+	            dx = +ta[12];
+	            dy = +ta[13];
+	        } else if (tx.startsWith("matrix(")) {
+	            ta = tx.slice(7, -1).split(/, /);
+	            sx = +ta[0];
+	            sy = +ta[3];
+	            dx = +ta[4];
+	            dy = +ta[5];
+	        } else {
+	            return rect;
+	        }
+
+	        const to = style.transformOrigin;
+	        const x = rect.x - dx - (1 - sx) * parseFloat(to);
+	        const y = rect.y - dy - (1 - sy) * parseFloat(to.slice(to.indexOf(" ") + 1));
+	        const w = sx ? rect.width / sx : el.offsetWidth;
+	        const h = sy ? rect.height / sy : el.offsetHeight;
+	        return {
+	            x: x,
+	            y: y,
+	            width: w,
+	            height: h,
+	            top: y,
+	            right: x + w,
+	            bottom: y + h,
+	            left: x
+	        };
+	    } else {
+	        return rect;
+	    }
+	}
+
+	/**
+	 * Gets the absolute bounding rect (accounts for the window's scroll position and removes transforms)
+	 * @param {HTMLElement} el
+	 * @return {{top: number, left: number, bottom: number, right: number}}
+	 */
+	function getAbsoluteRectNoTransforms(el) {
+	    const rect = getBoundingRectNoTransforms(el);
+	    return {
+	        top: rect.top + window.scrollY,
+	        bottom: rect.bottom + window.scrollY,
+	        left: rect.left + window.scrollX,
+	        right: rect.right + window.scrollX
+	    };
+	}
+
+	/**
+	 * Gets the absolute bounding rect (accounts for the window's scroll position)
+	 * @param {HTMLElement} el
+	 * @return {{top: number, left: number, bottom: number, right: number}}
+	 */
+	function getAbsoluteRect(el) {
+	    const rect = el.getBoundingClientRect();
+	    return {
+	        top: rect.top + window.scrollY,
+	        bottom: rect.bottom + window.scrollY,
+	        left: rect.left + window.scrollX,
+	        right: rect.right + window.scrollX
+	    };
+	}
+
+	/**
+	 * finds the center :)
+	 * @typedef {Object} Rect
+	 * @property {number} top
+	 * @property {number} bottom
+	 * @property {number} left
+	 * @property {number} right
+	 * @param {Rect} rect
+	 * @return {{x: number, y: number}}
+	 */
+	function findCenter(rect) {
+	    return {
+	        x: (rect.left + rect.right) / 2,
+	        y: (rect.top + rect.bottom) / 2
+	    };
+	}
+
+	/**
+	 * @typedef {Object} Point
+	 * @property {number} x
+	 * @property {number} y
+	 * @param {Point} pointA
+	 * @param {Point} pointB
+	 * @return {number}
+	 */
+	function calcDistance(pointA, pointB) {
+	    return Math.sqrt(Math.pow(pointA.x - pointB.x, 2) + Math.pow(pointA.y - pointB.y, 2));
+	}
+
+	/**
+	 * @param {Point} point
+	 * @param {Rect} rect
+	 * @return {boolean|boolean}
+	 */
+	function isPointInsideRect(point, rect) {
+	    return point.y <= rect.bottom && point.y >= rect.top && point.x >= rect.left && point.x <= rect.right;
+	}
+
+	/**
+	 * find the absolute coordinates of the center of a dom element
+	 * @param el {HTMLElement}
+	 * @returns {{x: number, y: number}}
+	 */
+	function findCenterOfElement(el) {
+	    return findCenter(getAbsoluteRect(el));
+	}
+
+	/**
+	 * @param {HTMLElement} elA
+	 * @param {HTMLElement} elB
+	 * @return {boolean}
+	 */
+	function isCenterOfAInsideB(elA, elB) {
+	    const centerOfA = findCenterOfElement(elA);
+	    const rectOfB = getAbsoluteRectNoTransforms(elB);
+	    return isPointInsideRect(centerOfA, rectOfB);
+	}
+
+	/**
+	 * @param {HTMLElement|ChildNode} elA
+	 * @param {HTMLElement|ChildNode} elB
+	 * @return {number}
+	 */
+	function calcDistanceBetweenCenters(elA, elB) {
+	    const centerOfA = findCenterOfElement(elA);
+	    const centerOfB = findCenterOfElement(elB);
+	    return calcDistance(centerOfA, centerOfB);
+	}
+
+	/**
+	 * @param {HTMLElement} el - the element to check
+	 * @returns {boolean} - true if the element in its entirety is off screen including the scrollable area (the normal dom events look at the mouse rather than the element)
+	 */
+	function isElementOffDocument(el) {
+	    const rect = getAbsoluteRect(el);
+	    return rect.right < 0 || rect.left > document.documentElement.scrollWidth || rect.bottom < 0 || rect.top > document.documentElement.scrollHeight;
+	}
+
+	/**
+	 * If the point is inside the element returns its distances from the sides, otherwise returns null
+	 * @param {Point} point
+	 * @param {HTMLElement} el
+	 * @return {null|{top: number, left: number, bottom: number, right: number}}
+	 */
+	function calcInnerDistancesBetweenPointAndSidesOfElement(point, el) {
+	    const rect = getAbsoluteRect(el);
+	    if (!isPointInsideRect(point, rect)) {
+	        return null;
+	    }
+	    return {
+	        top: point.y - rect.top,
+	        bottom: rect.bottom - point.y,
+	        left: point.x - rect.left,
+	        // TODO - figure out what is so special about right (why the rect is too big)
+	        right: Math.min(rect.right, document.documentElement.clientWidth) - point.x
+	    };
+	}
+
+	let dzToShadowIndexToRect;
+
+	/**
+	 * Resets the cache that allows for smarter "would be index" resolution. Should be called after every drag operation
+	 */
+	function resetIndexesCache() {
+	    dzToShadowIndexToRect = new Map();
+	}
+	resetIndexesCache();
+
+	/**
+	 * Resets the cache that allows for smarter "would be index" resolution for a specific dropzone, should be called after the zone was scrolled
+	 * @param {HTMLElement} dz
+	 */
+	function resetIndexesCacheForDz(dz) {
+	    dzToShadowIndexToRect.delete(dz);
+	}
+
+	/**
+	 * Caches the coordinates of the shadow element when it's in a certain index in a certain dropzone.
+	 * Helpful in order to determine "would be index" more effectively
+	 * @param {HTMLElement} dz
+	 * @return {number} - the shadow element index
+	 */
+	function cacheShadowRect(dz) {
+	    const shadowElIndex = Array.from(dz.children).findIndex(child => child.getAttribute(SHADOW_ELEMENT_ATTRIBUTE_NAME));
+	    if (shadowElIndex >= 0) {
+	        if (!dzToShadowIndexToRect.has(dz)) {
+	            dzToShadowIndexToRect.set(dz, new Map());
+	        }
+	        dzToShadowIndexToRect.get(dz).set(shadowElIndex, getAbsoluteRectNoTransforms(dz.children[shadowElIndex]));
+	        return shadowElIndex;
+	    }
+	    return undefined;
+	}
+
+	/**
+	 * @typedef {Object} Index
+	 * @property {number} index - the would be index
+	 * @property {boolean} isProximityBased - false if the element is actually over the index, true if it is not over it but this index is the closest
+	 */
+	/**
+	 * Find the index for the dragged element in the list it is dragged over
+	 * @param {HTMLElement} floatingAboveEl
+	 * @param {HTMLElement} collectionBelowEl
+	 * @returns {Index|null} -  if the element is over the container the Index object otherwise null
+	 */
+	function findWouldBeIndex(floatingAboveEl, collectionBelowEl) {
+	    if (!isCenterOfAInsideB(floatingAboveEl, collectionBelowEl)) {
+	        return null;
+	    }
+	    const children = collectionBelowEl.children;
+	    // the container is empty, floating element should be the first
+	    if (children.length === 0) {
+	        return {index: 0, isProximityBased: true};
+	    }
+	    const shadowElIndex = cacheShadowRect(collectionBelowEl);
+
+	    // the search could be more efficient but keeping it simple for now
+	    // a possible improvement: pass in the lastIndex it was found in and check there first, then expand from there
+	    for (let i = 0; i < children.length; i++) {
+	        if (isCenterOfAInsideB(floatingAboveEl, children[i])) {
+	            const cachedShadowRect = dzToShadowIndexToRect.has(collectionBelowEl) && dzToShadowIndexToRect.get(collectionBelowEl).get(i);
+	            if (cachedShadowRect) {
+	                if (!isPointInsideRect(findCenterOfElement(floatingAboveEl), cachedShadowRect)) {
+	                    return {index: shadowElIndex, isProximityBased: false};
+	                }
+	            }
+	            return {index: i, isProximityBased: false};
+	        }
+	    }
+	    // this can happen if there is space around the children so the floating element has
+	    //entered the container but not any of the children, in this case we will find the nearest child
+	    let minDistanceSoFar = Number.MAX_VALUE;
+	    let indexOfMin = undefined;
+	    // we are checking all of them because we don't know whether we are dealing with a horizontal or vertical container and where the floating element entered from
+	    for (let i = 0; i < children.length; i++) {
+	        const distance = calcDistanceBetweenCenters(floatingAboveEl, children[i]);
+	        if (distance < minDistanceSoFar) {
+	            minDistanceSoFar = distance;
+	            indexOfMin = i;
+	        }
+	    }
+	    return {index: indexOfMin, isProximityBased: true};
+	}
+
+	const SCROLL_ZONE_PX = 25;
+
+	function makeScroller() {
+	    let scrollingInfo;
+	    function resetScrolling() {
+	        scrollingInfo = {directionObj: undefined, stepPx: 0};
+	    }
+	    resetScrolling();
+	    // directionObj {x: 0|1|-1, y:0|1|-1} - 1 means down in y and right in x
+	    function scrollContainer(containerEl) {
+	        const {directionObj, stepPx} = scrollingInfo;
+	        if (directionObj) {
+	            containerEl.scrollBy(directionObj.x * stepPx, directionObj.y * stepPx);
+	            window.requestAnimationFrame(() => scrollContainer(containerEl));
+	        }
+	    }
+	    function calcScrollStepPx(distancePx) {
+	        return SCROLL_ZONE_PX - distancePx;
+	    }
+
+	    /**
+	     * If the pointer is next to the sides of the element to scroll, will trigger scrolling
+	     * Can be called repeatedly with updated pointer and elementToScroll values without issues
+	     * @return {boolean} - true if scrolling was needed
+	     */
+	    function scrollIfNeeded(pointer, elementToScroll) {
+	        if (!elementToScroll) {
+	            return false;
+	        }
+	        const distances = calcInnerDistancesBetweenPointAndSidesOfElement(pointer, elementToScroll);
+	        if (distances === null) {
+	            resetScrolling();
+	            return false;
+	        }
+	        const isAlreadyScrolling = !!scrollingInfo.directionObj;
+	        let [scrollingVertically, scrollingHorizontally] = [false, false];
+	        // vertical
+	        if (elementToScroll.scrollHeight > elementToScroll.clientHeight) {
+	            if (distances.bottom < SCROLL_ZONE_PX) {
+	                scrollingVertically = true;
+	                scrollingInfo.directionObj = {x: 0, y: 1};
+	                scrollingInfo.stepPx = calcScrollStepPx(distances.bottom);
+	            } else if (distances.top < SCROLL_ZONE_PX) {
+	                scrollingVertically = true;
+	                scrollingInfo.directionObj = {x: 0, y: -1};
+	                scrollingInfo.stepPx = calcScrollStepPx(distances.top);
+	            }
+	            if (!isAlreadyScrolling && scrollingVertically) {
+	                scrollContainer(elementToScroll);
+	                return true;
+	            }
+	        }
+	        // horizontal
+	        if (elementToScroll.scrollWidth > elementToScroll.clientWidth) {
+	            if (distances.right < SCROLL_ZONE_PX) {
+	                scrollingHorizontally = true;
+	                scrollingInfo.directionObj = {x: 1, y: 0};
+	                scrollingInfo.stepPx = calcScrollStepPx(distances.right);
+	            } else if (distances.left < SCROLL_ZONE_PX) {
+	                scrollingHorizontally = true;
+	                scrollingInfo.directionObj = {x: -1, y: 0};
+	                scrollingInfo.stepPx = calcScrollStepPx(distances.left);
+	            }
+	            if (!isAlreadyScrolling && scrollingHorizontally) {
+	                scrollContainer(elementToScroll);
+	                return true;
+	            }
+	        }
+	        resetScrolling();
+	        return false;
+	    }
+
+	    return {
+	        scrollIfNeeded,
+	        resetScrolling
+	    };
+	}
+
+	/**
+	 * @param {Object} object
+	 * @return {string}
+	 */
+	function toString(object) {
+	    return JSON.stringify(object, null, 2);
+	}
+
+	/**
+	 * Finds the depth of the given node in the DOM tree
+	 * @param {HTMLElement} node
+	 * @return {number} - the depth of the node
+	 */
+	function getDepth(node) {
+	    if (!node) {
+	        throw new Error("cannot get depth of a falsy node");
+	    }
+	    return _getDepth(node, 0);
+	}
+	function _getDepth(node, countSoFar = 0) {
+	    if (!node.parentElement) {
+	        return countSoFar - 1;
+	    }
+	    return _getDepth(node.parentElement, countSoFar + 1);
+	}
+
+	/**
+	 * A simple util to shallow compare objects quickly, it doesn't validate the arguments so pass objects in
+	 * @param {Object} objA
+	 * @param {Object} objB
+	 * @return {boolean} - true if objA and objB are shallow equal
+	 */
+	function areObjectsShallowEqual(objA, objB) {
+	    if (Object.keys(objA).length !== Object.keys(objB).length) {
+	        return false;
+	    }
+	    for (const keyA in objA) {
+	        if (!{}.hasOwnProperty.call(objB, keyA) || objB[keyA] !== objA[keyA]) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+
+	/**
+	 * Shallow compares two arrays
+	 * @param arrA
+	 * @param arrB
+	 * @return {boolean} - whether the arrays are shallow equal
+	 */
+	function areArraysShallowEqualSameOrder(arrA, arrB) {
+	    if (arrA.length !== arrB.length) {
+	        return false;
+	    }
+	    for (let i = 0; i < arrA.length; i++) {
+	        if (arrA[i] !== arrB[i]) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+
+	const INTERVAL_MS$1 = 200;
+	const TOLERANCE_PX = 10;
+	const {scrollIfNeeded: scrollIfNeeded$1, resetScrolling: resetScrolling$1} = makeScroller();
+	let next$1;
+
+	/**
+	 * Tracks the dragged elements and performs the side effects when it is dragged over a drop zone (basically dispatching custom-events scrolling)
+	 * @param {Set<HTMLElement>} dropZones
+	 * @param {HTMLElement} draggedEl
+	 * @param {number} [intervalMs = INTERVAL_MS]
+	 */
+	function observe(draggedEl, dropZones, intervalMs = INTERVAL_MS$1) {
+	    // initialization
+	    let lastDropZoneFound;
+	    let lastIndexFound;
+	    let lastIsDraggedInADropZone = false;
+	    let lastCentrePositionOfDragged;
+	    // We are sorting to make sure that in case of nested zones of the same type the one "on top" is considered first
+	    const dropZonesFromDeepToShallow = Array.from(dropZones).sort((dz1, dz2) => getDepth(dz2) - getDepth(dz1));
+
+	    /**
+	     * The main function in this module. Tracks where everything is/ should be a take the actions
+	     */
+	    function andNow() {
+	        const currentCenterOfDragged = findCenterOfElement(draggedEl);
+	        const scrolled = scrollIfNeeded$1(currentCenterOfDragged, lastDropZoneFound);
+	        // we only want to make a new decision after the element was moved a bit to prevent flickering
+	        if (
+	            !scrolled &&
+	            lastCentrePositionOfDragged &&
+	            Math.abs(lastCentrePositionOfDragged.x - currentCenterOfDragged.x) < TOLERANCE_PX &&
+	            Math.abs(lastCentrePositionOfDragged.y - currentCenterOfDragged.y) < TOLERANCE_PX
+	        ) {
+	            next$1 = window.setTimeout(andNow, intervalMs);
+	            return;
+	        }
+	        if (isElementOffDocument(draggedEl)) {
+	            dispatchDraggedLeftDocument(draggedEl);
+	            return;
+	        }
+
+	        lastCentrePositionOfDragged = currentCenterOfDragged;
+	        // this is a simple algorithm, potential improvement: first look at lastDropZoneFound
+	        let isDraggedInADropZone = false;
+	        for (const dz of dropZonesFromDeepToShallow) {
+	            if (scrolled) resetIndexesCacheForDz(lastDropZoneFound);
+	            const indexObj = findWouldBeIndex(draggedEl, dz);
+	            if (indexObj === null) {
+	                // it is not inside
+	                continue;
+	            }
+	            const {index} = indexObj;
+	            isDraggedInADropZone = true;
+	            // the element is over a container
+	            if (dz !== lastDropZoneFound) {
+	                lastDropZoneFound && dispatchDraggedElementLeftContainerForAnother(lastDropZoneFound, draggedEl, dz);
+	                dispatchDraggedElementEnteredContainer(dz, indexObj, draggedEl);
+	                lastDropZoneFound = dz;
+	            } else if (index !== lastIndexFound) {
+	                dispatchDraggedElementIsOverIndex(dz, indexObj, draggedEl);
+	                lastIndexFound = index;
+	            }
+	            // we handle looping with the 'continue' statement above
+	            break;
+	        }
+	        // the first time the dragged element is not in any dropzone we need to notify the last dropzone it was in
+	        if (!isDraggedInADropZone && lastIsDraggedInADropZone && lastDropZoneFound) {
+	            dispatchDraggedElementLeftContainerForNone(lastDropZoneFound, draggedEl);
+	            lastDropZoneFound = undefined;
+	            lastIndexFound = undefined;
+	            lastIsDraggedInADropZone = false;
+	        } else {
+	            lastIsDraggedInADropZone = true;
+	        }
+	        next$1 = window.setTimeout(andNow, intervalMs);
+	    }
+	    andNow();
+	}
+
+	// assumption - we can only observe one dragged element at a time, this could be changed in the future
+	function unobserve() {
+	    clearTimeout(next$1);
+	    resetScrolling$1();
+	    resetIndexesCache();
+	}
+
+	const INTERVAL_MS = 300;
+	let mousePosition;
+
+	/**
+	 * Do not use this! it is visible for testing only until we get over the issue Cypress not triggering the mousemove listeners
+	 * // TODO - make private (remove export)
+	 * @param {{clientX: number, clientY: number}} e
+	 */
+	function updateMousePosition(e) {
+	    const c = e.touches ? e.touches[0] : e;
+	    mousePosition = {x: c.clientX, y: c.clientY};
+	}
+	const {scrollIfNeeded, resetScrolling} = makeScroller();
+	let next;
+
+	function loop() {
+	    if (mousePosition) {
+	        const scrolled = scrollIfNeeded(mousePosition, document.documentElement);
+	        if (scrolled) resetIndexesCache();
+	    }
+	    next = window.setTimeout(loop, INTERVAL_MS);
+	}
+
+	/**
+	 * will start watching the mouse pointer and scroll the window if it goes next to the edges
+	 */
+	function armWindowScroller() {
+	    window.addEventListener("mousemove", updateMousePosition);
+	    window.addEventListener("touchmove", updateMousePosition);
+	    loop();
+	}
+
+	/**
+	 * will stop watching the mouse pointer and won't scroll the window anymore
+	 */
+	function disarmWindowScroller() {
+	    window.removeEventListener("mousemove", updateMousePosition);
+	    window.removeEventListener("touchmove", updateMousePosition);
+	    mousePosition = undefined;
+	    window.clearTimeout(next);
+	    resetScrolling();
+	}
+
+	/**
+	 * Fixes svelte issue when cloning node containing (or being) <select> which will loose it's value.
+	 * Since svelte manages select value internally.
+	 * @see https://github.com/sveltejs/svelte/issues/6717
+	 * @see https://github.com/isaacHagoel/svelte-dnd-action/issues/306
+	 * 
+	 * @param {HTMLElement} el 
+	 * @returns 
+	 */
+	function svelteNodeClone(el) {
+	  const cloned = el.cloneNode(true);
+
+	  const values = [];
+	  const elIsSelect = el.tagName === "SELECT";
+	  const selects = elIsSelect ? [el] : [...el.querySelectorAll('select')];
+	  for (const select of selects) {
+	    values.push(select.value);
+	  }
+
+	  if (selects.length <= 0) {
+	    return cloned;
+	  }
+
+	  const clonedSelects = elIsSelect ? [cloned] : [...cloned.querySelectorAll('select')];
+	  for (let i = 0; i < clonedSelects.length; i++) {
+	    const select = clonedSelects[i];
+	    const value = values[i];
+	    const optionEl = select.querySelector(`option[value="${value}"`);
+	    if (optionEl) {
+	      optionEl.setAttribute('selected', true);
+	    }
+	  }
+
+	  return cloned;
+	}
+
+	const TRANSITION_DURATION_SECONDS = 0.2;
+
+	/**
+	 * private helper function - creates a transition string for a property
+	 * @param {string} property
+	 * @return {string} - the transition string
+	 */
+	function trs(property) {
+	    return `${property} ${TRANSITION_DURATION_SECONDS}s ease`;
+	}
+	/**
+	 * clones the given element and applies proper styles and transitions to the dragged element
+	 * @param {HTMLElement} originalElement
+	 * @param {Point} [positionCenterOnXY]
+	 * @return {Node} - the cloned, styled element
+	 */
+	function createDraggedElementFrom(originalElement, positionCenterOnXY) {
+	    const rect = originalElement.getBoundingClientRect();
+	    const draggedEl = svelteNodeClone(originalElement);
+	    copyStylesFromTo(originalElement, draggedEl);
+	    draggedEl.id = DRAGGED_ELEMENT_ID;
+	    draggedEl.style.position = "fixed";
+	    let elTopPx = rect.top;
+	    let elLeftPx = rect.left;
+	    draggedEl.style.top = `${elTopPx}px`;
+	    draggedEl.style.left = `${elLeftPx}px`;
+	    if (positionCenterOnXY) {
+	        const center = findCenter(rect);
+	        elTopPx -= center.y - positionCenterOnXY.y;
+	        elLeftPx -= center.x - positionCenterOnXY.x;
+	        window.setTimeout(() => {
+	            draggedEl.style.top = `${elTopPx}px`;
+	            draggedEl.style.left = `${elLeftPx}px`;
+	        }, 0);
+	    }
+	    draggedEl.style.margin = "0";
+	    // we can't have relative or automatic height and width or it will break the illusion
+	    draggedEl.style.boxSizing = "border-box";
+	    draggedEl.style.height = `${rect.height}px`;
+	    draggedEl.style.width = `${rect.width}px`;
+	    draggedEl.style.transition = `${trs("top")}, ${trs("left")}, ${trs("background-color")}, ${trs("opacity")}, ${trs("color")} `;
+	    // this is a workaround for a strange browser bug that causes the right border to disappear when all the transitions are added at the same time
+	    window.setTimeout(() => (draggedEl.style.transition += `, ${trs("width")}, ${trs("height")}`), 0);
+	    draggedEl.style.zIndex = "9999";
+	    draggedEl.style.cursor = "grabbing";
+
+	    return draggedEl;
+	}
+
+	/**
+	 * styles the dragged element to a 'dropped' state
+	 * @param {HTMLElement} draggedEl
+	 */
+	function moveDraggedElementToWasDroppedState(draggedEl) {
+	    draggedEl.style.cursor = "grab";
+	}
+
+	/**
+	 * Morphs the dragged element style, maintains the mouse pointer within the element
+	 * @param {HTMLElement} draggedEl
+	 * @param {HTMLElement} copyFromEl - the element the dragged element should look like, typically the shadow element
+	 * @param {number} currentMouseX
+	 * @param {number} currentMouseY
+	 * @param {function} transformDraggedElement - function to transform the dragged element, does nothing by default.
+	 */
+	function morphDraggedElementToBeLike(draggedEl, copyFromEl, currentMouseX, currentMouseY, transformDraggedElement) {
+	    const newRect = copyFromEl.getBoundingClientRect();
+	    const draggedElRect = draggedEl.getBoundingClientRect();
+	    const widthChange = newRect.width - draggedElRect.width;
+	    const heightChange = newRect.height - draggedElRect.height;
+	    if (widthChange || heightChange) {
+	        const relativeDistanceOfMousePointerFromDraggedSides = {
+	            left: (currentMouseX - draggedElRect.left) / draggedElRect.width,
+	            top: (currentMouseY - draggedElRect.top) / draggedElRect.height
+	        };
+	        draggedEl.style.height = `${newRect.height}px`;
+	        draggedEl.style.width = `${newRect.width}px`;
+	        draggedEl.style.left = `${parseFloat(draggedEl.style.left) - relativeDistanceOfMousePointerFromDraggedSides.left * widthChange}px`;
+	        draggedEl.style.top = `${parseFloat(draggedEl.style.top) - relativeDistanceOfMousePointerFromDraggedSides.top * heightChange}px`;
+	    }
+
+	    /// other properties
+	    copyStylesFromTo(copyFromEl, draggedEl);
+	    transformDraggedElement();
+	}
+
+	/**
+	 * @param {HTMLElement} copyFromEl
+	 * @param {HTMLElement} copyToEl
+	 */
+	function copyStylesFromTo(copyFromEl, copyToEl) {
+	    const computedStyle = window.getComputedStyle(copyFromEl);
+	    Array.from(computedStyle)
+	        .filter(
+	            s =>
+	                s.startsWith("background") ||
+	                s.startsWith("padding") ||
+	                s.startsWith("font") ||
+	                s.startsWith("text") ||
+	                s.startsWith("align") ||
+	                s.startsWith("justify") ||
+	                s.startsWith("display") ||
+	                s.startsWith("flex") ||
+	                s.startsWith("border") ||
+	                s === "opacity" ||
+	                s === "color" ||
+	                s === "list-style-type"
+	        )
+	        .forEach(s => copyToEl.style.setProperty(s, computedStyle.getPropertyValue(s), computedStyle.getPropertyPriority(s)));
+	}
+
+	/**
+	 * makes the element compatible with being draggable
+	 * @param {HTMLElement} draggableEl
+	 * @param {boolean} dragDisabled
+	 */
+	function styleDraggable(draggableEl, dragDisabled) {
+	    draggableEl.draggable = false;
+	    draggableEl.ondragstart = () => false;
+	    if (!dragDisabled) {
+	        draggableEl.style.userSelect = "none";
+	        draggableEl.style.WebkitUserSelect = "none";
+	        draggableEl.style.cursor = "grab";
+	    } else {
+	        draggableEl.style.userSelect = "";
+	        draggableEl.style.WebkitUserSelect = "";
+	        draggableEl.style.cursor = "";
+	    }
+	}
+
+	/**
+	 * Hides the provided element so that it can stay in the dom without interrupting
+	 * @param {HTMLElement} dragTarget
+	 */
+	function hideElement(dragTarget) {
+	    dragTarget.style.display = "none";
+	    dragTarget.style.position = "fixed";
+	    dragTarget.style.zIndex = "-5";
+	}
+
+	/**
+	 * styles the shadow element
+	 * @param {HTMLElement} shadowEl
+	 */
+	function decorateShadowEl(shadowEl) {
+	    shadowEl.style.visibility = "hidden";
+	    shadowEl.setAttribute(SHADOW_ELEMENT_ATTRIBUTE_NAME, "true");
+	}
+
+	/**
+	 * undo the styles the shadow element
+	 * @param {HTMLElement} shadowEl
+	 */
+	function unDecorateShadowElement(shadowEl) {
+	    shadowEl.style.visibility = "";
+	    shadowEl.removeAttribute(SHADOW_ELEMENT_ATTRIBUTE_NAME);
+	}
+
+	/**
+	 * will mark the given dropzones as visually active
+	 * @param {Array<HTMLElement>} dropZones
+	 * @param {Function} getStyles - maps a dropzone to a styles object (so the styles can be removed)
+	 * @param {Function} getClasses - maps a dropzone to a classList
+	 */
+	function styleActiveDropZones(dropZones, getStyles = () => {}, getClasses = () => []) {
+	    dropZones.forEach(dz => {
+	        const styles = getStyles(dz);
+	        Object.keys(styles).forEach(style => {
+	            dz.style[style] = styles[style];
+	        });
+	        getClasses(dz).forEach(c => dz.classList.add(c));
+	    });
+	}
+
+	/**
+	 * will remove the 'active' styling from given dropzones
+	 * @param {Array<HTMLElement>} dropZones
+	 * @param {Function} getStyles - maps a dropzone to a styles object
+	 * @param {Function} getClasses - maps a dropzone to a classList
+	 */
+	function styleInactiveDropZones(dropZones, getStyles = () => {}, getClasses = () => []) {
+	    dropZones.forEach(dz => {
+	        const styles = getStyles(dz);
+	        Object.keys(styles).forEach(style => {
+	            dz.style[style] = "";
+	        });
+	        getClasses(dz).forEach(c => dz.classList.contains(c) && dz.classList.remove(c));
+	    });
+	}
+
+	/**
+	 * will prevent the provided element from shrinking by setting its minWidth and minHeight to the current width and height values
+	 * @param {HTMLElement} el
+	 * @return {function(): void} - run this function to undo the operation and restore the original values
+	 */
+	function preventShrinking(el) {
+	    const originalMinHeight = el.style.minHeight;
+	    el.style.minHeight = window.getComputedStyle(el).getPropertyValue("height");
+	    const originalMinWidth = el.style.minWidth;
+	    el.style.minWidth = window.getComputedStyle(el).getPropertyValue("width");
+	    return function undo() {
+	        el.style.minHeight = originalMinHeight;
+	        el.style.minWidth = originalMinWidth;
+	    };
+	}
+
+	const DEFAULT_DROP_ZONE_TYPE$1 = "--any--";
+	const MIN_OBSERVATION_INTERVAL_MS = 100;
+	const MIN_MOVEMENT_BEFORE_DRAG_START_PX = 3;
+	const DEFAULT_DROP_TARGET_STYLE$1 = {
+	    outline: "rgba(255, 255, 102, 0.7) solid 2px"
+	};
+
+	let originalDragTarget;
+	let draggedEl;
+	let draggedElData;
+	let draggedElType;
+	let originDropZone;
+	let originIndex;
+	let shadowElData;
+	let shadowElDropZone;
+	let dragStartMousePosition;
+	let currentMousePosition;
+	let isWorkingOnPreviousDrag = false;
+	let finalizingPreviousDrag = false;
+	let unlockOriginDzMinDimensions;
+	let isDraggedOutsideOfAnyDz = false;
+	let scheduledForRemovalAfterDrop = [];
+
+	// a map from type to a set of drop-zones
+	const typeToDropZones$1 = new Map();
+	// important - this is needed because otherwise the config that would be used for everyone is the config of the element that created the event listeners
+	const dzToConfig$1 = new Map();
+	// this is needed in order to be able to cleanup old listeners and avoid stale closures issues (as the listener is defined within each zone)
+	const elToMouseDownListener = new WeakMap();
+
+	/* drop-zones registration management */
+	function registerDropZone$1(dropZoneEl, type) {
+	    if (!typeToDropZones$1.has(type)) {
+	        typeToDropZones$1.set(type, new Set());
+	    }
+	    if (!typeToDropZones$1.get(type).has(dropZoneEl)) {
+	        typeToDropZones$1.get(type).add(dropZoneEl);
+	        incrementActiveDropZoneCount();
+	    }
+	}
+	function unregisterDropZone$1(dropZoneEl, type) {
+	    typeToDropZones$1.get(type).delete(dropZoneEl);
+	    decrementActiveDropZoneCount();
+	    if (typeToDropZones$1.get(type).size === 0) {
+	        typeToDropZones$1.delete(type);
+	    }
+	}
+
+	/* functions to manage observing the dragged element and trigger custom drag-events */
+	function watchDraggedElement() {
+	    armWindowScroller();
+	    const dropZones = typeToDropZones$1.get(draggedElType);
+	    for (const dz of dropZones) {
+	        dz.addEventListener(DRAGGED_ENTERED_EVENT_NAME, handleDraggedEntered);
+	        dz.addEventListener(DRAGGED_LEFT_EVENT_NAME, handleDraggedLeft);
+	        dz.addEventListener(DRAGGED_OVER_INDEX_EVENT_NAME, handleDraggedIsOverIndex);
+	    }
+	    window.addEventListener(DRAGGED_LEFT_DOCUMENT_EVENT_NAME, handleDrop$1);
+	    // it is important that we don't have an interval that is faster than the flip duration because it can cause elements to jump bach and forth
+	    const observationIntervalMs = Math.max(
+	        MIN_OBSERVATION_INTERVAL_MS,
+	        ...Array.from(dropZones.keys()).map(dz => dzToConfig$1.get(dz).dropAnimationDurationMs)
+	    );
+	    observe(draggedEl, dropZones, observationIntervalMs * 1.07);
+	}
+	function unWatchDraggedElement() {
+	    disarmWindowScroller();
+	    const dropZones = typeToDropZones$1.get(draggedElType);
+	    for (const dz of dropZones) {
+	        dz.removeEventListener(DRAGGED_ENTERED_EVENT_NAME, handleDraggedEntered);
+	        dz.removeEventListener(DRAGGED_LEFT_EVENT_NAME, handleDraggedLeft);
+	        dz.removeEventListener(DRAGGED_OVER_INDEX_EVENT_NAME, handleDraggedIsOverIndex);
+	    }
+	    window.removeEventListener(DRAGGED_LEFT_DOCUMENT_EVENT_NAME, handleDrop$1);
+	    unobserve();
+	}
+
+	// finds the initial placeholder that is placed there on drag start
+	function findShadowPlaceHolderIdx(items) {
+	    return items.findIndex(item => item[ITEM_ID_KEY] === SHADOW_PLACEHOLDER_ITEM_ID);
+	}
+	function findShadowElementIdx(items) {
+	    // checking that the id is not the placeholder's for Dragula like usecases
+	    return items.findIndex(item => !!item[SHADOW_ITEM_MARKER_PROPERTY_NAME] && item[ITEM_ID_KEY] !== SHADOW_PLACEHOLDER_ITEM_ID);
+	}
+
+	/* custom drag-events handlers */
+	function handleDraggedEntered(e) {
+	    let {items, dropFromOthersDisabled} = dzToConfig$1.get(e.currentTarget);
+	    if (dropFromOthersDisabled && e.currentTarget !== originDropZone) {
+	        return;
+	    }
+	    isDraggedOutsideOfAnyDz = false;
+	    // this deals with another race condition. in rare occasions (super rapid operations) the list hasn't updated yet
+	    items = items.filter(item => item[ITEM_ID_KEY] !== shadowElData[ITEM_ID_KEY]);
+
+	    if (originDropZone !== e.currentTarget) {
+	        const originZoneItems = dzToConfig$1.get(originDropZone).items;
+	        const newOriginZoneItems = originZoneItems.filter(item => !item[SHADOW_ITEM_MARKER_PROPERTY_NAME]);
+	        dispatchConsiderEvent(originDropZone, newOriginZoneItems, {
+	            trigger: TRIGGERS.DRAGGED_ENTERED_ANOTHER,
+	            id: draggedElData[ITEM_ID_KEY],
+	            source: SOURCES.POINTER
+	        });
+	    } else {
+	        const shadowPlaceHolderIdx = findShadowPlaceHolderIdx(items);
+	        if (shadowPlaceHolderIdx !== -1) {
+	            items.splice(shadowPlaceHolderIdx, 1);
+	        }
+	    }
+
+	    const {index, isProximityBased} = e.detail.indexObj;
+	    const shadowElIdx = isProximityBased && index === e.currentTarget.children.length - 1 ? index + 1 : index;
+	    shadowElDropZone = e.currentTarget;
+	    items.splice(shadowElIdx, 0, shadowElData);
+	    dispatchConsiderEvent(e.currentTarget, items, {trigger: TRIGGERS.DRAGGED_ENTERED, id: draggedElData[ITEM_ID_KEY], source: SOURCES.POINTER});
+	}
+
+	function handleDraggedLeft(e) {
+	    // dealing with a rare race condition on extremely rapid clicking and dropping
+	    if (!isWorkingOnPreviousDrag) return;
+	    const {items, dropFromOthersDisabled} = dzToConfig$1.get(e.currentTarget);
+	    if (dropFromOthersDisabled && e.currentTarget !== originDropZone && e.currentTarget !== shadowElDropZone) {
+	        return;
+	    }
+	    const shadowElIdx = findShadowElementIdx(items);
+	    const shadowItem = items.splice(shadowElIdx, 1)[0];
+	    shadowElDropZone = undefined;
+	    const {type, theOtherDz} = e.detail;
+	    if (
+	        type === DRAGGED_LEFT_TYPES.OUTSIDE_OF_ANY ||
+	        (type === DRAGGED_LEFT_TYPES.LEFT_FOR_ANOTHER && theOtherDz !== originDropZone && dzToConfig$1.get(theOtherDz).dropFromOthersDisabled)
+	    ) {
+	        isDraggedOutsideOfAnyDz = true;
+	        shadowElDropZone = originDropZone;
+	        const originZoneItems = dzToConfig$1.get(originDropZone).items;
+	        originZoneItems.splice(originIndex, 0, shadowItem);
+	        dispatchConsiderEvent(originDropZone, originZoneItems, {
+	            trigger: TRIGGERS.DRAGGED_LEFT_ALL,
+	            id: draggedElData[ITEM_ID_KEY],
+	            source: SOURCES.POINTER
+	        });
+	    }
+	    // for the origin dz, when the dragged is outside of any, this will be fired in addition to the previous. this is for simplicity
+	    dispatchConsiderEvent(e.currentTarget, items, {
+	        trigger: TRIGGERS.DRAGGED_LEFT,
+	        id: draggedElData[ITEM_ID_KEY],
+	        source: SOURCES.POINTER
+	    });
+	}
+	function handleDraggedIsOverIndex(e) {
+	    const {items, dropFromOthersDisabled} = dzToConfig$1.get(e.currentTarget);
+	    if (dropFromOthersDisabled && e.currentTarget !== originDropZone) {
+	        return;
+	    }
+	    isDraggedOutsideOfAnyDz = false;
+	    const {index} = e.detail.indexObj;
+	    const shadowElIdx = findShadowElementIdx(items);
+	    items.splice(shadowElIdx, 1);
+	    items.splice(index, 0, shadowElData);
+	    dispatchConsiderEvent(e.currentTarget, items, {trigger: TRIGGERS.DRAGGED_OVER_INDEX, id: draggedElData[ITEM_ID_KEY], source: SOURCES.POINTER});
+	}
+
+	// Global mouse/touch-events handlers
+	function handleMouseMove(e) {
+	    e.preventDefault();
+	    const c = e.touches ? e.touches[0] : e;
+	    currentMousePosition = {x: c.clientX, y: c.clientY};
+	    draggedEl.style.transform = `translate3d(${currentMousePosition.x - dragStartMousePosition.x}px, ${
+        currentMousePosition.y - dragStartMousePosition.y
+    }px, 0)`;
+	}
+
+	function handleDrop$1() {
+	    finalizingPreviousDrag = true;
+	    // cleanup
+	    window.removeEventListener("mousemove", handleMouseMove);
+	    window.removeEventListener("touchmove", handleMouseMove);
+	    window.removeEventListener("mouseup", handleDrop$1);
+	    window.removeEventListener("touchend", handleDrop$1);
+	    unWatchDraggedElement();
+	    moveDraggedElementToWasDroppedState(draggedEl);
+
+	    if (!shadowElDropZone) {
+	        shadowElDropZone = originDropZone;
+	    }
+	    let {items, type} = dzToConfig$1.get(shadowElDropZone);
+	    styleInactiveDropZones(
+	        typeToDropZones$1.get(type),
+	        dz => dzToConfig$1.get(dz).dropTargetStyle,
+	        dz => dzToConfig$1.get(dz).dropTargetClasses
+	    );
+	    let shadowElIdx = findShadowElementIdx(items);
+	    // the handler might remove the shadow element, ex: dragula like copy on drag
+	    if (shadowElIdx === -1) shadowElIdx = originIndex;
+	    items = items.map(item => (item[SHADOW_ITEM_MARKER_PROPERTY_NAME] ? draggedElData : item));
+	    function finalizeWithinZone() {
+	        unlockOriginDzMinDimensions();
+	        dispatchFinalizeEvent(shadowElDropZone, items, {
+	            trigger: isDraggedOutsideOfAnyDz ? TRIGGERS.DROPPED_OUTSIDE_OF_ANY : TRIGGERS.DROPPED_INTO_ZONE,
+	            id: draggedElData[ITEM_ID_KEY],
+	            source: SOURCES.POINTER
+	        });
+	        if (shadowElDropZone !== originDropZone) {
+	            // letting the origin drop zone know the element was permanently taken away
+	            dispatchFinalizeEvent(originDropZone, dzToConfig$1.get(originDropZone).items, {
+	                trigger: TRIGGERS.DROPPED_INTO_ANOTHER,
+	                id: draggedElData[ITEM_ID_KEY],
+	                source: SOURCES.POINTER
+	            });
+	        }
+	        unDecorateShadowElement(shadowElDropZone.children[shadowElIdx]);
+	        cleanupPostDrop();
+	    }
+	    animateDraggedToFinalPosition(shadowElIdx, finalizeWithinZone);
+	}
+
+	// helper function for handleDrop
+	function animateDraggedToFinalPosition(shadowElIdx, callback) {
+	    const shadowElRect = getBoundingRectNoTransforms(shadowElDropZone.children[shadowElIdx]);
+	    const newTransform = {
+	        x: shadowElRect.left - parseFloat(draggedEl.style.left),
+	        y: shadowElRect.top - parseFloat(draggedEl.style.top)
+	    };
+	    const {dropAnimationDurationMs} = dzToConfig$1.get(shadowElDropZone);
+	    const transition = `transform ${dropAnimationDurationMs}ms ease`;
+	    draggedEl.style.transition = draggedEl.style.transition ? draggedEl.style.transition + "," + transition : transition;
+	    draggedEl.style.transform = `translate3d(${newTransform.x}px, ${newTransform.y}px, 0)`;
+	    window.setTimeout(callback, dropAnimationDurationMs);
+	}
+
+	function scheduleDZForRemovalAfterDrop(dz, destroy) {
+	    scheduledForRemovalAfterDrop.push({dz, destroy});
+	    window.requestAnimationFrame(() => {
+	        hideElement(dz);
+	        document.body.appendChild(dz);
+	    });
+	}
+	/* cleanup */
+	function cleanupPostDrop() {
+	    draggedEl.remove();
+	    originalDragTarget.remove();
+	    if (scheduledForRemovalAfterDrop.length) {
+	        scheduledForRemovalAfterDrop.forEach(({dz, destroy}) => {
+	            destroy();
+	            dz.remove();
+	        });
+	        scheduledForRemovalAfterDrop = [];
+	    }
+	    draggedEl = undefined;
+	    originalDragTarget = undefined;
+	    draggedElData = undefined;
+	    draggedElType = undefined;
+	    originDropZone = undefined;
+	    originIndex = undefined;
+	    shadowElData = undefined;
+	    shadowElDropZone = undefined;
+	    dragStartMousePosition = undefined;
+	    currentMousePosition = undefined;
+	    isWorkingOnPreviousDrag = false;
+	    finalizingPreviousDrag = false;
+	    unlockOriginDzMinDimensions = undefined;
+	    isDraggedOutsideOfAnyDz = false;
+	}
+
+	function dndzone$2(node, options) {
+	    let initialized = false;
+	    const config = {
+	        items: undefined,
+	        type: undefined,
+	        flipDurationMs: 0,
+	        dragDisabled: false,
+	        morphDisabled: false,
+	        dropFromOthersDisabled: false,
+	        dropTargetStyle: DEFAULT_DROP_TARGET_STYLE$1,
+	        dropTargetClasses: [],
+	        transformDraggedElement: () => {},
+	        centreDraggedOnCursor: false
+	    };
+	    let elToIdx = new Map();
+
+	    function addMaybeListeners() {
+	        window.addEventListener("mousemove", handleMouseMoveMaybeDragStart, {passive: false});
+	        window.addEventListener("touchmove", handleMouseMoveMaybeDragStart, {passive: false, capture: false});
+	        window.addEventListener("mouseup", handleFalseAlarm, {passive: false});
+	        window.addEventListener("touchend", handleFalseAlarm, {passive: false});
+	    }
+	    function removeMaybeListeners() {
+	        window.removeEventListener("mousemove", handleMouseMoveMaybeDragStart);
+	        window.removeEventListener("touchmove", handleMouseMoveMaybeDragStart);
+	        window.removeEventListener("mouseup", handleFalseAlarm);
+	        window.removeEventListener("touchend", handleFalseAlarm);
+	    }
+	    function handleFalseAlarm() {
+	        removeMaybeListeners();
+	        originalDragTarget = undefined;
+	        dragStartMousePosition = undefined;
+	        currentMousePosition = undefined;
+	    }
+
+	    function handleMouseMoveMaybeDragStart(e) {
+	        e.preventDefault();
+	        const c = e.touches ? e.touches[0] : e;
+	        currentMousePosition = {x: c.clientX, y: c.clientY};
+	        if (
+	            Math.abs(currentMousePosition.x - dragStartMousePosition.x) >= MIN_MOVEMENT_BEFORE_DRAG_START_PX ||
+	            Math.abs(currentMousePosition.y - dragStartMousePosition.y) >= MIN_MOVEMENT_BEFORE_DRAG_START_PX
+	        ) {
+	            removeMaybeListeners();
+	            handleDragStart();
+	        }
+	    }
+	    function handleMouseDown(e) {
+	        // on safari clicking on a select element doesn't fire mouseup at the end of the click and in general this makes more sense
+	        if (e.target !== e.currentTarget && (e.target.value !== undefined || e.target.isContentEditable)) {
+	            return;
+	        }
+	        // prevents responding to any button but left click which equals 0 (which is falsy)
+	        if (e.button) {
+	            return;
+	        }
+	        if (isWorkingOnPreviousDrag) {
+	            return;
+	        }
+	        e.stopPropagation();
+	        const c = e.touches ? e.touches[0] : e;
+	        dragStartMousePosition = {x: c.clientX, y: c.clientY};
+	        currentMousePosition = {...dragStartMousePosition};
+	        originalDragTarget = e.currentTarget;
+	        addMaybeListeners();
+	    }
+
+	    function handleDragStart() {
+	        isWorkingOnPreviousDrag = true;
+
+	        // initialising globals
+	        const currentIdx = elToIdx.get(originalDragTarget);
+	        originIndex = currentIdx;
+	        originDropZone = originalDragTarget.parentElement;
+	        /** @type {ShadowRoot | HTMLDocument} */
+	        const rootNode = originDropZone.getRootNode();
+	        const originDropZoneRoot = rootNode.body || rootNode;
+	        const {items, type, centreDraggedOnCursor} = config;
+	        draggedElData = {...items[currentIdx]};
+	        draggedElType = type;
+	        shadowElData = {...draggedElData, [SHADOW_ITEM_MARKER_PROPERTY_NAME]: true};
+	        // The initial shadow element. We need a different id at first in order to avoid conflicts and timing issues
+	        const placeHolderElData = {...shadowElData, [ITEM_ID_KEY]: SHADOW_PLACEHOLDER_ITEM_ID};
+
+	        // creating the draggable element
+	        draggedEl = createDraggedElementFrom(originalDragTarget, centreDraggedOnCursor && currentMousePosition);
+	        // We will keep the original dom node in the dom because touch events keep firing on it, we want to re-add it after the framework removes it
+	        function keepOriginalElementInDom() {
+	            if (!draggedEl.parentElement) {
+	                originDropZoneRoot.appendChild(draggedEl);
+	                // to prevent the outline from disappearing
+	                draggedEl.focus();
+	                watchDraggedElement();
+	                hideElement(originalDragTarget);
+	                originDropZoneRoot.appendChild(originalDragTarget);
+	            } else {
+	                window.requestAnimationFrame(keepOriginalElementInDom);
+	            }
+	        }
+	        window.requestAnimationFrame(keepOriginalElementInDom);
+
+	        styleActiveDropZones(
+	            Array.from(typeToDropZones$1.get(config.type)).filter(dz => dz === originDropZone || !dzToConfig$1.get(dz).dropFromOthersDisabled),
+	            dz => dzToConfig$1.get(dz).dropTargetStyle,
+	            dz => dzToConfig$1.get(dz).dropTargetClasses
+	        );
+
+	        // removing the original element by removing its data entry
+	        items.splice(currentIdx, 1, placeHolderElData);
+	        unlockOriginDzMinDimensions = preventShrinking(originDropZone);
+
+	        dispatchConsiderEvent(originDropZone, items, {trigger: TRIGGERS.DRAG_STARTED, id: draggedElData[ITEM_ID_KEY], source: SOURCES.POINTER});
+
+	        // handing over to global handlers - starting to watch the element
+	        window.addEventListener("mousemove", handleMouseMove, {passive: false});
+	        window.addEventListener("touchmove", handleMouseMove, {passive: false, capture: false});
+	        window.addEventListener("mouseup", handleDrop$1, {passive: false});
+	        window.addEventListener("touchend", handleDrop$1, {passive: false});
+	    }
+
+	    function configure({
+	        items = undefined,
+	        flipDurationMs: dropAnimationDurationMs = 0,
+	        type: newType = DEFAULT_DROP_ZONE_TYPE$1,
+	        dragDisabled = false,
+	        morphDisabled = false,
+	        dropFromOthersDisabled = false,
+	        dropTargetStyle = DEFAULT_DROP_TARGET_STYLE$1,
+	        dropTargetClasses = [],
+	        transformDraggedElement = () => {},
+	        centreDraggedOnCursor = false
+	    }) {
+	        config.dropAnimationDurationMs = dropAnimationDurationMs;
+	        if (config.type && newType !== config.type) {
+	            unregisterDropZone$1(node, config.type);
+	        }
+	        config.type = newType;
+	        registerDropZone$1(node, newType);
+	        config.items = [...items];
+	        config.dragDisabled = dragDisabled;
+	        config.morphDisabled = morphDisabled;
+	        config.transformDraggedElement = transformDraggedElement;
+	        config.centreDraggedOnCursor = centreDraggedOnCursor;
+
+	        // realtime update for dropTargetStyle
+	        if (
+	            initialized &&
+	            isWorkingOnPreviousDrag &&
+	            !finalizingPreviousDrag &&
+	            (!areObjectsShallowEqual(dropTargetStyle, config.dropTargetStyle) ||
+	                !areArraysShallowEqualSameOrder(dropTargetClasses, config.dropTargetClasses))
+	        ) {
+	            styleInactiveDropZones(
+	                [node],
+	                () => config.dropTargetStyle,
+	                () => dropTargetClasses
+	            );
+	            styleActiveDropZones(
+	                [node],
+	                () => dropTargetStyle,
+	                () => dropTargetClasses
+	            );
+	        }
+	        config.dropTargetStyle = dropTargetStyle;
+	        config.dropTargetClasses = [...dropTargetClasses];
+
+	        // realtime update for dropFromOthersDisabled
+	        function getConfigProp(dz, propName) {
+	            return dzToConfig$1.get(dz) ? dzToConfig$1.get(dz)[propName] : config[propName];
+	        }
+	        if (initialized && isWorkingOnPreviousDrag && config.dropFromOthersDisabled !== dropFromOthersDisabled) {
+	            if (dropFromOthersDisabled) {
+	                styleInactiveDropZones(
+	                    [node],
+	                    dz => getConfigProp(dz, "dropTargetStyle"),
+	                    dz => getConfigProp(dz, "dropTargetClasses")
+	                );
+	            } else {
+	                styleActiveDropZones(
+	                    [node],
+	                    dz => getConfigProp(dz, "dropTargetStyle"),
+	                    dz => getConfigProp(dz, "dropTargetClasses")
+	                );
+	            }
+	        }
+	        config.dropFromOthersDisabled = dropFromOthersDisabled;
+
+	        dzToConfig$1.set(node, config);
+	        const shadowElIdx = findShadowElementIdx(config.items);
+	        for (let idx = 0; idx < node.children.length; idx++) {
+	            const draggableEl = node.children[idx];
+	            styleDraggable(draggableEl, dragDisabled);
+	            if (idx === shadowElIdx) {
+	                if (!morphDisabled) {
+	                    morphDraggedElementToBeLike(draggedEl, draggableEl, currentMousePosition.x, currentMousePosition.y, () =>
+	                        config.transformDraggedElement(draggedEl, draggedElData, idx)
+	                    );
+	                }
+	                decorateShadowEl(draggableEl);
+	                continue;
+	            }
+	            draggableEl.removeEventListener("mousedown", elToMouseDownListener.get(draggableEl));
+	            draggableEl.removeEventListener("touchstart", elToMouseDownListener.get(draggableEl));
+	            if (!dragDisabled) {
+	                draggableEl.addEventListener("mousedown", handleMouseDown);
+	                draggableEl.addEventListener("touchstart", handleMouseDown);
+	                elToMouseDownListener.set(draggableEl, handleMouseDown);
+	            }
+	            // updating the idx
+	            elToIdx.set(draggableEl, idx);
+
+	            if (!initialized) {
+	                initialized = true;
+	            }
+	        }
+	    }
+	    configure(options);
+
+	    return {
+	        update: newOptions => {
+	            configure(newOptions);
+	        },
+	        destroy: () => {
+	            function destroyDz() {
+	                unregisterDropZone$1(node, dzToConfig$1.get(node).type);
+	                dzToConfig$1.delete(node);
+	            }
+	            if (isWorkingOnPreviousDrag) {
+	                scheduleDZForRemovalAfterDrop(node, destroyDz);
+	            } else {
+	               destroyDz();
+	            }
+	        }
+	    };
+	}
+
+	const INSTRUCTION_IDs$1 = {
+	    DND_ZONE_ACTIVE: "dnd-zone-active",
+	    DND_ZONE_DRAG_DISABLED: "dnd-zone-drag-disabled"
+	};
+	const ID_TO_INSTRUCTION = {
+	    [INSTRUCTION_IDs$1.DND_ZONE_ACTIVE]: "Tab to one the items and press space-bar or enter to start dragging it",
+	    [INSTRUCTION_IDs$1.DND_ZONE_DRAG_DISABLED]: "This is a disabled drag and drop list"
+	};
+
+	const ALERT_DIV_ID = "dnd-action-aria-alert";
+	let alertsDiv;
+
+	function initAriaOnBrowser() {
+	    if (alertsDiv) {
+	        // it is already initialized
+	        return;
+	    }
+	    // setting the dynamic alerts
+	    alertsDiv = document.createElement("div");
+	    (function initAlertsDiv() {
+	        alertsDiv.id = ALERT_DIV_ID;
+	        // tab index -1 makes the alert be read twice on chrome for some reason
+	        //alertsDiv.tabIndex = -1;
+	        alertsDiv.style.position = "fixed";
+	        alertsDiv.style.bottom = "0";
+	        alertsDiv.style.left = "0";
+	        alertsDiv.style.zIndex = "-5";
+	        alertsDiv.style.opacity = "0";
+	        alertsDiv.style.height = "0";
+	        alertsDiv.style.width = "0";
+	        alertsDiv.setAttribute("role", "alert");
+	    })();
+	    document.body.prepend(alertsDiv);
+
+	    // setting the instructions
+	    Object.entries(ID_TO_INSTRUCTION).forEach(([id, txt]) => document.body.prepend(instructionToHiddenDiv(id, txt)));
+	}
+
+	/**
+	 * Initializes the static aria instructions so they can be attached to zones
+	 * @return {{DND_ZONE_ACTIVE: string, DND_ZONE_DRAG_DISABLED: string} | null} - the IDs for static aria instruction (to be used via aria-describedby) or null on the server
+	 */
+	function initAria() {
+	    if (isOnServer) return null;
+	    if (document.readyState === "complete") {
+	        initAriaOnBrowser();
+	    } else {
+	        window.addEventListener("DOMContentLoaded", initAriaOnBrowser);
+	    }
+	    return {...INSTRUCTION_IDs$1};
+	}
+
+	/**
+	 * Removes all the artifacts (dom elements) added by this module
+	 */
+	function destroyAria() {
+	    if (isOnServer || !alertsDiv) return;
+	    Object.keys(ID_TO_INSTRUCTION).forEach(id => document.getElementById(id)?.remove());
+	    alertsDiv.remove();
+	    alertsDiv = undefined;
+	}
+
+	function instructionToHiddenDiv(id, txt) {
+	    const div = document.createElement("div");
+	    div.id = id;
+	    div.innerHTML = `<p>${txt}</p>`;
+	    div.style.display = "none";
+	    div.style.position = "fixed";
+	    div.style.zIndex = "-5";
+	    return div;
+	}
+
+	/**
+	 * Will make the screen reader alert the provided text to the user
+	 * @param {string} txt
+	 */
+	function alertToScreenReader(txt) {
+	    if (isOnServer) return;
+	    if (!alertsDiv) {
+	        initAriaOnBrowser();
+	    }
+	    alertsDiv.innerHTML = "";
+	    const alertText = document.createTextNode(txt);
+	    alertsDiv.appendChild(alertText);
+	    // this is needed for Safari
+	    alertsDiv.style.display = "none";
+	    alertsDiv.style.display = "inline";
+	}
+
+	const DEFAULT_DROP_ZONE_TYPE = "--any--";
+	const DEFAULT_DROP_TARGET_STYLE = {
+	    outline: "rgba(255, 255, 102, 0.7) solid 2px"
+	};
+
+	let isDragging = false;
+	let draggedItemType;
+	let focusedDz;
+	let focusedDzLabel = "";
+	let focusedItem;
+	let focusedItemId;
+	let focusedItemLabel = "";
+	const allDragTargets = new WeakSet();
+	const elToKeyDownListeners = new WeakMap();
+	const elToFocusListeners = new WeakMap();
+	const dzToHandles = new Map();
+	const dzToConfig = new Map();
+	const typeToDropZones = new Map();
+
+	/* TODO (potentially)
+	 * what's the deal with the black border of voice-reader not following focus?
+	 * maybe keep focus on the last dragged item upon drop?
+	 */
+
+	let INSTRUCTION_IDs;
+
+	/* drop-zones registration management */
+	function registerDropZone(dropZoneEl, type) {
+	    if (typeToDropZones.size === 0) {
+	        INSTRUCTION_IDs = initAria();
+	        window.addEventListener("keydown", globalKeyDownHandler);
+	        window.addEventListener("click", globalClickHandler);
+	    }
+	    if (!typeToDropZones.has(type)) {
+	        typeToDropZones.set(type, new Set());
+	    }
+	    if (!typeToDropZones.get(type).has(dropZoneEl)) {
+	        typeToDropZones.get(type).add(dropZoneEl);
+	        incrementActiveDropZoneCount();
+	    }
+	}
+	function unregisterDropZone(dropZoneEl, type) {
+	    if (focusedDz === dropZoneEl) {
+	        handleDrop();
+	    }
+	    typeToDropZones.get(type).delete(dropZoneEl);
+	    decrementActiveDropZoneCount();
+	    if (typeToDropZones.get(type).size === 0) {
+	        typeToDropZones.delete(type);
+	    }
+	    if (typeToDropZones.size === 0) {
+	        window.removeEventListener("keydown", globalKeyDownHandler);
+	        window.removeEventListener("click", globalClickHandler);
+	        INSTRUCTION_IDs = undefined;
+	        destroyAria();
+	    }
+	}
+
+	function globalKeyDownHandler(e) {
+	    if (!isDragging) return;
+	    switch (e.key) {
+	        case "Escape": {
+	            handleDrop();
+	            break;
+	        }
+	    }
+	}
+
+	function globalClickHandler() {
+	    if (!isDragging) return;
+	    if (!allDragTargets.has(document.activeElement)) {
+	        handleDrop();
+	    }
+	}
+
+	function handleZoneFocus(e) {
+	    if (!isDragging) return;
+	    const newlyFocusedDz = e.currentTarget;
+	    if (newlyFocusedDz === focusedDz) return;
+
+	    focusedDzLabel = newlyFocusedDz.getAttribute("aria-label") || "";
+	    const {items: originItems} = dzToConfig.get(focusedDz);
+	    const originItem = originItems.find(item => item[ITEM_ID_KEY] === focusedItemId);
+	    const originIdx = originItems.indexOf(originItem);
+	    const itemToMove = originItems.splice(originIdx, 1)[0];
+	    const {items: targetItems, autoAriaDisabled} = dzToConfig.get(newlyFocusedDz);
+	    if (
+	        newlyFocusedDz.getBoundingClientRect().top < focusedDz.getBoundingClientRect().top ||
+	        newlyFocusedDz.getBoundingClientRect().left < focusedDz.getBoundingClientRect().left
+	    ) {
+	        targetItems.push(itemToMove);
+	        if (!autoAriaDisabled) {
+	            alertToScreenReader(`Moved item ${focusedItemLabel} to the end of the list ${focusedDzLabel}`);
+	        }
+	    } else {
+	        targetItems.unshift(itemToMove);
+	        if (!autoAriaDisabled) {
+	            alertToScreenReader(`Moved item ${focusedItemLabel} to the beginning of the list ${focusedDzLabel}`);
+	        }
+	    }
+	    const dzFrom = focusedDz;
+	    dispatchFinalizeEvent(dzFrom, originItems, {trigger: TRIGGERS.DROPPED_INTO_ANOTHER, id: focusedItemId, source: SOURCES.KEYBOARD});
+	    dispatchFinalizeEvent(newlyFocusedDz, targetItems, {trigger: TRIGGERS.DROPPED_INTO_ZONE, id: focusedItemId, source: SOURCES.KEYBOARD});
+	    focusedDz = newlyFocusedDz;
+	}
+
+	function triggerAllDzsUpdate() {
+	    dzToHandles.forEach(({update}, dz) => update(dzToConfig.get(dz)));
+	}
+
+	function handleDrop(dispatchConsider = true) {
+	    if (!dzToConfig.get(focusedDz).autoAriaDisabled) {
+	        alertToScreenReader(`Stopped dragging item ${focusedItemLabel}`);
+	    }
+	    if (allDragTargets.has(document.activeElement)) {
+	        document.activeElement.blur();
+	    }
+	    if (dispatchConsider) {
+	        dispatchConsiderEvent(focusedDz, dzToConfig.get(focusedDz).items, {
+	            trigger: TRIGGERS.DRAG_STOPPED,
+	            id: focusedItemId,
+	            source: SOURCES.KEYBOARD
+	        });
+	    }
+	    styleInactiveDropZones(
+	        typeToDropZones.get(draggedItemType),
+	        dz => dzToConfig.get(dz).dropTargetStyle,
+	        dz => dzToConfig.get(dz).dropTargetClasses
+	    );
+	    focusedItem = null;
+	    focusedItemId = null;
+	    focusedItemLabel = "";
+	    draggedItemType = null;
+	    focusedDz = null;
+	    focusedDzLabel = "";
+	    isDragging = false;
+	    triggerAllDzsUpdate();
+	}
+	//////
+	function dndzone$1(node, options) {
+	    const config = {
+	        items: undefined,
+	        type: undefined,
+	        dragDisabled: false,
+	        zoneTabIndex: 0,
+	        dropFromOthersDisabled: false,
+	        dropTargetStyle: DEFAULT_DROP_TARGET_STYLE,
+	        dropTargetClasses: [],
+	        autoAriaDisabled: false
+	    };
+
+	    function swap(arr, i, j) {
+	        if (arr.length <= 1) return;
+	        arr.splice(j, 1, arr.splice(i, 1, arr[j])[0]);
+	    }
+
+	    function handleKeyDown(e) {
+	        switch (e.key) {
+	            case "Enter":
+	            case " ": {
+	                // we don't want to affect nested input elements or clickable elements
+	                if ((e.target.disabled !== undefined || e.target.href || e.target.isContentEditable) && !allDragTargets.has(e.target)) {
+	                    return;
+	                }
+	                e.preventDefault(); // preventing scrolling on spacebar
+	                e.stopPropagation();
+	                if (isDragging) {
+	                    // TODO - should this trigger a drop? only here or in general (as in when hitting space or enter outside of any zone)?
+	                    handleDrop();
+	                } else {
+	                    // drag start
+	                    handleDragStart(e);
+	                }
+	                break;
+	            }
+	            case "ArrowDown":
+	            case "ArrowRight": {
+	                if (!isDragging) return;
+	                e.preventDefault(); // prevent scrolling
+	                e.stopPropagation();
+	                const {items} = dzToConfig.get(node);
+	                const children = Array.from(node.children);
+	                const idx = children.indexOf(e.currentTarget);
+	                if (idx < children.length - 1) {
+	                    if (!config.autoAriaDisabled) {
+	                        alertToScreenReader(`Moved item ${focusedItemLabel} to position ${idx + 2} in the list ${focusedDzLabel}`);
+	                    }
+	                    swap(items, idx, idx + 1);
+	                    dispatchFinalizeEvent(node, items, {trigger: TRIGGERS.DROPPED_INTO_ZONE, id: focusedItemId, source: SOURCES.KEYBOARD});
+	                }
+	                break;
+	            }
+	            case "ArrowUp":
+	            case "ArrowLeft": {
+	                if (!isDragging) return;
+	                e.preventDefault(); // prevent scrolling
+	                e.stopPropagation();
+	                const {items} = dzToConfig.get(node);
+	                const children = Array.from(node.children);
+	                const idx = children.indexOf(e.currentTarget);
+	                if (idx > 0) {
+	                    if (!config.autoAriaDisabled) {
+	                        alertToScreenReader(`Moved item ${focusedItemLabel} to position ${idx} in the list ${focusedDzLabel}`);
+	                    }
+	                    swap(items, idx, idx - 1);
+	                    dispatchFinalizeEvent(node, items, {trigger: TRIGGERS.DROPPED_INTO_ZONE, id: focusedItemId, source: SOURCES.KEYBOARD});
+	                }
+	                break;
+	            }
+	        }
+	    }
+	    function handleDragStart(e) {
+	        setCurrentFocusedItem(e.currentTarget);
+	        focusedDz = node;
+	        draggedItemType = config.type;
+	        isDragging = true;
+	        const dropTargets = Array.from(typeToDropZones.get(config.type)).filter(dz => dz === focusedDz || !dzToConfig.get(dz).dropFromOthersDisabled);
+	        styleActiveDropZones(
+	            dropTargets,
+	            dz => dzToConfig.get(dz).dropTargetStyle,
+	            dz => dzToConfig.get(dz).dropTargetClasses
+	        );
+	        if (!config.autoAriaDisabled) {
+	            let msg = `Started dragging item ${focusedItemLabel}. Use the arrow keys to move it within its list ${focusedDzLabel}`;
+	            if (dropTargets.length > 1) {
+	                msg += `, or tab to another list in order to move the item into it`;
+	            }
+	            alertToScreenReader(msg);
+	        }
+	        dispatchConsiderEvent(node, dzToConfig.get(node).items, {trigger: TRIGGERS.DRAG_STARTED, id: focusedItemId, source: SOURCES.KEYBOARD});
+	        triggerAllDzsUpdate();
+	    }
+
+	    function handleClick(e) {
+	        if (!isDragging) return;
+	        if (e.currentTarget === focusedItem) return;
+	        e.stopPropagation();
+	        handleDrop(false);
+	        handleDragStart(e);
+	    }
+	    function setCurrentFocusedItem(draggableEl) {
+	        const {items} = dzToConfig.get(node);
+	        const children = Array.from(node.children);
+	        const focusedItemIdx = children.indexOf(draggableEl);
+	        focusedItem = draggableEl;
+	        focusedItem.tabIndex = 0;
+	        focusedItemId = items[focusedItemIdx][ITEM_ID_KEY];
+	        focusedItemLabel = children[focusedItemIdx].getAttribute("aria-label") || "";
+	    }
+
+	    function configure({
+	        items = [],
+	        type: newType = DEFAULT_DROP_ZONE_TYPE,
+	        dragDisabled = false,
+	        zoneTabIndex = 0,
+	        dropFromOthersDisabled = false,
+	        dropTargetStyle = DEFAULT_DROP_TARGET_STYLE,
+	        dropTargetClasses = [],
+	        autoAriaDisabled = false
+	    }) {
+	        config.items = [...items];
+	        config.dragDisabled = dragDisabled;
+	        config.dropFromOthersDisabled = dropFromOthersDisabled;
+	        config.zoneTabIndex = zoneTabIndex;
+	        config.dropTargetStyle = dropTargetStyle;
+	        config.dropTargetClasses = dropTargetClasses;
+	        config.autoAriaDisabled = autoAriaDisabled;
+	        if (config.type && newType !== config.type) {
+	            unregisterDropZone(node, config.type);
+	        }
+	        config.type = newType;
+	        registerDropZone(node, newType);
+	        if (!autoAriaDisabled) {
+	            node.setAttribute("aria-disabled", dragDisabled);
+	            node.setAttribute("role", "list");
+	            node.setAttribute("aria-describedby", dragDisabled ? INSTRUCTION_IDs.DND_ZONE_DRAG_DISABLED : INSTRUCTION_IDs.DND_ZONE_ACTIVE);
+	        }
+	        dzToConfig.set(node, config);
+
+	        if (isDragging) {
+	            node.tabIndex =
+	                node === focusedDz ||
+	                focusedItem.contains(node) ||
+	                config.dropFromOthersDisabled ||
+	                (focusedDz && config.type !== dzToConfig.get(focusedDz).type)
+	                    ? -1
+	                    : 0;
+	        } else {
+	            node.tabIndex = config.zoneTabIndex;
+	        }
+
+	        node.addEventListener("focus", handleZoneFocus);
+
+	        for (let i = 0; i < node.children.length; i++) {
+	            const draggableEl = node.children[i];
+	            allDragTargets.add(draggableEl);
+	            draggableEl.tabIndex = isDragging ? -1 : 0;
+	            if (!autoAriaDisabled) {
+	                draggableEl.setAttribute("role", "listitem");
+	            }
+	            draggableEl.removeEventListener("keydown", elToKeyDownListeners.get(draggableEl));
+	            draggableEl.removeEventListener("click", elToFocusListeners.get(draggableEl));
+	            if (!dragDisabled) {
+	                draggableEl.addEventListener("keydown", handleKeyDown);
+	                elToKeyDownListeners.set(draggableEl, handleKeyDown);
+	                draggableEl.addEventListener("click", handleClick);
+	                elToFocusListeners.set(draggableEl, handleClick);
+	            }
+	            if (isDragging && config.items[i][ITEM_ID_KEY] === focusedItemId) {
+	                // if it is a nested dropzone, it was re-rendered and we need to refresh our pointer
+	                focusedItem = draggableEl;
+	                focusedItem.tabIndex = 0;
+	                // without this the element loses focus if it moves backwards in the list
+	                draggableEl.focus();
+	            }
+	        }
+	    }
+	    configure(options);
+
+	    const handles = {
+	        update: newOptions => {
+	            configure(newOptions);
+	        },
+	        destroy: () => {
+	            unregisterDropZone(node, config.type);
+	            dzToConfig.delete(node);
+	            dzToHandles.delete(node);
+	        }
+	    };
+	    dzToHandles.set(node, handles);
+	    return handles;
+	}
+
+	/**
+	 * A custom action to turn any container to a dnd zone and all of its direct children to draggables
+	 * Supports mouse, touch and keyboard interactions.
+	 * Dispatches two events that the container is expected to react to by modifying its list of items,
+	 * which will then feed back in to this action via the update function
+	 *
+	 * @typedef {object} Options
+	 * @property {array} items - the list of items that was used to generate the children of the given node (the list used in the #each block
+	 * @property {string} [type] - the type of the dnd zone. children dragged from here can only be dropped in other zones of the same type, default to a base type
+	 * @property {number} [flipDurationMs] - if the list animated using flip (recommended), specifies the flip duration such that everything syncs with it without conflict, defaults to zero
+	 * @property {boolean} [dragDisabled]
+	 * @property {boolean} [morphDisabled] - whether dragged element should morph to zone dimensions
+	 * @property {boolean} [dropFromOthersDisabled]
+	 * @property {number} [zoneTabIndex] - set the tabindex of the list container when not dragging
+	 * @property {object} [dropTargetStyle]
+	 * @property {string[]} [dropTargetClasses]
+	 * @property {function} [transformDraggedElement]
+	 * @param {HTMLElement} node - the element to enhance
+	 * @param {Options} options
+	 * @return {{update: function, destroy: function}}
+	 */
+	function dndzone(node, options) {
+	    validateOptions(options);
+	    const pointerZone = dndzone$2(node, options);
+	    const keyboardZone = dndzone$1(node, options);
+	    return {
+	        update: newOptions => {
+	            validateOptions(newOptions);
+	            pointerZone.update(newOptions);
+	            keyboardZone.update(newOptions);
+	        },
+	        destroy: () => {
+	            pointerZone.destroy();
+	            keyboardZone.destroy();
+	        }
+	    };
+	}
+
+	function validateOptions(options) {
+	    /*eslint-disable*/
+	    const {
+	        items,
+	        flipDurationMs,
+	        type,
+	        dragDisabled,
+	        morphDisabled,
+	        dropFromOthersDisabled,
+	        zoneTabIndex,
+	        dropTargetStyle,
+	        dropTargetClasses,
+	        transformDraggedElement,
+	        autoAriaDisabled,
+	        centreDraggedOnCursor,
+	        ...rest
+	    } = options;
+	    /*eslint-enable*/
+	    if (Object.keys(rest).length > 0) {
+	        console.warn(`dndzone will ignore unknown options`, rest);
+	    }
+	    if (!items) {
+	        throw new Error("no 'items' key provided to dndzone");
+	    }
+	    const itemWithMissingId = items.find(item => !{}.hasOwnProperty.call(item, ITEM_ID_KEY));
+	    if (itemWithMissingId) {
+	        throw new Error(`missing '${ITEM_ID_KEY}' property for item ${toString(itemWithMissingId)}`);
+	    }
+	    if (dropTargetClasses && !Array.isArray(dropTargetClasses)) {
+	        throw new Error(`dropTargetClasses should be an array but instead it is a ${typeof dropTargetClasses}, ${toString(dropTargetClasses)}`);
+	    }
+	    if (zoneTabIndex && !isInt(zoneTabIndex)) {
+	        throw new Error(`zoneTabIndex should be a number but instead it is a ${typeof zoneTabIndex}, ${toString(zoneTabIndex)}`);
+	    }
+	}
+
+	function isInt(value) {
+	    return !isNaN(value) && (function(x) { return (x | 0) === x; })(parseFloat(value));
+	}
+
 	/* src/components/Operation/Manage.svelte generated by Svelte v3.42.5 */
 
 	const { console: console_1$5 } = globals;
@@ -39886,25 +41789,25 @@
 
 	function get_each_context$8(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[38] = list[i];
-		child_ctx[39] = list;
-		child_ctx[40] = i;
+		child_ctx[31] = list[i];
+		child_ctx[32] = list;
+		child_ctx[33] = i;
 		return child_ctx;
 	}
 
 	function get_each_context_1$3(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[41] = list[i];
+		child_ctx[34] = list[i];
 		return child_ctx;
 	}
 
 	function get_each_context_2$3(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[44] = list[i];
+		child_ctx[37] = list[i];
 		return child_ctx;
 	}
 
-	// (281:46) 
+	// (234:46) 
 	function create_if_block_1$c(ctx) {
 		let td0;
 		let portallink0;
@@ -39917,7 +41820,7 @@
 		let portallink1;
 		let t2;
 		let td3;
-		let t3_value = /*calculateDistance*/ ctx[7](/*step*/ ctx[38]) + "";
+		let t3_value = /*calculateDistance*/ ctx[5](/*step*/ ctx[31]) + "";
 		let t3;
 		let current;
 		let mounted;
@@ -39925,19 +41828,19 @@
 
 		portallink0 = new PortalLink({
 				props: {
-					portalId: /*step*/ ctx[38].fromPortalId,
+					portalId: /*step*/ ctx[31].fromPortalId,
 					operation: /*operation*/ ctx[1]
 				},
 				$$inline: true
 			});
 
 		function click_handler() {
-			return /*click_handler*/ ctx[23](/*step*/ ctx[38]);
+			return /*click_handler*/ ctx[18](/*step*/ ctx[31]);
 		}
 
 		portallink1 = new PortalLink({
 				props: {
-					portalId: /*step*/ ctx[38].toPortalId,
+					portalId: /*step*/ ctx[31].toPortalId,
 					operation: /*operation*/ ctx[1]
 				},
 				$$inline: true
@@ -39956,15 +41859,15 @@
 				t2 = space();
 				td3 = element("td");
 				t3 = text(t3_value);
-				add_location(td0, file$e, 281, 10, 8700);
+				add_location(td0, file$e, 234, 10, 7584);
 				if (!src_url_equal(img.src, img_src_value = "https://cdn2.wasabee.rocks/img/swap.svg")) attr_dev(img, "src", img_src_value);
 				attr_dev(img, "height", "16");
 				attr_dev(img, "alt", "swap");
 				attr_dev(img, "class", "dark-filter-invert");
-				add_location(img, file$e, 285, 12, 8816);
-				add_location(td1, file$e, 284, 10, 8799);
-				add_location(td2, file$e, 293, 10, 9063);
-				add_location(td3, file$e, 296, 10, 9160);
+				add_location(img, file$e, 238, 12, 7700);
+				add_location(td1, file$e, 237, 10, 7683);
+				add_location(td2, file$e, 246, 10, 7947);
+				add_location(td3, file$e, 249, 10, 8044);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -39988,14 +41891,14 @@
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
 				const portallink0_changes = {};
-				if (dirty[0] & /*steps*/ 8) portallink0_changes.portalId = /*step*/ ctx[38].fromPortalId;
+				if (dirty[0] & /*steps*/ 8) portallink0_changes.portalId = /*step*/ ctx[31].fromPortalId;
 				if (dirty[0] & /*operation*/ 2) portallink0_changes.operation = /*operation*/ ctx[1];
 				portallink0.$set(portallink0_changes);
 				const portallink1_changes = {};
-				if (dirty[0] & /*steps*/ 8) portallink1_changes.portalId = /*step*/ ctx[38].toPortalId;
+				if (dirty[0] & /*steps*/ 8) portallink1_changes.portalId = /*step*/ ctx[31].toPortalId;
 				if (dirty[0] & /*operation*/ 2) portallink1_changes.operation = /*operation*/ ctx[1];
 				portallink1.$set(portallink1_changes);
-				if ((!current || dirty[0] & /*steps*/ 8) && t3_value !== (t3_value = /*calculateDistance*/ ctx[7](/*step*/ ctx[38]) + "")) set_data_dev(t3, t3_value);
+				if ((!current || dirty[0] & /*steps*/ 8) && t3_value !== (t3_value = /*calculateDistance*/ ctx[5](/*step*/ ctx[31]) + "")) set_data_dev(t3, t3_value);
 			},
 			i: function intro(local) {
 				if (current) return;
@@ -40027,14 +41930,14 @@
 			block,
 			id: create_if_block_1$c.name,
 			type: "if",
-			source: "(281:46) ",
+			source: "(234:46) ",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (272:8) {#if step instanceof WasabeeMarker}
+	// (225:8) {#if step instanceof WasabeeMarker}
 	function create_if_block$e(ctx) {
 		let td0;
 		let portallink;
@@ -40042,7 +41945,7 @@
 		let td1;
 		let t1;
 		let td2;
-		let t2_value = /*step*/ ctx[38].friendlyType + "";
+		let t2_value = /*step*/ ctx[31].friendlyType + "";
 		let t2;
 		let td2_class_value;
 		let t3;
@@ -40051,7 +41954,7 @@
 
 		portallink = new PortalLink({
 				props: {
-					portalId: /*step*/ ctx[38].portalId,
+					portalId: /*step*/ ctx[31].portalId,
 					operation: /*operation*/ ctx[1]
 				},
 				$$inline: true
@@ -40068,11 +41971,11 @@
 				t2 = text(t2_value);
 				t3 = space();
 				td3 = element("td");
-				add_location(td0, file$e, 272, 10, 8443);
-				add_location(td1, file$e, 275, 10, 8538);
-				attr_dev(td2, "class", td2_class_value = /*step*/ ctx[38].type);
-				add_location(td2, file$e, 276, 10, 8555);
-				add_location(td3, file$e, 279, 10, 8636);
+				add_location(td0, file$e, 225, 10, 7327);
+				add_location(td1, file$e, 228, 10, 7422);
+				attr_dev(td2, "class", td2_class_value = /*step*/ ctx[31].type);
+				add_location(td2, file$e, 229, 10, 7439);
+				add_location(td3, file$e, 232, 10, 7520);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -40088,12 +41991,12 @@
 			},
 			p: function update(ctx, dirty) {
 				const portallink_changes = {};
-				if (dirty[0] & /*steps*/ 8) portallink_changes.portalId = /*step*/ ctx[38].portalId;
+				if (dirty[0] & /*steps*/ 8) portallink_changes.portalId = /*step*/ ctx[31].portalId;
 				if (dirty[0] & /*operation*/ 2) portallink_changes.operation = /*operation*/ ctx[1];
 				portallink.$set(portallink_changes);
-				if ((!current || dirty[0] & /*steps*/ 8) && t2_value !== (t2_value = /*step*/ ctx[38].friendlyType + "")) set_data_dev(t2, t2_value);
+				if ((!current || dirty[0] & /*steps*/ 8) && t2_value !== (t2_value = /*step*/ ctx[31].friendlyType + "")) set_data_dev(t2, t2_value);
 
-				if (!current || dirty[0] & /*steps, operation*/ 10 && td2_class_value !== (td2_class_value = /*step*/ ctx[38].type)) {
+				if (!current || dirty[0] & /*steps, operation*/ 10 && td2_class_value !== (td2_class_value = /*step*/ ctx[31].type)) {
 					attr_dev(td2, "class", td2_class_value);
 				}
 			},
@@ -40122,17 +42025,17 @@
 			block,
 			id: create_if_block$e.name,
 			type: "if",
-			source: "(272:8) {#if step instanceof WasabeeMarker}",
+			source: "(225:8) {#if step instanceof WasabeeMarker}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (304:12) {#each operation.zones as z (z.id)}
+	// (260:12) {#each operation.zones as z (z.id)}
 	function create_each_block_2$3(key_1, ctx) {
 		let option;
-		let t0_value = /*z*/ ctx[44].name + "";
+		let t0_value = /*z*/ ctx[37].name + "";
 		let t0;
 		let t1;
 		let option_value_value;
@@ -40144,9 +42047,9 @@
 				option = element("option");
 				t0 = text(t0_value);
 				t1 = space();
-				option.__value = option_value_value = /*z*/ ctx[44].id;
+				option.__value = option_value_value = /*z*/ ctx[37].id;
 				option.value = option.__value;
-				add_location(option, file$e, 304, 14, 9431);
+				add_location(option, file$e, 260, 14, 8360);
 				this.first = option;
 			},
 			m: function mount(target, anchor) {
@@ -40156,9 +42059,9 @@
 			},
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
-				if (dirty[0] & /*operation*/ 2 && t0_value !== (t0_value = /*z*/ ctx[44].name + "")) set_data_dev(t0, t0_value);
+				if (dirty[0] & /*operation*/ 2 && t0_value !== (t0_value = /*z*/ ctx[37].name + "")) set_data_dev(t0, t0_value);
 
-				if (dirty[0] & /*operation*/ 2 && option_value_value !== (option_value_value = /*z*/ ctx[44].id)) {
+				if (dirty[0] & /*operation*/ 2 && option_value_value !== (option_value_value = /*z*/ ctx[37].id)) {
 					prop_dev(option, "__value", option_value_value);
 					option.value = option.__value;
 				}
@@ -40172,17 +42075,17 @@
 			block,
 			id: create_each_block_2$3.name,
 			type: "each",
-			source: "(304:12) {#each operation.zones as z (z.id)}",
+			source: "(260:12) {#each operation.zones as z (z.id)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (317:12) {#each agents as a (a.id)}
+	// (273:12) {#each agents as a (a.id)}
 	function create_each_block_1$3(key_1, ctx) {
 		let option;
-		let t0_value = /*a*/ ctx[41].name + "";
+		let t0_value = /*a*/ ctx[34].name + "";
 		let t0;
 		let t1;
 		let option_value_value;
@@ -40194,9 +42097,9 @@
 				option = element("option");
 				t0 = text(t0_value);
 				t1 = space();
-				option.__value = option_value_value = /*a*/ ctx[41].id;
+				option.__value = option_value_value = /*a*/ ctx[34].id;
 				option.value = option.__value;
-				add_location(option, file$e, 317, 14, 9788);
+				add_location(option, file$e, 273, 14, 8727);
 				this.first = option;
 			},
 			m: function mount(target, anchor) {
@@ -40206,9 +42109,9 @@
 			},
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
-				if (dirty[0] & /*agents*/ 4 && t0_value !== (t0_value = /*a*/ ctx[41].name + "")) set_data_dev(t0, t0_value);
+				if (dirty[0] & /*agents*/ 4 && t0_value !== (t0_value = /*a*/ ctx[34].name + "")) set_data_dev(t0, t0_value);
 
-				if (dirty[0] & /*agents*/ 4 && option_value_value !== (option_value_value = /*a*/ ctx[41].id)) {
+				if (dirty[0] & /*agents*/ 4 && option_value_value !== (option_value_value = /*a*/ ctx[34].id)) {
 					prop_dev(option, "__value", option_value_value);
 					option.value = option.__value;
 				}
@@ -40222,20 +42125,20 @@
 			block,
 			id: create_each_block_1$3.name,
 			type: "each",
-			source: "(317:12) {#each agents as a (a.id)}",
+			source: "(273:12) {#each agents as a (a.id)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (256:4) {#each steps as step, i (step.ID)}
+	// (220:4) {#each steps as step (step.id)}
 	function create_each_block$8(key_1, ctx) {
 		let tr;
 		let td0;
 		let t0;
 		let td1;
-		let t1_value = /*step*/ ctx[38].order + "";
+		let t1_value = /*step*/ ctx[31].task.order + "";
 		let t1;
 		let t2;
 		let current_block_type_index;
@@ -40259,7 +42162,6 @@
 		let td5;
 		let input1;
 		let t9;
-		let tr_data_index_value;
 		let rect;
 		let stop_animation = noop;
 		let current;
@@ -40269,8 +42171,8 @@
 		const if_blocks = [];
 
 		function select_block_type(ctx, dirty) {
-			if (/*step*/ ctx[38] instanceof WasabeeMarker) return 0;
-			if (/*step*/ ctx[38] instanceof WasabeeLink) return 1;
+			if (/*step*/ ctx[31] instanceof WasabeeMarker) return 0;
+			if (/*step*/ ctx[31] instanceof WasabeeLink) return 1;
 			return -1;
 		}
 
@@ -40280,7 +42182,7 @@
 
 		let each_value_2 = /*operation*/ ctx[1].zones;
 		validate_each_argument(each_value_2);
-		const get_key = ctx => /*z*/ ctx[44].id;
+		const get_key = ctx => /*z*/ ctx[37].id;
 		validate_each_keys(ctx, each_value_2, get_each_context_2$3, get_key);
 
 		for (let i = 0; i < each_value_2.length; i += 1) {
@@ -40290,16 +42192,16 @@
 		}
 
 		function select0_change_handler() {
-			/*select0_change_handler*/ ctx[24].call(select0, /*each_value*/ ctx[39], /*i*/ ctx[40]);
+			/*select0_change_handler*/ ctx[19].call(select0, /*each_value*/ ctx[32], /*step_index*/ ctx[33]);
 		}
 
 		function change_handler() {
-			return /*change_handler*/ ctx[25](/*step*/ ctx[38]);
+			return /*change_handler*/ ctx[20](/*step*/ ctx[31]);
 		}
 
 		let each_value_1 = /*agents*/ ctx[2];
 		validate_each_argument(each_value_1);
-		const get_key_1 = ctx => /*a*/ ctx[41].id;
+		const get_key_1 = ctx => /*a*/ ctx[34].id;
 		validate_each_keys(ctx, each_value_1, get_each_context_1$3, get_key_1);
 
 		for (let i = 0; i < each_value_1.length; i += 1) {
@@ -40309,27 +42211,27 @@
 		}
 
 		function select1_change_handler() {
-			/*select1_change_handler*/ ctx[26].call(select1, /*each_value*/ ctx[39], /*i*/ ctx[40]);
+			/*select1_change_handler*/ ctx[21].call(select1, /*each_value*/ ctx[32], /*step_index*/ ctx[33]);
 		}
 
 		function change_handler_1() {
-			return /*change_handler_1*/ ctx[27](/*step*/ ctx[38]);
+			return /*change_handler_1*/ ctx[22](/*step*/ ctx[31]);
 		}
 
 		function input0_input_handler() {
-			/*input0_input_handler*/ ctx[28].call(input0, /*each_value*/ ctx[39], /*i*/ ctx[40]);
+			/*input0_input_handler*/ ctx[23].call(input0, /*each_value*/ ctx[32], /*step_index*/ ctx[33]);
 		}
 
 		function change_handler_2() {
-			return /*change_handler_2*/ ctx[29](/*step*/ ctx[38]);
+			return /*change_handler_2*/ ctx[24](/*step*/ ctx[31]);
 		}
 
 		function input1_change_handler() {
-			/*input1_change_handler*/ ctx[30].call(input1, /*each_value*/ ctx[39], /*i*/ ctx[40]);
+			/*input1_change_handler*/ ctx[25].call(input1, /*each_value*/ ctx[32], /*step_index*/ ctx[33]);
 		}
 
 		function change_handler_3() {
-			return /*change_handler_3*/ ctx[31](/*step*/ ctx[38]);
+			return /*change_handler_3*/ ctx[26](/*step*/ ctx[31]);
 		}
 
 		const block = {
@@ -40372,33 +42274,28 @@
 				t9 = space();
 				toggle_class(td0, "handle", /*enableDrag*/ ctx[4]);
 				toggle_class(td0, "dark-filter-invert", true);
-				add_location(td0, file$e, 268, 8, 8275);
+				add_location(td0, file$e, 221, 8, 7153);
 				attr_dev(td1, "class", "text-right");
-				add_location(td1, file$e, 270, 8, 8348);
+				add_location(td1, file$e, 223, 8, 7227);
 				option0.__value = "0";
 				option0.value = option0.__value;
-				add_location(option0, file$e, 302, 12, 9332);
-				if (/*step*/ ctx[38].zone === void 0) add_render_callback(select0_change_handler);
-				add_location(select0, file$e, 301, 10, 9256);
-				add_location(td2, file$e, 300, 8, 9241);
+				add_location(option0, file$e, 258, 12, 8261);
+				if (/*step*/ ctx[31].task.zone === void 0) add_render_callback(select0_change_handler);
+				add_location(select0, file$e, 254, 10, 8140);
+				add_location(td2, file$e, 253, 8, 8125);
 				option1.__value = "";
 				option1.value = option1.__value;
-				add_location(option1, file$e, 315, 12, 9698);
-				if (/*step*/ ctx[38].assignedTo === void 0) add_render_callback(select1_change_handler);
-				add_location(select1, file$e, 311, 10, 9579);
-				add_location(td3, file$e, 310, 8, 9564);
-				add_location(input0, file$e, 324, 10, 9936);
-				add_location(td4, file$e, 323, 8, 9921);
+				add_location(option1, file$e, 271, 12, 8637);
+				if (/*step*/ ctx[31].task.assignedTo === void 0) add_render_callback(select1_change_handler);
+				add_location(select1, file$e, 267, 10, 8508);
+				add_location(td3, file$e, 266, 8, 8493);
+				add_location(input0, file$e, 280, 10, 8875);
+				add_location(td4, file$e, 279, 8, 8860);
 				attr_dev(input1, "type", "checkbox");
-				add_location(input1, file$e, 327, 10, 10064);
+				add_location(input1, file$e, 286, 10, 9047);
 				attr_dev(td5, "class", "text-center");
-				add_location(td5, file$e, 326, 8, 10029);
-				attr_dev(tr, "draggable", /*enableDrag*/ ctx[4]);
-				attr_dev(tr, "data-index", tr_data_index_value = /*i*/ ctx[40]);
-				attr_dev(tr, "class", "svelte-174nhuf");
-				toggle_class(tr, "shiftBottom", /*isOver*/ ctx[5] <= /*i*/ ctx[40] && /*i*/ ctx[40] < /*isDragged*/ ctx[6]);
-				toggle_class(tr, "shiftTop", /*isDragged*/ ctx[6] < /*i*/ ctx[40] && /*i*/ ctx[40] <= /*isOver*/ ctx[5]);
-				add_location(tr, file$e, 256, 6, 7920);
+				add_location(td5, file$e, 285, 8, 9012);
+				add_location(tr, file$e, 220, 6, 7096);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -40422,7 +42319,7 @@
 					each_blocks_1[i].m(select0, null);
 				}
 
-				select_option(select0, /*step*/ ctx[38].zone);
+				select_option(select0, /*step*/ ctx[31].task.zone);
 				append_dev(tr, t5);
 				append_dev(tr, td3);
 				append_dev(td3, select1);
@@ -40432,15 +42329,15 @@
 					each_blocks[i].m(select1, null);
 				}
 
-				select_option(select1, /*step*/ ctx[38].assignedTo);
+				select_option(select1, /*step*/ ctx[31].task.assignedTo);
 				append_dev(tr, t7);
 				append_dev(tr, td4);
 				append_dev(td4, input0);
-				set_input_value(input0, /*step*/ ctx[38].comment);
+				set_input_value(input0, /*step*/ ctx[31].task.comment);
 				append_dev(tr, t8);
 				append_dev(tr, td5);
 				append_dev(td5, input1);
-				input1.checked = /*step*/ ctx[38].completed;
+				input1.checked = /*step*/ ctx[31].task.completed;
 				append_dev(tr, t9);
 				current = true;
 
@@ -40453,12 +42350,7 @@
 						listen_dev(input0, "input", input0_input_handler),
 						listen_dev(input0, "change", change_handler_2, false, false, false),
 						listen_dev(input1, "change", input1_change_handler),
-						listen_dev(input1, "change", change_handler_3, false, false, false),
-						listen_dev(tr, "dragstart", /*dragstart*/ ctx[13], false, false, false),
-						listen_dev(tr, "dragover", /*dragover*/ ctx[14], false, false, false),
-						listen_dev(tr, "dragleave", /*dragleave*/ ctx[15], false, false, false),
-						listen_dev(tr, "dragend", /*dragend*/ ctx[17], false, false, false),
-						listen_dev(tr, "drop", /*drop*/ ctx[16], false, false, false)
+						listen_dev(input1, "change", change_handler_3, false, false, false)
 					];
 
 					mounted = true;
@@ -40471,7 +42363,7 @@
 					toggle_class(td0, "handle", /*enableDrag*/ ctx[4]);
 				}
 
-				if ((!current || dirty[0] & /*steps*/ 8) && t1_value !== (t1_value = /*step*/ ctx[38].order + "")) set_data_dev(t1, t1_value);
+				if ((!current || dirty[0] & /*steps*/ 8) && t1_value !== (t1_value = /*step*/ ctx[31].task.order + "")) set_data_dev(t1, t1_value);
 				let previous_block_index = current_block_type_index;
 				current_block_type_index = select_block_type(ctx);
 
@@ -40515,7 +42407,7 @@
 				}
 
 				if (dirty[0] & /*steps, operation*/ 10) {
-					select_option(select0, /*step*/ ctx[38].zone);
+					select_option(select0, /*step*/ ctx[31].task.zone);
 				}
 
 				if (dirty[0] & /*agents*/ 4) {
@@ -40526,31 +42418,15 @@
 				}
 
 				if (dirty[0] & /*steps, operation*/ 10) {
-					select_option(select1, /*step*/ ctx[38].assignedTo);
+					select_option(select1, /*step*/ ctx[31].task.assignedTo);
 				}
 
-				if (dirty[0] & /*steps, operation*/ 10 && input0.value !== /*step*/ ctx[38].comment) {
-					set_input_value(input0, /*step*/ ctx[38].comment);
+				if (dirty[0] & /*steps, operation*/ 10 && input0.value !== /*step*/ ctx[31].task.comment) {
+					set_input_value(input0, /*step*/ ctx[31].task.comment);
 				}
 
 				if (dirty[0] & /*steps, operation*/ 10) {
-					input1.checked = /*step*/ ctx[38].completed;
-				}
-
-				if (!current || dirty[0] & /*enableDrag*/ 16) {
-					attr_dev(tr, "draggable", /*enableDrag*/ ctx[4]);
-				}
-
-				if (!current || dirty[0] & /*steps, operation*/ 10 && tr_data_index_value !== (tr_data_index_value = /*i*/ ctx[40])) {
-					attr_dev(tr, "data-index", tr_data_index_value);
-				}
-
-				if (dirty[0] & /*isOver, steps, isDragged*/ 104) {
-					toggle_class(tr, "shiftBottom", /*isOver*/ ctx[5] <= /*i*/ ctx[40] && /*i*/ ctx[40] < /*isDragged*/ ctx[6]);
-				}
-
-				if (dirty[0] & /*isDragged, steps, isOver*/ 104) {
-					toggle_class(tr, "shiftTop", /*isDragged*/ ctx[6] < /*i*/ ctx[40] && /*i*/ ctx[40] <= /*isOver*/ ctx[5]);
+					input1.checked = /*step*/ ctx[31].task.completed;
 				}
 			},
 			r: function measure() {
@@ -40562,7 +42438,7 @@
 			},
 			a: function animate() {
 				stop_animation();
-				stop_animation = create_animation(tr, rect, flip, {});
+				stop_animation = create_animation(tr, rect, flip, { duration: flipDurationMs });
 			},
 			i: function intro(local) {
 				if (current) return;
@@ -40597,7 +42473,7 @@
 			block,
 			id: create_each_block$8.name,
 			type: "each",
-			source: "(256:4) {#each steps as step, i (step.ID)}",
+			source: "(220:4) {#each steps as step (step.id)}",
 			ctx
 		});
 
@@ -40648,12 +42524,13 @@
 		let tbody;
 		let each_blocks = [];
 		let each_1_lookup = new Map();
+		let dndzone_action;
 		let current;
 		let mounted;
 		let dispose;
 		let each_value = /*steps*/ ctx[3];
 		validate_each_argument(each_value);
-		const get_key = ctx => /*step*/ ctx[38].ID;
+		const get_key = ctx => /*step*/ ctx[31].id;
 		validate_each_keys(ctx, each_value, get_each_context$8, get_key);
 
 		for (let i = 0; i < each_value.length; i += 1) {
@@ -40722,57 +42599,56 @@
 
 				attr_dev(div0, "class", "card-header");
 				attr_dev(div0, "id", "opName");
-				add_location(div0, file$e, 219, 2, 6714);
+				add_location(div0, file$e, 178, 2, 5753);
 				attr_dev(textarea, "class", "form-control");
-				add_location(textarea, file$e, 222, 6, 6851);
+				add_location(textarea, file$e, 181, 6, 5890);
 				attr_dev(ul, "class", "list-group list-group-flush");
-				add_location(ul, file$e, 221, 4, 6804);
+				add_location(ul, file$e, 180, 4, 5843);
 				attr_dev(button0, "class", "btn btn-success");
-				add_location(button0, file$e, 224, 4, 6930);
+				add_location(button0, file$e, 183, 4, 5969);
 				attr_dev(button1, "class", "btn btn-danger");
-				add_location(button1, file$e, 225, 4, 7005);
+				add_location(button1, file$e, 184, 4, 6044);
 				attr_dev(div1, "class", "card-body");
-				add_location(div1, file$e, 220, 2, 6776);
+				add_location(div1, file$e, 179, 2, 5815);
 				attr_dev(div2, "class", "card mb-2");
-				add_location(div2, file$e, 218, 0, 6688);
+				add_location(div2, file$e, 177, 0, 5727);
 				attr_dev(input, "type", "checkbox");
 				attr_dev(input, "class", "custom-control-input");
 				attr_dev(input, "id", "enableDrag");
-				add_location(input, file$e, 234, 10, 7262);
+				add_location(input, file$e, 193, 10, 6301);
 				attr_dev(label, "class", "custom-control-label");
 				attr_dev(label, "for", "enableDrag");
-				add_location(label, file$e, 240, 10, 7427);
+				add_location(label, file$e, 199, 10, 6466);
 				attr_dev(div3, "class", "custom-control custom-switch");
-				add_location(div3, file$e, 233, 9, 7209);
+				add_location(div3, file$e, 192, 9, 6248);
 				attr_dev(th0, "class", "pl-0 pr-0");
 				attr_dev(th0, "scope", "col");
-				add_location(th0, file$e, 232, 6, 7166);
+				add_location(th0, file$e, 191, 6, 6205);
 				attr_dev(th1, "scope", "col");
-				add_location(th1, file$e, 243, 6, 7516);
+				add_location(th1, file$e, 202, 6, 6555);
 				attr_dev(th2, "scope", "col");
-				add_location(th2, file$e, 244, 6, 7549);
+				add_location(th2, file$e, 203, 6, 6588);
 				attr_dev(th3, "scope", "col");
-				add_location(th3, file$e, 245, 6, 7583);
+				add_location(th3, file$e, 204, 6, 6622);
 				attr_dev(th4, "scope", "col");
-				add_location(th4, file$e, 246, 6, 7617);
+				add_location(th4, file$e, 205, 6, 6656);
 				attr_dev(th5, "scope", "col");
-				add_location(th5, file$e, 247, 6, 7654);
+				add_location(th5, file$e, 206, 6, 6693);
 				attr_dev(th6, "scope", "col");
-				add_location(th6, file$e, 248, 6, 7690);
+				add_location(th6, file$e, 207, 6, 6729);
 				attr_dev(th7, "scope", "col");
-				add_location(th7, file$e, 249, 6, 7722);
+				add_location(th7, file$e, 208, 6, 6761);
 				attr_dev(th8, "scope", "col");
-				add_location(th8, file$e, 250, 6, 7761);
+				add_location(th8, file$e, 209, 6, 6800);
 				attr_dev(th9, "scope", "col");
-				add_location(th9, file$e, 251, 6, 7800);
-				add_location(tr, file$e, 231, 4, 7155);
-				add_location(thead, file$e, 230, 2, 7143);
+				add_location(th9, file$e, 210, 6, 6839);
+				add_location(tr, file$e, 190, 4, 6194);
+				add_location(thead, file$e, 189, 2, 6182);
 				attr_dev(tbody, "id", "opSteps");
-				attr_dev(tbody, "class", "svelte-174nhuf");
-				add_location(tbody, file$e, 254, 2, 7854);
+				add_location(tbody, file$e, 213, 2, 6893);
 				attr_dev(table, "class", "table table-striped");
 				attr_dev(table, "id", "optable");
-				add_location(table, file$e, 229, 0, 7092);
+				add_location(table, file$e, 188, 0, 6131);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -40829,10 +42705,16 @@
 
 				if (!mounted) {
 					dispose = [
-						listen_dev(textarea, "input", /*textarea_input_handler*/ ctx[21]),
-						listen_dev(button0, "click", /*incrOrder*/ ctx[18], false, false, false),
-						listen_dev(button1, "click", /*decrOrder*/ ctx[19], false, false, false),
-						listen_dev(input, "change", /*input_change_handler*/ ctx[22])
+						listen_dev(textarea, "input", /*textarea_input_handler*/ ctx[16]),
+						listen_dev(button0, "click", /*incrOrder*/ ctx[13], false, false, false),
+						listen_dev(button1, "click", /*decrOrder*/ ctx[14], false, false, false),
+						listen_dev(input, "change", /*input_change_handler*/ ctx[17]),
+						action_destroyer(dndzone_action = dndzone.call(null, tbody, {
+							items: /*steps*/ ctx[3],
+							dragDisabled: /*enableDrag*/ ctx[4]
+						})),
+						listen_dev(tbody, "consider", /*handleDndConsider*/ ctx[11], false, false, false),
+						listen_dev(tbody, "finalize", /*handleDndFinalize*/ ctx[12], false, false, false)
 					];
 
 					mounted = true;
@@ -40849,7 +42731,7 @@
 					input.checked = /*enableDrag*/ ctx[4];
 				}
 
-				if (dirty[0] & /*enableDrag, steps, isOver, isDragged, dragstart, dragover, dragleave, dragend, drop, complete, setComment, setAssign, agents, setZone, operation, calculateDistance, reverseLink*/ 262142) {
+				if (dirty[0] & /*steps, complete, setComment, setAssign, agents, setZone, operation, calculateDistance, reverseLink, enableDrag*/ 2046) {
 					each_value = /*steps*/ ctx[3];
 					validate_each_argument(each_value);
 					group_outros();
@@ -40859,6 +42741,11 @@
 					for (let i = 0; i < each_blocks.length; i += 1) each_blocks[i].a();
 					check_outros();
 				}
+
+				if (dndzone_action && is_function(dndzone_action.update) && dirty[0] & /*steps, enableDrag*/ 24) dndzone_action.update.call(null, {
+					items: /*steps*/ ctx[3],
+					dragDisabled: /*enableDrag*/ ctx[4]
+				});
 			},
 			i: function intro(local) {
 				if (current) return;
@@ -40901,6 +42788,8 @@
 		return block;
 	}
 
+	const flipDurationMs = 300;
+
 	function fourthroot(a) {
 		return Math.pow(Math.E, Math.log(a) / 4.0);
 	}
@@ -40908,7 +42797,7 @@
 	function instance$g($$self, $$props, $$invalidate) {
 		let $opStore,
 			$$unsubscribe_opStore = noop,
-			$$subscribe_opStore = () => ($$unsubscribe_opStore(), $$unsubscribe_opStore = subscribe(opStore, $$value => $$invalidate(20, $opStore = $$value)), opStore);
+			$$subscribe_opStore = () => ($$unsubscribe_opStore(), $$unsubscribe_opStore = subscribe(opStore, $$value => $$invalidate(15, $opStore = $$value)), opStore);
 
 		$$self.$$.on_destroy.push(() => $$unsubscribe_opStore());
 		let { $$slots: slots = {}, $$scope } = $$props;
@@ -41050,74 +42939,29 @@
 			);
 		}
 
-		// DRAG AND DROP
 		let enableDrag = false;
 
-		let isOver = false;
-		let isDragged = false;
-
-		const getDraggedParent = node => node.dataset && node.dataset.index
-		? node.dataset
-		: getDraggedParent(node.parentElement);
-
-		function dragstart(ev) {
-			const el = ev.target;
-			ev.dataTransfer.effectAllowed = 'move';
-			ev.dataTransfer.setData('source', el.dataset.index);
-			$$invalidate(6, isDragged = +el.dataset.index);
+		function handleDndConsider(e) {
+			$$invalidate(3, steps = e.detail.items);
 		}
 
-		function dragover(ev) {
-			ev.preventDefault();
-			let dragged = getDraggedParent(ev.target);
+		function handleDndFinalize(e) {
+			if (steps.length < 2) return;
+			const id = e.detail.info.id;
+			$$invalidate(3, steps = e.detail.items);
+			const to = steps.findIndex(s => s.id === id);
 
-			if (isOver !== +dragged.index) {
-				$$invalidate(5, isOver = +dragged.index);
-				console.log(isDragged, isOver);
+			if (to === 0) $$invalidate(3, steps[to].task.order = steps[1].task.order - 1, steps); else if (to === steps.length - 1) $$invalidate(3, steps[to].task.order = steps[to - 1].task.order + 1, steps); else if (steps[to + 1].task.order - steps[to - 1].task.order >= 2) $$invalidate(3, steps[to].task.order = steps[to - 1].task.order + 1, steps); else {
+				$$invalidate(3, steps[to].task.order = steps[to - 1].task.order + 1, steps);
+
+				while (steps[to + 1].task.order < steps[to].task.order) {
+					for (let i = to + 1; i < steps.length; i++) {
+						if (steps[i].task.order <= steps[i - 1].task.order) $$invalidate(3, steps[i].task.order++, steps);
+					}
+				}
 			}
-		}
-
-		const dragleave = ev => {
-			console.log(ev);
-		}; // let dragged = getDraggedParent(ev.target as HTMLElement);
-		// if (isOver === +dragged.index) isOver = false;
-
-		function drop(ev) {
-			console.log(ev.target);
-			$$invalidate(5, isOver = false);
-			$$invalidate(6, isDragged = false);
-			ev.preventDefault();
-			let dragged = getDraggedParent(ev.target);
-			let from = +ev.dataTransfer.getData('source');
-			let to = +dragged.index;
-			reorder(from, to);
-		}
-
-		function dragend(ev) {
-			ev.preventDefault();
-			$$invalidate(6, isDragged = false);
-			if (isOver === false) return;
-			let from = +ev.dataTransfer.getData('source');
-			let to = +isOver;
-			$$invalidate(5, isOver = false);
-			reorder(from, to);
-		}
-
-		function reorder(from, to) {
-			if (from < to) {
-				$$invalidate(3, steps[from].order = steps[to].order + 1, steps);
-				let shift = 0;
-				if (to + 1 < steps.length) shift = 2 + steps[to].order - steps[to + 1].order;
-				if (shift > 0) for (let i = to + 1; i < steps.length; i++) $$invalidate(3, steps[i].order += shift, steps);
-			} else if (from > to) {
-				$$invalidate(3, steps[from].order = steps[to].order - 1, steps);
-				let shift = 0;
-				if (to - 1 >= 0) shift = 2 + steps[to - 1].order - steps[to].order;
-				if (shift > 0) for (let i = to - 1; i >= 0; i--) $$invalidate(3, steps[i].order -= shift, steps);
-			} else return;
 
 			notifyOnError(updateOpPromise(operation));
-			($$invalidate(1, operation), $$invalidate(20, $opStore));
 		}
 
 		function incrOrder() {
@@ -41132,10 +42976,10 @@
 
 		function shiftOrder(v) {
 			for (const s of steps) {
-				s.order += v;
+				s.task.order += v;
 			}
 
-			(($$invalidate(3, steps), $$invalidate(1, operation)), $$invalidate(20, $opStore));
+			(($$invalidate(3, steps), $$invalidate(1, operation)), $$invalidate(15, $opStore));
 		}
 
 		const writable_props = ['opStore'];
@@ -41146,7 +42990,7 @@
 
 		function textarea_input_handler() {
 			operation.comment = this.value;
-			($$invalidate(1, operation), $$invalidate(20, $opStore));
+			($$invalidate(1, operation), $$invalidate(15, $opStore));
 		}
 
 		function input_change_handler() {
@@ -41156,37 +43000,37 @@
 
 		const click_handler = step => reverseLink(step);
 
-		function select0_change_handler(each_value, i) {
-			each_value[i].zone = select_value(this);
-			(($$invalidate(3, steps), $$invalidate(1, operation)), $$invalidate(20, $opStore));
-			($$invalidate(1, operation), $$invalidate(20, $opStore));
+		function select0_change_handler(each_value, step_index) {
+			each_value[step_index].task.zone = select_value(this);
+			(($$invalidate(3, steps), $$invalidate(1, operation)), $$invalidate(15, $opStore));
+			($$invalidate(1, operation), $$invalidate(15, $opStore));
 		}
 
-		const change_handler = step => setZone(step);
+		const change_handler = step => setZone(step.task);
 
-		function select1_change_handler(each_value, i) {
-			each_value[i].assignedTo = select_value(this);
-			(($$invalidate(3, steps), $$invalidate(1, operation)), $$invalidate(20, $opStore));
-			($$invalidate(1, operation), $$invalidate(20, $opStore));
+		function select1_change_handler(each_value, step_index) {
+			each_value[step_index].task.assignedTo = select_value(this);
+			(($$invalidate(3, steps), $$invalidate(1, operation)), $$invalidate(15, $opStore));
+			($$invalidate(1, operation), $$invalidate(15, $opStore));
 		}
 
-		const change_handler_1 = step => setAssign(step);
+		const change_handler_1 = step => setAssign(step.task);
 
-		function input0_input_handler(each_value, i) {
-			each_value[i].comment = this.value;
-			(($$invalidate(3, steps), $$invalidate(1, operation)), $$invalidate(20, $opStore));
-			($$invalidate(1, operation), $$invalidate(20, $opStore));
+		function input0_input_handler(each_value, step_index) {
+			each_value[step_index].task.comment = this.value;
+			(($$invalidate(3, steps), $$invalidate(1, operation)), $$invalidate(15, $opStore));
+			($$invalidate(1, operation), $$invalidate(15, $opStore));
 		}
 
-		const change_handler_2 = step => setComment(step);
+		const change_handler_2 = step => setComment(step.task);
 
-		function input1_change_handler(each_value, i) {
-			each_value[i].completed = this.checked;
-			(($$invalidate(3, steps), $$invalidate(1, operation)), $$invalidate(20, $opStore));
-			($$invalidate(1, operation), $$invalidate(20, $opStore));
+		function input1_change_handler(each_value, step_index) {
+			each_value[step_index].task.completed = this.checked;
+			(($$invalidate(3, steps), $$invalidate(1, operation)), $$invalidate(15, $opStore));
+			($$invalidate(1, operation), $$invalidate(15, $opStore));
 		}
 
-		const change_handler_3 = step => complete(step);
+		const change_handler_3 = step => complete(step.task);
 
 		$$self.$$set = $$props => {
 			if ('opStore' in $$props) $$subscribe_opStore($$invalidate(0, opStore = $$props.opStore));
@@ -41195,6 +43039,8 @@
 		$$self.$capture_state = () => ({
 			__awaiter,
 			createEventDispatcher,
+			flip,
+			dndzone,
 			WasabeeTeam,
 			WasabeeAgent,
 			WasabeeMarker,
@@ -41210,7 +43056,6 @@
 			reverseLinkDirection,
 			updateOpPromise,
 			taskCompletePromise,
-			flip,
 			notifyOnError,
 			dispatch,
 			refresh,
@@ -41226,15 +43071,9 @@
 			reverseLink,
 			complete,
 			enableDrag,
-			isOver,
-			isDragged,
-			getDraggedParent,
-			dragstart,
-			dragover,
-			dragleave,
-			drop,
-			dragend,
-			reorder,
+			flipDurationMs,
+			handleDndConsider,
+			handleDndFinalize,
 			incrOrder,
 			decrOrder,
 			shiftOrder,
@@ -41248,8 +43087,6 @@
 			if ('agents' in $$props) $$invalidate(2, agents = $$props.agents);
 			if ('steps' in $$props) $$invalidate(3, steps = $$props.steps);
 			if ('enableDrag' in $$props) $$invalidate(4, enableDrag = $$props.enableDrag);
-			if ('isOver' in $$props) $$invalidate(5, isOver = $$props.isOver);
-			if ('isDragged' in $$props) $$invalidate(6, isDragged = $$props.isDragged);
 		};
 
 		if ($$props && "$$inject" in $$props) {
@@ -41257,7 +43094,7 @@
 		}
 
 		$$self.$$.update = () => {
-			if ($$self.$$.dirty[0] & /*$opStore*/ 1048576) {
+			if ($$self.$$.dirty[0] & /*$opStore*/ 32768) {
 				$$invalidate(1, operation = $opStore);
 			}
 
@@ -41281,7 +43118,7 @@
 						agents.push(WasabeeAgent.get(a));
 					}
 
-					(($$invalidate(2, agents), $$invalidate(1, operation)), $$invalidate(20, $opStore));
+					(($$invalidate(2, agents), $$invalidate(1, operation)), $$invalidate(15, $opStore));
 				}
 			}
 
@@ -41293,7 +43130,7 @@
 						return a.order - b.order;
 					});
 
-					$$invalidate(3, steps = ts);
+					$$invalidate(3, steps = ts.map(t => ({ id: t.ID, task: t })));
 				}
 			}
 		};
@@ -41304,19 +43141,14 @@
 			agents,
 			steps,
 			enableDrag,
-			isOver,
-			isDragged,
 			calculateDistance,
 			setComment,
 			setAssign,
 			setZone,
 			reverseLink,
 			complete,
-			dragstart,
-			dragover,
-			dragleave,
-			drop,
-			dragend,
+			handleDndConsider,
+			handleDndFinalize,
 			incrOrder,
 			decrOrder,
 			$opStore,
@@ -46034,1909 +47866,6 @@
 		set opStore(value) {
 			throw new Error("<Graph>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
 		}
-	}
-
-	// external events
-	const FINALIZE_EVENT_NAME = "finalize";
-	const CONSIDER_EVENT_NAME = "consider";
-
-	/**
-	 * @typedef {Object} Info
-	 * @property {string} trigger
-	 * @property {string} id
-	 * @property {string} source
-	 * @param {Node} el
-	 * @param {Array} items
-	 * @param {Info} info
-	 */
-	function dispatchFinalizeEvent(el, items, info) {
-	    el.dispatchEvent(
-	        new CustomEvent(FINALIZE_EVENT_NAME, {
-	            detail: {items, info}
-	        })
-	    );
-	}
-
-	/**
-	 * Dispatches a consider event
-	 * @param {Node} el
-	 * @param {Array} items
-	 * @param {Info} info
-	 */
-	function dispatchConsiderEvent(el, items, info) {
-	    el.dispatchEvent(
-	        new CustomEvent(CONSIDER_EVENT_NAME, {
-	            detail: {items, info}
-	        })
-	    );
-	}
-
-	// internal events
-	const DRAGGED_ENTERED_EVENT_NAME = "draggedEntered";
-	const DRAGGED_LEFT_EVENT_NAME = "draggedLeft";
-	const DRAGGED_OVER_INDEX_EVENT_NAME = "draggedOverIndex";
-	const DRAGGED_LEFT_DOCUMENT_EVENT_NAME = "draggedLeftDocument";
-
-	const DRAGGED_LEFT_TYPES = {
-	    LEFT_FOR_ANOTHER: "leftForAnother",
-	    OUTSIDE_OF_ANY: "outsideOfAny"
-	};
-
-	function dispatchDraggedElementEnteredContainer(containerEl, indexObj, draggedEl) {
-	    containerEl.dispatchEvent(
-	        new CustomEvent(DRAGGED_ENTERED_EVENT_NAME, {
-	            detail: {indexObj, draggedEl}
-	        })
-	    );
-	}
-
-	/**
-	 * @param containerEl - the dropzone the element left
-	 * @param draggedEl - the dragged element
-	 * @param theOtherDz - the new dropzone the element entered
-	 */
-	function dispatchDraggedElementLeftContainerForAnother(containerEl, draggedEl, theOtherDz) {
-	    containerEl.dispatchEvent(
-	        new CustomEvent(DRAGGED_LEFT_EVENT_NAME, {
-	            detail: {draggedEl, type: DRAGGED_LEFT_TYPES.LEFT_FOR_ANOTHER, theOtherDz}
-	        })
-	    );
-	}
-
-	function dispatchDraggedElementLeftContainerForNone(containerEl, draggedEl) {
-	    containerEl.dispatchEvent(
-	        new CustomEvent(DRAGGED_LEFT_EVENT_NAME, {
-	            detail: {draggedEl, type: DRAGGED_LEFT_TYPES.OUTSIDE_OF_ANY}
-	        })
-	    );
-	}
-	function dispatchDraggedElementIsOverIndex(containerEl, indexObj, draggedEl) {
-	    containerEl.dispatchEvent(
-	        new CustomEvent(DRAGGED_OVER_INDEX_EVENT_NAME, {
-	            detail: {indexObj, draggedEl}
-	        })
-	    );
-	}
-	function dispatchDraggedLeftDocument(draggedEl) {
-	    window.dispatchEvent(
-	        new CustomEvent(DRAGGED_LEFT_DOCUMENT_EVENT_NAME, {
-	            detail: {draggedEl}
-	        })
-	    );
-	}
-
-	const TRIGGERS = {
-	    DRAG_STARTED: "dragStarted",
-	    DRAGGED_ENTERED: DRAGGED_ENTERED_EVENT_NAME,
-	    DRAGGED_ENTERED_ANOTHER: "dragEnteredAnother",
-	    DRAGGED_OVER_INDEX: DRAGGED_OVER_INDEX_EVENT_NAME,
-	    DRAGGED_LEFT: DRAGGED_LEFT_EVENT_NAME,
-	    DRAGGED_LEFT_ALL: "draggedLeftAll",
-	    DROPPED_INTO_ZONE: "droppedIntoZone",
-	    DROPPED_INTO_ANOTHER: "droppedIntoAnother",
-	    DROPPED_OUTSIDE_OF_ANY: "droppedOutsideOfAny",
-	    DRAG_STOPPED: "dragStopped"
-	};
-
-	const SOURCES = {
-	    POINTER: "pointer",
-	    KEYBOARD: "keyboard"
-	};
-
-	const SHADOW_ITEM_MARKER_PROPERTY_NAME = "isDndShadowItem";
-	const SHADOW_ELEMENT_ATTRIBUTE_NAME = "data-is-dnd-shadow-item";
-	const SHADOW_PLACEHOLDER_ITEM_ID = "id:dnd-shadow-placeholder-0000";
-	const DRAGGED_ELEMENT_ID = "dnd-action-dragged-el";
-
-	let ITEM_ID_KEY = "id";
-	let activeDndZoneCount = 0;
-	function incrementActiveDropZoneCount() {
-	    activeDndZoneCount++;
-	}
-	function decrementActiveDropZoneCount() {
-	    if (activeDndZoneCount === 0) {
-	        throw new Error("Bug! trying to decrement when there are no dropzones");
-	    }
-	    activeDndZoneCount--;
-	}
-
-	const isOnServer = typeof window === "undefined";
-
-	// This is based off https://stackoverflow.com/questions/27745438/how-to-compute-getboundingclientrect-without-considering-transforms/57876601#57876601
-	// It removes the transforms that are potentially applied by the flip animations
-	/**
-	 * Gets the bounding rect but removes transforms (ex: flip animation)
-	 * @param {HTMLElement} el
-	 * @return {{top: number, left: number, bottom: number, right: number}}
-	 */
-	function getBoundingRectNoTransforms(el) {
-	    let ta;
-	    const rect = el.getBoundingClientRect();
-	    const style = getComputedStyle(el);
-	    const tx = style.transform;
-
-	    if (tx) {
-	        let sx, sy, dx, dy;
-	        if (tx.startsWith("matrix3d(")) {
-	            ta = tx.slice(9, -1).split(/, /);
-	            sx = +ta[0];
-	            sy = +ta[5];
-	            dx = +ta[12];
-	            dy = +ta[13];
-	        } else if (tx.startsWith("matrix(")) {
-	            ta = tx.slice(7, -1).split(/, /);
-	            sx = +ta[0];
-	            sy = +ta[3];
-	            dx = +ta[4];
-	            dy = +ta[5];
-	        } else {
-	            return rect;
-	        }
-
-	        const to = style.transformOrigin;
-	        const x = rect.x - dx - (1 - sx) * parseFloat(to);
-	        const y = rect.y - dy - (1 - sy) * parseFloat(to.slice(to.indexOf(" ") + 1));
-	        const w = sx ? rect.width / sx : el.offsetWidth;
-	        const h = sy ? rect.height / sy : el.offsetHeight;
-	        return {
-	            x: x,
-	            y: y,
-	            width: w,
-	            height: h,
-	            top: y,
-	            right: x + w,
-	            bottom: y + h,
-	            left: x
-	        };
-	    } else {
-	        return rect;
-	    }
-	}
-
-	/**
-	 * Gets the absolute bounding rect (accounts for the window's scroll position and removes transforms)
-	 * @param {HTMLElement} el
-	 * @return {{top: number, left: number, bottom: number, right: number}}
-	 */
-	function getAbsoluteRectNoTransforms(el) {
-	    const rect = getBoundingRectNoTransforms(el);
-	    return {
-	        top: rect.top + window.scrollY,
-	        bottom: rect.bottom + window.scrollY,
-	        left: rect.left + window.scrollX,
-	        right: rect.right + window.scrollX
-	    };
-	}
-
-	/**
-	 * Gets the absolute bounding rect (accounts for the window's scroll position)
-	 * @param {HTMLElement} el
-	 * @return {{top: number, left: number, bottom: number, right: number}}
-	 */
-	function getAbsoluteRect(el) {
-	    const rect = el.getBoundingClientRect();
-	    return {
-	        top: rect.top + window.scrollY,
-	        bottom: rect.bottom + window.scrollY,
-	        left: rect.left + window.scrollX,
-	        right: rect.right + window.scrollX
-	    };
-	}
-
-	/**
-	 * finds the center :)
-	 * @typedef {Object} Rect
-	 * @property {number} top
-	 * @property {number} bottom
-	 * @property {number} left
-	 * @property {number} right
-	 * @param {Rect} rect
-	 * @return {{x: number, y: number}}
-	 */
-	function findCenter(rect) {
-	    return {
-	        x: (rect.left + rect.right) / 2,
-	        y: (rect.top + rect.bottom) / 2
-	    };
-	}
-
-	/**
-	 * @typedef {Object} Point
-	 * @property {number} x
-	 * @property {number} y
-	 * @param {Point} pointA
-	 * @param {Point} pointB
-	 * @return {number}
-	 */
-	function calcDistance(pointA, pointB) {
-	    return Math.sqrt(Math.pow(pointA.x - pointB.x, 2) + Math.pow(pointA.y - pointB.y, 2));
-	}
-
-	/**
-	 * @param {Point} point
-	 * @param {Rect} rect
-	 * @return {boolean|boolean}
-	 */
-	function isPointInsideRect(point, rect) {
-	    return point.y <= rect.bottom && point.y >= rect.top && point.x >= rect.left && point.x <= rect.right;
-	}
-
-	/**
-	 * find the absolute coordinates of the center of a dom element
-	 * @param el {HTMLElement}
-	 * @returns {{x: number, y: number}}
-	 */
-	function findCenterOfElement(el) {
-	    return findCenter(getAbsoluteRect(el));
-	}
-
-	/**
-	 * @param {HTMLElement} elA
-	 * @param {HTMLElement} elB
-	 * @return {boolean}
-	 */
-	function isCenterOfAInsideB(elA, elB) {
-	    const centerOfA = findCenterOfElement(elA);
-	    const rectOfB = getAbsoluteRectNoTransforms(elB);
-	    return isPointInsideRect(centerOfA, rectOfB);
-	}
-
-	/**
-	 * @param {HTMLElement|ChildNode} elA
-	 * @param {HTMLElement|ChildNode} elB
-	 * @return {number}
-	 */
-	function calcDistanceBetweenCenters(elA, elB) {
-	    const centerOfA = findCenterOfElement(elA);
-	    const centerOfB = findCenterOfElement(elB);
-	    return calcDistance(centerOfA, centerOfB);
-	}
-
-	/**
-	 * @param {HTMLElement} el - the element to check
-	 * @returns {boolean} - true if the element in its entirety is off screen including the scrollable area (the normal dom events look at the mouse rather than the element)
-	 */
-	function isElementOffDocument(el) {
-	    const rect = getAbsoluteRect(el);
-	    return rect.right < 0 || rect.left > document.documentElement.scrollWidth || rect.bottom < 0 || rect.top > document.documentElement.scrollHeight;
-	}
-
-	/**
-	 * If the point is inside the element returns its distances from the sides, otherwise returns null
-	 * @param {Point} point
-	 * @param {HTMLElement} el
-	 * @return {null|{top: number, left: number, bottom: number, right: number}}
-	 */
-	function calcInnerDistancesBetweenPointAndSidesOfElement(point, el) {
-	    const rect = getAbsoluteRect(el);
-	    if (!isPointInsideRect(point, rect)) {
-	        return null;
-	    }
-	    return {
-	        top: point.y - rect.top,
-	        bottom: rect.bottom - point.y,
-	        left: point.x - rect.left,
-	        // TODO - figure out what is so special about right (why the rect is too big)
-	        right: Math.min(rect.right, document.documentElement.clientWidth) - point.x
-	    };
-	}
-
-	let dzToShadowIndexToRect;
-
-	/**
-	 * Resets the cache that allows for smarter "would be index" resolution. Should be called after every drag operation
-	 */
-	function resetIndexesCache() {
-	    dzToShadowIndexToRect = new Map();
-	}
-	resetIndexesCache();
-
-	/**
-	 * Resets the cache that allows for smarter "would be index" resolution for a specific dropzone, should be called after the zone was scrolled
-	 * @param {HTMLElement} dz
-	 */
-	function resetIndexesCacheForDz(dz) {
-	    dzToShadowIndexToRect.delete(dz);
-	}
-
-	/**
-	 * Caches the coordinates of the shadow element when it's in a certain index in a certain dropzone.
-	 * Helpful in order to determine "would be index" more effectively
-	 * @param {HTMLElement} dz
-	 * @return {number} - the shadow element index
-	 */
-	function cacheShadowRect(dz) {
-	    const shadowElIndex = Array.from(dz.children).findIndex(child => child.getAttribute(SHADOW_ELEMENT_ATTRIBUTE_NAME));
-	    if (shadowElIndex >= 0) {
-	        if (!dzToShadowIndexToRect.has(dz)) {
-	            dzToShadowIndexToRect.set(dz, new Map());
-	        }
-	        dzToShadowIndexToRect.get(dz).set(shadowElIndex, getAbsoluteRectNoTransforms(dz.children[shadowElIndex]));
-	        return shadowElIndex;
-	    }
-	    return undefined;
-	}
-
-	/**
-	 * @typedef {Object} Index
-	 * @property {number} index - the would be index
-	 * @property {boolean} isProximityBased - false if the element is actually over the index, true if it is not over it but this index is the closest
-	 */
-	/**
-	 * Find the index for the dragged element in the list it is dragged over
-	 * @param {HTMLElement} floatingAboveEl
-	 * @param {HTMLElement} collectionBelowEl
-	 * @returns {Index|null} -  if the element is over the container the Index object otherwise null
-	 */
-	function findWouldBeIndex(floatingAboveEl, collectionBelowEl) {
-	    if (!isCenterOfAInsideB(floatingAboveEl, collectionBelowEl)) {
-	        return null;
-	    }
-	    const children = collectionBelowEl.children;
-	    // the container is empty, floating element should be the first
-	    if (children.length === 0) {
-	        return {index: 0, isProximityBased: true};
-	    }
-	    const shadowElIndex = cacheShadowRect(collectionBelowEl);
-
-	    // the search could be more efficient but keeping it simple for now
-	    // a possible improvement: pass in the lastIndex it was found in and check there first, then expand from there
-	    for (let i = 0; i < children.length; i++) {
-	        if (isCenterOfAInsideB(floatingAboveEl, children[i])) {
-	            const cachedShadowRect = dzToShadowIndexToRect.has(collectionBelowEl) && dzToShadowIndexToRect.get(collectionBelowEl).get(i);
-	            if (cachedShadowRect) {
-	                if (!isPointInsideRect(findCenterOfElement(floatingAboveEl), cachedShadowRect)) {
-	                    return {index: shadowElIndex, isProximityBased: false};
-	                }
-	            }
-	            return {index: i, isProximityBased: false};
-	        }
-	    }
-	    // this can happen if there is space around the children so the floating element has
-	    //entered the container but not any of the children, in this case we will find the nearest child
-	    let minDistanceSoFar = Number.MAX_VALUE;
-	    let indexOfMin = undefined;
-	    // we are checking all of them because we don't know whether we are dealing with a horizontal or vertical container and where the floating element entered from
-	    for (let i = 0; i < children.length; i++) {
-	        const distance = calcDistanceBetweenCenters(floatingAboveEl, children[i]);
-	        if (distance < minDistanceSoFar) {
-	            minDistanceSoFar = distance;
-	            indexOfMin = i;
-	        }
-	    }
-	    return {index: indexOfMin, isProximityBased: true};
-	}
-
-	const SCROLL_ZONE_PX = 25;
-
-	function makeScroller() {
-	    let scrollingInfo;
-	    function resetScrolling() {
-	        scrollingInfo = {directionObj: undefined, stepPx: 0};
-	    }
-	    resetScrolling();
-	    // directionObj {x: 0|1|-1, y:0|1|-1} - 1 means down in y and right in x
-	    function scrollContainer(containerEl) {
-	        const {directionObj, stepPx} = scrollingInfo;
-	        if (directionObj) {
-	            containerEl.scrollBy(directionObj.x * stepPx, directionObj.y * stepPx);
-	            window.requestAnimationFrame(() => scrollContainer(containerEl));
-	        }
-	    }
-	    function calcScrollStepPx(distancePx) {
-	        return SCROLL_ZONE_PX - distancePx;
-	    }
-
-	    /**
-	     * If the pointer is next to the sides of the element to scroll, will trigger scrolling
-	     * Can be called repeatedly with updated pointer and elementToScroll values without issues
-	     * @return {boolean} - true if scrolling was needed
-	     */
-	    function scrollIfNeeded(pointer, elementToScroll) {
-	        if (!elementToScroll) {
-	            return false;
-	        }
-	        const distances = calcInnerDistancesBetweenPointAndSidesOfElement(pointer, elementToScroll);
-	        if (distances === null) {
-	            resetScrolling();
-	            return false;
-	        }
-	        const isAlreadyScrolling = !!scrollingInfo.directionObj;
-	        let [scrollingVertically, scrollingHorizontally] = [false, false];
-	        // vertical
-	        if (elementToScroll.scrollHeight > elementToScroll.clientHeight) {
-	            if (distances.bottom < SCROLL_ZONE_PX) {
-	                scrollingVertically = true;
-	                scrollingInfo.directionObj = {x: 0, y: 1};
-	                scrollingInfo.stepPx = calcScrollStepPx(distances.bottom);
-	            } else if (distances.top < SCROLL_ZONE_PX) {
-	                scrollingVertically = true;
-	                scrollingInfo.directionObj = {x: 0, y: -1};
-	                scrollingInfo.stepPx = calcScrollStepPx(distances.top);
-	            }
-	            if (!isAlreadyScrolling && scrollingVertically) {
-	                scrollContainer(elementToScroll);
-	                return true;
-	            }
-	        }
-	        // horizontal
-	        if (elementToScroll.scrollWidth > elementToScroll.clientWidth) {
-	            if (distances.right < SCROLL_ZONE_PX) {
-	                scrollingHorizontally = true;
-	                scrollingInfo.directionObj = {x: 1, y: 0};
-	                scrollingInfo.stepPx = calcScrollStepPx(distances.right);
-	            } else if (distances.left < SCROLL_ZONE_PX) {
-	                scrollingHorizontally = true;
-	                scrollingInfo.directionObj = {x: -1, y: 0};
-	                scrollingInfo.stepPx = calcScrollStepPx(distances.left);
-	            }
-	            if (!isAlreadyScrolling && scrollingHorizontally) {
-	                scrollContainer(elementToScroll);
-	                return true;
-	            }
-	        }
-	        resetScrolling();
-	        return false;
-	    }
-
-	    return {
-	        scrollIfNeeded,
-	        resetScrolling
-	    };
-	}
-
-	/**
-	 * @param {Object} object
-	 * @return {string}
-	 */
-	function toString(object) {
-	    return JSON.stringify(object, null, 2);
-	}
-
-	/**
-	 * Finds the depth of the given node in the DOM tree
-	 * @param {HTMLElement} node
-	 * @return {number} - the depth of the node
-	 */
-	function getDepth(node) {
-	    if (!node) {
-	        throw new Error("cannot get depth of a falsy node");
-	    }
-	    return _getDepth(node, 0);
-	}
-	function _getDepth(node, countSoFar = 0) {
-	    if (!node.parentElement) {
-	        return countSoFar - 1;
-	    }
-	    return _getDepth(node.parentElement, countSoFar + 1);
-	}
-
-	/**
-	 * A simple util to shallow compare objects quickly, it doesn't validate the arguments so pass objects in
-	 * @param {Object} objA
-	 * @param {Object} objB
-	 * @return {boolean} - true if objA and objB are shallow equal
-	 */
-	function areObjectsShallowEqual(objA, objB) {
-	    if (Object.keys(objA).length !== Object.keys(objB).length) {
-	        return false;
-	    }
-	    for (const keyA in objA) {
-	        if (!{}.hasOwnProperty.call(objB, keyA) || objB[keyA] !== objA[keyA]) {
-	            return false;
-	        }
-	    }
-	    return true;
-	}
-
-	/**
-	 * Shallow compares two arrays
-	 * @param arrA
-	 * @param arrB
-	 * @return {boolean} - whether the arrays are shallow equal
-	 */
-	function areArraysShallowEqualSameOrder(arrA, arrB) {
-	    if (arrA.length !== arrB.length) {
-	        return false;
-	    }
-	    for (let i = 0; i < arrA.length; i++) {
-	        if (arrA[i] !== arrB[i]) {
-	            return false;
-	        }
-	    }
-	    return true;
-	}
-
-	const INTERVAL_MS$1 = 200;
-	const TOLERANCE_PX = 10;
-	const {scrollIfNeeded: scrollIfNeeded$1, resetScrolling: resetScrolling$1} = makeScroller();
-	let next$1;
-
-	/**
-	 * Tracks the dragged elements and performs the side effects when it is dragged over a drop zone (basically dispatching custom-events scrolling)
-	 * @param {Set<HTMLElement>} dropZones
-	 * @param {HTMLElement} draggedEl
-	 * @param {number} [intervalMs = INTERVAL_MS]
-	 */
-	function observe(draggedEl, dropZones, intervalMs = INTERVAL_MS$1) {
-	    // initialization
-	    let lastDropZoneFound;
-	    let lastIndexFound;
-	    let lastIsDraggedInADropZone = false;
-	    let lastCentrePositionOfDragged;
-	    // We are sorting to make sure that in case of nested zones of the same type the one "on top" is considered first
-	    const dropZonesFromDeepToShallow = Array.from(dropZones).sort((dz1, dz2) => getDepth(dz2) - getDepth(dz1));
-
-	    /**
-	     * The main function in this module. Tracks where everything is/ should be a take the actions
-	     */
-	    function andNow() {
-	        const currentCenterOfDragged = findCenterOfElement(draggedEl);
-	        const scrolled = scrollIfNeeded$1(currentCenterOfDragged, lastDropZoneFound);
-	        // we only want to make a new decision after the element was moved a bit to prevent flickering
-	        if (
-	            !scrolled &&
-	            lastCentrePositionOfDragged &&
-	            Math.abs(lastCentrePositionOfDragged.x - currentCenterOfDragged.x) < TOLERANCE_PX &&
-	            Math.abs(lastCentrePositionOfDragged.y - currentCenterOfDragged.y) < TOLERANCE_PX
-	        ) {
-	            next$1 = window.setTimeout(andNow, intervalMs);
-	            return;
-	        }
-	        if (isElementOffDocument(draggedEl)) {
-	            dispatchDraggedLeftDocument(draggedEl);
-	            return;
-	        }
-
-	        lastCentrePositionOfDragged = currentCenterOfDragged;
-	        // this is a simple algorithm, potential improvement: first look at lastDropZoneFound
-	        let isDraggedInADropZone = false;
-	        for (const dz of dropZonesFromDeepToShallow) {
-	            if (scrolled) resetIndexesCacheForDz(lastDropZoneFound);
-	            const indexObj = findWouldBeIndex(draggedEl, dz);
-	            if (indexObj === null) {
-	                // it is not inside
-	                continue;
-	            }
-	            const {index} = indexObj;
-	            isDraggedInADropZone = true;
-	            // the element is over a container
-	            if (dz !== lastDropZoneFound) {
-	                lastDropZoneFound && dispatchDraggedElementLeftContainerForAnother(lastDropZoneFound, draggedEl, dz);
-	                dispatchDraggedElementEnteredContainer(dz, indexObj, draggedEl);
-	                lastDropZoneFound = dz;
-	            } else if (index !== lastIndexFound) {
-	                dispatchDraggedElementIsOverIndex(dz, indexObj, draggedEl);
-	                lastIndexFound = index;
-	            }
-	            // we handle looping with the 'continue' statement above
-	            break;
-	        }
-	        // the first time the dragged element is not in any dropzone we need to notify the last dropzone it was in
-	        if (!isDraggedInADropZone && lastIsDraggedInADropZone && lastDropZoneFound) {
-	            dispatchDraggedElementLeftContainerForNone(lastDropZoneFound, draggedEl);
-	            lastDropZoneFound = undefined;
-	            lastIndexFound = undefined;
-	            lastIsDraggedInADropZone = false;
-	        } else {
-	            lastIsDraggedInADropZone = true;
-	        }
-	        next$1 = window.setTimeout(andNow, intervalMs);
-	    }
-	    andNow();
-	}
-
-	// assumption - we can only observe one dragged element at a time, this could be changed in the future
-	function unobserve() {
-	    clearTimeout(next$1);
-	    resetScrolling$1();
-	    resetIndexesCache();
-	}
-
-	const INTERVAL_MS = 300;
-	let mousePosition;
-
-	/**
-	 * Do not use this! it is visible for testing only until we get over the issue Cypress not triggering the mousemove listeners
-	 * // TODO - make private (remove export)
-	 * @param {{clientX: number, clientY: number}} e
-	 */
-	function updateMousePosition(e) {
-	    const c = e.touches ? e.touches[0] : e;
-	    mousePosition = {x: c.clientX, y: c.clientY};
-	}
-	const {scrollIfNeeded, resetScrolling} = makeScroller();
-	let next;
-
-	function loop() {
-	    if (mousePosition) {
-	        const scrolled = scrollIfNeeded(mousePosition, document.documentElement);
-	        if (scrolled) resetIndexesCache();
-	    }
-	    next = window.setTimeout(loop, INTERVAL_MS);
-	}
-
-	/**
-	 * will start watching the mouse pointer and scroll the window if it goes next to the edges
-	 */
-	function armWindowScroller() {
-	    window.addEventListener("mousemove", updateMousePosition);
-	    window.addEventListener("touchmove", updateMousePosition);
-	    loop();
-	}
-
-	/**
-	 * will stop watching the mouse pointer and won't scroll the window anymore
-	 */
-	function disarmWindowScroller() {
-	    window.removeEventListener("mousemove", updateMousePosition);
-	    window.removeEventListener("touchmove", updateMousePosition);
-	    mousePosition = undefined;
-	    window.clearTimeout(next);
-	    resetScrolling();
-	}
-
-	/**
-	 * Fixes svelte issue when cloning node containing (or being) <select> which will loose it's value.
-	 * Since svelte manages select value internally.
-	 * @see https://github.com/sveltejs/svelte/issues/6717
-	 * @see https://github.com/isaacHagoel/svelte-dnd-action/issues/306
-	 * 
-	 * @param {HTMLElement} el 
-	 * @returns 
-	 */
-	function svelteNodeClone(el) {
-	  const cloned = el.cloneNode(true);
-
-	  const values = [];
-	  const elIsSelect = el.tagName === "SELECT";
-	  const selects = elIsSelect ? [el] : [...el.querySelectorAll('select')];
-	  for (const select of selects) {
-	    values.push(select.value);
-	  }
-
-	  if (selects.length <= 0) {
-	    return cloned;
-	  }
-
-	  const clonedSelects = elIsSelect ? [cloned] : [...cloned.querySelectorAll('select')];
-	  for (let i = 0; i < clonedSelects.length; i++) {
-	    const select = clonedSelects[i];
-	    const value = values[i];
-	    const optionEl = select.querySelector(`option[value="${value}"`);
-	    if (optionEl) {
-	      optionEl.setAttribute('selected', true);
-	    }
-	  }
-
-	  return cloned;
-	}
-
-	const TRANSITION_DURATION_SECONDS = 0.2;
-
-	/**
-	 * private helper function - creates a transition string for a property
-	 * @param {string} property
-	 * @return {string} - the transition string
-	 */
-	function trs(property) {
-	    return `${property} ${TRANSITION_DURATION_SECONDS}s ease`;
-	}
-	/**
-	 * clones the given element and applies proper styles and transitions to the dragged element
-	 * @param {HTMLElement} originalElement
-	 * @param {Point} [positionCenterOnXY]
-	 * @return {Node} - the cloned, styled element
-	 */
-	function createDraggedElementFrom(originalElement, positionCenterOnXY) {
-	    const rect = originalElement.getBoundingClientRect();
-	    const draggedEl = svelteNodeClone(originalElement);
-	    copyStylesFromTo(originalElement, draggedEl);
-	    draggedEl.id = DRAGGED_ELEMENT_ID;
-	    draggedEl.style.position = "fixed";
-	    let elTopPx = rect.top;
-	    let elLeftPx = rect.left;
-	    draggedEl.style.top = `${elTopPx}px`;
-	    draggedEl.style.left = `${elLeftPx}px`;
-	    if (positionCenterOnXY) {
-	        const center = findCenter(rect);
-	        elTopPx -= center.y - positionCenterOnXY.y;
-	        elLeftPx -= center.x - positionCenterOnXY.x;
-	        window.setTimeout(() => {
-	            draggedEl.style.top = `${elTopPx}px`;
-	            draggedEl.style.left = `${elLeftPx}px`;
-	        }, 0);
-	    }
-	    draggedEl.style.margin = "0";
-	    // we can't have relative or automatic height and width or it will break the illusion
-	    draggedEl.style.boxSizing = "border-box";
-	    draggedEl.style.height = `${rect.height}px`;
-	    draggedEl.style.width = `${rect.width}px`;
-	    draggedEl.style.transition = `${trs("top")}, ${trs("left")}, ${trs("background-color")}, ${trs("opacity")}, ${trs("color")} `;
-	    // this is a workaround for a strange browser bug that causes the right border to disappear when all the transitions are added at the same time
-	    window.setTimeout(() => (draggedEl.style.transition += `, ${trs("width")}, ${trs("height")}`), 0);
-	    draggedEl.style.zIndex = "9999";
-	    draggedEl.style.cursor = "grabbing";
-
-	    return draggedEl;
-	}
-
-	/**
-	 * styles the dragged element to a 'dropped' state
-	 * @param {HTMLElement} draggedEl
-	 */
-	function moveDraggedElementToWasDroppedState(draggedEl) {
-	    draggedEl.style.cursor = "grab";
-	}
-
-	/**
-	 * Morphs the dragged element style, maintains the mouse pointer within the element
-	 * @param {HTMLElement} draggedEl
-	 * @param {HTMLElement} copyFromEl - the element the dragged element should look like, typically the shadow element
-	 * @param {number} currentMouseX
-	 * @param {number} currentMouseY
-	 * @param {function} transformDraggedElement - function to transform the dragged element, does nothing by default.
-	 */
-	function morphDraggedElementToBeLike(draggedEl, copyFromEl, currentMouseX, currentMouseY, transformDraggedElement) {
-	    const newRect = copyFromEl.getBoundingClientRect();
-	    const draggedElRect = draggedEl.getBoundingClientRect();
-	    const widthChange = newRect.width - draggedElRect.width;
-	    const heightChange = newRect.height - draggedElRect.height;
-	    if (widthChange || heightChange) {
-	        const relativeDistanceOfMousePointerFromDraggedSides = {
-	            left: (currentMouseX - draggedElRect.left) / draggedElRect.width,
-	            top: (currentMouseY - draggedElRect.top) / draggedElRect.height
-	        };
-	        draggedEl.style.height = `${newRect.height}px`;
-	        draggedEl.style.width = `${newRect.width}px`;
-	        draggedEl.style.left = `${parseFloat(draggedEl.style.left) - relativeDistanceOfMousePointerFromDraggedSides.left * widthChange}px`;
-	        draggedEl.style.top = `${parseFloat(draggedEl.style.top) - relativeDistanceOfMousePointerFromDraggedSides.top * heightChange}px`;
-	    }
-
-	    /// other properties
-	    copyStylesFromTo(copyFromEl, draggedEl);
-	    transformDraggedElement();
-	}
-
-	/**
-	 * @param {HTMLElement} copyFromEl
-	 * @param {HTMLElement} copyToEl
-	 */
-	function copyStylesFromTo(copyFromEl, copyToEl) {
-	    const computedStyle = window.getComputedStyle(copyFromEl);
-	    Array.from(computedStyle)
-	        .filter(
-	            s =>
-	                s.startsWith("background") ||
-	                s.startsWith("padding") ||
-	                s.startsWith("font") ||
-	                s.startsWith("text") ||
-	                s.startsWith("align") ||
-	                s.startsWith("justify") ||
-	                s.startsWith("display") ||
-	                s.startsWith("flex") ||
-	                s.startsWith("border") ||
-	                s === "opacity" ||
-	                s === "color" ||
-	                s === "list-style-type"
-	        )
-	        .forEach(s => copyToEl.style.setProperty(s, computedStyle.getPropertyValue(s), computedStyle.getPropertyPriority(s)));
-	}
-
-	/**
-	 * makes the element compatible with being draggable
-	 * @param {HTMLElement} draggableEl
-	 * @param {boolean} dragDisabled
-	 */
-	function styleDraggable(draggableEl, dragDisabled) {
-	    draggableEl.draggable = false;
-	    draggableEl.ondragstart = () => false;
-	    if (!dragDisabled) {
-	        draggableEl.style.userSelect = "none";
-	        draggableEl.style.WebkitUserSelect = "none";
-	        draggableEl.style.cursor = "grab";
-	    } else {
-	        draggableEl.style.userSelect = "";
-	        draggableEl.style.WebkitUserSelect = "";
-	        draggableEl.style.cursor = "";
-	    }
-	}
-
-	/**
-	 * Hides the provided element so that it can stay in the dom without interrupting
-	 * @param {HTMLElement} dragTarget
-	 */
-	function hideElement(dragTarget) {
-	    dragTarget.style.display = "none";
-	    dragTarget.style.position = "fixed";
-	    dragTarget.style.zIndex = "-5";
-	}
-
-	/**
-	 * styles the shadow element
-	 * @param {HTMLElement} shadowEl
-	 */
-	function decorateShadowEl(shadowEl) {
-	    shadowEl.style.visibility = "hidden";
-	    shadowEl.setAttribute(SHADOW_ELEMENT_ATTRIBUTE_NAME, "true");
-	}
-
-	/**
-	 * undo the styles the shadow element
-	 * @param {HTMLElement} shadowEl
-	 */
-	function unDecorateShadowElement(shadowEl) {
-	    shadowEl.style.visibility = "";
-	    shadowEl.removeAttribute(SHADOW_ELEMENT_ATTRIBUTE_NAME);
-	}
-
-	/**
-	 * will mark the given dropzones as visually active
-	 * @param {Array<HTMLElement>} dropZones
-	 * @param {Function} getStyles - maps a dropzone to a styles object (so the styles can be removed)
-	 * @param {Function} getClasses - maps a dropzone to a classList
-	 */
-	function styleActiveDropZones(dropZones, getStyles = () => {}, getClasses = () => []) {
-	    dropZones.forEach(dz => {
-	        const styles = getStyles(dz);
-	        Object.keys(styles).forEach(style => {
-	            dz.style[style] = styles[style];
-	        });
-	        getClasses(dz).forEach(c => dz.classList.add(c));
-	    });
-	}
-
-	/**
-	 * will remove the 'active' styling from given dropzones
-	 * @param {Array<HTMLElement>} dropZones
-	 * @param {Function} getStyles - maps a dropzone to a styles object
-	 * @param {Function} getClasses - maps a dropzone to a classList
-	 */
-	function styleInactiveDropZones(dropZones, getStyles = () => {}, getClasses = () => []) {
-	    dropZones.forEach(dz => {
-	        const styles = getStyles(dz);
-	        Object.keys(styles).forEach(style => {
-	            dz.style[style] = "";
-	        });
-	        getClasses(dz).forEach(c => dz.classList.contains(c) && dz.classList.remove(c));
-	    });
-	}
-
-	/**
-	 * will prevent the provided element from shrinking by setting its minWidth and minHeight to the current width and height values
-	 * @param {HTMLElement} el
-	 * @return {function(): void} - run this function to undo the operation and restore the original values
-	 */
-	function preventShrinking(el) {
-	    const originalMinHeight = el.style.minHeight;
-	    el.style.minHeight = window.getComputedStyle(el).getPropertyValue("height");
-	    const originalMinWidth = el.style.minWidth;
-	    el.style.minWidth = window.getComputedStyle(el).getPropertyValue("width");
-	    return function undo() {
-	        el.style.minHeight = originalMinHeight;
-	        el.style.minWidth = originalMinWidth;
-	    };
-	}
-
-	const DEFAULT_DROP_ZONE_TYPE$1 = "--any--";
-	const MIN_OBSERVATION_INTERVAL_MS = 100;
-	const MIN_MOVEMENT_BEFORE_DRAG_START_PX = 3;
-	const DEFAULT_DROP_TARGET_STYLE$1 = {
-	    outline: "rgba(255, 255, 102, 0.7) solid 2px"
-	};
-
-	let originalDragTarget;
-	let draggedEl;
-	let draggedElData;
-	let draggedElType;
-	let originDropZone;
-	let originIndex;
-	let shadowElData;
-	let shadowElDropZone;
-	let dragStartMousePosition;
-	let currentMousePosition;
-	let isWorkingOnPreviousDrag = false;
-	let finalizingPreviousDrag = false;
-	let unlockOriginDzMinDimensions;
-	let isDraggedOutsideOfAnyDz = false;
-	let scheduledForRemovalAfterDrop = [];
-
-	// a map from type to a set of drop-zones
-	const typeToDropZones$1 = new Map();
-	// important - this is needed because otherwise the config that would be used for everyone is the config of the element that created the event listeners
-	const dzToConfig$1 = new Map();
-	// this is needed in order to be able to cleanup old listeners and avoid stale closures issues (as the listener is defined within each zone)
-	const elToMouseDownListener = new WeakMap();
-
-	/* drop-zones registration management */
-	function registerDropZone$1(dropZoneEl, type) {
-	    if (!typeToDropZones$1.has(type)) {
-	        typeToDropZones$1.set(type, new Set());
-	    }
-	    if (!typeToDropZones$1.get(type).has(dropZoneEl)) {
-	        typeToDropZones$1.get(type).add(dropZoneEl);
-	        incrementActiveDropZoneCount();
-	    }
-	}
-	function unregisterDropZone$1(dropZoneEl, type) {
-	    typeToDropZones$1.get(type).delete(dropZoneEl);
-	    decrementActiveDropZoneCount();
-	    if (typeToDropZones$1.get(type).size === 0) {
-	        typeToDropZones$1.delete(type);
-	    }
-	}
-
-	/* functions to manage observing the dragged element and trigger custom drag-events */
-	function watchDraggedElement() {
-	    armWindowScroller();
-	    const dropZones = typeToDropZones$1.get(draggedElType);
-	    for (const dz of dropZones) {
-	        dz.addEventListener(DRAGGED_ENTERED_EVENT_NAME, handleDraggedEntered);
-	        dz.addEventListener(DRAGGED_LEFT_EVENT_NAME, handleDraggedLeft);
-	        dz.addEventListener(DRAGGED_OVER_INDEX_EVENT_NAME, handleDraggedIsOverIndex);
-	    }
-	    window.addEventListener(DRAGGED_LEFT_DOCUMENT_EVENT_NAME, handleDrop$1);
-	    // it is important that we don't have an interval that is faster than the flip duration because it can cause elements to jump bach and forth
-	    const observationIntervalMs = Math.max(
-	        MIN_OBSERVATION_INTERVAL_MS,
-	        ...Array.from(dropZones.keys()).map(dz => dzToConfig$1.get(dz).dropAnimationDurationMs)
-	    );
-	    observe(draggedEl, dropZones, observationIntervalMs * 1.07);
-	}
-	function unWatchDraggedElement() {
-	    disarmWindowScroller();
-	    const dropZones = typeToDropZones$1.get(draggedElType);
-	    for (const dz of dropZones) {
-	        dz.removeEventListener(DRAGGED_ENTERED_EVENT_NAME, handleDraggedEntered);
-	        dz.removeEventListener(DRAGGED_LEFT_EVENT_NAME, handleDraggedLeft);
-	        dz.removeEventListener(DRAGGED_OVER_INDEX_EVENT_NAME, handleDraggedIsOverIndex);
-	    }
-	    window.removeEventListener(DRAGGED_LEFT_DOCUMENT_EVENT_NAME, handleDrop$1);
-	    unobserve();
-	}
-
-	// finds the initial placeholder that is placed there on drag start
-	function findShadowPlaceHolderIdx(items) {
-	    return items.findIndex(item => item[ITEM_ID_KEY] === SHADOW_PLACEHOLDER_ITEM_ID);
-	}
-	function findShadowElementIdx(items) {
-	    // checking that the id is not the placeholder's for Dragula like usecases
-	    return items.findIndex(item => !!item[SHADOW_ITEM_MARKER_PROPERTY_NAME] && item[ITEM_ID_KEY] !== SHADOW_PLACEHOLDER_ITEM_ID);
-	}
-
-	/* custom drag-events handlers */
-	function handleDraggedEntered(e) {
-	    let {items, dropFromOthersDisabled} = dzToConfig$1.get(e.currentTarget);
-	    if (dropFromOthersDisabled && e.currentTarget !== originDropZone) {
-	        return;
-	    }
-	    isDraggedOutsideOfAnyDz = false;
-	    // this deals with another race condition. in rare occasions (super rapid operations) the list hasn't updated yet
-	    items = items.filter(item => item[ITEM_ID_KEY] !== shadowElData[ITEM_ID_KEY]);
-
-	    if (originDropZone !== e.currentTarget) {
-	        const originZoneItems = dzToConfig$1.get(originDropZone).items;
-	        const newOriginZoneItems = originZoneItems.filter(item => !item[SHADOW_ITEM_MARKER_PROPERTY_NAME]);
-	        dispatchConsiderEvent(originDropZone, newOriginZoneItems, {
-	            trigger: TRIGGERS.DRAGGED_ENTERED_ANOTHER,
-	            id: draggedElData[ITEM_ID_KEY],
-	            source: SOURCES.POINTER
-	        });
-	    } else {
-	        const shadowPlaceHolderIdx = findShadowPlaceHolderIdx(items);
-	        if (shadowPlaceHolderIdx !== -1) {
-	            items.splice(shadowPlaceHolderIdx, 1);
-	        }
-	    }
-
-	    const {index, isProximityBased} = e.detail.indexObj;
-	    const shadowElIdx = isProximityBased && index === e.currentTarget.children.length - 1 ? index + 1 : index;
-	    shadowElDropZone = e.currentTarget;
-	    items.splice(shadowElIdx, 0, shadowElData);
-	    dispatchConsiderEvent(e.currentTarget, items, {trigger: TRIGGERS.DRAGGED_ENTERED, id: draggedElData[ITEM_ID_KEY], source: SOURCES.POINTER});
-	}
-
-	function handleDraggedLeft(e) {
-	    // dealing with a rare race condition on extremely rapid clicking and dropping
-	    if (!isWorkingOnPreviousDrag) return;
-	    const {items, dropFromOthersDisabled} = dzToConfig$1.get(e.currentTarget);
-	    if (dropFromOthersDisabled && e.currentTarget !== originDropZone && e.currentTarget !== shadowElDropZone) {
-	        return;
-	    }
-	    const shadowElIdx = findShadowElementIdx(items);
-	    const shadowItem = items.splice(shadowElIdx, 1)[0];
-	    shadowElDropZone = undefined;
-	    const {type, theOtherDz} = e.detail;
-	    if (
-	        type === DRAGGED_LEFT_TYPES.OUTSIDE_OF_ANY ||
-	        (type === DRAGGED_LEFT_TYPES.LEFT_FOR_ANOTHER && theOtherDz !== originDropZone && dzToConfig$1.get(theOtherDz).dropFromOthersDisabled)
-	    ) {
-	        isDraggedOutsideOfAnyDz = true;
-	        shadowElDropZone = originDropZone;
-	        const originZoneItems = dzToConfig$1.get(originDropZone).items;
-	        originZoneItems.splice(originIndex, 0, shadowItem);
-	        dispatchConsiderEvent(originDropZone, originZoneItems, {
-	            trigger: TRIGGERS.DRAGGED_LEFT_ALL,
-	            id: draggedElData[ITEM_ID_KEY],
-	            source: SOURCES.POINTER
-	        });
-	    }
-	    // for the origin dz, when the dragged is outside of any, this will be fired in addition to the previous. this is for simplicity
-	    dispatchConsiderEvent(e.currentTarget, items, {
-	        trigger: TRIGGERS.DRAGGED_LEFT,
-	        id: draggedElData[ITEM_ID_KEY],
-	        source: SOURCES.POINTER
-	    });
-	}
-	function handleDraggedIsOverIndex(e) {
-	    const {items, dropFromOthersDisabled} = dzToConfig$1.get(e.currentTarget);
-	    if (dropFromOthersDisabled && e.currentTarget !== originDropZone) {
-	        return;
-	    }
-	    isDraggedOutsideOfAnyDz = false;
-	    const {index} = e.detail.indexObj;
-	    const shadowElIdx = findShadowElementIdx(items);
-	    items.splice(shadowElIdx, 1);
-	    items.splice(index, 0, shadowElData);
-	    dispatchConsiderEvent(e.currentTarget, items, {trigger: TRIGGERS.DRAGGED_OVER_INDEX, id: draggedElData[ITEM_ID_KEY], source: SOURCES.POINTER});
-	}
-
-	// Global mouse/touch-events handlers
-	function handleMouseMove(e) {
-	    e.preventDefault();
-	    const c = e.touches ? e.touches[0] : e;
-	    currentMousePosition = {x: c.clientX, y: c.clientY};
-	    draggedEl.style.transform = `translate3d(${currentMousePosition.x - dragStartMousePosition.x}px, ${
-        currentMousePosition.y - dragStartMousePosition.y
-    }px, 0)`;
-	}
-
-	function handleDrop$1() {
-	    finalizingPreviousDrag = true;
-	    // cleanup
-	    window.removeEventListener("mousemove", handleMouseMove);
-	    window.removeEventListener("touchmove", handleMouseMove);
-	    window.removeEventListener("mouseup", handleDrop$1);
-	    window.removeEventListener("touchend", handleDrop$1);
-	    unWatchDraggedElement();
-	    moveDraggedElementToWasDroppedState(draggedEl);
-
-	    if (!shadowElDropZone) {
-	        shadowElDropZone = originDropZone;
-	    }
-	    let {items, type} = dzToConfig$1.get(shadowElDropZone);
-	    styleInactiveDropZones(
-	        typeToDropZones$1.get(type),
-	        dz => dzToConfig$1.get(dz).dropTargetStyle,
-	        dz => dzToConfig$1.get(dz).dropTargetClasses
-	    );
-	    let shadowElIdx = findShadowElementIdx(items);
-	    // the handler might remove the shadow element, ex: dragula like copy on drag
-	    if (shadowElIdx === -1) shadowElIdx = originIndex;
-	    items = items.map(item => (item[SHADOW_ITEM_MARKER_PROPERTY_NAME] ? draggedElData : item));
-	    function finalizeWithinZone() {
-	        unlockOriginDzMinDimensions();
-	        dispatchFinalizeEvent(shadowElDropZone, items, {
-	            trigger: isDraggedOutsideOfAnyDz ? TRIGGERS.DROPPED_OUTSIDE_OF_ANY : TRIGGERS.DROPPED_INTO_ZONE,
-	            id: draggedElData[ITEM_ID_KEY],
-	            source: SOURCES.POINTER
-	        });
-	        if (shadowElDropZone !== originDropZone) {
-	            // letting the origin drop zone know the element was permanently taken away
-	            dispatchFinalizeEvent(originDropZone, dzToConfig$1.get(originDropZone).items, {
-	                trigger: TRIGGERS.DROPPED_INTO_ANOTHER,
-	                id: draggedElData[ITEM_ID_KEY],
-	                source: SOURCES.POINTER
-	            });
-	        }
-	        unDecorateShadowElement(shadowElDropZone.children[shadowElIdx]);
-	        cleanupPostDrop();
-	    }
-	    animateDraggedToFinalPosition(shadowElIdx, finalizeWithinZone);
-	}
-
-	// helper function for handleDrop
-	function animateDraggedToFinalPosition(shadowElIdx, callback) {
-	    const shadowElRect = getBoundingRectNoTransforms(shadowElDropZone.children[shadowElIdx]);
-	    const newTransform = {
-	        x: shadowElRect.left - parseFloat(draggedEl.style.left),
-	        y: shadowElRect.top - parseFloat(draggedEl.style.top)
-	    };
-	    const {dropAnimationDurationMs} = dzToConfig$1.get(shadowElDropZone);
-	    const transition = `transform ${dropAnimationDurationMs}ms ease`;
-	    draggedEl.style.transition = draggedEl.style.transition ? draggedEl.style.transition + "," + transition : transition;
-	    draggedEl.style.transform = `translate3d(${newTransform.x}px, ${newTransform.y}px, 0)`;
-	    window.setTimeout(callback, dropAnimationDurationMs);
-	}
-
-	function scheduleDZForRemovalAfterDrop(dz, destroy) {
-	    scheduledForRemovalAfterDrop.push({dz, destroy});
-	    window.requestAnimationFrame(() => {
-	        hideElement(dz);
-	        document.body.appendChild(dz);
-	    });
-	}
-	/* cleanup */
-	function cleanupPostDrop() {
-	    draggedEl.remove();
-	    originalDragTarget.remove();
-	    if (scheduledForRemovalAfterDrop.length) {
-	        scheduledForRemovalAfterDrop.forEach(({dz, destroy}) => {
-	            destroy();
-	            dz.remove();
-	        });
-	        scheduledForRemovalAfterDrop = [];
-	    }
-	    draggedEl = undefined;
-	    originalDragTarget = undefined;
-	    draggedElData = undefined;
-	    draggedElType = undefined;
-	    originDropZone = undefined;
-	    originIndex = undefined;
-	    shadowElData = undefined;
-	    shadowElDropZone = undefined;
-	    dragStartMousePosition = undefined;
-	    currentMousePosition = undefined;
-	    isWorkingOnPreviousDrag = false;
-	    finalizingPreviousDrag = false;
-	    unlockOriginDzMinDimensions = undefined;
-	    isDraggedOutsideOfAnyDz = false;
-	}
-
-	function dndzone$2(node, options) {
-	    let initialized = false;
-	    const config = {
-	        items: undefined,
-	        type: undefined,
-	        flipDurationMs: 0,
-	        dragDisabled: false,
-	        morphDisabled: false,
-	        dropFromOthersDisabled: false,
-	        dropTargetStyle: DEFAULT_DROP_TARGET_STYLE$1,
-	        dropTargetClasses: [],
-	        transformDraggedElement: () => {},
-	        centreDraggedOnCursor: false
-	    };
-	    let elToIdx = new Map();
-
-	    function addMaybeListeners() {
-	        window.addEventListener("mousemove", handleMouseMoveMaybeDragStart, {passive: false});
-	        window.addEventListener("touchmove", handleMouseMoveMaybeDragStart, {passive: false, capture: false});
-	        window.addEventListener("mouseup", handleFalseAlarm, {passive: false});
-	        window.addEventListener("touchend", handleFalseAlarm, {passive: false});
-	    }
-	    function removeMaybeListeners() {
-	        window.removeEventListener("mousemove", handleMouseMoveMaybeDragStart);
-	        window.removeEventListener("touchmove", handleMouseMoveMaybeDragStart);
-	        window.removeEventListener("mouseup", handleFalseAlarm);
-	        window.removeEventListener("touchend", handleFalseAlarm);
-	    }
-	    function handleFalseAlarm() {
-	        removeMaybeListeners();
-	        originalDragTarget = undefined;
-	        dragStartMousePosition = undefined;
-	        currentMousePosition = undefined;
-	    }
-
-	    function handleMouseMoveMaybeDragStart(e) {
-	        e.preventDefault();
-	        const c = e.touches ? e.touches[0] : e;
-	        currentMousePosition = {x: c.clientX, y: c.clientY};
-	        if (
-	            Math.abs(currentMousePosition.x - dragStartMousePosition.x) >= MIN_MOVEMENT_BEFORE_DRAG_START_PX ||
-	            Math.abs(currentMousePosition.y - dragStartMousePosition.y) >= MIN_MOVEMENT_BEFORE_DRAG_START_PX
-	        ) {
-	            removeMaybeListeners();
-	            handleDragStart();
-	        }
-	    }
-	    function handleMouseDown(e) {
-	        // on safari clicking on a select element doesn't fire mouseup at the end of the click and in general this makes more sense
-	        if (e.target !== e.currentTarget && (e.target.value !== undefined || e.target.isContentEditable)) {
-	            return;
-	        }
-	        // prevents responding to any button but left click which equals 0 (which is falsy)
-	        if (e.button) {
-	            return;
-	        }
-	        if (isWorkingOnPreviousDrag) {
-	            return;
-	        }
-	        e.stopPropagation();
-	        const c = e.touches ? e.touches[0] : e;
-	        dragStartMousePosition = {x: c.clientX, y: c.clientY};
-	        currentMousePosition = {...dragStartMousePosition};
-	        originalDragTarget = e.currentTarget;
-	        addMaybeListeners();
-	    }
-
-	    function handleDragStart() {
-	        isWorkingOnPreviousDrag = true;
-
-	        // initialising globals
-	        const currentIdx = elToIdx.get(originalDragTarget);
-	        originIndex = currentIdx;
-	        originDropZone = originalDragTarget.parentElement;
-	        /** @type {ShadowRoot | HTMLDocument} */
-	        const rootNode = originDropZone.getRootNode();
-	        const originDropZoneRoot = rootNode.body || rootNode;
-	        const {items, type, centreDraggedOnCursor} = config;
-	        draggedElData = {...items[currentIdx]};
-	        draggedElType = type;
-	        shadowElData = {...draggedElData, [SHADOW_ITEM_MARKER_PROPERTY_NAME]: true};
-	        // The initial shadow element. We need a different id at first in order to avoid conflicts and timing issues
-	        const placeHolderElData = {...shadowElData, [ITEM_ID_KEY]: SHADOW_PLACEHOLDER_ITEM_ID};
-
-	        // creating the draggable element
-	        draggedEl = createDraggedElementFrom(originalDragTarget, centreDraggedOnCursor && currentMousePosition);
-	        // We will keep the original dom node in the dom because touch events keep firing on it, we want to re-add it after the framework removes it
-	        function keepOriginalElementInDom() {
-	            if (!draggedEl.parentElement) {
-	                originDropZoneRoot.appendChild(draggedEl);
-	                // to prevent the outline from disappearing
-	                draggedEl.focus();
-	                watchDraggedElement();
-	                hideElement(originalDragTarget);
-	                originDropZoneRoot.appendChild(originalDragTarget);
-	            } else {
-	                window.requestAnimationFrame(keepOriginalElementInDom);
-	            }
-	        }
-	        window.requestAnimationFrame(keepOriginalElementInDom);
-
-	        styleActiveDropZones(
-	            Array.from(typeToDropZones$1.get(config.type)).filter(dz => dz === originDropZone || !dzToConfig$1.get(dz).dropFromOthersDisabled),
-	            dz => dzToConfig$1.get(dz).dropTargetStyle,
-	            dz => dzToConfig$1.get(dz).dropTargetClasses
-	        );
-
-	        // removing the original element by removing its data entry
-	        items.splice(currentIdx, 1, placeHolderElData);
-	        unlockOriginDzMinDimensions = preventShrinking(originDropZone);
-
-	        dispatchConsiderEvent(originDropZone, items, {trigger: TRIGGERS.DRAG_STARTED, id: draggedElData[ITEM_ID_KEY], source: SOURCES.POINTER});
-
-	        // handing over to global handlers - starting to watch the element
-	        window.addEventListener("mousemove", handleMouseMove, {passive: false});
-	        window.addEventListener("touchmove", handleMouseMove, {passive: false, capture: false});
-	        window.addEventListener("mouseup", handleDrop$1, {passive: false});
-	        window.addEventListener("touchend", handleDrop$1, {passive: false});
-	    }
-
-	    function configure({
-	        items = undefined,
-	        flipDurationMs: dropAnimationDurationMs = 0,
-	        type: newType = DEFAULT_DROP_ZONE_TYPE$1,
-	        dragDisabled = false,
-	        morphDisabled = false,
-	        dropFromOthersDisabled = false,
-	        dropTargetStyle = DEFAULT_DROP_TARGET_STYLE$1,
-	        dropTargetClasses = [],
-	        transformDraggedElement = () => {},
-	        centreDraggedOnCursor = false
-	    }) {
-	        config.dropAnimationDurationMs = dropAnimationDurationMs;
-	        if (config.type && newType !== config.type) {
-	            unregisterDropZone$1(node, config.type);
-	        }
-	        config.type = newType;
-	        registerDropZone$1(node, newType);
-	        config.items = [...items];
-	        config.dragDisabled = dragDisabled;
-	        config.morphDisabled = morphDisabled;
-	        config.transformDraggedElement = transformDraggedElement;
-	        config.centreDraggedOnCursor = centreDraggedOnCursor;
-
-	        // realtime update for dropTargetStyle
-	        if (
-	            initialized &&
-	            isWorkingOnPreviousDrag &&
-	            !finalizingPreviousDrag &&
-	            (!areObjectsShallowEqual(dropTargetStyle, config.dropTargetStyle) ||
-	                !areArraysShallowEqualSameOrder(dropTargetClasses, config.dropTargetClasses))
-	        ) {
-	            styleInactiveDropZones(
-	                [node],
-	                () => config.dropTargetStyle,
-	                () => dropTargetClasses
-	            );
-	            styleActiveDropZones(
-	                [node],
-	                () => dropTargetStyle,
-	                () => dropTargetClasses
-	            );
-	        }
-	        config.dropTargetStyle = dropTargetStyle;
-	        config.dropTargetClasses = [...dropTargetClasses];
-
-	        // realtime update for dropFromOthersDisabled
-	        function getConfigProp(dz, propName) {
-	            return dzToConfig$1.get(dz) ? dzToConfig$1.get(dz)[propName] : config[propName];
-	        }
-	        if (initialized && isWorkingOnPreviousDrag && config.dropFromOthersDisabled !== dropFromOthersDisabled) {
-	            if (dropFromOthersDisabled) {
-	                styleInactiveDropZones(
-	                    [node],
-	                    dz => getConfigProp(dz, "dropTargetStyle"),
-	                    dz => getConfigProp(dz, "dropTargetClasses")
-	                );
-	            } else {
-	                styleActiveDropZones(
-	                    [node],
-	                    dz => getConfigProp(dz, "dropTargetStyle"),
-	                    dz => getConfigProp(dz, "dropTargetClasses")
-	                );
-	            }
-	        }
-	        config.dropFromOthersDisabled = dropFromOthersDisabled;
-
-	        dzToConfig$1.set(node, config);
-	        const shadowElIdx = findShadowElementIdx(config.items);
-	        for (let idx = 0; idx < node.children.length; idx++) {
-	            const draggableEl = node.children[idx];
-	            styleDraggable(draggableEl, dragDisabled);
-	            if (idx === shadowElIdx) {
-	                if (!morphDisabled) {
-	                    morphDraggedElementToBeLike(draggedEl, draggableEl, currentMousePosition.x, currentMousePosition.y, () =>
-	                        config.transformDraggedElement(draggedEl, draggedElData, idx)
-	                    );
-	                }
-	                decorateShadowEl(draggableEl);
-	                continue;
-	            }
-	            draggableEl.removeEventListener("mousedown", elToMouseDownListener.get(draggableEl));
-	            draggableEl.removeEventListener("touchstart", elToMouseDownListener.get(draggableEl));
-	            if (!dragDisabled) {
-	                draggableEl.addEventListener("mousedown", handleMouseDown);
-	                draggableEl.addEventListener("touchstart", handleMouseDown);
-	                elToMouseDownListener.set(draggableEl, handleMouseDown);
-	            }
-	            // updating the idx
-	            elToIdx.set(draggableEl, idx);
-
-	            if (!initialized) {
-	                initialized = true;
-	            }
-	        }
-	    }
-	    configure(options);
-
-	    return {
-	        update: newOptions => {
-	            configure(newOptions);
-	        },
-	        destroy: () => {
-	            function destroyDz() {
-	                unregisterDropZone$1(node, dzToConfig$1.get(node).type);
-	                dzToConfig$1.delete(node);
-	            }
-	            if (isWorkingOnPreviousDrag) {
-	                scheduleDZForRemovalAfterDrop(node, destroyDz);
-	            } else {
-	               destroyDz();
-	            }
-	        }
-	    };
-	}
-
-	const INSTRUCTION_IDs$1 = {
-	    DND_ZONE_ACTIVE: "dnd-zone-active",
-	    DND_ZONE_DRAG_DISABLED: "dnd-zone-drag-disabled"
-	};
-	const ID_TO_INSTRUCTION = {
-	    [INSTRUCTION_IDs$1.DND_ZONE_ACTIVE]: "Tab to one the items and press space-bar or enter to start dragging it",
-	    [INSTRUCTION_IDs$1.DND_ZONE_DRAG_DISABLED]: "This is a disabled drag and drop list"
-	};
-
-	const ALERT_DIV_ID = "dnd-action-aria-alert";
-	let alertsDiv;
-
-	function initAriaOnBrowser() {
-	    if (alertsDiv) {
-	        // it is already initialized
-	        return;
-	    }
-	    // setting the dynamic alerts
-	    alertsDiv = document.createElement("div");
-	    (function initAlertsDiv() {
-	        alertsDiv.id = ALERT_DIV_ID;
-	        // tab index -1 makes the alert be read twice on chrome for some reason
-	        //alertsDiv.tabIndex = -1;
-	        alertsDiv.style.position = "fixed";
-	        alertsDiv.style.bottom = "0";
-	        alertsDiv.style.left = "0";
-	        alertsDiv.style.zIndex = "-5";
-	        alertsDiv.style.opacity = "0";
-	        alertsDiv.style.height = "0";
-	        alertsDiv.style.width = "0";
-	        alertsDiv.setAttribute("role", "alert");
-	    })();
-	    document.body.prepend(alertsDiv);
-
-	    // setting the instructions
-	    Object.entries(ID_TO_INSTRUCTION).forEach(([id, txt]) => document.body.prepend(instructionToHiddenDiv(id, txt)));
-	}
-
-	/**
-	 * Initializes the static aria instructions so they can be attached to zones
-	 * @return {{DND_ZONE_ACTIVE: string, DND_ZONE_DRAG_DISABLED: string} | null} - the IDs for static aria instruction (to be used via aria-describedby) or null on the server
-	 */
-	function initAria() {
-	    if (isOnServer) return null;
-	    if (document.readyState === "complete") {
-	        initAriaOnBrowser();
-	    } else {
-	        window.addEventListener("DOMContentLoaded", initAriaOnBrowser);
-	    }
-	    return {...INSTRUCTION_IDs$1};
-	}
-
-	/**
-	 * Removes all the artifacts (dom elements) added by this module
-	 */
-	function destroyAria() {
-	    if (isOnServer || !alertsDiv) return;
-	    Object.keys(ID_TO_INSTRUCTION).forEach(id => document.getElementById(id)?.remove());
-	    alertsDiv.remove();
-	    alertsDiv = undefined;
-	}
-
-	function instructionToHiddenDiv(id, txt) {
-	    const div = document.createElement("div");
-	    div.id = id;
-	    div.innerHTML = `<p>${txt}</p>`;
-	    div.style.display = "none";
-	    div.style.position = "fixed";
-	    div.style.zIndex = "-5";
-	    return div;
-	}
-
-	/**
-	 * Will make the screen reader alert the provided text to the user
-	 * @param {string} txt
-	 */
-	function alertToScreenReader(txt) {
-	    if (isOnServer) return;
-	    if (!alertsDiv) {
-	        initAriaOnBrowser();
-	    }
-	    alertsDiv.innerHTML = "";
-	    const alertText = document.createTextNode(txt);
-	    alertsDiv.appendChild(alertText);
-	    // this is needed for Safari
-	    alertsDiv.style.display = "none";
-	    alertsDiv.style.display = "inline";
-	}
-
-	const DEFAULT_DROP_ZONE_TYPE = "--any--";
-	const DEFAULT_DROP_TARGET_STYLE = {
-	    outline: "rgba(255, 255, 102, 0.7) solid 2px"
-	};
-
-	let isDragging = false;
-	let draggedItemType;
-	let focusedDz;
-	let focusedDzLabel = "";
-	let focusedItem;
-	let focusedItemId;
-	let focusedItemLabel = "";
-	const allDragTargets = new WeakSet();
-	const elToKeyDownListeners = new WeakMap();
-	const elToFocusListeners = new WeakMap();
-	const dzToHandles = new Map();
-	const dzToConfig = new Map();
-	const typeToDropZones = new Map();
-
-	/* TODO (potentially)
-	 * what's the deal with the black border of voice-reader not following focus?
-	 * maybe keep focus on the last dragged item upon drop?
-	 */
-
-	let INSTRUCTION_IDs;
-
-	/* drop-zones registration management */
-	function registerDropZone(dropZoneEl, type) {
-	    if (typeToDropZones.size === 0) {
-	        INSTRUCTION_IDs = initAria();
-	        window.addEventListener("keydown", globalKeyDownHandler);
-	        window.addEventListener("click", globalClickHandler);
-	    }
-	    if (!typeToDropZones.has(type)) {
-	        typeToDropZones.set(type, new Set());
-	    }
-	    if (!typeToDropZones.get(type).has(dropZoneEl)) {
-	        typeToDropZones.get(type).add(dropZoneEl);
-	        incrementActiveDropZoneCount();
-	    }
-	}
-	function unregisterDropZone(dropZoneEl, type) {
-	    if (focusedDz === dropZoneEl) {
-	        handleDrop();
-	    }
-	    typeToDropZones.get(type).delete(dropZoneEl);
-	    decrementActiveDropZoneCount();
-	    if (typeToDropZones.get(type).size === 0) {
-	        typeToDropZones.delete(type);
-	    }
-	    if (typeToDropZones.size === 0) {
-	        window.removeEventListener("keydown", globalKeyDownHandler);
-	        window.removeEventListener("click", globalClickHandler);
-	        INSTRUCTION_IDs = undefined;
-	        destroyAria();
-	    }
-	}
-
-	function globalKeyDownHandler(e) {
-	    if (!isDragging) return;
-	    switch (e.key) {
-	        case "Escape": {
-	            handleDrop();
-	            break;
-	        }
-	    }
-	}
-
-	function globalClickHandler() {
-	    if (!isDragging) return;
-	    if (!allDragTargets.has(document.activeElement)) {
-	        handleDrop();
-	    }
-	}
-
-	function handleZoneFocus(e) {
-	    if (!isDragging) return;
-	    const newlyFocusedDz = e.currentTarget;
-	    if (newlyFocusedDz === focusedDz) return;
-
-	    focusedDzLabel = newlyFocusedDz.getAttribute("aria-label") || "";
-	    const {items: originItems} = dzToConfig.get(focusedDz);
-	    const originItem = originItems.find(item => item[ITEM_ID_KEY] === focusedItemId);
-	    const originIdx = originItems.indexOf(originItem);
-	    const itemToMove = originItems.splice(originIdx, 1)[0];
-	    const {items: targetItems, autoAriaDisabled} = dzToConfig.get(newlyFocusedDz);
-	    if (
-	        newlyFocusedDz.getBoundingClientRect().top < focusedDz.getBoundingClientRect().top ||
-	        newlyFocusedDz.getBoundingClientRect().left < focusedDz.getBoundingClientRect().left
-	    ) {
-	        targetItems.push(itemToMove);
-	        if (!autoAriaDisabled) {
-	            alertToScreenReader(`Moved item ${focusedItemLabel} to the end of the list ${focusedDzLabel}`);
-	        }
-	    } else {
-	        targetItems.unshift(itemToMove);
-	        if (!autoAriaDisabled) {
-	            alertToScreenReader(`Moved item ${focusedItemLabel} to the beginning of the list ${focusedDzLabel}`);
-	        }
-	    }
-	    const dzFrom = focusedDz;
-	    dispatchFinalizeEvent(dzFrom, originItems, {trigger: TRIGGERS.DROPPED_INTO_ANOTHER, id: focusedItemId, source: SOURCES.KEYBOARD});
-	    dispatchFinalizeEvent(newlyFocusedDz, targetItems, {trigger: TRIGGERS.DROPPED_INTO_ZONE, id: focusedItemId, source: SOURCES.KEYBOARD});
-	    focusedDz = newlyFocusedDz;
-	}
-
-	function triggerAllDzsUpdate() {
-	    dzToHandles.forEach(({update}, dz) => update(dzToConfig.get(dz)));
-	}
-
-	function handleDrop(dispatchConsider = true) {
-	    if (!dzToConfig.get(focusedDz).autoAriaDisabled) {
-	        alertToScreenReader(`Stopped dragging item ${focusedItemLabel}`);
-	    }
-	    if (allDragTargets.has(document.activeElement)) {
-	        document.activeElement.blur();
-	    }
-	    if (dispatchConsider) {
-	        dispatchConsiderEvent(focusedDz, dzToConfig.get(focusedDz).items, {
-	            trigger: TRIGGERS.DRAG_STOPPED,
-	            id: focusedItemId,
-	            source: SOURCES.KEYBOARD
-	        });
-	    }
-	    styleInactiveDropZones(
-	        typeToDropZones.get(draggedItemType),
-	        dz => dzToConfig.get(dz).dropTargetStyle,
-	        dz => dzToConfig.get(dz).dropTargetClasses
-	    );
-	    focusedItem = null;
-	    focusedItemId = null;
-	    focusedItemLabel = "";
-	    draggedItemType = null;
-	    focusedDz = null;
-	    focusedDzLabel = "";
-	    isDragging = false;
-	    triggerAllDzsUpdate();
-	}
-	//////
-	function dndzone$1(node, options) {
-	    const config = {
-	        items: undefined,
-	        type: undefined,
-	        dragDisabled: false,
-	        zoneTabIndex: 0,
-	        dropFromOthersDisabled: false,
-	        dropTargetStyle: DEFAULT_DROP_TARGET_STYLE,
-	        dropTargetClasses: [],
-	        autoAriaDisabled: false
-	    };
-
-	    function swap(arr, i, j) {
-	        if (arr.length <= 1) return;
-	        arr.splice(j, 1, arr.splice(i, 1, arr[j])[0]);
-	    }
-
-	    function handleKeyDown(e) {
-	        switch (e.key) {
-	            case "Enter":
-	            case " ": {
-	                // we don't want to affect nested input elements or clickable elements
-	                if ((e.target.disabled !== undefined || e.target.href || e.target.isContentEditable) && !allDragTargets.has(e.target)) {
-	                    return;
-	                }
-	                e.preventDefault(); // preventing scrolling on spacebar
-	                e.stopPropagation();
-	                if (isDragging) {
-	                    // TODO - should this trigger a drop? only here or in general (as in when hitting space or enter outside of any zone)?
-	                    handleDrop();
-	                } else {
-	                    // drag start
-	                    handleDragStart(e);
-	                }
-	                break;
-	            }
-	            case "ArrowDown":
-	            case "ArrowRight": {
-	                if (!isDragging) return;
-	                e.preventDefault(); // prevent scrolling
-	                e.stopPropagation();
-	                const {items} = dzToConfig.get(node);
-	                const children = Array.from(node.children);
-	                const idx = children.indexOf(e.currentTarget);
-	                if (idx < children.length - 1) {
-	                    if (!config.autoAriaDisabled) {
-	                        alertToScreenReader(`Moved item ${focusedItemLabel} to position ${idx + 2} in the list ${focusedDzLabel}`);
-	                    }
-	                    swap(items, idx, idx + 1);
-	                    dispatchFinalizeEvent(node, items, {trigger: TRIGGERS.DROPPED_INTO_ZONE, id: focusedItemId, source: SOURCES.KEYBOARD});
-	                }
-	                break;
-	            }
-	            case "ArrowUp":
-	            case "ArrowLeft": {
-	                if (!isDragging) return;
-	                e.preventDefault(); // prevent scrolling
-	                e.stopPropagation();
-	                const {items} = dzToConfig.get(node);
-	                const children = Array.from(node.children);
-	                const idx = children.indexOf(e.currentTarget);
-	                if (idx > 0) {
-	                    if (!config.autoAriaDisabled) {
-	                        alertToScreenReader(`Moved item ${focusedItemLabel} to position ${idx} in the list ${focusedDzLabel}`);
-	                    }
-	                    swap(items, idx, idx - 1);
-	                    dispatchFinalizeEvent(node, items, {trigger: TRIGGERS.DROPPED_INTO_ZONE, id: focusedItemId, source: SOURCES.KEYBOARD});
-	                }
-	                break;
-	            }
-	        }
-	    }
-	    function handleDragStart(e) {
-	        setCurrentFocusedItem(e.currentTarget);
-	        focusedDz = node;
-	        draggedItemType = config.type;
-	        isDragging = true;
-	        const dropTargets = Array.from(typeToDropZones.get(config.type)).filter(dz => dz === focusedDz || !dzToConfig.get(dz).dropFromOthersDisabled);
-	        styleActiveDropZones(
-	            dropTargets,
-	            dz => dzToConfig.get(dz).dropTargetStyle,
-	            dz => dzToConfig.get(dz).dropTargetClasses
-	        );
-	        if (!config.autoAriaDisabled) {
-	            let msg = `Started dragging item ${focusedItemLabel}. Use the arrow keys to move it within its list ${focusedDzLabel}`;
-	            if (dropTargets.length > 1) {
-	                msg += `, or tab to another list in order to move the item into it`;
-	            }
-	            alertToScreenReader(msg);
-	        }
-	        dispatchConsiderEvent(node, dzToConfig.get(node).items, {trigger: TRIGGERS.DRAG_STARTED, id: focusedItemId, source: SOURCES.KEYBOARD});
-	        triggerAllDzsUpdate();
-	    }
-
-	    function handleClick(e) {
-	        if (!isDragging) return;
-	        if (e.currentTarget === focusedItem) return;
-	        e.stopPropagation();
-	        handleDrop(false);
-	        handleDragStart(e);
-	    }
-	    function setCurrentFocusedItem(draggableEl) {
-	        const {items} = dzToConfig.get(node);
-	        const children = Array.from(node.children);
-	        const focusedItemIdx = children.indexOf(draggableEl);
-	        focusedItem = draggableEl;
-	        focusedItem.tabIndex = 0;
-	        focusedItemId = items[focusedItemIdx][ITEM_ID_KEY];
-	        focusedItemLabel = children[focusedItemIdx].getAttribute("aria-label") || "";
-	    }
-
-	    function configure({
-	        items = [],
-	        type: newType = DEFAULT_DROP_ZONE_TYPE,
-	        dragDisabled = false,
-	        zoneTabIndex = 0,
-	        dropFromOthersDisabled = false,
-	        dropTargetStyle = DEFAULT_DROP_TARGET_STYLE,
-	        dropTargetClasses = [],
-	        autoAriaDisabled = false
-	    }) {
-	        config.items = [...items];
-	        config.dragDisabled = dragDisabled;
-	        config.dropFromOthersDisabled = dropFromOthersDisabled;
-	        config.zoneTabIndex = zoneTabIndex;
-	        config.dropTargetStyle = dropTargetStyle;
-	        config.dropTargetClasses = dropTargetClasses;
-	        config.autoAriaDisabled = autoAriaDisabled;
-	        if (config.type && newType !== config.type) {
-	            unregisterDropZone(node, config.type);
-	        }
-	        config.type = newType;
-	        registerDropZone(node, newType);
-	        if (!autoAriaDisabled) {
-	            node.setAttribute("aria-disabled", dragDisabled);
-	            node.setAttribute("role", "list");
-	            node.setAttribute("aria-describedby", dragDisabled ? INSTRUCTION_IDs.DND_ZONE_DRAG_DISABLED : INSTRUCTION_IDs.DND_ZONE_ACTIVE);
-	        }
-	        dzToConfig.set(node, config);
-
-	        if (isDragging) {
-	            node.tabIndex =
-	                node === focusedDz ||
-	                focusedItem.contains(node) ||
-	                config.dropFromOthersDisabled ||
-	                (focusedDz && config.type !== dzToConfig.get(focusedDz).type)
-	                    ? -1
-	                    : 0;
-	        } else {
-	            node.tabIndex = config.zoneTabIndex;
-	        }
-
-	        node.addEventListener("focus", handleZoneFocus);
-
-	        for (let i = 0; i < node.children.length; i++) {
-	            const draggableEl = node.children[i];
-	            allDragTargets.add(draggableEl);
-	            draggableEl.tabIndex = isDragging ? -1 : 0;
-	            if (!autoAriaDisabled) {
-	                draggableEl.setAttribute("role", "listitem");
-	            }
-	            draggableEl.removeEventListener("keydown", elToKeyDownListeners.get(draggableEl));
-	            draggableEl.removeEventListener("click", elToFocusListeners.get(draggableEl));
-	            if (!dragDisabled) {
-	                draggableEl.addEventListener("keydown", handleKeyDown);
-	                elToKeyDownListeners.set(draggableEl, handleKeyDown);
-	                draggableEl.addEventListener("click", handleClick);
-	                elToFocusListeners.set(draggableEl, handleClick);
-	            }
-	            if (isDragging && config.items[i][ITEM_ID_KEY] === focusedItemId) {
-	                // if it is a nested dropzone, it was re-rendered and we need to refresh our pointer
-	                focusedItem = draggableEl;
-	                focusedItem.tabIndex = 0;
-	                // without this the element loses focus if it moves backwards in the list
-	                draggableEl.focus();
-	            }
-	        }
-	    }
-	    configure(options);
-
-	    const handles = {
-	        update: newOptions => {
-	            configure(newOptions);
-	        },
-	        destroy: () => {
-	            unregisterDropZone(node, config.type);
-	            dzToConfig.delete(node);
-	            dzToHandles.delete(node);
-	        }
-	    };
-	    dzToHandles.set(node, handles);
-	    return handles;
-	}
-
-	/**
-	 * A custom action to turn any container to a dnd zone and all of its direct children to draggables
-	 * Supports mouse, touch and keyboard interactions.
-	 * Dispatches two events that the container is expected to react to by modifying its list of items,
-	 * which will then feed back in to this action via the update function
-	 *
-	 * @typedef {object} Options
-	 * @property {array} items - the list of items that was used to generate the children of the given node (the list used in the #each block
-	 * @property {string} [type] - the type of the dnd zone. children dragged from here can only be dropped in other zones of the same type, default to a base type
-	 * @property {number} [flipDurationMs] - if the list animated using flip (recommended), specifies the flip duration such that everything syncs with it without conflict, defaults to zero
-	 * @property {boolean} [dragDisabled]
-	 * @property {boolean} [morphDisabled] - whether dragged element should morph to zone dimensions
-	 * @property {boolean} [dropFromOthersDisabled]
-	 * @property {number} [zoneTabIndex] - set the tabindex of the list container when not dragging
-	 * @property {object} [dropTargetStyle]
-	 * @property {string[]} [dropTargetClasses]
-	 * @property {function} [transformDraggedElement]
-	 * @param {HTMLElement} node - the element to enhance
-	 * @param {Options} options
-	 * @return {{update: function, destroy: function}}
-	 */
-	function dndzone(node, options) {
-	    validateOptions(options);
-	    const pointerZone = dndzone$2(node, options);
-	    const keyboardZone = dndzone$1(node, options);
-	    return {
-	        update: newOptions => {
-	            validateOptions(newOptions);
-	            pointerZone.update(newOptions);
-	            keyboardZone.update(newOptions);
-	        },
-	        destroy: () => {
-	            pointerZone.destroy();
-	            keyboardZone.destroy();
-	        }
-	    };
-	}
-
-	function validateOptions(options) {
-	    /*eslint-disable*/
-	    const {
-	        items,
-	        flipDurationMs,
-	        type,
-	        dragDisabled,
-	        morphDisabled,
-	        dropFromOthersDisabled,
-	        zoneTabIndex,
-	        dropTargetStyle,
-	        dropTargetClasses,
-	        transformDraggedElement,
-	        autoAriaDisabled,
-	        centreDraggedOnCursor,
-	        ...rest
-	    } = options;
-	    /*eslint-enable*/
-	    if (Object.keys(rest).length > 0) {
-	        console.warn(`dndzone will ignore unknown options`, rest);
-	    }
-	    if (!items) {
-	        throw new Error("no 'items' key provided to dndzone");
-	    }
-	    const itemWithMissingId = items.find(item => !{}.hasOwnProperty.call(item, ITEM_ID_KEY));
-	    if (itemWithMissingId) {
-	        throw new Error(`missing '${ITEM_ID_KEY}' property for item ${toString(itemWithMissingId)}`);
-	    }
-	    if (dropTargetClasses && !Array.isArray(dropTargetClasses)) {
-	        throw new Error(`dropTargetClasses should be an array but instead it is a ${typeof dropTargetClasses}, ${toString(dropTargetClasses)}`);
-	    }
-	    if (zoneTabIndex && !isInt(zoneTabIndex)) {
-	        throw new Error(`zoneTabIndex should be a number but instead it is a ${typeof zoneTabIndex}, ${toString(zoneTabIndex)}`);
-	    }
-	}
-
-	function isInt(value) {
-	    return !isNaN(value) && (function(x) { return (x | 0) === x; })(parseFloat(value));
 	}
 
 	/* src/components/Agent.svelte generated by Svelte v3.42.5 */
@@ -58464,11 +58393,11 @@
 
 	function get_each_context(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[13] = list[i];
+		child_ctx[12] = list[i];
 		return child_ctx;
 	}
 
-	// (143:0) {:else}
+	// (142:0) {:else}
 	function create_else_block(ctx) {
 		let header;
 		let navbar;
@@ -58497,8 +58426,8 @@
 					$$slots: {
 						default: [
 							create_default_slot,
-							({ data }) => ({ 12: data }),
-							({ data }) => data ? 4096 : 0
+							({ data }) => ({ 11: data }),
+							({ data }) => data ? 2048 : 0
 						]
 					},
 					$$scope: { ctx }
@@ -58507,7 +58436,7 @@
 			});
 
 		router = new Router({
-				props: { routes: /*routes*/ ctx[4] },
+				props: { routes: /*routes*/ ctx[3] },
 				$$inline: true
 			});
 
@@ -58520,8 +58449,8 @@
 				create_component(toastcontainer.$$.fragment);
 				t1 = space();
 				create_component(router.$$.fragment);
-				add_location(header, file, 143, 2, 4555);
-				add_location(main, file, 174, 2, 5603);
+				add_location(header, file, 142, 2, 4522);
+				add_location(main, file, 173, 2, 5570);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, header, anchor);
@@ -58536,14 +58465,14 @@
 			p: function update(ctx, dirty) {
 				const navbar_changes = {};
 
-				if (dirty & /*$$scope*/ 65536) {
+				if (dirty & /*$$scope*/ 32768) {
 					navbar_changes.$$scope = { dirty, ctx };
 				}
 
 				navbar.$set(navbar_changes);
 				const toastcontainer_changes = {};
 
-				if (dirty & /*$$scope, data*/ 69632) {
+				if (dirty & /*$$scope, data*/ 34816) {
 					toastcontainer_changes.$$scope = { dirty, ctx };
 				}
 
@@ -58584,14 +58513,14 @@
 			block,
 			id: create_else_block.name,
 			type: "else",
-			source: "(143:0) {:else}",
+			source: "(142:0) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (141:0) {#if !$meStore}
+	// (140:0) {#if !$meStore}
 	function create_if_block_1(ctx) {
 		let homepage;
 		let current;
@@ -58601,7 +58530,7 @@
 				$$inline: true
 			});
 
-		homepage.$on("login", /*onLogin*/ ctx[7]);
+		homepage.$on("login", /*onLogin*/ ctx[6]);
 
 		const block = {
 			c: function create() {
@@ -58634,14 +58563,14 @@
 			block,
 			id: create_if_block_1.name,
 			type: "if",
-			source: "(141:0) {#if !$meStore}",
+			source: "(140:0) {#if !$meStore}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (149:19) <NavLink href="#/teams">
+	// (148:19) <NavLink href="#/teams">
 	function create_default_slot_16(ctx) {
 		let t;
 
@@ -58661,14 +58590,14 @@
 			block,
 			id: create_default_slot_16.name,
 			type: "slot",
-			source: "(149:19) <NavLink href=\\\"#/teams\\\">",
+			source: "(148:19) <NavLink href=\\\"#/teams\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (149:10) <NavItem>
+	// (148:10) <NavItem>
 	function create_default_slot_15(ctx) {
 		let navlink;
 		let current;
@@ -58693,7 +58622,7 @@
 			p: function update(ctx, dirty) {
 				const navlink_changes = {};
 
-				if (dirty & /*$$scope*/ 65536) {
+				if (dirty & /*$$scope*/ 32768) {
 					navlink_changes.$$scope = { dirty, ctx };
 				}
 
@@ -58717,14 +58646,14 @@
 			block,
 			id: create_default_slot_15.name,
 			type: "slot",
-			source: "(149:10) <NavItem>",
+			source: "(148:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (150:19) <NavLink href="#/operations">
+	// (149:19) <NavLink href="#/operations">
 	function create_default_slot_14(ctx) {
 		let t;
 
@@ -58744,14 +58673,14 @@
 			block,
 			id: create_default_slot_14.name,
 			type: "slot",
-			source: "(150:19) <NavLink href=\\\"#/operations\\\">",
+			source: "(149:19) <NavLink href=\\\"#/operations\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (150:10) <NavItem>
+	// (149:10) <NavItem>
 	function create_default_slot_13(ctx) {
 		let navlink;
 		let current;
@@ -58776,7 +58705,7 @@
 			p: function update(ctx, dirty) {
 				const navlink_changes = {};
 
-				if (dirty & /*$$scope*/ 65536) {
+				if (dirty & /*$$scope*/ 32768) {
 					navlink_changes.$$scope = { dirty, ctx };
 				}
 
@@ -58800,14 +58729,14 @@
 			block,
 			id: create_default_slot_13.name,
 			type: "slot",
-			source: "(150:10) <NavItem>",
+			source: "(149:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (152:13) <NavLink href="#/defensivekeys/">
+	// (151:13) <NavLink href="#/defensivekeys/">
 	function create_default_slot_12(ctx) {
 		let t;
 
@@ -58827,14 +58756,14 @@
 			block,
 			id: create_default_slot_12.name,
 			type: "slot",
-			source: "(152:13) <NavLink href=\\\"#/defensivekeys/\\\">",
+			source: "(151:13) <NavLink href=\\\"#/defensivekeys/\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (151:10) <NavItem             >
+	// (150:10) <NavItem             >
 	function create_default_slot_11(ctx) {
 		let navlink;
 		let current;
@@ -58859,7 +58788,7 @@
 			p: function update(ctx, dirty) {
 				const navlink_changes = {};
 
-				if (dirty & /*$$scope*/ 65536) {
+				if (dirty & /*$$scope*/ 32768) {
 					navlink_changes.$$scope = { dirty, ctx };
 				}
 
@@ -58883,14 +58812,14 @@
 			block,
 			id: create_default_slot_11.name,
 			type: "slot",
-			source: "(151:10) <NavItem             >",
+			source: "(150:10) <NavItem             >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (154:19) <NavLink href="#/settings">
+	// (153:19) <NavLink href="#/settings">
 	function create_default_slot_10(ctx) {
 		let t;
 
@@ -58910,14 +58839,14 @@
 			block,
 			id: create_default_slot_10.name,
 			type: "slot",
-			source: "(154:19) <NavLink href=\\\"#/settings\\\">",
+			source: "(153:19) <NavLink href=\\\"#/settings\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (154:10) <NavItem>
+	// (153:10) <NavItem>
 	function create_default_slot_9(ctx) {
 		let navlink;
 		let current;
@@ -58942,7 +58871,7 @@
 			p: function update(ctx, dirty) {
 				const navlink_changes = {};
 
-				if (dirty & /*$$scope*/ 65536) {
+				if (dirty & /*$$scope*/ 32768) {
 					navlink_changes.$$scope = { dirty, ctx };
 				}
 
@@ -58966,14 +58895,14 @@
 			block,
 			id: create_default_slot_9.name,
 			type: "slot",
-			source: "(154:10) <NavItem>",
+			source: "(153:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (155:19) <NavLink href="#/help">
+	// (154:19) <NavLink href="#/help">
 	function create_default_slot_8(ctx) {
 		let t;
 
@@ -58993,14 +58922,14 @@
 			block,
 			id: create_default_slot_8.name,
 			type: "slot",
-			source: "(155:19) <NavLink href=\\\"#/help\\\">",
+			source: "(154:19) <NavLink href=\\\"#/help\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (155:10) <NavItem>
+	// (154:10) <NavItem>
 	function create_default_slot_7(ctx) {
 		let navlink;
 		let current;
@@ -59025,7 +58954,7 @@
 			p: function update(ctx, dirty) {
 				const navlink_changes = {};
 
-				if (dirty & /*$$scope*/ 65536) {
+				if (dirty & /*$$scope*/ 32768) {
 					navlink_changes.$$scope = { dirty, ctx };
 				}
 
@@ -59049,14 +58978,14 @@
 			block,
 			id: create_default_slot_7.name,
 			type: "slot",
-			source: "(155:10) <NavItem>",
+			source: "(154:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (157:13) <NavLink href="#/" on:click={logout}>
+	// (156:13) <NavLink href="#/" on:click={logout}>
 	function create_default_slot_6(ctx) {
 		let t;
 
@@ -59076,14 +59005,14 @@
 			block,
 			id: create_default_slot_6.name,
 			type: "slot",
-			source: "(157:13) <NavLink href=\\\"#/\\\" on:click={logout}>",
+			source: "(156:13) <NavLink href=\\\"#/\\\" on:click={logout}>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (156:10) <NavItem             >
+	// (155:10) <NavItem             >
 	function create_default_slot_5(ctx) {
 		let navlink;
 		let current;
@@ -59097,7 +59026,7 @@
 				$$inline: true
 			});
 
-		navlink.$on("click", /*logout*/ ctx[5]);
+		navlink.$on("click", /*logout*/ ctx[4]);
 
 		const block = {
 			c: function create() {
@@ -59110,7 +59039,7 @@
 			p: function update(ctx, dirty) {
 				const navlink_changes = {};
 
-				if (dirty & /*$$scope*/ 65536) {
+				if (dirty & /*$$scope*/ 32768) {
 					navlink_changes.$$scope = { dirty, ctx };
 				}
 
@@ -59134,14 +59063,14 @@
 			block,
 			id: create_default_slot_5.name,
 			type: "slot",
-			source: "(156:10) <NavItem             >",
+			source: "(155:10) <NavItem             >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (148:8) <Nav navbar>
+	// (147:8) <Nav navbar>
 	function create_default_slot_4(ctx) {
 		let navitem0;
 		let t0;
@@ -59235,42 +59164,42 @@
 			p: function update(ctx, dirty) {
 				const navitem0_changes = {};
 
-				if (dirty & /*$$scope*/ 65536) {
+				if (dirty & /*$$scope*/ 32768) {
 					navitem0_changes.$$scope = { dirty, ctx };
 				}
 
 				navitem0.$set(navitem0_changes);
 				const navitem1_changes = {};
 
-				if (dirty & /*$$scope*/ 65536) {
+				if (dirty & /*$$scope*/ 32768) {
 					navitem1_changes.$$scope = { dirty, ctx };
 				}
 
 				navitem1.$set(navitem1_changes);
 				const navitem2_changes = {};
 
-				if (dirty & /*$$scope*/ 65536) {
+				if (dirty & /*$$scope*/ 32768) {
 					navitem2_changes.$$scope = { dirty, ctx };
 				}
 
 				navitem2.$set(navitem2_changes);
 				const navitem3_changes = {};
 
-				if (dirty & /*$$scope*/ 65536) {
+				if (dirty & /*$$scope*/ 32768) {
 					navitem3_changes.$$scope = { dirty, ctx };
 				}
 
 				navitem3.$set(navitem3_changes);
 				const navitem4_changes = {};
 
-				if (dirty & /*$$scope*/ 65536) {
+				if (dirty & /*$$scope*/ 32768) {
 					navitem4_changes.$$scope = { dirty, ctx };
 				}
 
 				navitem4.$set(navitem4_changes);
 				const navitem5_changes = {};
 
-				if (dirty & /*$$scope*/ 65536) {
+				if (dirty & /*$$scope*/ 32768) {
 					navitem5_changes.$$scope = { dirty, ctx };
 				}
 
@@ -59314,14 +59243,14 @@
 			block,
 			id: create_default_slot_4.name,
 			type: "slot",
-			source: "(148:8) <Nav navbar>",
+			source: "(147:8) <Nav navbar>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (147:6) <Collapse toggler="#main-toggler" navbar expand="lg">
+	// (146:6) <Collapse toggler="#main-toggler" navbar expand="lg">
 	function create_default_slot_3(ctx) {
 		let nav;
 		let current;
@@ -59346,7 +59275,7 @@
 			p: function update(ctx, dirty) {
 				const nav_changes = {};
 
-				if (dirty & /*$$scope*/ 65536) {
+				if (dirty & /*$$scope*/ 32768) {
 					nav_changes.$$scope = { dirty, ctx };
 				}
 
@@ -59370,17 +59299,17 @@
 			block,
 			id: create_default_slot_3.name,
 			type: "slot",
-			source: "(147:6) <Collapse toggler=\\\"#main-toggler\\\" navbar expand=\\\"lg\\\">",
+			source: "(146:6) <Collapse toggler=\\\"#main-toggler\\\" navbar expand=\\\"lg\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (167:8) {#each getServers() as server}
+	// (166:8) {#each getServers() as server}
 	function create_each_block(ctx) {
 		let option;
-		let t0_value = /*server*/ ctx[13].name + "";
+		let t0_value = /*server*/ ctx[12].name + "";
 		let t0;
 		let t1;
 
@@ -59389,9 +59318,9 @@
 				option = element("option");
 				t0 = text(t0_value);
 				t1 = space();
-				option.__value = /*server*/ ctx[13].url;
+				option.__value = /*server*/ ctx[12].url;
 				option.value = option.__value;
-				add_location(option, file, 167, 10, 5470);
+				add_location(option, file, 166, 10, 5437);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, option, anchor);
@@ -59408,14 +59337,14 @@
 			block,
 			id: create_each_block.name,
 			type: "each",
-			source: "(167:8) {#each getServers() as server}",
+			source: "(166:8) {#each getServers() as server}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (161:6) <Input         type="select"         name="select"         value={getServer()}         on:change={serverChangeEvent}       >
+	// (160:6) <Input         type="select"         name="select"         value={getServer()}         on:change={serverChangeEvent}       >
 	function create_default_slot_2(ctx) {
 		let each_1_anchor;
 		let each_value = getServers();
@@ -59476,14 +59405,14 @@
 			block,
 			id: create_default_slot_2.name,
 			type: "slot",
-			source: "(161:6) <Input         type=\\\"select\\\"         name=\\\"select\\\"         value={getServer()}         on:change={serverChangeEvent}       >",
+			source: "(160:6) <Input         type=\\\"select\\\"         name=\\\"select\\\"         value={getServer()}         on:change={serverChangeEvent}       >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (145:4) <Navbar container={false} color="dark" dark expand="lg">
+	// (144:4) <Navbar container={false} color="dark" dark expand="lg">
 	function create_default_slot_1(ctx) {
 		let navbartoggler;
 		let t0;
@@ -59519,7 +59448,7 @@
 				$$inline: true
 			});
 
-		input.$on("change", /*serverChangeEvent*/ ctx[8]);
+		input.$on("change", /*serverChangeEvent*/ ctx[7]);
 
 		const block = {
 			c: function create() {
@@ -59540,14 +59469,14 @@
 			p: function update(ctx, dirty) {
 				const collapse_changes = {};
 
-				if (dirty & /*$$scope*/ 65536) {
+				if (dirty & /*$$scope*/ 32768) {
 					collapse_changes.$$scope = { dirty, ctx };
 				}
 
 				collapse.$set(collapse_changes);
 				const input_changes = {};
 
-				if (dirty & /*$$scope*/ 65536) {
+				if (dirty & /*$$scope*/ 32768) {
 					input_changes.$$scope = { dirty, ctx };
 				}
 
@@ -59579,20 +59508,20 @@
 			block,
 			id: create_default_slot_1.name,
 			type: "slot",
-			source: "(145:4) <Navbar container={false} color=\\\"dark\\\" dark expand=\\\"lg\\\">",
+			source: "(144:4) <Navbar container={false} color=\\\"dark\\\" dark expand=\\\"lg\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (176:4) <ToastContainer let:data>
+	// (175:4) <ToastContainer let:data>
 	function create_default_slot(ctx) {
 		let flattoast;
 		let current;
 
 		flattoast = new FlatToast({
-				props: { data: /*data*/ ctx[12] },
+				props: { data: /*data*/ ctx[11] },
 				$$inline: true
 			});
 
@@ -59606,7 +59535,7 @@
 			},
 			p: function update(ctx, dirty) {
 				const flattoast_changes = {};
-				if (dirty & /*data*/ 4096) flattoast_changes.data = /*data*/ ctx[12];
+				if (dirty & /*data*/ 2048) flattoast_changes.data = /*data*/ ctx[11];
 				flattoast.$set(flattoast_changes);
 			},
 			i: function intro(local) {
@@ -59627,14 +59556,14 @@
 			block,
 			id: create_default_slot.name,
 			type: "slot",
-			source: "(176:4) <ToastContainer let:data>",
+			source: "(175:4) <ToastContainer let:data>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (183:0) {#if loading}
+	// (182:0) {#if loading}
 	function create_if_block(ctx) {
 		let div;
 
@@ -59643,7 +59572,7 @@
 				div = element("div");
 				attr_dev(div, "id", "loading-animation");
 				attr_dev(div, "class", "svelte-1bcajx9");
-				add_location(div, file, 183, 2, 5774);
+				add_location(div, file, 182, 2, 5741);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -59657,7 +59586,7 @@
 			block,
 			id: create_if_block.name,
 			type: "if",
-			source: "(183:0) {#if loading}",
+			source: "(182:0) {#if loading}",
 			ctx
 		});
 
@@ -59686,6 +59615,8 @@
 		let t11;
 		let t12;
 		let p1;
+		let t14;
+		let p2;
 		let current;
 		let mounted;
 		let dispose;
@@ -59727,26 +59658,31 @@
 				t11 = text(" for more information.");
 				t12 = space();
 				p1 = element("p");
-				p1.textContent = `Build date: ${/*buildDate*/ ctx[3]} Copyright © The Wasabee Team 2021. All Rights Reserved`;
+				p1.textContent = "Copyright © The Wasabee Team 2021. All Rights Reserved";
+				t14 = space();
+				p2 = element("p");
+				p2.textContent = "Build date: Sun, 21 Aug 2022 18:16:30 GMT";
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
-				add_location(script, file, 133, 2, 4362);
-				add_location(strong, file, 190, 76, 6055);
+				add_location(script, file, 132, 2, 4329);
+				add_location(strong, file, 189, 76, 6022);
 				attr_dev(a0, "href", "https://v.enl.one/");
-				add_location(a0, file, 194, 6, 6171);
+				add_location(a0, file, 193, 6, 6138);
 				attr_dev(a1, "href", "https://enl.rocks");
-				add_location(a1, file, 195, 6, 6216);
+				add_location(a1, file, 194, 6, 6183);
 				attr_dev(a2, "href", "/privacy");
-				add_location(a2, file, 196, 6, 6277);
+				add_location(a2, file, 195, 6, 6244);
 				attr_dev(p0, "class", "text-muted small");
-				add_location(p0, file, 188, 4, 5875);
+				add_location(p0, file, 187, 4, 5842);
 				attr_dev(p1, "class", "text-muted text-right small");
-				add_location(p1, file, 198, 4, 6350);
+				add_location(p1, file, 197, 4, 6317);
+				attr_dev(p2, "class", "text-muted text-right small");
+				add_location(p2, file, 200, 4, 6436);
 				attr_dev(div, "class", "p-5");
-				add_location(div, file, 187, 2, 5853);
+				add_location(div, file, 186, 2, 5820);
 				attr_dev(footer, "class", "mastfoot mx-5 mt-auto");
-				add_location(footer, file, 186, 0, 5812);
+				add_location(footer, file, 185, 0, 5779);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -59772,10 +59708,12 @@
 				append_dev(p0, t11);
 				append_dev(div, t12);
 				append_dev(div, p1);
+				append_dev(div, t14);
+				append_dev(div, p2);
 				current = true;
 
 				if (!mounted) {
-					dispose = listen_dev(script, "load", /*loadAuth2*/ ctx[6], false, false, false);
+					dispose = listen_dev(script, "load", /*loadAuth2*/ ctx[5], false, false, false);
 					mounted = true;
 				}
 			},
@@ -59854,7 +59792,7 @@
 		let $location;
 		let $meStore;
 		validate_store(location$2, 'location');
-		component_subscribe($$self, location$2, $$value => $$invalidate(10, $location = $$value));
+		component_subscribe($$self, location$2, $$value => $$invalidate(9, $location = $$value));
 		validate_store(meStore, 'meStore');
 		component_subscribe($$self, meStore, $$value => $$invalidate(2, $meStore = $$value));
 		let { $$slots: slots = {}, $$scope } = $$props;
@@ -59896,7 +59834,6 @@
 				});
 		};
 
-		const buildDate = "2022-08-21T16:48:36.561Z";
 		let me;
 		let loading = false;
 
@@ -59908,7 +59845,7 @@
 				setConfig(config);
 
 				loadMeAndOps().then(() => __awaiter(void 0, void 0, void 0, function* () {
-					$$invalidate(9, me = WasabeeMe.get());
+					$$invalidate(8, me = WasabeeMe.get());
 					sendTokenToServer();
 					$$invalidate(0, loading = false);
 				})).catch(() => {
@@ -59950,7 +59887,7 @@
 				//window.location.href = '/';
 				meStore.reset();
 
-				$$invalidate(9, me = null);
+				$$invalidate(8, me = null);
 			});
 		}
 
@@ -59964,7 +59901,7 @@
 
 		function onLogin(ev) {
 			return __awaiter(this, void 0, void 0, function* () {
-				$$invalidate(9, me = new WasabeeMe(ev.detail));
+				$$invalidate(8, me = new WasabeeMe(ev.detail));
 				me.store();
 				set_store_value(meStore, $meStore = me, $meStore);
 				setConfig(yield loadConfig());
@@ -59990,12 +59927,12 @@
 					setConfig(yield loadConfig());
 
 					// virtual login
-					$$invalidate(9, me = yield meStore.refresh());
+					$$invalidate(8, me = yield meStore.refresh());
 				} catch(_a) {
 					// clear auth on failure
 					meStore.reset();
 
-					$$invalidate(9, me = null);
+					$$invalidate(8, me = null);
 					setAuthBearer();
 					delete localStorage['sentToServer'];
 					return;
@@ -60055,7 +59992,6 @@
 			meStore,
 			opsStore,
 			teamsStore,
-			buildDate,
 			me,
 			loading,
 			routes,
@@ -60070,7 +60006,7 @@
 
 		$$self.$inject_state = $$props => {
 			if ('__awaiter' in $$props) __awaiter = $$props.__awaiter;
-			if ('me' in $$props) $$invalidate(9, me = $$props.me);
+			if ('me' in $$props) $$invalidate(8, me = $$props.me);
 			if ('loading' in $$props) $$invalidate(0, loading = $$props.loading);
 			if ('disabled' in $$props) $$invalidate(1, disabled = $$props.disabled);
 		};
@@ -60080,7 +60016,7 @@
 		}
 
 		$$self.$$.update = () => {
-			if ($$self.$$.dirty & /*me*/ 512) {
+			if ($$self.$$.dirty & /*me*/ 256) {
 				if (me) $$invalidate(0, loading = false);
 			}
 		};
@@ -60089,7 +60025,6 @@
 			loading,
 			disabled,
 			$meStore,
-			buildDate,
 			routes,
 			logout,
 			loadAuth2,
