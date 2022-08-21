@@ -41789,25 +41789,25 @@
 
 	function get_each_context$8(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[31] = list[i];
-		child_ctx[32] = list;
-		child_ctx[33] = i;
+		child_ctx[33] = list[i];
+		child_ctx[34] = list;
+		child_ctx[35] = i;
 		return child_ctx;
 	}
 
 	function get_each_context_1$3(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[34] = list[i];
+		child_ctx[36] = list[i];
 		return child_ctx;
 	}
 
 	function get_each_context_2$3(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[37] = list[i];
+		child_ctx[39] = list[i];
 		return child_ctx;
 	}
 
-	// (234:51) 
+	// (247:51) 
 	function create_if_block_1$c(ctx) {
 		let td0;
 		let portallink0;
@@ -41820,7 +41820,7 @@
 		let portallink1;
 		let t2;
 		let td3;
-		let t3_value = /*calculateDistance*/ ctx[5](/*step*/ ctx[31].task) + "";
+		let t3_value = /*calculateDistance*/ ctx[6](/*step*/ ctx[33].task) + "";
 		let t3;
 		let current;
 		let mounted;
@@ -41828,19 +41828,19 @@
 
 		portallink0 = new PortalLink({
 				props: {
-					portalId: /*step*/ ctx[31].task.fromPortalId,
+					portalId: /*step*/ ctx[33].task.fromPortalId,
 					operation: /*operation*/ ctx[1]
 				},
 				$$inline: true
 			});
 
 		function click_handler() {
-			return /*click_handler*/ ctx[18](/*step*/ ctx[31]);
+			return /*click_handler*/ ctx[20](/*step*/ ctx[33]);
 		}
 
 		portallink1 = new PortalLink({
 				props: {
-					portalId: /*step*/ ctx[31].task.toPortalId,
+					portalId: /*step*/ ctx[33].task.toPortalId,
 					operation: /*operation*/ ctx[1]
 				},
 				$$inline: true
@@ -41859,15 +41859,15 @@
 				t2 = space();
 				td3 = element("td");
 				t3 = text(t3_value);
-				add_location(td0, file$e, 234, 10, 7611);
+				add_location(td0, file$e, 247, 10, 8040);
 				if (!src_url_equal(img.src, img_src_value = "https://cdn2.wasabee.rocks/img/swap.svg")) attr_dev(img, "src", img_src_value);
 				attr_dev(img, "height", "16");
 				attr_dev(img, "alt", "swap");
 				attr_dev(img, "class", "dark-filter-invert");
-				add_location(img, file$e, 238, 12, 7732);
-				add_location(td1, file$e, 237, 10, 7715);
-				add_location(td2, file$e, 246, 10, 7984);
-				add_location(td3, file$e, 249, 10, 8086);
+				add_location(img, file$e, 251, 12, 8161);
+				add_location(td1, file$e, 250, 10, 8144);
+				add_location(td2, file$e, 259, 10, 8413);
+				add_location(td3, file$e, 262, 10, 8515);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -41891,14 +41891,14 @@
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
 				const portallink0_changes = {};
-				if (dirty[0] & /*steps*/ 8) portallink0_changes.portalId = /*step*/ ctx[31].task.fromPortalId;
+				if (dirty[0] & /*steps*/ 8) portallink0_changes.portalId = /*step*/ ctx[33].task.fromPortalId;
 				if (dirty[0] & /*operation*/ 2) portallink0_changes.operation = /*operation*/ ctx[1];
 				portallink0.$set(portallink0_changes);
 				const portallink1_changes = {};
-				if (dirty[0] & /*steps*/ 8) portallink1_changes.portalId = /*step*/ ctx[31].task.toPortalId;
+				if (dirty[0] & /*steps*/ 8) portallink1_changes.portalId = /*step*/ ctx[33].task.toPortalId;
 				if (dirty[0] & /*operation*/ 2) portallink1_changes.operation = /*operation*/ ctx[1];
 				portallink1.$set(portallink1_changes);
-				if ((!current || dirty[0] & /*steps*/ 8) && t3_value !== (t3_value = /*calculateDistance*/ ctx[5](/*step*/ ctx[31].task) + "")) set_data_dev(t3, t3_value);
+				if ((!current || dirty[0] & /*steps*/ 8) && t3_value !== (t3_value = /*calculateDistance*/ ctx[6](/*step*/ ctx[33].task) + "")) set_data_dev(t3, t3_value);
 			},
 			i: function intro(local) {
 				if (current) return;
@@ -41930,14 +41930,14 @@
 			block,
 			id: create_if_block_1$c.name,
 			type: "if",
-			source: "(234:51) ",
+			source: "(247:51) ",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (225:8) {#if step.task instanceof WasabeeMarker}
+	// (238:8) {#if step.task instanceof WasabeeMarker}
 	function create_if_block$e(ctx) {
 		let td0;
 		let portallink;
@@ -41945,7 +41945,7 @@
 		let td1;
 		let t1;
 		let td2;
-		let t2_value = /*step*/ ctx[31].task.friendlyType + "";
+		let t2_value = /*step*/ ctx[33].task.friendlyType + "";
 		let t2;
 		let td2_class_value;
 		let t3;
@@ -41954,7 +41954,7 @@
 
 		portallink = new PortalLink({
 				props: {
-					portalId: /*step*/ ctx[31].task.portalId,
+					portalId: /*step*/ ctx[33].task.portalId,
 					operation: /*operation*/ ctx[1]
 				},
 				$$inline: true
@@ -41971,11 +41971,11 @@
 				t2 = text(t2_value);
 				t3 = space();
 				td3 = element("td");
-				add_location(td0, file$e, 225, 10, 7334);
-				add_location(td1, file$e, 228, 10, 7434);
-				attr_dev(td2, "class", td2_class_value = /*step*/ ctx[31].task.type);
-				add_location(td2, file$e, 229, 10, 7451);
-				add_location(td3, file$e, 232, 10, 7542);
+				add_location(td0, file$e, 238, 10, 7763);
+				add_location(td1, file$e, 241, 10, 7863);
+				attr_dev(td2, "class", td2_class_value = /*step*/ ctx[33].task.type);
+				add_location(td2, file$e, 242, 10, 7880);
+				add_location(td3, file$e, 245, 10, 7971);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -41991,12 +41991,12 @@
 			},
 			p: function update(ctx, dirty) {
 				const portallink_changes = {};
-				if (dirty[0] & /*steps*/ 8) portallink_changes.portalId = /*step*/ ctx[31].task.portalId;
+				if (dirty[0] & /*steps*/ 8) portallink_changes.portalId = /*step*/ ctx[33].task.portalId;
 				if (dirty[0] & /*operation*/ 2) portallink_changes.operation = /*operation*/ ctx[1];
 				portallink.$set(portallink_changes);
-				if ((!current || dirty[0] & /*steps*/ 8) && t2_value !== (t2_value = /*step*/ ctx[31].task.friendlyType + "")) set_data_dev(t2, t2_value);
+				if ((!current || dirty[0] & /*steps*/ 8) && t2_value !== (t2_value = /*step*/ ctx[33].task.friendlyType + "")) set_data_dev(t2, t2_value);
 
-				if (!current || dirty[0] & /*steps, operation*/ 10 && td2_class_value !== (td2_class_value = /*step*/ ctx[31].task.type)) {
+				if (!current || dirty[0] & /*steps, operation*/ 10 && td2_class_value !== (td2_class_value = /*step*/ ctx[33].task.type)) {
 					attr_dev(td2, "class", td2_class_value);
 				}
 			},
@@ -42025,17 +42025,17 @@
 			block,
 			id: create_if_block$e.name,
 			type: "if",
-			source: "(225:8) {#if step.task instanceof WasabeeMarker}",
+			source: "(238:8) {#if step.task instanceof WasabeeMarker}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (260:12) {#each operation.zones as z (z.id)}
+	// (273:12) {#each operation.zones as z (z.id)}
 	function create_each_block_2$3(key_1, ctx) {
 		let option;
-		let t0_value = /*z*/ ctx[37].name + "";
+		let t0_value = /*z*/ ctx[39].name + "";
 		let t0;
 		let t1;
 		let option_value_value;
@@ -42047,9 +42047,9 @@
 				option = element("option");
 				t0 = text(t0_value);
 				t1 = space();
-				option.__value = option_value_value = /*z*/ ctx[37].id;
+				option.__value = option_value_value = /*z*/ ctx[39].id;
 				option.value = option.__value;
-				add_location(option, file$e, 260, 14, 8407);
+				add_location(option, file$e, 273, 14, 8836);
 				this.first = option;
 			},
 			m: function mount(target, anchor) {
@@ -42059,9 +42059,9 @@
 			},
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
-				if (dirty[0] & /*operation*/ 2 && t0_value !== (t0_value = /*z*/ ctx[37].name + "")) set_data_dev(t0, t0_value);
+				if (dirty[0] & /*operation*/ 2 && t0_value !== (t0_value = /*z*/ ctx[39].name + "")) set_data_dev(t0, t0_value);
 
-				if (dirty[0] & /*operation*/ 2 && option_value_value !== (option_value_value = /*z*/ ctx[37].id)) {
+				if (dirty[0] & /*operation*/ 2 && option_value_value !== (option_value_value = /*z*/ ctx[39].id)) {
 					prop_dev(option, "__value", option_value_value);
 					option.value = option.__value;
 				}
@@ -42075,17 +42075,17 @@
 			block,
 			id: create_each_block_2$3.name,
 			type: "each",
-			source: "(260:12) {#each operation.zones as z (z.id)}",
+			source: "(273:12) {#each operation.zones as z (z.id)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (273:12) {#each agents as a (a.id)}
+	// (286:12) {#each agents as a (a.id)}
 	function create_each_block_1$3(key_1, ctx) {
 		let option;
-		let t0_value = /*a*/ ctx[34].name + "";
+		let t0_value = /*a*/ ctx[36].name + "";
 		let t0;
 		let t1;
 		let option_value_value;
@@ -42097,9 +42097,9 @@
 				option = element("option");
 				t0 = text(t0_value);
 				t1 = space();
-				option.__value = option_value_value = /*a*/ ctx[34].id;
+				option.__value = option_value_value = /*a*/ ctx[36].id;
 				option.value = option.__value;
-				add_location(option, file$e, 273, 14, 8774);
+				add_location(option, file$e, 286, 14, 9203);
 				this.first = option;
 			},
 			m: function mount(target, anchor) {
@@ -42109,9 +42109,9 @@
 			},
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
-				if (dirty[0] & /*agents*/ 4 && t0_value !== (t0_value = /*a*/ ctx[34].name + "")) set_data_dev(t0, t0_value);
+				if (dirty[0] & /*agents*/ 4 && t0_value !== (t0_value = /*a*/ ctx[36].name + "")) set_data_dev(t0, t0_value);
 
-				if (dirty[0] & /*agents*/ 4 && option_value_value !== (option_value_value = /*a*/ ctx[34].id)) {
+				if (dirty[0] & /*agents*/ 4 && option_value_value !== (option_value_value = /*a*/ ctx[36].id)) {
 					prop_dev(option, "__value", option_value_value);
 					option.value = option.__value;
 				}
@@ -42125,20 +42125,20 @@
 			block,
 			id: create_each_block_1$3.name,
 			type: "each",
-			source: "(273:12) {#each agents as a (a.id)}",
+			source: "(286:12) {#each agents as a (a.id)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (220:4) {#each steps as step (step.id)}
+	// (228:4) {#each steps as step (step.id)}
 	function create_each_block$8(key_1, ctx) {
 		let tr;
 		let td0;
 		let t0;
 		let td1;
-		let t1_value = /*step*/ ctx[31].task.order + "";
+		let t1_value = /*step*/ ctx[33].task.order + "";
 		let t1;
 		let t2;
 		let current_block_type_index;
@@ -42171,8 +42171,8 @@
 		const if_blocks = [];
 
 		function select_block_type(ctx, dirty) {
-			if (/*step*/ ctx[31].task instanceof WasabeeMarker) return 0;
-			if (/*step*/ ctx[31].task instanceof WasabeeLink) return 1;
+			if (/*step*/ ctx[33].task instanceof WasabeeMarker) return 0;
+			if (/*step*/ ctx[33].task instanceof WasabeeLink) return 1;
 			return -1;
 		}
 
@@ -42182,7 +42182,7 @@
 
 		let each_value_2 = /*operation*/ ctx[1].zones;
 		validate_each_argument(each_value_2);
-		const get_key = ctx => /*z*/ ctx[37].id;
+		const get_key = ctx => /*z*/ ctx[39].id;
 		validate_each_keys(ctx, each_value_2, get_each_context_2$3, get_key);
 
 		for (let i = 0; i < each_value_2.length; i += 1) {
@@ -42192,16 +42192,16 @@
 		}
 
 		function select0_change_handler() {
-			/*select0_change_handler*/ ctx[19].call(select0, /*each_value*/ ctx[32], /*step_index*/ ctx[33]);
+			/*select0_change_handler*/ ctx[21].call(select0, /*each_value*/ ctx[34], /*step_index*/ ctx[35]);
 		}
 
 		function change_handler() {
-			return /*change_handler*/ ctx[20](/*step*/ ctx[31]);
+			return /*change_handler*/ ctx[22](/*step*/ ctx[33]);
 		}
 
 		let each_value_1 = /*agents*/ ctx[2];
 		validate_each_argument(each_value_1);
-		const get_key_1 = ctx => /*a*/ ctx[34].id;
+		const get_key_1 = ctx => /*a*/ ctx[36].id;
 		validate_each_keys(ctx, each_value_1, get_each_context_1$3, get_key_1);
 
 		for (let i = 0; i < each_value_1.length; i += 1) {
@@ -42211,27 +42211,27 @@
 		}
 
 		function select1_change_handler() {
-			/*select1_change_handler*/ ctx[21].call(select1, /*each_value*/ ctx[32], /*step_index*/ ctx[33]);
+			/*select1_change_handler*/ ctx[23].call(select1, /*each_value*/ ctx[34], /*step_index*/ ctx[35]);
 		}
 
 		function change_handler_1() {
-			return /*change_handler_1*/ ctx[22](/*step*/ ctx[31]);
+			return /*change_handler_1*/ ctx[24](/*step*/ ctx[33]);
 		}
 
 		function input0_input_handler() {
-			/*input0_input_handler*/ ctx[23].call(input0, /*each_value*/ ctx[32], /*step_index*/ ctx[33]);
+			/*input0_input_handler*/ ctx[25].call(input0, /*each_value*/ ctx[34], /*step_index*/ ctx[35]);
 		}
 
 		function change_handler_2() {
-			return /*change_handler_2*/ ctx[24](/*step*/ ctx[31]);
+			return /*change_handler_2*/ ctx[26](/*step*/ ctx[33]);
 		}
 
 		function input1_change_handler() {
-			/*input1_change_handler*/ ctx[25].call(input1, /*each_value*/ ctx[32], /*step_index*/ ctx[33]);
+			/*input1_change_handler*/ ctx[27].call(input1, /*each_value*/ ctx[34], /*step_index*/ ctx[35]);
 		}
 
 		function change_handler_3() {
-			return /*change_handler_3*/ ctx[26](/*step*/ ctx[31]);
+			return /*change_handler_3*/ ctx[28](/*step*/ ctx[33]);
 		}
 
 		const block = {
@@ -42272,30 +42272,30 @@
 				td5 = element("td");
 				input1 = element("input");
 				t9 = space();
-				toggle_class(td0, "handle", /*enableDrag*/ ctx[4]);
+				toggle_class(td0, "handle", /*toggleDrag*/ ctx[4]);
 				toggle_class(td0, "dark-filter-invert", true);
-				add_location(td0, file$e, 221, 8, 7155);
+				add_location(td0, file$e, 229, 8, 7485);
 				attr_dev(td1, "class", "text-right");
-				add_location(td1, file$e, 223, 8, 7229);
+				add_location(td1, file$e, 236, 8, 7658);
 				option0.__value = "0";
 				option0.value = option0.__value;
-				add_location(option0, file$e, 258, 12, 8308);
-				if (/*step*/ ctx[31].task.zone === void 0) add_render_callback(select0_change_handler);
-				add_location(select0, file$e, 254, 10, 8187);
-				add_location(td2, file$e, 253, 8, 8172);
+				add_location(option0, file$e, 271, 12, 8737);
+				if (/*step*/ ctx[33].task.zone === void 0) add_render_callback(select0_change_handler);
+				add_location(select0, file$e, 267, 10, 8616);
+				add_location(td2, file$e, 266, 8, 8601);
 				option1.__value = "";
 				option1.value = option1.__value;
-				add_location(option1, file$e, 271, 12, 8684);
-				if (/*step*/ ctx[31].task.assignedTo === void 0) add_render_callback(select1_change_handler);
-				add_location(select1, file$e, 267, 10, 8555);
-				add_location(td3, file$e, 266, 8, 8540);
-				add_location(input0, file$e, 280, 10, 8922);
-				add_location(td4, file$e, 279, 8, 8907);
+				add_location(option1, file$e, 284, 12, 9113);
+				if (/*step*/ ctx[33].task.assignedTo === void 0) add_render_callback(select1_change_handler);
+				add_location(select1, file$e, 280, 10, 8984);
+				add_location(td3, file$e, 279, 8, 8969);
+				add_location(input0, file$e, 293, 10, 9351);
+				add_location(td4, file$e, 292, 8, 9336);
 				attr_dev(input1, "type", "checkbox");
-				add_location(input1, file$e, 286, 10, 9094);
+				add_location(input1, file$e, 299, 10, 9523);
 				attr_dev(td5, "class", "text-center");
-				add_location(td5, file$e, 285, 8, 9059);
-				add_location(tr, file$e, 220, 6, 7098);
+				add_location(td5, file$e, 298, 8, 9488);
+				add_location(tr, file$e, 228, 6, 7428);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -42319,7 +42319,7 @@
 					each_blocks_1[i].m(select0, null);
 				}
 
-				select_option(select0, /*step*/ ctx[31].task.zone);
+				select_option(select0, /*step*/ ctx[33].task.zone);
 				append_dev(tr, t5);
 				append_dev(tr, td3);
 				append_dev(td3, select1);
@@ -42329,20 +42329,22 @@
 					each_blocks[i].m(select1, null);
 				}
 
-				select_option(select1, /*step*/ ctx[31].task.assignedTo);
+				select_option(select1, /*step*/ ctx[33].task.assignedTo);
 				append_dev(tr, t7);
 				append_dev(tr, td4);
 				append_dev(td4, input0);
-				set_input_value(input0, /*step*/ ctx[31].task.comment);
+				set_input_value(input0, /*step*/ ctx[33].task.comment);
 				append_dev(tr, t8);
 				append_dev(tr, td5);
 				append_dev(td5, input1);
-				input1.checked = /*step*/ ctx[31].task.completed;
+				input1.checked = /*step*/ ctx[33].task.completed;
 				append_dev(tr, t9);
 				current = true;
 
 				if (!mounted) {
 					dispose = [
+						listen_dev(td0, "mousedown", /*startDrag*/ ctx[14], false, false, false),
+						listen_dev(td0, "touchstart", /*startDrag*/ ctx[14], false, false, false),
 						listen_dev(select0, "change", select0_change_handler),
 						listen_dev(select0, "change", change_handler, false, false, false),
 						listen_dev(select1, "change", select1_change_handler),
@@ -42359,11 +42361,11 @@
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
 
-				if (dirty[0] & /*enableDrag*/ 16) {
-					toggle_class(td0, "handle", /*enableDrag*/ ctx[4]);
+				if (dirty[0] & /*toggleDrag*/ 16) {
+					toggle_class(td0, "handle", /*toggleDrag*/ ctx[4]);
 				}
 
-				if ((!current || dirty[0] & /*steps*/ 8) && t1_value !== (t1_value = /*step*/ ctx[31].task.order + "")) set_data_dev(t1, t1_value);
+				if ((!current || dirty[0] & /*steps*/ 8) && t1_value !== (t1_value = /*step*/ ctx[33].task.order + "")) set_data_dev(t1, t1_value);
 				let previous_block_index = current_block_type_index;
 				current_block_type_index = select_block_type(ctx);
 
@@ -42407,7 +42409,7 @@
 				}
 
 				if (dirty[0] & /*steps, operation*/ 10) {
-					select_option(select0, /*step*/ ctx[31].task.zone);
+					select_option(select0, /*step*/ ctx[33].task.zone);
 				}
 
 				if (dirty[0] & /*agents*/ 4) {
@@ -42418,15 +42420,15 @@
 				}
 
 				if (dirty[0] & /*steps, operation*/ 10) {
-					select_option(select1, /*step*/ ctx[31].task.assignedTo);
+					select_option(select1, /*step*/ ctx[33].task.assignedTo);
 				}
 
-				if (dirty[0] & /*steps, operation*/ 10 && input0.value !== /*step*/ ctx[31].task.comment) {
-					set_input_value(input0, /*step*/ ctx[31].task.comment);
+				if (dirty[0] & /*steps, operation*/ 10 && input0.value !== /*step*/ ctx[33].task.comment) {
+					set_input_value(input0, /*step*/ ctx[33].task.comment);
 				}
 
 				if (dirty[0] & /*steps, operation*/ 10) {
-					input1.checked = /*step*/ ctx[31].task.completed;
+					input1.checked = /*step*/ ctx[33].task.completed;
 				}
 			},
 			r: function measure() {
@@ -42473,7 +42475,7 @@
 			block,
 			id: create_each_block$8.name,
 			type: "each",
-			source: "(220:4) {#each steps as step (step.id)}",
+			source: "(228:4) {#each steps as step (step.id)}",
 			ctx
 		});
 
@@ -42530,7 +42532,7 @@
 		let dispose;
 		let each_value = /*steps*/ ctx[3];
 		validate_each_argument(each_value);
-		const get_key = ctx => /*step*/ ctx[31].id;
+		const get_key = ctx => /*step*/ ctx[33].id;
 		validate_each_keys(ctx, each_value, get_each_context$8, get_key);
 
 		for (let i = 0; i < each_value.length; i += 1) {
@@ -42599,56 +42601,56 @@
 
 				attr_dev(div0, "class", "card-header");
 				attr_dev(div0, "id", "opName");
-				add_location(div0, file$e, 178, 2, 5754);
+				add_location(div0, file$e, 186, 2, 6068);
 				attr_dev(textarea, "class", "form-control");
-				add_location(textarea, file$e, 181, 6, 5891);
+				add_location(textarea, file$e, 189, 6, 6205);
 				attr_dev(ul, "class", "list-group list-group-flush");
-				add_location(ul, file$e, 180, 4, 5844);
+				add_location(ul, file$e, 188, 4, 6158);
 				attr_dev(button0, "class", "btn btn-success");
-				add_location(button0, file$e, 183, 4, 5970);
+				add_location(button0, file$e, 191, 4, 6284);
 				attr_dev(button1, "class", "btn btn-danger");
-				add_location(button1, file$e, 184, 4, 6045);
+				add_location(button1, file$e, 192, 4, 6359);
 				attr_dev(div1, "class", "card-body");
-				add_location(div1, file$e, 179, 2, 5816);
+				add_location(div1, file$e, 187, 2, 6130);
 				attr_dev(div2, "class", "card mb-2");
-				add_location(div2, file$e, 177, 0, 5728);
+				add_location(div2, file$e, 185, 0, 6042);
 				attr_dev(input, "type", "checkbox");
 				attr_dev(input, "class", "custom-control-input");
 				attr_dev(input, "id", "enableDrag");
-				add_location(input, file$e, 193, 10, 6302);
+				add_location(input, file$e, 201, 10, 6616);
 				attr_dev(label, "class", "custom-control-label");
 				attr_dev(label, "for", "enableDrag");
-				add_location(label, file$e, 199, 10, 6467);
+				add_location(label, file$e, 207, 10, 6781);
 				attr_dev(div3, "class", "custom-control custom-switch");
-				add_location(div3, file$e, 192, 9, 6249);
+				add_location(div3, file$e, 200, 9, 6563);
 				attr_dev(th0, "class", "pl-0 pr-0");
 				attr_dev(th0, "scope", "col");
-				add_location(th0, file$e, 191, 6, 6206);
+				add_location(th0, file$e, 199, 6, 6520);
 				attr_dev(th1, "scope", "col");
-				add_location(th1, file$e, 202, 6, 6556);
+				add_location(th1, file$e, 210, 6, 6870);
 				attr_dev(th2, "scope", "col");
-				add_location(th2, file$e, 203, 6, 6589);
+				add_location(th2, file$e, 211, 6, 6903);
 				attr_dev(th3, "scope", "col");
-				add_location(th3, file$e, 204, 6, 6623);
+				add_location(th3, file$e, 212, 6, 6937);
 				attr_dev(th4, "scope", "col");
-				add_location(th4, file$e, 205, 6, 6657);
+				add_location(th4, file$e, 213, 6, 6971);
 				attr_dev(th5, "scope", "col");
-				add_location(th5, file$e, 206, 6, 6694);
+				add_location(th5, file$e, 214, 6, 7008);
 				attr_dev(th6, "scope", "col");
-				add_location(th6, file$e, 207, 6, 6730);
+				add_location(th6, file$e, 215, 6, 7044);
 				attr_dev(th7, "scope", "col");
-				add_location(th7, file$e, 208, 6, 6762);
+				add_location(th7, file$e, 216, 6, 7076);
 				attr_dev(th8, "scope", "col");
-				add_location(th8, file$e, 209, 6, 6801);
+				add_location(th8, file$e, 217, 6, 7115);
 				attr_dev(th9, "scope", "col");
-				add_location(th9, file$e, 210, 6, 6840);
-				add_location(tr, file$e, 190, 4, 6195);
-				add_location(thead, file$e, 189, 2, 6183);
+				add_location(th9, file$e, 218, 6, 7154);
+				add_location(tr, file$e, 198, 4, 6509);
+				add_location(thead, file$e, 197, 2, 6497);
 				attr_dev(tbody, "id", "opSteps");
-				add_location(tbody, file$e, 213, 2, 6894);
+				add_location(tbody, file$e, 221, 2, 7208);
 				attr_dev(table, "class", "table table-striped");
 				attr_dev(table, "id", "optable");
-				add_location(table, file$e, 188, 0, 6132);
+				add_location(table, file$e, 196, 0, 6446);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -42673,7 +42675,7 @@
 				append_dev(tr, th0);
 				append_dev(th0, div3);
 				append_dev(div3, input);
-				input.checked = /*enableDrag*/ ctx[4];
+				input.checked = /*toggleDrag*/ ctx[4];
 				append_dev(div3, t7);
 				append_dev(div3, label);
 				append_dev(tr, t8);
@@ -42705,16 +42707,16 @@
 
 				if (!mounted) {
 					dispose = [
-						listen_dev(textarea, "input", /*textarea_input_handler*/ ctx[16]),
-						listen_dev(button0, "click", /*incrOrder*/ ctx[13], false, false, false),
-						listen_dev(button1, "click", /*decrOrder*/ ctx[14], false, false, false),
-						listen_dev(input, "change", /*input_change_handler*/ ctx[17]),
+						listen_dev(textarea, "input", /*textarea_input_handler*/ ctx[18]),
+						listen_dev(button0, "click", /*incrOrder*/ ctx[15], false, false, false),
+						listen_dev(button1, "click", /*decrOrder*/ ctx[16], false, false, false),
+						listen_dev(input, "change", /*input_change_handler*/ ctx[19]),
 						action_destroyer(dndzone_action = dndzone.call(null, tbody, {
 							items: /*steps*/ ctx[3],
-							dragDisabled: !/*enableDrag*/ ctx[4]
+							dragDisabled: !/*toggleDrag*/ ctx[4] || /*dragDisabled*/ ctx[5]
 						})),
-						listen_dev(tbody, "consider", /*handleDndConsider*/ ctx[11], false, false, false),
-						listen_dev(tbody, "finalize", /*handleDndFinalize*/ ctx[12], false, false, false)
+						listen_dev(tbody, "consider", /*handleDndConsider*/ ctx[12], false, false, false),
+						listen_dev(tbody, "finalize", /*handleDndFinalize*/ ctx[13], false, false, false)
 					];
 
 					mounted = true;
@@ -42727,11 +42729,11 @@
 					set_input_value(textarea, /*operation*/ ctx[1].comment);
 				}
 
-				if (dirty[0] & /*enableDrag*/ 16) {
-					input.checked = /*enableDrag*/ ctx[4];
+				if (dirty[0] & /*toggleDrag*/ 16) {
+					input.checked = /*toggleDrag*/ ctx[4];
 				}
 
-				if (dirty[0] & /*steps, complete, setComment, setAssign, agents, setZone, operation, calculateDistance, reverseLink, enableDrag*/ 2046) {
+				if (dirty[0] & /*steps, complete, setComment, setAssign, agents, setZone, operation, calculateDistance, reverseLink, toggleDrag, startDrag*/ 20446) {
 					each_value = /*steps*/ ctx[3];
 					validate_each_argument(each_value);
 					group_outros();
@@ -42742,9 +42744,9 @@
 					check_outros();
 				}
 
-				if (dndzone_action && is_function(dndzone_action.update) && dirty[0] & /*steps, enableDrag*/ 24) dndzone_action.update.call(null, {
+				if (dndzone_action && is_function(dndzone_action.update) && dirty[0] & /*steps, toggleDrag, dragDisabled*/ 56) dndzone_action.update.call(null, {
 					items: /*steps*/ ctx[3],
-					dragDisabled: !/*enableDrag*/ ctx[4]
+					dragDisabled: !/*toggleDrag*/ ctx[4] || /*dragDisabled*/ ctx[5]
 				});
 			},
 			i: function intro(local) {
@@ -42797,7 +42799,7 @@
 	function instance$g($$self, $$props, $$invalidate) {
 		let $opStore,
 			$$unsubscribe_opStore = noop,
-			$$subscribe_opStore = () => ($$unsubscribe_opStore(), $$unsubscribe_opStore = subscribe(opStore, $$value => $$invalidate(15, $opStore = $$value)), opStore);
+			$$subscribe_opStore = () => ($$unsubscribe_opStore(), $$unsubscribe_opStore = subscribe(opStore, $$value => $$invalidate(17, $opStore = $$value)), opStore);
 
 		$$self.$$.on_destroy.push(() => $$unsubscribe_opStore());
 		let { $$slots: slots = {}, $$scope } = $$props;
@@ -42939,7 +42941,8 @@
 			);
 		}
 
-		let enableDrag = false;
+		let toggleDrag = false;
+		let dragDisabled = true;
 
 		function handleDndConsider(e) {
 			$$invalidate(3, steps = e.detail.items);
@@ -42962,6 +42965,15 @@
 			}
 
 			notifyOnError(updateOpPromise(operation));
+			$$invalidate(5, dragDisabled = true);
+		}
+
+		// https://svelte.dev/repl/4949485c5a8f46e7bdbeb73ed565a9c7?version=3.24.1
+		function startDrag(e) {
+			// preventing default to prevent lag on touch devices (because of the browser checking for screen scrolling)
+			e.preventDefault();
+
+			$$invalidate(5, dragDisabled = false);
 		}
 
 		function incrOrder() {
@@ -42979,7 +42991,7 @@
 				s.task.order += v;
 			}
 
-			(($$invalidate(3, steps), $$invalidate(1, operation)), $$invalidate(15, $opStore));
+			(($$invalidate(3, steps), $$invalidate(1, operation)), $$invalidate(17, $opStore));
 		}
 
 		const writable_props = ['opStore'];
@@ -42990,44 +43002,44 @@
 
 		function textarea_input_handler() {
 			operation.comment = this.value;
-			($$invalidate(1, operation), $$invalidate(15, $opStore));
+			($$invalidate(1, operation), $$invalidate(17, $opStore));
 		}
 
 		function input_change_handler() {
-			enableDrag = this.checked;
-			$$invalidate(4, enableDrag);
+			toggleDrag = this.checked;
+			$$invalidate(4, toggleDrag);
 		}
 
 		const click_handler = step => reverseLink(step.task);
 
 		function select0_change_handler(each_value, step_index) {
 			each_value[step_index].task.zone = select_value(this);
-			(($$invalidate(3, steps), $$invalidate(1, operation)), $$invalidate(15, $opStore));
-			($$invalidate(1, operation), $$invalidate(15, $opStore));
+			(($$invalidate(3, steps), $$invalidate(1, operation)), $$invalidate(17, $opStore));
+			($$invalidate(1, operation), $$invalidate(17, $opStore));
 		}
 
 		const change_handler = step => setZone(step.task);
 
 		function select1_change_handler(each_value, step_index) {
 			each_value[step_index].task.assignedTo = select_value(this);
-			(($$invalidate(3, steps), $$invalidate(1, operation)), $$invalidate(15, $opStore));
-			($$invalidate(1, operation), $$invalidate(15, $opStore));
+			(($$invalidate(3, steps), $$invalidate(1, operation)), $$invalidate(17, $opStore));
+			($$invalidate(1, operation), $$invalidate(17, $opStore));
 		}
 
 		const change_handler_1 = step => setAssign(step.task);
 
 		function input0_input_handler(each_value, step_index) {
 			each_value[step_index].task.comment = this.value;
-			(($$invalidate(3, steps), $$invalidate(1, operation)), $$invalidate(15, $opStore));
-			($$invalidate(1, operation), $$invalidate(15, $opStore));
+			(($$invalidate(3, steps), $$invalidate(1, operation)), $$invalidate(17, $opStore));
+			($$invalidate(1, operation), $$invalidate(17, $opStore));
 		}
 
 		const change_handler_2 = step => setComment(step.task);
 
 		function input1_change_handler(each_value, step_index) {
 			each_value[step_index].task.completed = this.checked;
-			(($$invalidate(3, steps), $$invalidate(1, operation)), $$invalidate(15, $opStore));
-			($$invalidate(1, operation), $$invalidate(15, $opStore));
+			(($$invalidate(3, steps), $$invalidate(1, operation)), $$invalidate(17, $opStore));
+			($$invalidate(1, operation), $$invalidate(17, $opStore));
 		}
 
 		const change_handler_3 = step => complete(step.task);
@@ -43070,10 +43082,12 @@
 			setZone,
 			reverseLink,
 			complete,
-			enableDrag,
+			toggleDrag,
+			dragDisabled,
 			flipDurationMs,
 			handleDndConsider,
 			handleDndFinalize,
+			startDrag,
 			incrOrder,
 			decrOrder,
 			shiftOrder,
@@ -43086,7 +43100,8 @@
 			if ('operation' in $$props) $$invalidate(1, operation = $$props.operation);
 			if ('agents' in $$props) $$invalidate(2, agents = $$props.agents);
 			if ('steps' in $$props) $$invalidate(3, steps = $$props.steps);
-			if ('enableDrag' in $$props) $$invalidate(4, enableDrag = $$props.enableDrag);
+			if ('toggleDrag' in $$props) $$invalidate(4, toggleDrag = $$props.toggleDrag);
+			if ('dragDisabled' in $$props) $$invalidate(5, dragDisabled = $$props.dragDisabled);
 		};
 
 		if ($$props && "$$inject" in $$props) {
@@ -43094,7 +43109,7 @@
 		}
 
 		$$self.$$.update = () => {
-			if ($$self.$$.dirty[0] & /*$opStore*/ 32768) {
+			if ($$self.$$.dirty[0] & /*$opStore*/ 131072) {
 				$$invalidate(1, operation = $opStore);
 			}
 
@@ -43118,7 +43133,7 @@
 						agents.push(WasabeeAgent.get(a));
 					}
 
-					(($$invalidate(2, agents), $$invalidate(1, operation)), $$invalidate(15, $opStore));
+					(($$invalidate(2, agents), $$invalidate(1, operation)), $$invalidate(17, $opStore));
 				}
 			}
 
@@ -43140,7 +43155,8 @@
 			operation,
 			agents,
 			steps,
-			enableDrag,
+			toggleDrag,
+			dragDisabled,
 			calculateDistance,
 			setComment,
 			setAssign,
@@ -43149,6 +43165,7 @@
 			complete,
 			handleDndConsider,
 			handleDndFinalize,
+			startDrag,
 			incrOrder,
 			decrOrder,
 			$opStore,
@@ -59661,7 +59678,7 @@
 				p1.textContent = "Copyright © The Wasabee Team 2021. All Rights Reserved";
 				t14 = space();
 				p2 = element("p");
-				p2.textContent = "Build date: Sun, 21 Aug 2022 18:28:19 GMT";
+				p2.textContent = "Build date: Sun, 21 Aug 2022 18:45:15 GMT";
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
