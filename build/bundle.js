@@ -58464,11 +58464,11 @@
 
 	function get_each_context(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[12] = list[i];
+		child_ctx[13] = list[i];
 		return child_ctx;
 	}
 
-	// (142:0) {:else}
+	// (143:0) {:else}
 	function create_else_block(ctx) {
 		let header;
 		let navbar;
@@ -58497,8 +58497,8 @@
 					$$slots: {
 						default: [
 							create_default_slot,
-							({ data }) => ({ 11: data }),
-							({ data }) => data ? 2048 : 0
+							({ data }) => ({ 12: data }),
+							({ data }) => data ? 4096 : 0
 						]
 					},
 					$$scope: { ctx }
@@ -58507,7 +58507,7 @@
 			});
 
 		router = new Router({
-				props: { routes: /*routes*/ ctx[3] },
+				props: { routes: /*routes*/ ctx[4] },
 				$$inline: true
 			});
 
@@ -58520,8 +58520,8 @@
 				create_component(toastcontainer.$$.fragment);
 				t1 = space();
 				create_component(router.$$.fragment);
-				add_location(header, file, 142, 2, 4522);
-				add_location(main, file, 173, 2, 5570);
+				add_location(header, file, 143, 2, 4555);
+				add_location(main, file, 174, 2, 5603);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, header, anchor);
@@ -58536,14 +58536,14 @@
 			p: function update(ctx, dirty) {
 				const navbar_changes = {};
 
-				if (dirty & /*$$scope*/ 32768) {
+				if (dirty & /*$$scope*/ 65536) {
 					navbar_changes.$$scope = { dirty, ctx };
 				}
 
 				navbar.$set(navbar_changes);
 				const toastcontainer_changes = {};
 
-				if (dirty & /*$$scope, data*/ 34816) {
+				if (dirty & /*$$scope, data*/ 69632) {
 					toastcontainer_changes.$$scope = { dirty, ctx };
 				}
 
@@ -58584,14 +58584,14 @@
 			block,
 			id: create_else_block.name,
 			type: "else",
-			source: "(142:0) {:else}",
+			source: "(143:0) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (140:0) {#if !$meStore}
+	// (141:0) {#if !$meStore}
 	function create_if_block_1(ctx) {
 		let homepage;
 		let current;
@@ -58601,7 +58601,7 @@
 				$$inline: true
 			});
 
-		homepage.$on("login", /*onLogin*/ ctx[6]);
+		homepage.$on("login", /*onLogin*/ ctx[7]);
 
 		const block = {
 			c: function create() {
@@ -58634,14 +58634,14 @@
 			block,
 			id: create_if_block_1.name,
 			type: "if",
-			source: "(140:0) {#if !$meStore}",
+			source: "(141:0) {#if !$meStore}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (148:19) <NavLink href="#/teams">
+	// (149:19) <NavLink href="#/teams">
 	function create_default_slot_16(ctx) {
 		let t;
 
@@ -58661,14 +58661,14 @@
 			block,
 			id: create_default_slot_16.name,
 			type: "slot",
-			source: "(148:19) <NavLink href=\\\"#/teams\\\">",
+			source: "(149:19) <NavLink href=\\\"#/teams\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (148:10) <NavItem>
+	// (149:10) <NavItem>
 	function create_default_slot_15(ctx) {
 		let navlink;
 		let current;
@@ -58693,7 +58693,7 @@
 			p: function update(ctx, dirty) {
 				const navlink_changes = {};
 
-				if (dirty & /*$$scope*/ 32768) {
+				if (dirty & /*$$scope*/ 65536) {
 					navlink_changes.$$scope = { dirty, ctx };
 				}
 
@@ -58717,14 +58717,14 @@
 			block,
 			id: create_default_slot_15.name,
 			type: "slot",
-			source: "(148:10) <NavItem>",
+			source: "(149:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (149:19) <NavLink href="#/operations">
+	// (150:19) <NavLink href="#/operations">
 	function create_default_slot_14(ctx) {
 		let t;
 
@@ -58744,14 +58744,14 @@
 			block,
 			id: create_default_slot_14.name,
 			type: "slot",
-			source: "(149:19) <NavLink href=\\\"#/operations\\\">",
+			source: "(150:19) <NavLink href=\\\"#/operations\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (149:10) <NavItem>
+	// (150:10) <NavItem>
 	function create_default_slot_13(ctx) {
 		let navlink;
 		let current;
@@ -58776,7 +58776,7 @@
 			p: function update(ctx, dirty) {
 				const navlink_changes = {};
 
-				if (dirty & /*$$scope*/ 32768) {
+				if (dirty & /*$$scope*/ 65536) {
 					navlink_changes.$$scope = { dirty, ctx };
 				}
 
@@ -58800,14 +58800,14 @@
 			block,
 			id: create_default_slot_13.name,
 			type: "slot",
-			source: "(149:10) <NavItem>",
+			source: "(150:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (151:13) <NavLink href="#/defensivekeys/">
+	// (152:13) <NavLink href="#/defensivekeys/">
 	function create_default_slot_12(ctx) {
 		let t;
 
@@ -58827,14 +58827,14 @@
 			block,
 			id: create_default_slot_12.name,
 			type: "slot",
-			source: "(151:13) <NavLink href=\\\"#/defensivekeys/\\\">",
+			source: "(152:13) <NavLink href=\\\"#/defensivekeys/\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (150:10) <NavItem             >
+	// (151:10) <NavItem             >
 	function create_default_slot_11(ctx) {
 		let navlink;
 		let current;
@@ -58859,7 +58859,7 @@
 			p: function update(ctx, dirty) {
 				const navlink_changes = {};
 
-				if (dirty & /*$$scope*/ 32768) {
+				if (dirty & /*$$scope*/ 65536) {
 					navlink_changes.$$scope = { dirty, ctx };
 				}
 
@@ -58883,14 +58883,14 @@
 			block,
 			id: create_default_slot_11.name,
 			type: "slot",
-			source: "(150:10) <NavItem             >",
+			source: "(151:10) <NavItem             >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (153:19) <NavLink href="#/settings">
+	// (154:19) <NavLink href="#/settings">
 	function create_default_slot_10(ctx) {
 		let t;
 
@@ -58910,14 +58910,14 @@
 			block,
 			id: create_default_slot_10.name,
 			type: "slot",
-			source: "(153:19) <NavLink href=\\\"#/settings\\\">",
+			source: "(154:19) <NavLink href=\\\"#/settings\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (153:10) <NavItem>
+	// (154:10) <NavItem>
 	function create_default_slot_9(ctx) {
 		let navlink;
 		let current;
@@ -58942,7 +58942,7 @@
 			p: function update(ctx, dirty) {
 				const navlink_changes = {};
 
-				if (dirty & /*$$scope*/ 32768) {
+				if (dirty & /*$$scope*/ 65536) {
 					navlink_changes.$$scope = { dirty, ctx };
 				}
 
@@ -58966,14 +58966,14 @@
 			block,
 			id: create_default_slot_9.name,
 			type: "slot",
-			source: "(153:10) <NavItem>",
+			source: "(154:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (154:19) <NavLink href="#/help">
+	// (155:19) <NavLink href="#/help">
 	function create_default_slot_8(ctx) {
 		let t;
 
@@ -58993,14 +58993,14 @@
 			block,
 			id: create_default_slot_8.name,
 			type: "slot",
-			source: "(154:19) <NavLink href=\\\"#/help\\\">",
+			source: "(155:19) <NavLink href=\\\"#/help\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (154:10) <NavItem>
+	// (155:10) <NavItem>
 	function create_default_slot_7(ctx) {
 		let navlink;
 		let current;
@@ -59025,7 +59025,7 @@
 			p: function update(ctx, dirty) {
 				const navlink_changes = {};
 
-				if (dirty & /*$$scope*/ 32768) {
+				if (dirty & /*$$scope*/ 65536) {
 					navlink_changes.$$scope = { dirty, ctx };
 				}
 
@@ -59049,14 +59049,14 @@
 			block,
 			id: create_default_slot_7.name,
 			type: "slot",
-			source: "(154:10) <NavItem>",
+			source: "(155:10) <NavItem>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (156:13) <NavLink href="#/" on:click={logout}>
+	// (157:13) <NavLink href="#/" on:click={logout}>
 	function create_default_slot_6(ctx) {
 		let t;
 
@@ -59076,14 +59076,14 @@
 			block,
 			id: create_default_slot_6.name,
 			type: "slot",
-			source: "(156:13) <NavLink href=\\\"#/\\\" on:click={logout}>",
+			source: "(157:13) <NavLink href=\\\"#/\\\" on:click={logout}>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (155:10) <NavItem             >
+	// (156:10) <NavItem             >
 	function create_default_slot_5(ctx) {
 		let navlink;
 		let current;
@@ -59097,7 +59097,7 @@
 				$$inline: true
 			});
 
-		navlink.$on("click", /*logout*/ ctx[4]);
+		navlink.$on("click", /*logout*/ ctx[5]);
 
 		const block = {
 			c: function create() {
@@ -59110,7 +59110,7 @@
 			p: function update(ctx, dirty) {
 				const navlink_changes = {};
 
-				if (dirty & /*$$scope*/ 32768) {
+				if (dirty & /*$$scope*/ 65536) {
 					navlink_changes.$$scope = { dirty, ctx };
 				}
 
@@ -59134,14 +59134,14 @@
 			block,
 			id: create_default_slot_5.name,
 			type: "slot",
-			source: "(155:10) <NavItem             >",
+			source: "(156:10) <NavItem             >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (147:8) <Nav navbar>
+	// (148:8) <Nav navbar>
 	function create_default_slot_4(ctx) {
 		let navitem0;
 		let t0;
@@ -59235,42 +59235,42 @@
 			p: function update(ctx, dirty) {
 				const navitem0_changes = {};
 
-				if (dirty & /*$$scope*/ 32768) {
+				if (dirty & /*$$scope*/ 65536) {
 					navitem0_changes.$$scope = { dirty, ctx };
 				}
 
 				navitem0.$set(navitem0_changes);
 				const navitem1_changes = {};
 
-				if (dirty & /*$$scope*/ 32768) {
+				if (dirty & /*$$scope*/ 65536) {
 					navitem1_changes.$$scope = { dirty, ctx };
 				}
 
 				navitem1.$set(navitem1_changes);
 				const navitem2_changes = {};
 
-				if (dirty & /*$$scope*/ 32768) {
+				if (dirty & /*$$scope*/ 65536) {
 					navitem2_changes.$$scope = { dirty, ctx };
 				}
 
 				navitem2.$set(navitem2_changes);
 				const navitem3_changes = {};
 
-				if (dirty & /*$$scope*/ 32768) {
+				if (dirty & /*$$scope*/ 65536) {
 					navitem3_changes.$$scope = { dirty, ctx };
 				}
 
 				navitem3.$set(navitem3_changes);
 				const navitem4_changes = {};
 
-				if (dirty & /*$$scope*/ 32768) {
+				if (dirty & /*$$scope*/ 65536) {
 					navitem4_changes.$$scope = { dirty, ctx };
 				}
 
 				navitem4.$set(navitem4_changes);
 				const navitem5_changes = {};
 
-				if (dirty & /*$$scope*/ 32768) {
+				if (dirty & /*$$scope*/ 65536) {
 					navitem5_changes.$$scope = { dirty, ctx };
 				}
 
@@ -59314,14 +59314,14 @@
 			block,
 			id: create_default_slot_4.name,
 			type: "slot",
-			source: "(147:8) <Nav navbar>",
+			source: "(148:8) <Nav navbar>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (146:6) <Collapse toggler="#main-toggler" navbar expand="lg">
+	// (147:6) <Collapse toggler="#main-toggler" navbar expand="lg">
 	function create_default_slot_3(ctx) {
 		let nav;
 		let current;
@@ -59346,7 +59346,7 @@
 			p: function update(ctx, dirty) {
 				const nav_changes = {};
 
-				if (dirty & /*$$scope*/ 32768) {
+				if (dirty & /*$$scope*/ 65536) {
 					nav_changes.$$scope = { dirty, ctx };
 				}
 
@@ -59370,17 +59370,17 @@
 			block,
 			id: create_default_slot_3.name,
 			type: "slot",
-			source: "(146:6) <Collapse toggler=\\\"#main-toggler\\\" navbar expand=\\\"lg\\\">",
+			source: "(147:6) <Collapse toggler=\\\"#main-toggler\\\" navbar expand=\\\"lg\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (166:8) {#each getServers() as server}
+	// (167:8) {#each getServers() as server}
 	function create_each_block(ctx) {
 		let option;
-		let t0_value = /*server*/ ctx[12].name + "";
+		let t0_value = /*server*/ ctx[13].name + "";
 		let t0;
 		let t1;
 
@@ -59389,9 +59389,9 @@
 				option = element("option");
 				t0 = text(t0_value);
 				t1 = space();
-				option.__value = /*server*/ ctx[12].url;
+				option.__value = /*server*/ ctx[13].url;
 				option.value = option.__value;
-				add_location(option, file, 166, 10, 5437);
+				add_location(option, file, 167, 10, 5470);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, option, anchor);
@@ -59408,14 +59408,14 @@
 			block,
 			id: create_each_block.name,
 			type: "each",
-			source: "(166:8) {#each getServers() as server}",
+			source: "(167:8) {#each getServers() as server}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (160:6) <Input         type="select"         name="select"         value={getServer()}         on:change={serverChangeEvent}       >
+	// (161:6) <Input         type="select"         name="select"         value={getServer()}         on:change={serverChangeEvent}       >
 	function create_default_slot_2(ctx) {
 		let each_1_anchor;
 		let each_value = getServers();
@@ -59476,14 +59476,14 @@
 			block,
 			id: create_default_slot_2.name,
 			type: "slot",
-			source: "(160:6) <Input         type=\\\"select\\\"         name=\\\"select\\\"         value={getServer()}         on:change={serverChangeEvent}       >",
+			source: "(161:6) <Input         type=\\\"select\\\"         name=\\\"select\\\"         value={getServer()}         on:change={serverChangeEvent}       >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (144:4) <Navbar container={false} color="dark" dark expand="lg">
+	// (145:4) <Navbar container={false} color="dark" dark expand="lg">
 	function create_default_slot_1(ctx) {
 		let navbartoggler;
 		let t0;
@@ -59519,7 +59519,7 @@
 				$$inline: true
 			});
 
-		input.$on("change", /*serverChangeEvent*/ ctx[7]);
+		input.$on("change", /*serverChangeEvent*/ ctx[8]);
 
 		const block = {
 			c: function create() {
@@ -59540,14 +59540,14 @@
 			p: function update(ctx, dirty) {
 				const collapse_changes = {};
 
-				if (dirty & /*$$scope*/ 32768) {
+				if (dirty & /*$$scope*/ 65536) {
 					collapse_changes.$$scope = { dirty, ctx };
 				}
 
 				collapse.$set(collapse_changes);
 				const input_changes = {};
 
-				if (dirty & /*$$scope*/ 32768) {
+				if (dirty & /*$$scope*/ 65536) {
 					input_changes.$$scope = { dirty, ctx };
 				}
 
@@ -59579,20 +59579,20 @@
 			block,
 			id: create_default_slot_1.name,
 			type: "slot",
-			source: "(144:4) <Navbar container={false} color=\\\"dark\\\" dark expand=\\\"lg\\\">",
+			source: "(145:4) <Navbar container={false} color=\\\"dark\\\" dark expand=\\\"lg\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (175:4) <ToastContainer let:data>
+	// (176:4) <ToastContainer let:data>
 	function create_default_slot(ctx) {
 		let flattoast;
 		let current;
 
 		flattoast = new FlatToast({
-				props: { data: /*data*/ ctx[11] },
+				props: { data: /*data*/ ctx[12] },
 				$$inline: true
 			});
 
@@ -59606,7 +59606,7 @@
 			},
 			p: function update(ctx, dirty) {
 				const flattoast_changes = {};
-				if (dirty & /*data*/ 2048) flattoast_changes.data = /*data*/ ctx[11];
+				if (dirty & /*data*/ 4096) flattoast_changes.data = /*data*/ ctx[12];
 				flattoast.$set(flattoast_changes);
 			},
 			i: function intro(local) {
@@ -59627,14 +59627,14 @@
 			block,
 			id: create_default_slot.name,
 			type: "slot",
-			source: "(175:4) <ToastContainer let:data>",
+			source: "(176:4) <ToastContainer let:data>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (182:0) {#if loading}
+	// (183:0) {#if loading}
 	function create_if_block(ctx) {
 		let div;
 
@@ -59643,7 +59643,7 @@
 				div = element("div");
 				attr_dev(div, "id", "loading-animation");
 				attr_dev(div, "class", "svelte-1bcajx9");
-				add_location(div, file, 182, 2, 5741);
+				add_location(div, file, 183, 2, 5774);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -59657,7 +59657,7 @@
 			block,
 			id: create_if_block.name,
 			type: "if",
-			source: "(182:0) {#if loading}",
+			source: "(183:0) {#if loading}",
 			ctx
 		});
 
@@ -59727,26 +59727,26 @@
 				t11 = text(" for more information.");
 				t12 = space();
 				p1 = element("p");
-				p1.textContent = "Copyright © The Wasabee Team 2021. All Rights Reserved";
+				p1.textContent = `Build date: ${/*buildDate*/ ctx[3]} Copyright © The Wasabee Team 2021. All Rights Reserved`;
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
-				add_location(script, file, 132, 2, 4329);
-				add_location(strong, file, 189, 76, 6022);
+				add_location(script, file, 133, 2, 4362);
+				add_location(strong, file, 190, 76, 6055);
 				attr_dev(a0, "href", "https://v.enl.one/");
-				add_location(a0, file, 193, 6, 6138);
+				add_location(a0, file, 194, 6, 6171);
 				attr_dev(a1, "href", "https://enl.rocks");
-				add_location(a1, file, 194, 6, 6183);
+				add_location(a1, file, 195, 6, 6216);
 				attr_dev(a2, "href", "/privacy");
-				add_location(a2, file, 195, 6, 6244);
+				add_location(a2, file, 196, 6, 6277);
 				attr_dev(p0, "class", "text-muted small");
-				add_location(p0, file, 187, 4, 5842);
+				add_location(p0, file, 188, 4, 5875);
 				attr_dev(p1, "class", "text-muted text-right small");
-				add_location(p1, file, 197, 4, 6317);
+				add_location(p1, file, 198, 4, 6350);
 				attr_dev(div, "class", "p-5");
-				add_location(div, file, 186, 2, 5820);
+				add_location(div, file, 187, 2, 5853);
 				attr_dev(footer, "class", "mastfoot mx-5 mt-auto");
-				add_location(footer, file, 185, 0, 5779);
+				add_location(footer, file, 186, 0, 5812);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -59775,7 +59775,7 @@
 				current = true;
 
 				if (!mounted) {
-					dispose = listen_dev(script, "load", /*loadAuth2*/ ctx[5], false, false, false);
+					dispose = listen_dev(script, "load", /*loadAuth2*/ ctx[6], false, false, false);
 					mounted = true;
 				}
 			},
@@ -59854,7 +59854,7 @@
 		let $location;
 		let $meStore;
 		validate_store(location$2, 'location');
-		component_subscribe($$self, location$2, $$value => $$invalidate(9, $location = $$value));
+		component_subscribe($$self, location$2, $$value => $$invalidate(10, $location = $$value));
 		validate_store(meStore, 'meStore');
 		component_subscribe($$self, meStore, $$value => $$invalidate(2, $meStore = $$value));
 		let { $$slots: slots = {}, $$scope } = $$props;
@@ -59896,6 +59896,7 @@
 				});
 		};
 
+		const buildDate = "2022-08-21T16:48:36.561Z";
 		let me;
 		let loading = false;
 
@@ -59907,7 +59908,7 @@
 				setConfig(config);
 
 				loadMeAndOps().then(() => __awaiter(void 0, void 0, void 0, function* () {
-					$$invalidate(8, me = WasabeeMe.get());
+					$$invalidate(9, me = WasabeeMe.get());
 					sendTokenToServer();
 					$$invalidate(0, loading = false);
 				})).catch(() => {
@@ -59949,7 +59950,7 @@
 				//window.location.href = '/';
 				meStore.reset();
 
-				$$invalidate(8, me = null);
+				$$invalidate(9, me = null);
 			});
 		}
 
@@ -59963,7 +59964,7 @@
 
 		function onLogin(ev) {
 			return __awaiter(this, void 0, void 0, function* () {
-				$$invalidate(8, me = new WasabeeMe(ev.detail));
+				$$invalidate(9, me = new WasabeeMe(ev.detail));
 				me.store();
 				set_store_value(meStore, $meStore = me, $meStore);
 				setConfig(yield loadConfig());
@@ -59989,12 +59990,12 @@
 					setConfig(yield loadConfig());
 
 					// virtual login
-					$$invalidate(8, me = yield meStore.refresh());
+					$$invalidate(9, me = yield meStore.refresh());
 				} catch(_a) {
 					// clear auth on failure
 					meStore.reset();
 
-					$$invalidate(8, me = null);
+					$$invalidate(9, me = null);
 					setAuthBearer();
 					delete localStorage['sentToServer'];
 					return;
@@ -60054,6 +60055,7 @@
 			meStore,
 			opsStore,
 			teamsStore,
+			buildDate,
 			me,
 			loading,
 			routes,
@@ -60068,7 +60070,7 @@
 
 		$$self.$inject_state = $$props => {
 			if ('__awaiter' in $$props) __awaiter = $$props.__awaiter;
-			if ('me' in $$props) $$invalidate(8, me = $$props.me);
+			if ('me' in $$props) $$invalidate(9, me = $$props.me);
 			if ('loading' in $$props) $$invalidate(0, loading = $$props.loading);
 			if ('disabled' in $$props) $$invalidate(1, disabled = $$props.disabled);
 		};
@@ -60078,7 +60080,7 @@
 		}
 
 		$$self.$$.update = () => {
-			if ($$self.$$.dirty & /*me*/ 256) {
+			if ($$self.$$.dirty & /*me*/ 512) {
 				if (me) $$invalidate(0, loading = false);
 			}
 		};
@@ -60087,6 +60089,7 @@
 			loading,
 			disabled,
 			$meStore,
+			buildDate,
 			routes,
 			logout,
 			loadAuth2,
