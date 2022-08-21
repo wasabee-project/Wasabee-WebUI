@@ -41859,15 +41859,15 @@
 				t2 = space();
 				td3 = element("td");
 				t3 = text(t3_value);
-				add_location(td0, file$e, 234, 10, 7610);
+				add_location(td0, file$e, 234, 10, 7611);
 				if (!src_url_equal(img.src, img_src_value = "https://cdn2.wasabee.rocks/img/swap.svg")) attr_dev(img, "src", img_src_value);
 				attr_dev(img, "height", "16");
 				attr_dev(img, "alt", "swap");
 				attr_dev(img, "class", "dark-filter-invert");
-				add_location(img, file$e, 238, 12, 7731);
-				add_location(td1, file$e, 237, 10, 7714);
-				add_location(td2, file$e, 246, 10, 7983);
-				add_location(td3, file$e, 249, 10, 8085);
+				add_location(img, file$e, 238, 12, 7732);
+				add_location(td1, file$e, 237, 10, 7715);
+				add_location(td2, file$e, 246, 10, 7984);
+				add_location(td3, file$e, 249, 10, 8086);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -41971,11 +41971,11 @@
 				t2 = text(t2_value);
 				t3 = space();
 				td3 = element("td");
-				add_location(td0, file$e, 225, 10, 7333);
-				add_location(td1, file$e, 228, 10, 7433);
+				add_location(td0, file$e, 225, 10, 7334);
+				add_location(td1, file$e, 228, 10, 7434);
 				attr_dev(td2, "class", td2_class_value = /*step*/ ctx[31].task.type);
-				add_location(td2, file$e, 229, 10, 7450);
-				add_location(td3, file$e, 232, 10, 7541);
+				add_location(td2, file$e, 229, 10, 7451);
+				add_location(td3, file$e, 232, 10, 7542);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -42049,7 +42049,7 @@
 				t1 = space();
 				option.__value = option_value_value = /*z*/ ctx[37].id;
 				option.value = option.__value;
-				add_location(option, file$e, 260, 14, 8406);
+				add_location(option, file$e, 260, 14, 8407);
 				this.first = option;
 			},
 			m: function mount(target, anchor) {
@@ -42099,7 +42099,7 @@
 				t1 = space();
 				option.__value = option_value_value = /*a*/ ctx[34].id;
 				option.value = option.__value;
-				add_location(option, file$e, 273, 14, 8773);
+				add_location(option, file$e, 273, 14, 8774);
 				this.first = option;
 			},
 			m: function mount(target, anchor) {
@@ -42274,28 +42274,28 @@
 				t9 = space();
 				toggle_class(td0, "handle", /*enableDrag*/ ctx[4]);
 				toggle_class(td0, "dark-filter-invert", true);
-				add_location(td0, file$e, 221, 8, 7154);
+				add_location(td0, file$e, 221, 8, 7155);
 				attr_dev(td1, "class", "text-right");
-				add_location(td1, file$e, 223, 8, 7228);
+				add_location(td1, file$e, 223, 8, 7229);
 				option0.__value = "0";
 				option0.value = option0.__value;
-				add_location(option0, file$e, 258, 12, 8307);
+				add_location(option0, file$e, 258, 12, 8308);
 				if (/*step*/ ctx[31].task.zone === void 0) add_render_callback(select0_change_handler);
-				add_location(select0, file$e, 254, 10, 8186);
-				add_location(td2, file$e, 253, 8, 8171);
+				add_location(select0, file$e, 254, 10, 8187);
+				add_location(td2, file$e, 253, 8, 8172);
 				option1.__value = "";
 				option1.value = option1.__value;
-				add_location(option1, file$e, 271, 12, 8683);
+				add_location(option1, file$e, 271, 12, 8684);
 				if (/*step*/ ctx[31].task.assignedTo === void 0) add_render_callback(select1_change_handler);
-				add_location(select1, file$e, 267, 10, 8554);
-				add_location(td3, file$e, 266, 8, 8539);
-				add_location(input0, file$e, 280, 10, 8921);
-				add_location(td4, file$e, 279, 8, 8906);
+				add_location(select1, file$e, 267, 10, 8555);
+				add_location(td3, file$e, 266, 8, 8540);
+				add_location(input0, file$e, 280, 10, 8922);
+				add_location(td4, file$e, 279, 8, 8907);
 				attr_dev(input1, "type", "checkbox");
-				add_location(input1, file$e, 286, 10, 9093);
+				add_location(input1, file$e, 286, 10, 9094);
 				attr_dev(td5, "class", "text-center");
-				add_location(td5, file$e, 285, 8, 9058);
-				add_location(tr, file$e, 220, 6, 7097);
+				add_location(td5, file$e, 285, 8, 9059);
+				add_location(tr, file$e, 220, 6, 7098);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -42599,56 +42599,56 @@
 
 				attr_dev(div0, "class", "card-header");
 				attr_dev(div0, "id", "opName");
-				add_location(div0, file$e, 178, 2, 5753);
+				add_location(div0, file$e, 178, 2, 5754);
 				attr_dev(textarea, "class", "form-control");
-				add_location(textarea, file$e, 181, 6, 5890);
+				add_location(textarea, file$e, 181, 6, 5891);
 				attr_dev(ul, "class", "list-group list-group-flush");
-				add_location(ul, file$e, 180, 4, 5843);
+				add_location(ul, file$e, 180, 4, 5844);
 				attr_dev(button0, "class", "btn btn-success");
-				add_location(button0, file$e, 183, 4, 5969);
+				add_location(button0, file$e, 183, 4, 5970);
 				attr_dev(button1, "class", "btn btn-danger");
-				add_location(button1, file$e, 184, 4, 6044);
+				add_location(button1, file$e, 184, 4, 6045);
 				attr_dev(div1, "class", "card-body");
-				add_location(div1, file$e, 179, 2, 5815);
+				add_location(div1, file$e, 179, 2, 5816);
 				attr_dev(div2, "class", "card mb-2");
-				add_location(div2, file$e, 177, 0, 5727);
+				add_location(div2, file$e, 177, 0, 5728);
 				attr_dev(input, "type", "checkbox");
 				attr_dev(input, "class", "custom-control-input");
 				attr_dev(input, "id", "enableDrag");
-				add_location(input, file$e, 193, 10, 6301);
+				add_location(input, file$e, 193, 10, 6302);
 				attr_dev(label, "class", "custom-control-label");
 				attr_dev(label, "for", "enableDrag");
-				add_location(label, file$e, 199, 10, 6466);
+				add_location(label, file$e, 199, 10, 6467);
 				attr_dev(div3, "class", "custom-control custom-switch");
-				add_location(div3, file$e, 192, 9, 6248);
+				add_location(div3, file$e, 192, 9, 6249);
 				attr_dev(th0, "class", "pl-0 pr-0");
 				attr_dev(th0, "scope", "col");
-				add_location(th0, file$e, 191, 6, 6205);
+				add_location(th0, file$e, 191, 6, 6206);
 				attr_dev(th1, "scope", "col");
-				add_location(th1, file$e, 202, 6, 6555);
+				add_location(th1, file$e, 202, 6, 6556);
 				attr_dev(th2, "scope", "col");
-				add_location(th2, file$e, 203, 6, 6588);
+				add_location(th2, file$e, 203, 6, 6589);
 				attr_dev(th3, "scope", "col");
-				add_location(th3, file$e, 204, 6, 6622);
+				add_location(th3, file$e, 204, 6, 6623);
 				attr_dev(th4, "scope", "col");
-				add_location(th4, file$e, 205, 6, 6656);
+				add_location(th4, file$e, 205, 6, 6657);
 				attr_dev(th5, "scope", "col");
-				add_location(th5, file$e, 206, 6, 6693);
+				add_location(th5, file$e, 206, 6, 6694);
 				attr_dev(th6, "scope", "col");
-				add_location(th6, file$e, 207, 6, 6729);
+				add_location(th6, file$e, 207, 6, 6730);
 				attr_dev(th7, "scope", "col");
-				add_location(th7, file$e, 208, 6, 6761);
+				add_location(th7, file$e, 208, 6, 6762);
 				attr_dev(th8, "scope", "col");
-				add_location(th8, file$e, 209, 6, 6800);
+				add_location(th8, file$e, 209, 6, 6801);
 				attr_dev(th9, "scope", "col");
-				add_location(th9, file$e, 210, 6, 6839);
-				add_location(tr, file$e, 190, 4, 6194);
-				add_location(thead, file$e, 189, 2, 6182);
+				add_location(th9, file$e, 210, 6, 6840);
+				add_location(tr, file$e, 190, 4, 6195);
+				add_location(thead, file$e, 189, 2, 6183);
 				attr_dev(tbody, "id", "opSteps");
-				add_location(tbody, file$e, 213, 2, 6893);
+				add_location(tbody, file$e, 213, 2, 6894);
 				attr_dev(table, "class", "table table-striped");
 				attr_dev(table, "id", "optable");
-				add_location(table, file$e, 188, 0, 6131);
+				add_location(table, file$e, 188, 0, 6132);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -42954,7 +42954,7 @@
 			if (to === 0) $$invalidate(3, steps[to].task.order = steps[1].task.order - 1, steps); else if (to === steps.length - 1) $$invalidate(3, steps[to].task.order = steps[to - 1].task.order + 1, steps); else if (steps[to + 1].task.order - steps[to - 1].task.order >= 2) $$invalidate(3, steps[to].task.order = steps[to - 1].task.order + 1, steps); else {
 				$$invalidate(3, steps[to].task.order = steps[to - 1].task.order + 1, steps);
 
-				while (steps[to + 1].task.order < steps[to].task.order) {
+				while (steps[to + 1].task.order <= steps[to].task.order) {
 					for (let i = to + 1; i < steps.length; i++) {
 						if (steps[i].task.order <= steps[i - 1].task.order) $$invalidate(3, steps[i].task.order++, steps);
 					}
@@ -59661,7 +59661,7 @@
 				p1.textContent = "Copyright © The Wasabee Team 2021. All Rights Reserved";
 				t14 = space();
 				p2 = element("p");
-				p2.textContent = "Build date: Sun, 21 Aug 2022 18:24:13 GMT";
+				p2.textContent = "Build date: Sun, 21 Aug 2022 18:28:19 GMT";
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
