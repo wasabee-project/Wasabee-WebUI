@@ -41859,15 +41859,15 @@
 				t2 = space();
 				td3 = element("td");
 				t3 = text(t3_value);
-				add_location(td0, file$e, 234, 10, 7609);
+				add_location(td0, file$e, 234, 10, 7610);
 				if (!src_url_equal(img.src, img_src_value = "https://cdn2.wasabee.rocks/img/swap.svg")) attr_dev(img, "src", img_src_value);
 				attr_dev(img, "height", "16");
 				attr_dev(img, "alt", "swap");
 				attr_dev(img, "class", "dark-filter-invert");
-				add_location(img, file$e, 238, 12, 7730);
-				add_location(td1, file$e, 237, 10, 7713);
-				add_location(td2, file$e, 246, 10, 7982);
-				add_location(td3, file$e, 249, 10, 8084);
+				add_location(img, file$e, 238, 12, 7731);
+				add_location(td1, file$e, 237, 10, 7714);
+				add_location(td2, file$e, 246, 10, 7983);
+				add_location(td3, file$e, 249, 10, 8085);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -41971,11 +41971,11 @@
 				t2 = text(t2_value);
 				t3 = space();
 				td3 = element("td");
-				add_location(td0, file$e, 225, 10, 7332);
-				add_location(td1, file$e, 228, 10, 7432);
+				add_location(td0, file$e, 225, 10, 7333);
+				add_location(td1, file$e, 228, 10, 7433);
 				attr_dev(td2, "class", td2_class_value = /*step*/ ctx[31].task.type);
-				add_location(td2, file$e, 229, 10, 7449);
-				add_location(td3, file$e, 232, 10, 7540);
+				add_location(td2, file$e, 229, 10, 7450);
+				add_location(td3, file$e, 232, 10, 7541);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, td0, anchor);
@@ -42049,7 +42049,7 @@
 				t1 = space();
 				option.__value = option_value_value = /*z*/ ctx[37].id;
 				option.value = option.__value;
-				add_location(option, file$e, 260, 14, 8405);
+				add_location(option, file$e, 260, 14, 8406);
 				this.first = option;
 			},
 			m: function mount(target, anchor) {
@@ -42099,7 +42099,7 @@
 				t1 = space();
 				option.__value = option_value_value = /*a*/ ctx[34].id;
 				option.value = option.__value;
-				add_location(option, file$e, 273, 14, 8772);
+				add_location(option, file$e, 273, 14, 8773);
 				this.first = option;
 			},
 			m: function mount(target, anchor) {
@@ -42274,28 +42274,28 @@
 				t9 = space();
 				toggle_class(td0, "handle", /*enableDrag*/ ctx[4]);
 				toggle_class(td0, "dark-filter-invert", true);
-				add_location(td0, file$e, 221, 8, 7153);
+				add_location(td0, file$e, 221, 8, 7154);
 				attr_dev(td1, "class", "text-right");
-				add_location(td1, file$e, 223, 8, 7227);
+				add_location(td1, file$e, 223, 8, 7228);
 				option0.__value = "0";
 				option0.value = option0.__value;
-				add_location(option0, file$e, 258, 12, 8306);
+				add_location(option0, file$e, 258, 12, 8307);
 				if (/*step*/ ctx[31].task.zone === void 0) add_render_callback(select0_change_handler);
-				add_location(select0, file$e, 254, 10, 8185);
-				add_location(td2, file$e, 253, 8, 8170);
+				add_location(select0, file$e, 254, 10, 8186);
+				add_location(td2, file$e, 253, 8, 8171);
 				option1.__value = "";
 				option1.value = option1.__value;
-				add_location(option1, file$e, 271, 12, 8682);
+				add_location(option1, file$e, 271, 12, 8683);
 				if (/*step*/ ctx[31].task.assignedTo === void 0) add_render_callback(select1_change_handler);
-				add_location(select1, file$e, 267, 10, 8553);
-				add_location(td3, file$e, 266, 8, 8538);
-				add_location(input0, file$e, 280, 10, 8920);
-				add_location(td4, file$e, 279, 8, 8905);
+				add_location(select1, file$e, 267, 10, 8554);
+				add_location(td3, file$e, 266, 8, 8539);
+				add_location(input0, file$e, 280, 10, 8921);
+				add_location(td4, file$e, 279, 8, 8906);
 				attr_dev(input1, "type", "checkbox");
-				add_location(input1, file$e, 286, 10, 9092);
+				add_location(input1, file$e, 286, 10, 9093);
 				attr_dev(td5, "class", "text-center");
-				add_location(td5, file$e, 285, 8, 9057);
-				add_location(tr, file$e, 220, 6, 7096);
+				add_location(td5, file$e, 285, 8, 9058);
+				add_location(tr, file$e, 220, 6, 7097);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -42711,7 +42711,7 @@
 						listen_dev(input, "change", /*input_change_handler*/ ctx[17]),
 						action_destroyer(dndzone_action = dndzone.call(null, tbody, {
 							items: /*steps*/ ctx[3],
-							dragDisabled: /*enableDrag*/ ctx[4]
+							dragDisabled: !/*enableDrag*/ ctx[4]
 						})),
 						listen_dev(tbody, "consider", /*handleDndConsider*/ ctx[11], false, false, false),
 						listen_dev(tbody, "finalize", /*handleDndFinalize*/ ctx[12], false, false, false)
@@ -42744,7 +42744,7 @@
 
 				if (dndzone_action && is_function(dndzone_action.update) && dirty[0] & /*steps, enableDrag*/ 24) dndzone_action.update.call(null, {
 					items: /*steps*/ ctx[3],
-					dragDisabled: /*enableDrag*/ ctx[4]
+					dragDisabled: !/*enableDrag*/ ctx[4]
 				});
 			},
 			i: function intro(local) {
@@ -59661,7 +59661,7 @@
 				p1.textContent = "Copyright © The Wasabee Team 2021. All Rights Reserved";
 				t14 = space();
 				p2 = element("p");
-				p2.textContent = "Build date: Sun, 21 Aug 2022 18:21:53 GMT";
+				p2.textContent = "Build date: Sun, 21 Aug 2022 18:24:13 GMT";
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
