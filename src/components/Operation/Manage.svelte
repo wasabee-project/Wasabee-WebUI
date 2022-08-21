@@ -1,6 +1,8 @@
 <script lang="ts">
   import type { Writable } from 'svelte/store';
   import { createEventDispatcher } from 'svelte';
+  import { flip } from 'svelte/animate';
+  import { dndzone, Item } from 'svelte-dnd-action';
 
   import type { WasabeeOp } from '../../model';
   import {
@@ -25,7 +27,6 @@
     updateOpPromise,
     taskCompletePromise,
   } from '../../server';
-  import { flip } from 'svelte/animate';
   import { notifyOnError } from '../../notify';
 
   const dispatch = createEventDispatcher();
@@ -55,13 +56,13 @@
     agents = agents;
   }
 
-  let steps: Task[] = [];
+  let steps: { id: TaskID; task: Task }[] = [];
   $: if (operation) {
     const ts: Task[] = (operation.markers as Task[]).concat(operation.links);
     ts.sort((a, b) => {
       return a.order - b.order;
     });
-    steps = ts;
+    steps = ts.map((t) => ({ id: t.ID, task: t }));
   }
 
   function fourthroot(a: number) {
@@ -138,69 +139,40 @@
     );
   }
 
-  // DRAG AND DROP
-  let enableDrag = false;
-  let isOver: number | boolean = false;
-  let isDragged: number | boolean = false;
-  const getDraggedParent = (node: HTMLElement): DOMStringMap =>
-    node.dataset && node.dataset.index
-      ? node.dataset
-      : getDraggedParent(node.parentElement);
-  function dragstart(ev: DragEvent) {
-    const el = ev.target as HTMLTableRowElement;
-    ev.dataTransfer.effectAllowed = 'move';
-    ev.dataTransfer.setData('source', el.dataset.index);
-    isDragged = +el.dataset.index;
-  }
-  function dragover(ev: DragEvent) {
-    ev.preventDefault();
-    let dragged = getDraggedParent(ev.target as HTMLElement);
-    if (isOver !== +dragged.index) {
-      isOver = +dragged.index;
-      console.log(isDragged, isOver);
-    }
-  }
-  const dragleave = (ev: DragEvent) => {
-    console.log(ev);
-    // let dragged = getDraggedParent(ev.target as HTMLElement);
-    // if (isOver === +dragged.index) isOver = false;
-  };
-  function drop(ev: DragEvent) {
-    console.log(ev.target);
-    isOver = false;
-    isDragged = false;
-    ev.preventDefault();
-    let dragged = getDraggedParent(ev.target as HTMLElement);
-    let from = +ev.dataTransfer.getData('source');
-    let to = +dragged.index;
-    reorder(from, to);
-  }
-  function dragend(ev: DragEvent) {
-    ev.preventDefault();
-    isDragged = false;
-    if (isOver === false) return;
-    let from = +ev.dataTransfer.getData('source');
-    let to = +isOver;
-    isOver = false;
-    reorder(from, to);
-  }
+  let toggleDrag = false;
+  let dragDisabled = true;
 
-  function reorder(from: number, to: number) {
-    if (from < to) {
-      steps[from].order = steps[to].order + 1;
-      let shift = 0;
-      if (to + 1 < steps.length)
-        shift = 2 + steps[to].order - steps[to + 1].order;
-      if (shift > 0)
-        for (let i = to + 1; i < steps.length; i++) steps[i].order += shift;
-    } else if (from > to) {
-      steps[from].order = steps[to].order - 1;
-      let shift = 0;
-      if (to - 1 >= 0) shift = 2 + steps[to - 1].order - steps[to].order;
-      if (shift > 0) for (let i = to - 1; i >= 0; i--) steps[i].order -= shift;
-    } else return;
+  const flipDurationMs = 300;
+  function handleDndConsider(e: CustomEvent<DndEvent>) {
+    steps = e.detail.items as Item['items'];
+  }
+  function handleDndFinalize(e: CustomEvent<DndEvent>) {
+    if (steps.length < 2) return;
+    const id = e.detail.info.id;
+    steps = e.detail.items as Item['items'];
+    const to = steps.findIndex((s) => s.id === id);
+    if (to === 0) steps[to].task.order = steps[1].task.order - 1;
+    else if (to === steps.length - 1)
+      steps[to].task.order = steps[to - 1].task.order + 1;
+    else if (steps[to + 1].task.order - steps[to - 1].task.order >= 2)
+      steps[to].task.order = steps[to - 1].task.order + 1;
+    else {
+      steps[to].task.order = steps[to - 1].task.order + 1;
+      while (steps[to + 1].task.order <= steps[to].task.order) {
+        for (let i = to + 1; i < steps.length; i++) {
+          if (steps[i].task.order <= steps[i - 1].task.order)
+            steps[i].task.order++;
+        }
+      }
+    }
     notifyOnError(updateOpPromise(operation));
-    operation = operation;
+    dragDisabled = true;
+  }
+  // https://svelte.dev/repl/4949485c5a8f46e7bdbeb73ed565a9c7?version=3.24.1
+  function startDrag(e: Event) {
+    // preventing default to prevent lag on touch devices (because of the browser checking for screen scrolling)
+    e.preventDefault();
+    dragDisabled = false;
   }
 
   function incrOrder() {
@@ -213,7 +185,7 @@
   }
   function shiftOrder(v: number) {
     for (const s of steps) {
-      s.order += v;
+      s.task.order += v;
     }
     steps = steps;
   }
@@ -239,7 +211,7 @@
           <input
             type="checkbox"
             class="custom-control-input"
-            bind:checked={enableDrag}
+            bind:checked={toggleDrag}
             id="enableDrag"
           />
           <label class="custom-control-label" for="enableDrag" />
@@ -256,39 +228,38 @@
       <th scope="col">Completed</th>
     </tr>
   </thead>
-  <tbody id="opSteps">
-    {#each steps as step, i (step.ID)}
-      <tr
-        draggable={enableDrag}
-        data-index={i}
-        on:dragstart={dragstart}
-        on:dragover={dragover}
-        on:dragleave={dragleave}
-        on:dragend={dragend}
-        on:drop={drop}
-        animate:flip
-        class:shiftBottom={isOver <= i && i < isDragged}
-        class:shiftTop={isDragged < i && i <= isOver}
-      >
-        <td class:handle={enableDrag} class:dark-filter-invert={true} />
+  <tbody
+    id="opSteps"
+    use:dndzone={{ items: steps, dragDisabled: !toggleDrag || dragDisabled }}
+    on:consider={handleDndConsider}
+    on:finalize={handleDndFinalize}
+  >
+    {#each steps as step (step.id)}
+      <tr animate:flip={{ duration: flipDurationMs }}>
+        <td
+          class:handle={toggleDrag}
+          class:dark-filter-invert={true}
+          on:mousedown={startDrag}
+          on:touchstart={startDrag}
+        />
 
-        <td class="text-right">{step.order}</td>
-        {#if step instanceof WasabeeMarker}
+        <td class="text-right">{step.task.order}</td>
+        {#if step.task instanceof WasabeeMarker}
           <td>
-            <PortalLink portalId={step.portalId} {operation} />
+            <PortalLink portalId={step.task.portalId} {operation} />
           </td>
           <td />
-          <td class={step.type}>
-            {step.friendlyType}
+          <td class={step.task.type}>
+            {step.task.friendlyType}
           </td>
           <td />
-        {:else if step instanceof WasabeeLink}
+        {:else if step.task instanceof WasabeeLink}
           <td>
-            <PortalLink portalId={step.fromPortalId} {operation} />
+            <PortalLink portalId={step.task.fromPortalId} {operation} />
           </td>
           <td>
             <img
-              on:click={() => reverseLink(step)}
+              on:click={() => reverseLink(step.task)}
               src="https://cdn2.wasabee.rocks/img/swap.svg"
               height="16"
               alt="swap"
@@ -296,14 +267,17 @@
             />
           </td>
           <td>
-            <PortalLink portalId={step.toPortalId} {operation} />
+            <PortalLink portalId={step.task.toPortalId} {operation} />
           </td>
           <td>
-            {calculateDistance(step)}
+            {calculateDistance(step.task)}
           </td>
         {/if}
         <td>
-          <select bind:value={step.zone} on:change={() => setZone(step)}>
+          <select
+            bind:value={step.task.zone}
+            on:change={() => setZone(step.task)}
+          >
             <option value="0">All zones</option>
             {#each operation.zones as z (z.id)}
               <option value={z.id}>
@@ -314,8 +288,8 @@
         </td>
         <td>
           <select
-            bind:value={step.assignedTo}
-            on:change={() => setAssign(step)}
+            bind:value={step.task.assignedTo}
+            on:change={() => setAssign(step.task)}
           >
             <option value="">Unassigned</option>
             {#each agents as a (a.id)}
@@ -326,29 +300,19 @@
           </select>
         </td>
         <td>
-          <input bind:value={step.comment} on:change={() => setComment(step)} />
+          <input
+            bind:value={step.task.comment}
+            on:change={() => setComment(step.task)}
+          />
         </td>
         <td class="text-center">
           <input
             type="checkbox"
-            bind:checked={step.completed}
-            on:change={() => complete(step)}
+            bind:checked={step.task.completed}
+            on:change={() => complete(step.task)}
           />
         </td>
       </tr>
     {/each}
   </tbody>
 </table>
-
-<style>
-  #opSteps tr {
-    transition: translate 0.3s;
-  }
-
-  tr.shiftTop {
-    translate: 0 -100%;
-  }
-  tr.shiftBottom {
-    translate: 0 100%;
-  }
-</style>
