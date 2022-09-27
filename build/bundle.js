@@ -27630,7 +27630,11 @@
 	        }
 	        catch (e) {
 	            console.warn('fail to login to google', e);
-	            return Promise.reject('google_error');
+	            return Promise.reject({
+	                reason: 'Failed to login to google',
+	                message: e,
+	                cause: 'google',
+	            });
 	        }
 	    }
 	    if (token) {
@@ -27644,7 +27648,11 @@
 	        catch (e) {
 	            // reset auth bearer (likely not supported by current server)
 	            setAuthBearer();
-	            return Promise.reject('wasabee_error');
+	            return Promise.reject({
+	                reason: 'Failed to login to Wasabee',
+	                message: e,
+	                cause: 'wasabee',
+	            });
 	        }
 	    }
 	    return null;
@@ -27661,7 +27669,7 @@
 		return child_ctx;
 	}
 
-	// (53:5) <NavLink href="https://github.com/wasabee-project/Wasabee-IITC"       >
+	// (50:5) <NavLink href="https://github.com/wasabee-project/Wasabee-IITC"       >
 	function create_default_slot_4$2(ctx) {
 		let t;
 
@@ -27681,14 +27689,14 @@
 			block,
 			id: create_default_slot_4$2.name,
 			type: "slot",
-			source: "(53:5) <NavLink href=\\\"https://github.com/wasabee-project/Wasabee-IITC\\\"       >",
+			source: "(50:5) <NavLink href=\\\"https://github.com/wasabee-project/Wasabee-IITC\\\"       >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (55:5) <NavLink href="https://enl.rocks/-dEHQ">
+	// (52:5) <NavLink href="https://enl.rocks/-dEHQ">
 	function create_default_slot_3$2(ctx) {
 		let t;
 
@@ -27708,14 +27716,14 @@
 			block,
 			id: create_default_slot_3$2.name,
 			type: "slot",
-			source: "(55:5) <NavLink href=\\\"https://enl.rocks/-dEHQ\\\">",
+			source: "(52:5) <NavLink href=\\\"https://enl.rocks/-dEHQ\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (55:63) <NavLink       href="https://www.youtube.com/playlist?list=PLyku9nmtwrADKQM9_EZk7NYbZXVOrBhXa"       >
+	// (52:63) <NavLink       href="https://www.youtube.com/playlist?list=PLyku9nmtwrADKQM9_EZk7NYbZXVOrBhXa"       >
 	function create_default_slot_2$3(ctx) {
 		let t;
 
@@ -27735,14 +27743,14 @@
 			block,
 			id: create_default_slot_2$3.name,
 			type: "slot",
-			source: "(55:63) <NavLink       href=\\\"https://www.youtube.com/playlist?list=PLyku9nmtwrADKQM9_EZk7NYbZXVOrBhXa\\\"       >",
+			source: "(52:63) <NavLink       href=\\\"https://www.youtube.com/playlist?list=PLyku9nmtwrADKQM9_EZk7NYbZXVOrBhXa\\\"       >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (52:2) <Nav class="nav-masthead" justified     >
+	// (49:2) <Nav class="nav-masthead" justified     >
 	function create_default_slot_1$3(ctx) {
 		let navlink0;
 		let navlink1;
@@ -27850,14 +27858,14 @@
 			block,
 			id: create_default_slot_1$3.name,
 			type: "slot",
-			source: "(52:2) <Nav class=\\\"nav-masthead\\\" justified     >",
+			source: "(49:2) <Nav class=\\\"nav-masthead\\\" justified     >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (64:2) <ToastContainer let:data>
+	// (61:2) <ToastContainer let:data>
 	function create_default_slot$5(ctx) {
 		let flattoast;
 		let current;
@@ -27898,14 +27906,14 @@
 			block,
 			id: create_default_slot$5.name,
 			type: "slot",
-			source: "(64:2) <ToastContainer let:data>",
+			source: "(61:2) <ToastContainer let:data>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (88:30) {#if connecting == server.url}
+	// (85:30) {#if connecting == server.url}
 	function create_if_block$o(ctx) {
 		let span;
 
@@ -27915,7 +27923,7 @@
 				attr_dev(span, "class", "spinner-border spinner-border-sm");
 				attr_dev(span, "role", "status");
 				attr_dev(span, "aria-hidden", "true");
-				add_location(span, file$t, 87, 60, 3187);
+				add_location(span, file$t, 84, 60, 3088);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -27929,14 +27937,14 @@
 			block,
 			id: create_if_block$o.name,
 			type: "if",
-			source: "(88:30) {#if connecting == server.url}",
+			source: "(85:30) {#if connecting == server.url}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (82:4) {#each servers as server}
+	// (79:4) {#each servers as server}
 	function create_each_block$f(ctx) {
 		let button;
 		let t0;
@@ -27964,7 +27972,7 @@
 				? 'btn-danger'
 				: 'btn-success'));
 
-				add_location(button, file$t, 82, 6, 2961);
+				add_location(button, file$t, 79, 6, 2862);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -28010,7 +28018,7 @@
 			block,
 			id: create_each_block$f.name,
 			type: "each",
-			source: "(82:4) {#each servers as server}",
+			source: "(79:4) {#each servers as server}",
 			ctx
 		});
 
@@ -28122,36 +28130,36 @@
 				p3.textContent = "Each server is a data-island, they do not share op/team info. If you do not\n    see teams/operations you expect, please verify with your operator which\n    server is being used.";
 				attr_dev(link, "href", "https://cdn2.wasabee.rocks/css/homepage.css");
 				attr_dev(link, "rel", "stylesheet");
-				add_location(link, file$t, 47, 2, 1840);
+				add_location(link, file$t, 44, 2, 1741);
 				attr_dev(header, "class", "masthead mx-auto mb-auto");
-				add_location(header, file$t, 50, 0, 1933);
+				add_location(header, file$t, 47, 0, 1834);
 				attr_dev(h1, "class", "display-2 font-weight-bold");
-				add_location(h1, file$t, 66, 2, 2485);
+				add_location(h1, file$t, 63, 2, 2386);
 				attr_dev(p0, "class", "h2");
-				add_location(p0, file$t, 67, 2, 2539);
-				add_location(hr, file$t, 68, 2, 2572);
+				add_location(p0, file$t, 64, 2, 2440);
+				add_location(hr, file$t, 65, 2, 2473);
 				attr_dev(a0, "href", "https://cdn2.wasabee.rocks/iitcplugin/prod/wasabee.user.js");
 				attr_dev(a0, "class", "btn btn-lg btn-success");
-				add_location(a0, file$t, 70, 4, 2602);
+				add_location(a0, file$t, 67, 4, 2503);
 				attr_dev(p1, "class", "lead");
-				add_location(p1, file$t, 69, 2, 2581);
+				add_location(p1, file$t, 66, 2, 2482);
 				attr_dev(a1, "href", "https://app.wasabee.rocks");
 				attr_dev(a1, "class", "btn btn-lg btn-success");
-				add_location(a1, file$t, 76, 4, 2781);
+				add_location(a1, file$t, 73, 4, 2682);
 				attr_dev(p2, "class", "lead");
-				add_location(p2, file$t, 75, 2, 2760);
+				add_location(p2, file$t, 72, 2, 2661);
 				attr_dev(div, "class", "lead serverlist");
-				add_location(div, file$t, 80, 2, 2895);
+				add_location(div, file$t, 77, 2, 2796);
 				attr_dev(input, "class", "form-check-input");
 				attr_dev(input, "type", "checkbox");
-				add_location(input, file$t, 96, 5, 3398);
+				add_location(input, file$t, 93, 5, 3299);
 				attr_dev(label, "class", "form-check-inline");
-				add_location(label, file$t, 95, 2, 3360);
+				add_location(label, file$t, 92, 2, 3261);
 				attr_dev(p3, "class", "small tips");
-				add_location(p3, file$t, 102, 2, 3534);
+				add_location(p3, file$t, 99, 2, 3435);
 				attr_dev(main, "role", "main");
 				attr_dev(main, "class", "cover-container text-center mx-auto");
-				add_location(main, file$t, 62, 0, 2347);
+				add_location(main, file$t, 59, 0, 2248);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -28333,12 +28341,10 @@
 					const me = yield login(url, selectAccount);
 					if (me) dispatch('login', me);
 				} catch(e) {
-					console.error('unable to send token to ', url, e);
+					console.error('unable to send token to ', url, e.message);
+					notifyError(`${e.reason}: ${e.message}`);
 
-					if (e === 'google_error') {
-						notifyError('Failed to login to google: ' + e);
-					} else {
-						notifyError('Failed to login to Wasabee: ' + e);
+					if (e.cause === 'wasabee') {
 						$$invalidate(2, disabledServer[url] = true, disabledServer);
 					}
 				}
@@ -59772,7 +59778,7 @@
 				p1.textContent = "Copyright © The Wasabee Team 2021. All Rights Reserved";
 				t14 = space();
 				p2 = element("p");
-				p2.textContent = "Build date: Tue, 27 Sep 2022 19:45:02 GMT";
+				p2.textContent = "Build date: Tue, 27 Sep 2022 19:57:28 GMT";
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
