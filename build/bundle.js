@@ -26188,23 +26188,6 @@
 	    return server;
 	}
 
-	// no stacktrace error
-	class ServerError {
-	    constructor(obj) {
-	        this.code = obj.code;
-	        this.text = obj.text;
-	        this.error = obj.error;
-	    }
-	    toString() {
-	        switch (this.code) {
-	            default:
-	                if (this.error)
-	                    return this.text + ': ' + this.error;
-	                return this.text;
-	        }
-	    }
-	}
-
 	const agentCache = new Map();
 	// convert agent in server model to client model
 	function serverAgentToAgent(agent) {
@@ -27055,6 +27038,23 @@
 	    }
 	}
 
+	// no stacktrace error
+	class ServerError {
+	    constructor(obj) {
+	        this.code = obj.code;
+	        this.text = obj.text;
+	        this.error = obj.error;
+	    }
+	    toString() {
+	        switch (this.code) {
+	            default:
+	                if (this.error)
+	                    return this.text + ': ' + this.error;
+	                return this.text;
+	        }
+	    }
+	}
+
 	const teamCache = new Map();
 	class WasabeeTeam {
 	    constructor(data) {
@@ -27076,6 +27076,54 @@
 	            return cached;
 	        }
 	        return null;
+	    }
+	}
+
+	async function notifyOnError(promise) {
+	    try {
+	        const result = await promise;
+	        return result;
+	    }
+	    catch (e) {
+	        if (e instanceof ServerError) {
+	            toasts.error(e.toString(), {
+	                duration: 0,
+	            });
+	        }
+	        return Promise.reject(e);
+	    }
+	}
+	function notifyInfo(text) {
+	    return toasts.info(text);
+	}
+	function notifyWarn(text) {
+	    return toasts.warning(text);
+	}
+	function notifyError(text) {
+	    return toasts.error(text, {
+	        duration: 0,
+	    });
+	}
+	function notifyDismiss(uid) {
+	    const toast = toasts.getById(uid);
+	    if (toast && toast.remove)
+	        toast.remove();
+	}
+	const updateToastID = new Map();
+	function registerToast(toast, updateID) {
+	    if (GetUpdateList().has(updateID)) {
+	        toast.remove();
+	        return;
+	    }
+	    if (!updateToastID.has(updateID))
+	        updateToastID.set(updateID, []);
+	    updateToastID.get(updateID).push(toast.uid);
+	}
+	function dismissUpdateID(updateID) {
+	    const uids = updateToastID.get(updateID);
+	    if (uids) {
+	        uids.forEach(notifyDismiss);
+	        updateToastID.delete(updateID);
 	    }
 	}
 
@@ -27537,52 +27585,6 @@
 	    });
 	}
 
-	async function notifyOnError(promise) {
-	    try {
-	        const result = await promise;
-	        return result;
-	    }
-	    catch (e) {
-	        if (e instanceof ServerError) {
-	            toasts.error(e.toString(), {
-	                duration: 0,
-	            });
-	        }
-	        return Promise.reject(e);
-	    }
-	}
-	function notifyInfo(text, options = {}) {
-	    return toasts.info(text, options);
-	}
-	function notifyWarn(text, options = {}) {
-	    return toasts.warning(text, options);
-	}
-	function notifyError(text, options = {}) {
-	    return toasts.error(text, options);
-	}
-	function notifyDismiss(uid) {
-	    const toast = toasts.getById(uid);
-	    if (toast && toast.remove)
-	        toast.remove();
-	}
-	const updateToastID = new Map();
-	function registerToast(toast, updateID) {
-	    if (GetUpdateList().has(updateID)) {
-	        toast.remove();
-	        return;
-	    }
-	    if (!updateToastID.has(updateID))
-	        updateToastID.set(updateID, []);
-	    updateToastID.get(updateID).push(toast.uid);
-	}
-	function dismissUpdateID(updateID) {
-	    const uids = updateToastID.get(updateID);
-	    if (uids) {
-	        uids.forEach(notifyDismiss);
-	        updateToastID.delete(updateID);
-	    }
-	}
-
 	function promiseLogin(options) {
 	    const promise = new Promise((resolve, reject) => {
 	        window.gapi.auth2.authorize(options, (response) => {
@@ -27628,7 +27630,7 @@
 	        }
 	        catch (e) {
 	            console.warn('fail to login to google', e);
-	            notifyError("Failed to login to google", { description: e, duration: 0 });
+	            return Promise.reject('google_error');
 	        }
 	    }
 	    if (token) {
@@ -27642,7 +27644,7 @@
 	        catch (e) {
 	            // reset auth bearer (likely not supported by current server)
 	            setAuthBearer();
-	            notifyError("Failed to login to Wasabee server", { description: e, duration: 0 });
+	            return Promise.reject('wasabee_error');
 	        }
 	    }
 	    return null;
@@ -27659,7 +27661,7 @@
 		return child_ctx;
 	}
 
-	// (46:5) <NavLink href="https://github.com/wasabee-project/Wasabee-IITC"       >
+	// (53:5) <NavLink href="https://github.com/wasabee-project/Wasabee-IITC"       >
 	function create_default_slot_4$2(ctx) {
 		let t;
 
@@ -27679,14 +27681,14 @@
 			block,
 			id: create_default_slot_4$2.name,
 			type: "slot",
-			source: "(46:5) <NavLink href=\\\"https://github.com/wasabee-project/Wasabee-IITC\\\"       >",
+			source: "(53:5) <NavLink href=\\\"https://github.com/wasabee-project/Wasabee-IITC\\\"       >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (48:5) <NavLink href="https://enl.rocks/-dEHQ">
+	// (55:5) <NavLink href="https://enl.rocks/-dEHQ">
 	function create_default_slot_3$2(ctx) {
 		let t;
 
@@ -27706,14 +27708,14 @@
 			block,
 			id: create_default_slot_3$2.name,
 			type: "slot",
-			source: "(48:5) <NavLink href=\\\"https://enl.rocks/-dEHQ\\\">",
+			source: "(55:5) <NavLink href=\\\"https://enl.rocks/-dEHQ\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (48:63) <NavLink       href="https://www.youtube.com/playlist?list=PLyku9nmtwrADKQM9_EZk7NYbZXVOrBhXa"       >
+	// (55:63) <NavLink       href="https://www.youtube.com/playlist?list=PLyku9nmtwrADKQM9_EZk7NYbZXVOrBhXa"       >
 	function create_default_slot_2$3(ctx) {
 		let t;
 
@@ -27733,14 +27735,14 @@
 			block,
 			id: create_default_slot_2$3.name,
 			type: "slot",
-			source: "(48:63) <NavLink       href=\\\"https://www.youtube.com/playlist?list=PLyku9nmtwrADKQM9_EZk7NYbZXVOrBhXa\\\"       >",
+			source: "(55:63) <NavLink       href=\\\"https://www.youtube.com/playlist?list=PLyku9nmtwrADKQM9_EZk7NYbZXVOrBhXa\\\"       >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (45:2) <Nav class="nav-masthead" justified     >
+	// (52:2) <Nav class="nav-masthead" justified     >
 	function create_default_slot_1$3(ctx) {
 		let navlink0;
 		let navlink1;
@@ -27848,14 +27850,14 @@
 			block,
 			id: create_default_slot_1$3.name,
 			type: "slot",
-			source: "(45:2) <Nav class=\\\"nav-masthead\\\" justified     >",
+			source: "(52:2) <Nav class=\\\"nav-masthead\\\" justified     >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (57:2) <ToastContainer let:data>
+	// (64:2) <ToastContainer let:data>
 	function create_default_slot$5(ctx) {
 		let flattoast;
 		let current;
@@ -27896,14 +27898,14 @@
 			block,
 			id: create_default_slot$5.name,
 			type: "slot",
-			source: "(57:2) <ToastContainer let:data>",
+			source: "(64:2) <ToastContainer let:data>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (81:30) {#if connecting == server.url}
+	// (88:30) {#if connecting == server.url}
 	function create_if_block$o(ctx) {
 		let span;
 
@@ -27913,7 +27915,7 @@
 				attr_dev(span, "class", "spinner-border spinner-border-sm");
 				attr_dev(span, "role", "status");
 				attr_dev(span, "aria-hidden", "true");
-				add_location(span, file$t, 80, 60, 2926);
+				add_location(span, file$t, 87, 60, 3187);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -27927,14 +27929,14 @@
 			block,
 			id: create_if_block$o.name,
 			type: "if",
-			source: "(81:30) {#if connecting == server.url}",
+			source: "(88:30) {#if connecting == server.url}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (75:4) {#each servers as server}
+	// (82:4) {#each servers as server}
 	function create_each_block$f(ctx) {
 		let button;
 		let t0;
@@ -27962,7 +27964,7 @@
 				? 'btn-danger'
 				: 'btn-success'));
 
-				add_location(button, file$t, 75, 6, 2700);
+				add_location(button, file$t, 82, 6, 2961);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -28008,7 +28010,7 @@
 			block,
 			id: create_each_block$f.name,
 			type: "each",
-			source: "(75:4) {#each servers as server}",
+			source: "(82:4) {#each servers as server}",
 			ctx
 		});
 
@@ -28120,36 +28122,36 @@
 				p3.textContent = "Each server is a data-island, they do not share op/team info. If you do not\n    see teams/operations you expect, please verify with your operator which\n    server is being used.";
 				attr_dev(link, "href", "https://cdn2.wasabee.rocks/css/homepage.css");
 				attr_dev(link, "rel", "stylesheet");
-				add_location(link, file$t, 40, 2, 1579);
+				add_location(link, file$t, 47, 2, 1840);
 				attr_dev(header, "class", "masthead mx-auto mb-auto");
-				add_location(header, file$t, 43, 0, 1672);
+				add_location(header, file$t, 50, 0, 1933);
 				attr_dev(h1, "class", "display-2 font-weight-bold");
-				add_location(h1, file$t, 59, 2, 2224);
+				add_location(h1, file$t, 66, 2, 2485);
 				attr_dev(p0, "class", "h2");
-				add_location(p0, file$t, 60, 2, 2278);
-				add_location(hr, file$t, 61, 2, 2311);
+				add_location(p0, file$t, 67, 2, 2539);
+				add_location(hr, file$t, 68, 2, 2572);
 				attr_dev(a0, "href", "https://cdn2.wasabee.rocks/iitcplugin/prod/wasabee.user.js");
 				attr_dev(a0, "class", "btn btn-lg btn-success");
-				add_location(a0, file$t, 63, 4, 2341);
+				add_location(a0, file$t, 70, 4, 2602);
 				attr_dev(p1, "class", "lead");
-				add_location(p1, file$t, 62, 2, 2320);
+				add_location(p1, file$t, 69, 2, 2581);
 				attr_dev(a1, "href", "https://app.wasabee.rocks");
 				attr_dev(a1, "class", "btn btn-lg btn-success");
-				add_location(a1, file$t, 69, 4, 2520);
+				add_location(a1, file$t, 76, 4, 2781);
 				attr_dev(p2, "class", "lead");
-				add_location(p2, file$t, 68, 2, 2499);
+				add_location(p2, file$t, 75, 2, 2760);
 				attr_dev(div, "class", "lead serverlist");
-				add_location(div, file$t, 73, 2, 2634);
+				add_location(div, file$t, 80, 2, 2895);
 				attr_dev(input, "class", "form-check-input");
 				attr_dev(input, "type", "checkbox");
-				add_location(input, file$t, 89, 5, 3137);
+				add_location(input, file$t, 96, 5, 3398);
 				attr_dev(label, "class", "form-check-inline");
-				add_location(label, file$t, 88, 2, 3099);
+				add_location(label, file$t, 95, 2, 3360);
 				attr_dev(p3, "class", "small tips");
-				add_location(p3, file$t, 95, 2, 3273);
+				add_location(p3, file$t, 102, 2, 3534);
 				attr_dev(main, "role", "main");
 				attr_dev(main, "class", "cover-container text-center mx-auto");
-				add_location(main, file$t, 55, 0, 2086);
+				add_location(main, file$t, 62, 0, 2347);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -28332,7 +28334,13 @@
 					if (me) dispatch('login', me);
 				} catch(e) {
 					console.error('unable to send token to ', url, e);
-					$$invalidate(2, disabledServer[url] = true, disabledServer);
+
+					if (e === 'google_error') {
+						notifyError('Failed to login to google: ' + e);
+					} else {
+						notifyError('Failed to login to Wasabee: ' + e);
+						$$invalidate(2, disabledServer[url] = true, disabledServer);
+					}
 				}
 
 				$$invalidate(0, connecting = null);
@@ -28365,6 +28373,7 @@
 			getServers,
 			FlatToast,
 			ToastContainer,
+			notifyError,
 			disabled,
 			connecting,
 			selectAccount,
@@ -59763,7 +59772,7 @@
 				p1.textContent = "Copyright © The Wasabee Team 2021. All Rights Reserved";
 				t14 = space();
 				p2 = element("p");
-				p2.textContent = "Build date: Tue, 27 Sep 2022 19:27:30 GMT";
+				p2.textContent = "Build date: Tue, 27 Sep 2022 19:45:02 GMT";
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
