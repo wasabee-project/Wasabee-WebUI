@@ -26188,6 +26188,23 @@
 	    return server;
 	}
 
+	// no stacktrace error
+	class ServerError {
+	    constructor(obj) {
+	        this.code = obj.code;
+	        this.text = obj.text;
+	        this.error = obj.error;
+	    }
+	    toString() {
+	        switch (this.code) {
+	            default:
+	                if (this.error)
+	                    return this.text + ': ' + this.error;
+	                return this.text;
+	        }
+	    }
+	}
+
 	const agentCache = new Map();
 	// convert agent in server model to client model
 	function serverAgentToAgent(agent) {
@@ -27038,23 +27055,6 @@
 	    }
 	}
 
-	// no stacktrace error
-	class ServerError {
-	    constructor(obj) {
-	        this.code = obj.code;
-	        this.text = obj.text;
-	        this.error = obj.error;
-	    }
-	    toString() {
-	        switch (this.code) {
-	            default:
-	                if (this.error)
-	                    return this.text + ': ' + this.error;
-	                return this.text;
-	        }
-	    }
-	}
-
 	const teamCache = new Map();
 	class WasabeeTeam {
 	    constructor(data) {
@@ -27076,49 +27076,6 @@
 	            return cached;
 	        }
 	        return null;
-	    }
-	}
-
-	async function notifyOnError(promise) {
-	    try {
-	        const result = await promise;
-	        return result;
-	    }
-	    catch (e) {
-	        if (e instanceof ServerError) {
-	            toasts.error(e.toString(), {
-	                duration: 0,
-	            });
-	        }
-	        return Promise.reject(e);
-	    }
-	}
-	function notifyInfo(text) {
-	    return toasts.info(text);
-	}
-	function notifyWarn(text) {
-	    return toasts.warning(text);
-	}
-	function notifyDismiss(uid) {
-	    const toast = toasts.getById(uid);
-	    if (toast && toast.remove)
-	        toast.remove();
-	}
-	const updateToastID = new Map();
-	function registerToast(toast, updateID) {
-	    if (GetUpdateList().has(updateID)) {
-	        toast.remove();
-	        return;
-	    }
-	    if (!updateToastID.has(updateID))
-	        updateToastID.set(updateID, []);
-	    updateToastID.get(updateID).push(toast.uid);
-	}
-	function dismissUpdateID(updateID) {
-	    const uids = updateToastID.get(updateID);
-	    if (uids) {
-	        uids.forEach(notifyDismiss);
-	        updateToastID.delete(updateID);
 	    }
 	}
 
@@ -27580,6 +27537,52 @@
 	    });
 	}
 
+	async function notifyOnError(promise) {
+	    try {
+	        const result = await promise;
+	        return result;
+	    }
+	    catch (e) {
+	        if (e instanceof ServerError) {
+	            toasts.error(e.toString(), {
+	                duration: 0,
+	            });
+	        }
+	        return Promise.reject(e);
+	    }
+	}
+	function notifyInfo(text, options = {}) {
+	    return toasts.info(text, options);
+	}
+	function notifyWarn(text, options = {}) {
+	    return toasts.warning(text, options);
+	}
+	function notifyError(text, options = {}) {
+	    return toasts.error(text, options);
+	}
+	function notifyDismiss(uid) {
+	    const toast = toasts.getById(uid);
+	    if (toast && toast.remove)
+	        toast.remove();
+	}
+	const updateToastID = new Map();
+	function registerToast(toast, updateID) {
+	    if (GetUpdateList().has(updateID)) {
+	        toast.remove();
+	        return;
+	    }
+	    if (!updateToastID.has(updateID))
+	        updateToastID.set(updateID, []);
+	    updateToastID.get(updateID).push(toast.uid);
+	}
+	function dismissUpdateID(updateID) {
+	    const uids = updateToastID.get(updateID);
+	    if (uids) {
+	        uids.forEach(notifyDismiss);
+	        updateToastID.delete(updateID);
+	    }
+	}
+
 	function promiseLogin(options) {
 	    const promise = new Promise((resolve, reject) => {
 	        window.gapi.auth2.authorize(options, (response) => {
@@ -27625,6 +27628,7 @@
 	        }
 	        catch (e) {
 	            console.warn('fail to login to google', e);
+	            notifyError("Failed to login to google", { description: e, duration: 0 });
 	        }
 	    }
 	    if (token) {
@@ -27638,6 +27642,7 @@
 	        catch (e) {
 	            // reset auth bearer (likely not supported by current server)
 	            setAuthBearer();
+	            notifyError("Failed to login to Wasabee server", { description: e, duration: 0 });
 	        }
 	    }
 	    return null;
@@ -27654,8 +27659,8 @@
 		return child_ctx;
 	}
 
-	// (45:5) <NavLink href="https://github.com/wasabee-project/Wasabee-IITC"       >
-	function create_default_slot_3$2(ctx) {
+	// (46:5) <NavLink href="https://github.com/wasabee-project/Wasabee-IITC"       >
+	function create_default_slot_4$2(ctx) {
 		let t;
 
 		const block = {
@@ -27672,17 +27677,17 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_default_slot_3$2.name,
+			id: create_default_slot_4$2.name,
 			type: "slot",
-			source: "(45:5) <NavLink href=\\\"https://github.com/wasabee-project/Wasabee-IITC\\\"       >",
+			source: "(46:5) <NavLink href=\\\"https://github.com/wasabee-project/Wasabee-IITC\\\"       >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (47:5) <NavLink href="https://enl.rocks/-dEHQ">
-	function create_default_slot_2$3(ctx) {
+	// (48:5) <NavLink href="https://enl.rocks/-dEHQ">
+	function create_default_slot_3$2(ctx) {
 		let t;
 
 		const block = {
@@ -27699,17 +27704,17 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_default_slot_2$3.name,
+			id: create_default_slot_3$2.name,
 			type: "slot",
-			source: "(47:5) <NavLink href=\\\"https://enl.rocks/-dEHQ\\\">",
+			source: "(48:5) <NavLink href=\\\"https://enl.rocks/-dEHQ\\\">",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (47:63) <NavLink       href="https://www.youtube.com/playlist?list=PLyku9nmtwrADKQM9_EZk7NYbZXVOrBhXa"       >
-	function create_default_slot_1$3(ctx) {
+	// (48:63) <NavLink       href="https://www.youtube.com/playlist?list=PLyku9nmtwrADKQM9_EZk7NYbZXVOrBhXa"       >
+	function create_default_slot_2$3(ctx) {
 		let t;
 
 		const block = {
@@ -27726,17 +27731,17 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_default_slot_1$3.name,
+			id: create_default_slot_2$3.name,
 			type: "slot",
-			source: "(47:63) <NavLink       href=\\\"https://www.youtube.com/playlist?list=PLyku9nmtwrADKQM9_EZk7NYbZXVOrBhXa\\\"       >",
+			source: "(48:63) <NavLink       href=\\\"https://www.youtube.com/playlist?list=PLyku9nmtwrADKQM9_EZk7NYbZXVOrBhXa\\\"       >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (44:2) <Nav class="nav-masthead" justified     >
-	function create_default_slot$5(ctx) {
+	// (45:2) <Nav class="nav-masthead" justified     >
+	function create_default_slot_1$3(ctx) {
 		let navlink0;
 		let navlink1;
 		let navlink2;
@@ -27747,7 +27752,7 @@
 		navlink0 = new NavLink({
 				props: {
 					href: "https://github.com/wasabee-project/Wasabee-IITC",
-					$$slots: { default: [create_default_slot_3$2] },
+					$$slots: { default: [create_default_slot_4$2] },
 					$$scope: { ctx }
 				},
 				$$inline: true
@@ -27756,7 +27761,7 @@
 		navlink1 = new NavLink({
 				props: {
 					href: "https://enl.rocks/-dEHQ",
-					$$slots: { default: [create_default_slot_2$3] },
+					$$slots: { default: [create_default_slot_3$2] },
 					$$scope: { ctx }
 				},
 				$$inline: true
@@ -27765,7 +27770,7 @@
 		navlink2 = new NavLink({
 				props: {
 					href: "https://www.youtube.com/playlist?list=PLyku9nmtwrADKQM9_EZk7NYbZXVOrBhXa",
-					$$slots: { default: [create_default_slot_1$3] },
+					$$slots: { default: [create_default_slot_2$3] },
 					$$scope: { ctx }
 				},
 				$$inline: true
@@ -27795,21 +27800,21 @@
 			p: function update(ctx, dirty) {
 				const navlink0_changes = {};
 
-				if (dirty & /*$$scope*/ 8192) {
+				if (dirty & /*$$scope*/ 16384) {
 					navlink0_changes.$$scope = { dirty, ctx };
 				}
 
 				navlink0.$set(navlink0_changes);
 				const navlink1_changes = {};
 
-				if (dirty & /*$$scope*/ 8192) {
+				if (dirty & /*$$scope*/ 16384) {
 					navlink1_changes.$$scope = { dirty, ctx };
 				}
 
 				navlink1.$set(navlink1_changes);
 				const navlink2_changes = {};
 
-				if (dirty & /*$$scope*/ 8192) {
+				if (dirty & /*$$scope*/ 16384) {
 					navlink2_changes.$$scope = { dirty, ctx };
 				}
 
@@ -27841,16 +27846,64 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_default_slot$5.name,
+			id: create_default_slot_1$3.name,
 			type: "slot",
-			source: "(44:2) <Nav class=\\\"nav-masthead\\\" justified     >",
+			source: "(45:2) <Nav class=\\\"nav-masthead\\\" justified     >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (77:30) {#if connecting == server.url}
+	// (57:2) <ToastContainer let:data>
+	function create_default_slot$5(ctx) {
+		let flattoast;
+		let current;
+
+		flattoast = new FlatToast({
+				props: { data: /*data*/ ctx[13] },
+				$$inline: true
+			});
+
+		const block = {
+			c: function create() {
+				create_component(flattoast.$$.fragment);
+			},
+			m: function mount(target, anchor) {
+				mount_component(flattoast, target, anchor);
+				current = true;
+			},
+			p: function update(ctx, dirty) {
+				const flattoast_changes = {};
+				if (dirty & /*data*/ 8192) flattoast_changes.data = /*data*/ ctx[13];
+				flattoast.$set(flattoast_changes);
+			},
+			i: function intro(local) {
+				if (current) return;
+				transition_in(flattoast.$$.fragment, local);
+				current = true;
+			},
+			o: function outro(local) {
+				transition_out(flattoast.$$.fragment, local);
+				current = false;
+			},
+			d: function destroy(detaching) {
+				destroy_component(flattoast, detaching);
+			}
+		};
+
+		dispatch_dev("SvelteRegisterBlock", {
+			block,
+			id: create_default_slot$5.name,
+			type: "slot",
+			source: "(57:2) <ToastContainer let:data>",
+			ctx
+		});
+
+		return block;
+	}
+
+	// (81:30) {#if connecting == server.url}
 	function create_if_block$o(ctx) {
 		let span;
 
@@ -27860,7 +27913,7 @@
 				attr_dev(span, "class", "spinner-border spinner-border-sm");
 				attr_dev(span, "role", "status");
 				attr_dev(span, "aria-hidden", "true");
-				add_location(span, file$t, 76, 60, 2791);
+				add_location(span, file$t, 80, 60, 2926);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -27874,14 +27927,14 @@
 			block,
 			id: create_if_block$o.name,
 			type: "if",
-			source: "(77:30) {#if connecting == server.url}",
+			source: "(81:30) {#if connecting == server.url}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (71:4) {#each servers as server}
+	// (75:4) {#each servers as server}
 	function create_each_block$f(ctx) {
 		let button;
 		let t0;
@@ -27909,7 +27962,7 @@
 				? 'btn-danger'
 				: 'btn-success'));
 
-				add_location(button, file$t, 71, 6, 2565);
+				add_location(button, file$t, 75, 6, 2700);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -27955,7 +28008,7 @@
 			block,
 			id: create_each_block$f.name,
 			type: "each",
-			source: "(71:4) {#each servers as server}",
+			source: "(75:4) {#each servers as server}",
 			ctx
 		});
 
@@ -27969,24 +28022,26 @@
 		let nav;
 		let t1;
 		let main;
+		let toastcontainer;
+		let t2;
 		let h1;
-		let t3;
+		let t4;
 		let p0;
-		let t5;
-		let hr;
 		let t6;
+		let hr;
+		let t7;
 		let p1;
 		let a0;
-		let t8;
+		let t9;
 		let p2;
 		let a1;
-		let t10;
-		let div;
 		let t11;
+		let div;
+		let t12;
 		let label;
 		let input;
-		let t12;
 		let t13;
+		let t14;
 		let p3;
 		let current;
 		let mounted;
@@ -27996,7 +28051,21 @@
 				props: {
 					class: "nav-masthead",
 					justified: true,
-					$$slots: { default: [create_default_slot$5] },
+					$$slots: { default: [create_default_slot_1$3] },
+					$$scope: { ctx }
+				},
+				$$inline: true
+			});
+
+		toastcontainer = new ToastContainer({
+				props: {
+					$$slots: {
+						default: [
+							create_default_slot$5,
+							({ data }) => ({ 13: data }),
+							({ data }) => data ? 8192 : 0
+						]
+					},
 					$$scope: { ctx }
 				},
 				$$inline: true
@@ -28018,67 +28087,69 @@
 				create_component(nav.$$.fragment);
 				t1 = space();
 				main = element("main");
+				create_component(toastcontainer.$$.fragment);
+				t2 = space();
 				h1 = element("h1");
 				h1.textContent = "Wasabee";
-				t3 = space();
+				t4 = space();
 				p0 = element("p");
 				p0.textContent = "ENL Op Tools";
-				t5 = space();
-				hr = element("hr");
 				t6 = space();
+				hr = element("hr");
+				t7 = space();
 				p1 = element("p");
 				a0 = element("a");
 				a0.textContent = "Download the stable release";
-				t8 = space();
+				t9 = space();
 				p2 = element("p");
 				a1 = element("a");
 				a1.textContent = "Get ground Agents app";
-				t10 = space();
+				t11 = space();
 				div = element("div");
 
 				for (let i = 0; i < each_blocks.length; i += 1) {
 					each_blocks[i].c();
 				}
 
-				t11 = space();
+				t12 = space();
 				label = element("label");
 				input = element("input");
-				t12 = text("Select google account");
-				t13 = space();
+				t13 = text("Select google account");
+				t14 = space();
 				p3 = element("p");
 				p3.textContent = "Each server is a data-island, they do not share op/team info. If you do not\n    see teams/operations you expect, please verify with your operator which\n    server is being used.";
 				attr_dev(link, "href", "https://cdn2.wasabee.rocks/css/homepage.css");
 				attr_dev(link, "rel", "stylesheet");
-				add_location(link, file$t, 39, 2, 1517);
+				add_location(link, file$t, 40, 2, 1579);
 				attr_dev(header, "class", "masthead mx-auto mb-auto");
-				add_location(header, file$t, 42, 0, 1610);
+				add_location(header, file$t, 43, 0, 1672);
 				attr_dev(h1, "class", "display-2 font-weight-bold");
-				add_location(h1, file$t, 55, 2, 2089);
+				add_location(h1, file$t, 59, 2, 2224);
 				attr_dev(p0, "class", "h2");
-				add_location(p0, file$t, 56, 2, 2143);
-				add_location(hr, file$t, 57, 2, 2176);
+				add_location(p0, file$t, 60, 2, 2278);
+				add_location(hr, file$t, 61, 2, 2311);
 				attr_dev(a0, "href", "https://cdn2.wasabee.rocks/iitcplugin/prod/wasabee.user.js");
 				attr_dev(a0, "class", "btn btn-lg btn-success");
-				add_location(a0, file$t, 59, 4, 2206);
+				add_location(a0, file$t, 63, 4, 2341);
 				attr_dev(p1, "class", "lead");
-				add_location(p1, file$t, 58, 2, 2185);
+				add_location(p1, file$t, 62, 2, 2320);
 				attr_dev(a1, "href", "https://app.wasabee.rocks");
 				attr_dev(a1, "class", "btn btn-lg btn-success");
-				add_location(a1, file$t, 65, 4, 2385);
+				add_location(a1, file$t, 69, 4, 2520);
 				attr_dev(p2, "class", "lead");
-				add_location(p2, file$t, 64, 2, 2364);
+				add_location(p2, file$t, 68, 2, 2499);
 				attr_dev(div, "class", "lead serverlist");
-				add_location(div, file$t, 69, 2, 2499);
+				add_location(div, file$t, 73, 2, 2634);
 				attr_dev(input, "class", "form-check-input");
 				attr_dev(input, "type", "checkbox");
-				add_location(input, file$t, 85, 5, 3002);
+				add_location(input, file$t, 89, 5, 3137);
 				attr_dev(label, "class", "form-check-inline");
-				add_location(label, file$t, 84, 2, 2964);
+				add_location(label, file$t, 88, 2, 3099);
 				attr_dev(p3, "class", "small tips");
-				add_location(p3, file$t, 91, 2, 3138);
+				add_location(p3, file$t, 95, 2, 3273);
 				attr_dev(main, "role", "main");
 				attr_dev(main, "class", "cover-container text-center mx-auto");
-				add_location(main, file$t, 54, 0, 2024);
+				add_location(main, file$t, 55, 0, 2086);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -28090,30 +28161,32 @@
 				mount_component(nav, header, null);
 				insert_dev(target, t1, anchor);
 				insert_dev(target, main, anchor);
+				mount_component(toastcontainer, main, null);
+				append_dev(main, t2);
 				append_dev(main, h1);
-				append_dev(main, t3);
+				append_dev(main, t4);
 				append_dev(main, p0);
-				append_dev(main, t5);
-				append_dev(main, hr);
 				append_dev(main, t6);
+				append_dev(main, hr);
+				append_dev(main, t7);
 				append_dev(main, p1);
 				append_dev(p1, a0);
-				append_dev(main, t8);
+				append_dev(main, t9);
 				append_dev(main, p2);
 				append_dev(p2, a1);
-				append_dev(main, t10);
+				append_dev(main, t11);
 				append_dev(main, div);
 
 				for (let i = 0; i < each_blocks.length; i += 1) {
 					each_blocks[i].m(div, null);
 				}
 
-				append_dev(main, t11);
+				append_dev(main, t12);
 				append_dev(main, label);
 				append_dev(label, input);
 				input.checked = /*selectAccount*/ ctx[1];
-				append_dev(label, t12);
-				append_dev(main, t13);
+				append_dev(label, t13);
+				append_dev(main, t14);
 				append_dev(main, p3);
 				current = true;
 
@@ -28125,11 +28198,18 @@
 			p: function update(ctx, [dirty]) {
 				const nav_changes = {};
 
-				if (dirty & /*$$scope*/ 8192) {
+				if (dirty & /*$$scope*/ 16384) {
 					nav_changes.$$scope = { dirty, ctx };
 				}
 
 				nav.$set(nav_changes);
+				const toastcontainer_changes = {};
+
+				if (dirty & /*$$scope, data*/ 24576) {
+					toastcontainer_changes.$$scope = { dirty, ctx };
+				}
+
+				toastcontainer.$set(toastcontainer_changes);
 
 				if (dirty & /*disabledServer, servers, loginTo, connecting*/ 29) {
 					each_value = /*servers*/ ctx[3];
@@ -28162,10 +28242,12 @@
 			i: function intro(local) {
 				if (current) return;
 				transition_in(nav.$$.fragment, local);
+				transition_in(toastcontainer.$$.fragment, local);
 				current = true;
 			},
 			o: function outro(local) {
 				transition_out(nav.$$.fragment, local);
+				transition_out(toastcontainer.$$.fragment, local);
 				current = false;
 			},
 			d: function destroy(detaching) {
@@ -28175,6 +28257,7 @@
 				destroy_component(nav);
 				if (detaching) detach_dev(t1);
 				if (detaching) detach_dev(main);
+				destroy_component(toastcontainer);
 				destroy_each(each_blocks, detaching);
 				mounted = false;
 				dispose();
@@ -28248,7 +28331,7 @@
 					const me = yield login(url, selectAccount);
 					if (me) dispatch('login', me);
 				} catch(e) {
-					console.error('unable to send token to ', url);
+					console.error('unable to send token to ', url, e);
 					$$invalidate(2, disabledServer[url] = true, disabledServer);
 				}
 
@@ -28280,6 +28363,8 @@
 			Nav,
 			NavLink,
 			getServers,
+			FlatToast,
+			ToastContainer,
 			disabled,
 			connecting,
 			selectAccount,
@@ -59678,7 +59763,7 @@
 				p1.textContent = "Copyright © The Wasabee Team 2021. All Rights Reserved";
 				t14 = space();
 				p2 = element("p");
-				p2.textContent = "Build date: Sun, 21 Aug 2022 18:45:15 GMT";
+				p2.textContent = "Build date: Tue, 27 Sep 2022 19:27:30 GMT";
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
