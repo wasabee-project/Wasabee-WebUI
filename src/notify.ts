@@ -25,6 +25,12 @@ export function notifyWarn(text: string) {
   return toasts.warning(text);
 }
 
+export function notifyError(text: string) {
+  return toasts.error(text, {
+    duration: 0,
+  });
+}
+
 export function notifyDismiss(uid: number) {
   const toast = toasts.getById(uid);
   if (toast && toast.remove) toast.remove();

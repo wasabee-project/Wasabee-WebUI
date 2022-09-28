@@ -51,6 +51,11 @@ export async function login(server: string, selectAccount: boolean) {
       token = await promiseLogin(options);
     } catch (e) {
       console.warn('fail to login to google', e);
+      return Promise.reject({
+        reason: 'Failed to login to google',
+        message: e,
+        cause: 'google',
+      });
     }
   }
   if (token) {
@@ -62,6 +67,11 @@ export async function login(server: string, selectAccount: boolean) {
     } catch (e) {
       // reset auth bearer (likely not supported by current server)
       setAuthBearer();
+      return Promise.reject({
+        reason: 'Failed to login to Wasabee',
+        message: e,
+        cause: 'wasabee',
+      });
     }
   }
   return null;

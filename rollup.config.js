@@ -92,6 +92,7 @@ export default [
       }),
 
       replace({
+        preventAssignment: true,
         __buildDate__: () => new Date().toUTCString(),
       }),
 

@@ -4,6 +4,8 @@
   import { login } from '../auth';
   import { Nav, NavLink } from 'sveltestrap';
   import { getServers } from '../config';
+  import { FlatToast, ToastContainer } from 'svelte-toasts';
+  import { notifyError } from '../notify';
 
   export let disabled: boolean;
   let connecting: string = null;
@@ -22,8 +24,11 @@
       const me: any = await login(url, selectAccount);
       if (me) dispatch('login', me);
     } catch (e) {
-      console.error('unable to send token to ', url);
-      disabledServer[url] = true;
+      console.error('unable to send token to ', url, e.message);
+      notifyError(`${e.reason}: ${e.message}`);
+      if (e.cause === 'wasabee') {
+        disabledServer[url] = true;
+      }
     }
     connecting = null;
   }
@@ -46,6 +51,9 @@
 </header>
 
 <main role="main" class="cover-container text-center mx-auto">
+  <ToastContainer let:data>
+    <FlatToast {data} />
+  </ToastContainer>
   <h1 class="display-2 font-weight-bold">Wasabee</h1>
   <p class="h2">ENL Op Tools</p>
   <hr />
