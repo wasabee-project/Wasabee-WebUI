@@ -110,10 +110,6 @@
     }
   }
 
-  $: teamsList = me.Teams.map((t) => ({
-    ...t,
-    ownerName: $agentsStore[t.Owner] ? $agentsStore[t.Owner].name : t.Owner,
-  }));
 </script>
 
 <div class="container">
@@ -142,7 +138,7 @@
             </td>
           </tr>
         {:else}
-          {#each teamsList as team (team.ID)}
+          {#each me.Teams as team (team.ID)}
             <tr>
               <td>
                 <a href={'#/team/' + team.ID + '/list'}>
@@ -150,7 +146,7 @@
                 </a>
               </td>
               <td>
-                {team.ownerName}
+                {$agentsStore[team.Owner] ? $agentsStore[team.Owner].name : team.Owner}
               </td>
               <td>
                 <input
