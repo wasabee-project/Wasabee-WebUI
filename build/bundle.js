@@ -44280,7 +44280,7 @@
 			c: function create() {
 				div = element("div");
 				t = text(t_value);
-				add_location(div, file$d, 220, 53, 6582);
+				add_location(div, file$d, 220, 53, 6617);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -44315,7 +44315,7 @@
 			c: function create() {
 				div = element("div");
 				t = text(t_value);
-				add_location(div, file$d, 223, 54, 6722);
+				add_location(div, file$d, 223, 54, 6757);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -44368,7 +44368,7 @@
 				attr_dev(button, "target", "_blank");
 				attr_dev(button, "class", "btn btn-outline-primary btn-sm");
 				attr_dev(button, "href", button_href_value = 'https://www.google.com/maps/search/?api=1&query=' + /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[23]).latLng.lat + ',' + /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[23]).latLng.lng);
-				add_location(button, file$d, 226, 12, 6821);
+				add_location(button, file$d, 226, 12, 6856);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, t0, anchor);
@@ -44438,7 +44438,7 @@
 		return block;
 	}
 
-	// (203:8) <Marker           latLng={operation.getPortal(anchor).latLng}           icon={new DivIcon({             html: Util.template(               '<svg style="fill: {color}"><use href="/img/pin_custom.svg#wasabee-anchor-icon"/></svg>',               {                 color: anchorColors.get(anchor) || 'black',               }             ),             iconSize: [25, 41],             iconAnchor: [12, 40],             popupAnchor: [-1, -48],             className: 'wasabee-anchor',           })}           options={{ title: operation.getPortal(anchor).name }}         >
+	// (203:8) <Marker           latLng={operation.getPortal(anchor).latLng}           icon={new DivIcon({             html: Util.template(               '<svg width="100%" height="100%" style="fill: {color}"><use href="/img/pin_custom.svg#wasabee-anchor-icon"/></svg>',               {                 color: anchorColors.get(anchor) || 'black',               }             ),             iconSize: [25, 41],             iconAnchor: [12, 40],             popupAnchor: [-1, -48],             className: 'wasabee-anchor',           })}           options={{ title: operation.getPortal(anchor).name }}         >
 	function create_default_slot_1$2(ctx) {
 		let popup;
 		let t;
@@ -44490,7 +44490,7 @@
 			block,
 			id: create_default_slot_1$2.name,
 			type: "slot",
-			source: "(203:8) <Marker           latLng={operation.getPortal(anchor).latLng}           icon={new DivIcon({             html: Util.template(               '<svg style=\\\"fill: {color}\\\"><use href=\\\"/img/pin_custom.svg#wasabee-anchor-icon\\\"/></svg>',               {                 color: anchorColors.get(anchor) || 'black',               }             ),             iconSize: [25, 41],             iconAnchor: [12, 40],             popupAnchor: [-1, -48],             className: 'wasabee-anchor',           })}           options={{ title: operation.getPortal(anchor).name }}         >",
+			source: "(203:8) <Marker           latLng={operation.getPortal(anchor).latLng}           icon={new DivIcon({             html: Util.template(               '<svg width=\\\"100%\\\" height=\\\"100%\\\" style=\\\"fill: {color}\\\"><use href=\\\"/img/pin_custom.svg#wasabee-anchor-icon\\\"/></svg>',               {                 color: anchorColors.get(anchor) || 'black',               }             ),             iconSize: [25, 41],             iconAnchor: [12, 40],             popupAnchor: [-1, -48],             className: 'wasabee-anchor',           })}           options={{ title: operation.getPortal(anchor).name }}         >",
 			ctx
 		});
 
@@ -44507,7 +44507,7 @@
 				props: {
 					latLng: /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[23]).latLng,
 					icon: new leafletSrc.DivIcon({
-							html: leafletSrc.Util.template('<svg style="fill: {color}"><use href="/img/pin_custom.svg#wasabee-anchor-icon"/></svg>', {
+							html: leafletSrc.Util.template('<svg width="100%" height="100%" style="fill: {color}"><use href="/img/pin_custom.svg#wasabee-anchor-icon"/></svg>', {
 								color: /*anchorColors*/ ctx[3].get(/*anchor*/ ctx[23]) || 'black'
 							}),
 							iconSize: [25, 41],
@@ -44543,7 +44543,7 @@
 				if (dirty[0] & /*operation, layers*/ 66) marker_changes.latLng = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[23]).latLng;
 
 				if (dirty[0] & /*anchorColors, layers*/ 72) marker_changes.icon = new leafletSrc.DivIcon({
-						html: leafletSrc.Util.template('<svg style="fill: {color}"><use href="/img/pin_custom.svg#wasabee-anchor-icon"/></svg>', {
+						html: leafletSrc.Util.template('<svg width="100%" height="100%" style="fill: {color}"><use href="/img/pin_custom.svg#wasabee-anchor-icon"/></svg>', {
 							color: /*anchorColors*/ ctx[3].get(/*anchor*/ ctx[23]) || 'black'
 						}),
 						iconSize: [25, 41],
@@ -59840,7 +59840,7 @@
 				p1.textContent = "Copyright © The Wasabee Team 2021. All Rights Reserved";
 				t14 = space();
 				p2 = element("p");
-				p2.textContent = "Build date: Sun, 16 Oct 2022 15:47:14 GMT";
+				p2.textContent = "Build date: Sun, 16 Oct 2022 15:54:16 GMT";
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
