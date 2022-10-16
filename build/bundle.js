@@ -27261,10 +27261,10 @@
 	    return genericGet(`/api/v1/team/${teamID}/rockscfg?rockscomm=${community}&rockskey=${apikey}`);
 	}
 	// local change: none // cache: none
-	function setAgentTeamSquadPromise(agentID, teamID, squad) {
+	function setAgentTeamCommentPromise(agentID, teamID, comment) {
 	    const fd = new FormData();
-	    fd.append('squad', squad);
-	    return genericPost(`/api/v1/team/${teamID}/${agentID}/squad`, fd);
+	    fd.append('squad', comment);
+	    return genericPost(`/api/v1/team/${teamID}/${agentID}/comment`, fd);
 	}
 	function createJoinLinkPromise(teamID) {
 	    return genericGet(`/api/v1/team/${teamID}/genJoinKey`);
@@ -51288,28 +51288,28 @@
 				}
 
 				attr_dev(h1, "id", "teamName");
-				add_location(h1, file$4, 35, 2, 1035);
+				add_location(h1, file$4, 35, 2, 1039);
 				attr_dev(input, "type", "text");
 				attr_dev(input, "placeholder", "GoogleID or Agent Name");
-				add_location(input, file$4, 38, 4, 1099);
-				add_location(label, file$4, 36, 2, 1072);
-				add_location(button, file$4, 44, 2, 1216);
+				add_location(input, file$4, 38, 4, 1103);
+				add_location(label, file$4, 36, 2, 1076);
+				add_location(button, file$4, 44, 2, 1220);
 				attr_dev(th0, "scope", "col");
-				add_location(th0, file$4, 48, 8, 1326);
+				add_location(th0, file$4, 48, 8, 1330);
 				attr_dev(th1, "scope", "col");
-				add_location(th1, file$4, 49, 8, 1362);
+				add_location(th1, file$4, 49, 8, 1366);
 				attr_dev(th2, "scope", "col");
-				add_location(th2, file$4, 50, 8, 1397);
+				add_location(th2, file$4, 50, 8, 1401);
 				attr_dev(th3, "scope", "col");
-				add_location(th3, file$4, 51, 8, 1435);
+				add_location(th3, file$4, 51, 8, 1439);
 				attr_dev(th4, "scope", "col");
-				add_location(th4, file$4, 52, 8, 1481);
-				add_location(tr, file$4, 47, 6, 1313);
-				add_location(thead, file$4, 46, 4, 1299);
+				add_location(th4, file$4, 52, 8, 1485);
+				add_location(tr, file$4, 47, 6, 1317);
+				add_location(thead, file$4, 46, 4, 1303);
 				attr_dev(tbody, "id", "teamTable");
-				add_location(tbody, file$4, 56, 4, 1594);
+				add_location(tbody, file$4, 56, 4, 1598);
 				attr_dev(table, "class", "table table-striped");
-				add_location(table, file$4, 45, 2, 1259);
+				add_location(table, file$4, 45, 2, 1263);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, h1, anchor);
@@ -51416,7 +51416,7 @@
 				th = element("th");
 				th.textContent = " ";
 				attr_dev(th, "scope", "col");
-				add_location(th, file$4, 53, 22, 1532);
+				add_location(th, file$4, 53, 22, 1536);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, th, anchor);
@@ -51447,7 +51447,7 @@
 				img = element("img");
 				if (!src_url_equal(img.src, img_src_value = /*checkmark*/ ctx[4])) attr_dev(img, "src", img_src_value);
 				attr_dev(img, "alt", "sharing location");
-				add_location(img, file$4, 75, 14, 2189);
+				add_location(img, file$4, 75, 14, 2193);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, img, anchor);
@@ -51484,7 +51484,7 @@
 				button = element("button");
 				button.textContent = "Remove";
 				attr_dev(button, "class", "btn btn-danger btn-sm");
-				add_location(button, file$4, 86, 14, 2497);
+				add_location(button, file$4, 86, 14, 2501);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -51585,15 +51585,15 @@
 				attr_dev(img, "height", "50");
 				attr_dev(img, "width", "50");
 				attr_dev(img, "alt", "agent pic");
-				add_location(img, file$4, 59, 14, 1690);
-				add_location(td0, file$4, 59, 10, 1686);
-				add_location(td1, file$4, 61, 10, 1779);
-				add_location(td2, file$4, 62, 10, 1811);
-				add_location(td3, file$4, 73, 10, 2132);
-				add_location(input, file$4, 79, 12, 2297);
-				add_location(td4, file$4, 78, 10, 2280);
-				add_location(td5, file$4, 84, 10, 2442);
-				add_location(tr, file$4, 58, 8, 1671);
+				add_location(img, file$4, 59, 14, 1694);
+				add_location(td0, file$4, 59, 10, 1690);
+				add_location(td1, file$4, 61, 10, 1783);
+				add_location(td2, file$4, 62, 10, 1815);
+				add_location(td3, file$4, 73, 10, 2136);
+				add_location(input, file$4, 79, 12, 2301);
+				add_location(td4, file$4, 78, 10, 2284);
+				add_location(td5, file$4, 84, 10, 2446);
+				add_location(tr, file$4, 58, 8, 1675);
 				this.first = tr;
 			},
 			m: function mount(target, anchor) {
@@ -51790,7 +51790,7 @@
 		}
 
 		function agentSquadChange(agent) {
-			setAgentTeamSquadPromise(agent.id, team.id, agent.comment).then(
+			setAgentTeamCommentPromise(agent.id, team.id, agent.comment).then(
 				() => {
 					
 				},
@@ -51828,7 +51828,7 @@
 			WasabeeMe,
 			addAgentToTeamPromise,
 			removeAgentFromTeamPromise,
-			setAgentTeamSquadPromise,
+			setAgentTeamCommentPromise,
 			dispatch,
 			teamStore,
 			team,
@@ -59772,7 +59772,7 @@
 				p1.textContent = "Copyright © The Wasabee Team 2021. All Rights Reserved";
 				t14 = space();
 				p2 = element("p");
-				p2.textContent = "Build date: Sat, 15 Oct 2022 18:44:51 GMT";
+				p2.textContent = "Build date: Sun, 16 Oct 2022 13:47:23 GMT";
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
