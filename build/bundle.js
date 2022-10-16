@@ -43640,7 +43640,7 @@
 				t1 = space();
 				option.__value = option_value_value = /*a*/ ctx[35].id;
 				option.value = option.__value;
-				add_location(option, file$d, 148, 6, 4029);
+				add_location(option, file$d, 148, 6, 4035);
 				this.first = option;
 			},
 			m: function mount(target, anchor) {
@@ -43843,7 +43843,7 @@
 			c: function create() {
 				div = element("div");
 				t = text(t_value);
-				add_location(div, file$d, 174, 32, 4908);
+				add_location(div, file$d, 174, 32, 4914);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -43878,7 +43878,7 @@
 			c: function create() {
 				div = element("div");
 				t = text(t_value);
-				add_location(div, file$d, 175, 43, 4984);
+				add_location(div, file$d, 175, 43, 4990);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -43913,7 +43913,7 @@
 			c: function create() {
 				div = element("div");
 				t = text(t_value);
-				add_location(div, file$d, 176, 35, 5050);
+				add_location(div, file$d, 176, 35, 5056);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -43968,7 +43968,7 @@
 				attr_dev(button, "target", "_blank");
 				attr_dev(button, "class", "btn btn-outline-primary btn-sm");
 				attr_dev(button, "href", button_href_value = 'https://www.google.com/maps/search/?api=1&query=' + /*operation*/ ctx[1].getPortal(/*marker*/ ctx[29].portalId).latLng.lat + ',' + /*operation*/ ctx[1].getPortal(/*marker*/ ctx[29].portalId).latLng.lng);
-				add_location(button, file$d, 179, 12, 5144);
+				add_location(button, file$d, 179, 12, 5150);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, t0, anchor);
@@ -44260,7 +44260,7 @@
 			c: function create() {
 				div = element("div");
 				t = text(t_value);
-				add_location(div, file$d, 219, 53, 6530);
+				add_location(div, file$d, 219, 53, 6536);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -44295,7 +44295,7 @@
 			c: function create() {
 				div = element("div");
 				t = text(t_value);
-				add_location(div, file$d, 222, 54, 6670);
+				add_location(div, file$d, 222, 54, 6676);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -44348,7 +44348,7 @@
 				attr_dev(button, "target", "_blank");
 				attr_dev(button, "class", "btn btn-outline-primary btn-sm");
 				attr_dev(button, "href", button_href_value = 'https://www.google.com/maps/search/?api=1&query=' + /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[23]).latLng.lat + ',' + /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[23]).latLng.lng);
-				add_location(button, file$d, 225, 12, 6769);
+				add_location(button, file$d, 225, 12, 6775);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, t0, anchor);
@@ -44961,13 +44961,13 @@
 				div = element("div");
 				create_component(leafletmap.$$.fragment);
 				attr_dev(h1, "id", "opName");
-				add_location(h1, file$d, 143, 0, 3904);
+				add_location(h1, file$d, 143, 0, 3910);
 				if (/*agent*/ ctx[2] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[16].call(select));
-				add_location(select, file$d, 146, 2, 3961);
-				add_location(label, file$d, 144, 0, 3942);
+				add_location(select, file$d, 146, 2, 3967);
+				add_location(label, file$d, 144, 0, 3948);
 				attr_dev(div, "id", "map");
 				attr_dev(div, "class", "svelte-1iwg3ka");
-				add_location(div, file$d, 154, 0, 4117);
+				add_location(div, file$d, 154, 0, 4123);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -45078,7 +45078,7 @@
 			b = Math.floor(b / colors.length);
 		}
 
-		return [r, g, b].map(v => r.toString(16).padStart(2, '0')).join('');
+		return "#" + [r, g, b].map(v => r.toString(16).padStart(2, '0')).join('');
 	}
 
 	function instance$e($$self, $$props, $$invalidate) {
@@ -59820,7 +59820,7 @@
 				p1.textContent = "Copyright © The Wasabee Team 2021. All Rights Reserved";
 				t14 = space();
 				p2 = element("p");
-				p2.textContent = "Build date: Sun, 16 Oct 2022 15:29:12 GMT";
+				p2.textContent = "Build date: Sun, 16 Oct 2022 15:30:30 GMT";
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
