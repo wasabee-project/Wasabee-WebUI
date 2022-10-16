@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { Writable } from 'svelte/store';
+  import type { get, Writable } from 'svelte/store';
 
-  import { Icon } from 'leaflet';
+  import { DivIcon, Icon, Util } from 'leaflet';
   import {
     LeafletMap,
     Marker,
@@ -43,6 +43,52 @@
     }
     if (!map.size) agentList = [{ id: me.id, name: me.name }];
     else agentList = Array.from(map.values());
+  }
+
+  function convertColorToRgb(str: string): [number, number, number] {
+    const r = str.match(/#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})/);
+    if (r.length < 4) return [0xbb, 0, 0];
+    return [+('0x' + r[1]), +('0x' + r[2]), +('0x' + r[3])];
+  }
+
+  function getLinkColor(link: WasabeeLink) {
+    const color = link.color === 'main' ? operation.color : link.color;
+    if (color.startsWith('#')) return color;
+    return '#ff0000';
+  }
+
+  function averageColor(colors: [number, number, number][]) {
+    let [r, g, b] = [0, 0, 0];
+    for (const rgb of colors) {
+      r += rgb[0];
+      g += rgb[1];
+      b += rgb[2];
+    }
+    if (colors.length) {
+      r = Math.floor(r / colors.length);
+      g = Math.floor(g / colors.length);
+      b = Math.floor(b / colors.length);
+    }
+    return '#' + [r, g, b].map((v) => v.toString(16).padStart(2, '0')).join('');
+  }
+
+  let anchorColors = new Map<PortalID, string>();
+
+  $: {
+    const anchorColorList = new Map<PortalID, [number, number, number][]>();
+    for (const l of operation.links) {
+      const from = l.fromPortalId;
+      const colorList = anchorColorList.get(from) || [];
+      const linkColor = convertColorToRgb(getLinkColor(l));
+      colorList.push(linkColor);
+      anchorColorList.set(from, colorList);
+    }
+
+    anchorColors.clear();
+    for (const [from, colorList] of anchorColorList) {
+      anchorColors.set(from, averageColor(colorList));
+    }
+    anchorColors = anchorColors;
   }
 
   type TaskLayer = {
@@ -101,30 +147,6 @@
     const agent = WasabeeAgent.get(id);
     if (agent) return agent.name;
     return id;
-  }
-
-  function newColors(incoming: string) {
-    switch (incoming) {
-      case 'groupa':
-        return 'orange';
-      case 'groupb':
-        return 'yellow';
-      case 'groupc':
-        return 'lime';
-      case 'groupd':
-        return 'purple';
-      case 'groupe':
-        return 'teal';
-      case 'groupf':
-        return 'fuchsia';
-      case 'main':
-        return 'red';
-      default:
-        return incoming;
-    }
-  }
-  function getLinkColor(link: WasabeeLink) {
-    return newColors(link.color == 'main' ? operation.color : link.color);
   }
 
   const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -204,17 +226,24 @@
           latLngs={link.getLatLngs(operation)}
           weight={2}
           color={getLinkColor(link)}
-          opacity={0.75}
+          opacity={0.6}
+          dashArray={[10, 5, 5, 5, 5, 5, 5, 5, 100000]}
         />
       {/each}
       {#each layer.anchors as anchor (anchor)}
         <Marker
           latLng={operation.getPortal(anchor).latLng}
-          icon={new Icon({
-            iconUrl: 'https://cdn2.wasabee.rocks/img/markers/pin_lime.svg',
-            iconSize: [24, 40],
+          icon={new DivIcon({
+            html: Util.template(
+              '<svg width="100%" height="100%" style="fill: {color}"><use href="/img/pin_custom.svg#wasabee-anchor-icon"/></svg>',
+              {
+                color: anchorColors.get(anchor) || 'black',
+              }
+            ),
+            iconSize: [25, 41],
             iconAnchor: [12, 40],
             popupAnchor: [-1, -48],
+            className: 'wasabee-anchor',
           })}
           options={{ title: operation.getPortal(anchor).name }}
         >

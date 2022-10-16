@@ -109,7 +109,6 @@
       toDelete = null;
     }
   }
-
 </script>
 
 <div class="container">
@@ -146,7 +145,9 @@
                 </a>
               </td>
               <td>
-                {$agentsStore[team.Owner] ? $agentsStore[team.Owner].name : team.Owner}
+                {$agentsStore[team.Owner]
+                  ? $agentsStore[team.Owner].name
+                  : team.Owner}
               </td>
               <td>
                 <input

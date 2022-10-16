@@ -2,6 +2,7 @@ declare module 'svelte-leafletjs' {
   import { SvelteComponentTyped } from 'svelte';
   import {
     Icon,
+    DivIcon,
     MapOptions,
     MarkerOptions,
     PathOptions,
@@ -18,7 +19,7 @@ declare module 'svelte-leafletjs' {
 
   export class Marker extends SvelteComponentTyped<{
     latLng: LatLngExpression;
-    icon: Icon;
+    icon: Icon | DivIcon;
     options: MarkerOptions;
   }> {}
   export class Popup extends SvelteComponentTyped<{}> {}
