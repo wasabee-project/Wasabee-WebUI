@@ -30857,7 +30857,7 @@
 		return block;
 	}
 
-	// (186:16) {#if teamsOps[team.ID]}
+	// (188:16) {#if teamsOps[team.ID]}
 	function create_if_block_4$3(ctx) {
 		let each_blocks = [];
 		let each_1_lookup = new Map();
@@ -30909,14 +30909,14 @@
 			block,
 			id: create_if_block_4$3.name,
 			type: "if",
-			source: "(186:16) {#if teamsOps[team.ID]}",
+			source: "(188:16) {#if teamsOps[team.ID]}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (188:20) {#if i > 0}
+	// (190:20) {#if i > 0}
 	function create_if_block_5(ctx) {
 		let t;
 
@@ -30936,14 +30936,14 @@
 			block,
 			id: create_if_block_5.name,
 			type: "if",
-			source: "(188:20) {#if i > 0}",
+			source: "(190:20) {#if i > 0}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (187:18) {#each teamsOps[team.ID] as [opID, opName], i (opID)}
+	// (189:18) {#each teamsOps[team.ID] as [opID, opName], i (opID)}
 	function create_each_block_1$6(key_1, ctx) {
 		let first;
 		let t0;
@@ -30965,7 +30965,7 @@
 				t1 = text(t1_value);
 				t2 = space();
 				attr_dev(a, "href", a_href_value = '#/operation/' + /*opID*/ ctx[28] + '/list');
-				add_location(a, file$q, 188, 20, 5590);
+				add_location(a, file$q, 190, 20, 5626);
 				this.first = first;
 			},
 			m: function mount(target, anchor) {
@@ -31008,14 +31008,14 @@
 			block,
 			id: create_each_block_1$6.name,
 			type: "each",
-			source: "(187:18) {#each teamsOps[team.ID] as [opID, opName], i (opID)}",
+			source: "(189:18) {#each teamsOps[team.ID] as [opID, opName], i (opID)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (204:16) {:else}
+	// (206:16) {:else}
 	function create_else_block_2(ctx) {
 		let button;
 		let mounted;
@@ -31038,7 +31038,7 @@
 				button = element("button");
 				if_block.c();
 				attr_dev(button, "class", "btn btn-warning btn-sm svelte-15nu3fx");
-				add_location(button, file$q, 204, 18, 6152);
+				add_location(button, file$q, 206, 18, 6188);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -31074,14 +31074,14 @@
 			block,
 			id: create_else_block_2.name,
 			type: "else",
-			source: "(204:16) {:else}",
+			source: "(206:16) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (196:16) {#if isOwner(team)}
+	// (198:16) {#if isOwner(team)}
 	function create_if_block_1$f(ctx) {
 		let button;
 		let mounted;
@@ -31104,7 +31104,7 @@
 				button = element("button");
 				if_block.c();
 				attr_dev(button, "class", "btn btn-danger btn-sm svelte-15nu3fx");
-				add_location(button, file$q, 196, 18, 5830);
+				add_location(button, file$q, 198, 18, 5866);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, button, anchor);
@@ -31140,14 +31140,14 @@
 			block,
 			id: create_if_block_1$f.name,
 			type: "if",
-			source: "(196:16) {#if isOwner(team)}",
+			source: "(198:16) {#if isOwner(team)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (210:20) {:else}
+	// (212:20) {:else}
 	function create_else_block_3(ctx) {
 		let span;
 
@@ -31155,7 +31155,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Leave";
-				add_location(span, file$q, 209, 27, 6379);
+				add_location(span, file$q, 211, 27, 6415);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -31169,14 +31169,14 @@
 			block,
 			id: create_else_block_3.name,
 			type: "else",
-			source: "(210:20) {:else}",
+			source: "(212:20) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (209:20) {#if toDelete === team.ID}
+	// (211:20) {#if toDelete === team.ID}
 	function create_if_block_3$7(ctx) {
 		let span;
 
@@ -31184,7 +31184,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Confirm?";
-				add_location(span, file$q, 208, 46, 6330);
+				add_location(span, file$q, 210, 46, 6366);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -31198,14 +31198,14 @@
 			block,
 			id: create_if_block_3$7.name,
 			type: "if",
-			source: "(209:20) {#if toDelete === team.ID}",
+			source: "(211:20) {#if toDelete === team.ID}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (202:20) {:else}
+	// (204:20) {:else}
 	function create_else_block_1(ctx) {
 		let span;
 
@@ -31213,7 +31213,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Delete";
-				add_location(span, file$q, 201, 27, 6057);
+				add_location(span, file$q, 203, 27, 6093);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -31227,14 +31227,14 @@
 			block,
 			id: create_else_block_1.name,
 			type: "else",
-			source: "(202:20) {:else}",
+			source: "(204:20) {:else}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (201:20) {#if toDelete === team.ID}
+	// (203:20) {#if toDelete === team.ID}
 	function create_if_block_2$9(ctx) {
 		let span;
 
@@ -31242,7 +31242,7 @@
 			c: function create() {
 				span = element("span");
 				span.textContent = "Confirm?";
-				add_location(span, file$q, 200, 46, 6008);
+				add_location(span, file$q, 202, 46, 6044);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, span, anchor);
@@ -31256,7 +31256,7 @@
 			block,
 			id: create_if_block_2$9.name,
 			type: "if",
-			source: "(201:20) {#if toDelete === team.ID}",
+			source: "(203:20) {#if toDelete === team.ID}",
 			ctx
 		});
 
@@ -31364,16 +31364,16 @@
 				add_location(td0, file$q, 155, 14, 4492);
 				add_location(td1, file$q, 160, 14, 4639);
 				attr_dev(input0, "type", "checkbox");
-				add_location(input0, file$q, 164, 16, 4787);
-				add_location(td2, file$q, 163, 14, 4766);
+				add_location(input0, file$q, 166, 16, 4823);
+				add_location(td2, file$q, 165, 14, 4802);
 				attr_dev(input1, "type", "checkbox");
-				add_location(input1, file$q, 171, 16, 5001);
-				add_location(td3, file$q, 170, 14, 4980);
+				add_location(input1, file$q, 173, 16, 5037);
+				add_location(td3, file$q, 172, 14, 5016);
 				attr_dev(input2, "type", "checkbox");
-				add_location(input2, file$q, 178, 16, 5219);
-				add_location(td4, file$q, 177, 14, 5198);
-				add_location(td5, file$q, 184, 14, 5414);
-				add_location(td6, file$q, 194, 14, 5771);
+				add_location(input2, file$q, 180, 16, 5255);
+				add_location(td4, file$q, 179, 14, 5234);
+				add_location(td5, file$q, 186, 14, 5450);
+				add_location(td6, file$q, 196, 14, 5807);
 				add_location(tr, file$q, 154, 12, 4473);
 				this.first = tr;
 			},
@@ -31592,12 +31592,12 @@
 				add_location(table, file$q, 132, 4, 3863);
 				attr_dev(input, "type", "text");
 				attr_dev(input, "placeholder", "New Team");
-				add_location(input, file$q, 221, 8, 6613);
-				add_location(label, file$q, 219, 6, 6579);
+				add_location(input, file$q, 223, 8, 6649);
+				add_location(label, file$q, 221, 6, 6615);
 				attr_dev(button1, "class", "btn btn-info");
-				add_location(button1, file$q, 227, 6, 6742);
+				add_location(button1, file$q, 229, 6, 6778);
 				attr_dev(div0, "class", "col");
-				add_location(div0, file$q, 218, 4, 6555);
+				add_location(div0, file$q, 220, 4, 6591);
 				attr_dev(div1, "class", "row");
 				add_location(div1, file$q, 128, 2, 3748);
 				attr_dev(div2, "class", "container");
@@ -43588,45 +43588,45 @@
 
 	function get_each_context$7(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[18] = list[i][0];
-		child_ctx[19] = list[i][1];
+		child_ctx[20] = list[i][0];
+		child_ctx[21] = list[i][1];
 		return child_ctx;
 	}
 
 	function get_each_context_1$2(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[22] = list[i];
+		child_ctx[24] = list[i];
 		return child_ctx;
 	}
 
 	function get_each_context_2$2(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[25] = list[i];
+		child_ctx[27] = list[i];
 		return child_ctx;
 	}
 
 	function get_each_context_3(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[28] = list[i];
+		child_ctx[30] = list[i];
 		return child_ctx;
 	}
 
 	function get_each_context_4(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[31] = list[i];
+		child_ctx[33] = list[i];
 		return child_ctx;
 	}
 
 	function get_each_context_5(ctx, list, i) {
 		const child_ctx = ctx.slice();
-		child_ctx[34] = list[i];
+		child_ctx[36] = list[i];
 		return child_ctx;
 	}
 
-	// (129:4) {#each agentList as a (a.id)}
+	// (145:4) {#each agentList as a (a.id)}
 	function create_each_block_5(key_1, ctx) {
 		let option;
-		let t0_value = /*a*/ ctx[34].name + "";
+		let t0_value = /*a*/ ctx[36].name + "";
 		let t0;
 		let t1;
 		let option_value_value;
@@ -43638,9 +43638,9 @@
 				option = element("option");
 				t0 = text(t0_value);
 				t1 = space();
-				option.__value = option_value_value = /*a*/ ctx[34].id;
+				option.__value = option_value_value = /*a*/ ctx[36].id;
 				option.value = option.__value;
-				add_location(option, file$d, 129, 6, 3251);
+				add_location(option, file$d, 145, 6, 3934);
 				this.first = option;
 			},
 			m: function mount(target, anchor) {
@@ -43650,9 +43650,9 @@
 			},
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
-				if (dirty[0] & /*agentList*/ 16 && t0_value !== (t0_value = /*a*/ ctx[34].name + "")) set_data_dev(t0, t0_value);
+				if (dirty[0] & /*agentList*/ 16 && t0_value !== (t0_value = /*a*/ ctx[36].name + "")) set_data_dev(t0, t0_value);
 
-				if (dirty[0] & /*agentList*/ 16 && option_value_value !== (option_value_value = /*a*/ ctx[34].id)) {
+				if (dirty[0] & /*agentList*/ 16 && option_value_value !== (option_value_value = /*a*/ ctx[36].id)) {
 					prop_dev(option, "__value", option_value_value);
 					option.value = option.__value;
 				}
@@ -43666,16 +43666,16 @@
 			block,
 			id: create_each_block_5.name,
 			type: "each",
-			source: "(129:4) {#each agentList as a (a.id)}",
+			source: "(145:4) {#each agentList as a (a.id)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (144:8) <Popup>
+	// (160:8) <Popup>
 	function create_default_slot_6$1(ctx) {
-		let t_value = /*z*/ ctx[31].name + "";
+		let t_value = /*z*/ ctx[33].name + "";
 		let t;
 
 		const block = {
@@ -43686,7 +43686,7 @@
 				insert_dev(target, t, anchor);
 			},
 			p: function update(ctx, dirty) {
-				if (dirty[0] & /*zones*/ 64 && t_value !== (t_value = /*z*/ ctx[31].name + "")) set_data_dev(t, t_value);
+				if (dirty[0] & /*zones*/ 64 && t_value !== (t_value = /*z*/ ctx[33].name + "")) set_data_dev(t, t_value);
 			},
 			d: function destroy(detaching) {
 				if (detaching) detach_dev(t);
@@ -43697,14 +43697,14 @@
 			block,
 			id: create_default_slot_6$1.name,
 			type: "slot",
-			source: "(144:8) <Popup>",
+			source: "(160:8) <Popup>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (140:6) <Polygon         latLngs={z.points}         options={{ color: z.color, fillColor: z.color }}       >
+	// (156:6) <Polygon         latLngs={z.points}         options={{ color: z.color, fillColor: z.color }}       >
 	function create_default_slot_5$1(ctx) {
 		let popup;
 		let current;
@@ -43728,7 +43728,7 @@
 			p: function update(ctx, dirty) {
 				const popup_changes = {};
 
-				if (dirty[0] & /*zones*/ 64 | dirty[1] & /*$$scope*/ 64) {
+				if (dirty[0] & /*zones*/ 64 | dirty[1] & /*$$scope*/ 256) {
 					popup_changes.$$scope = { dirty, ctx };
 				}
 
@@ -43752,14 +43752,14 @@
 			block,
 			id: create_default_slot_5$1.name,
 			type: "slot",
-			source: "(140:6) <Polygon         latLngs={z.points}         options={{ color: z.color, fillColor: z.color }}       >",
+			source: "(156:6) <Polygon         latLngs={z.points}         options={{ color: z.color, fillColor: z.color }}       >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (139:4) {#each zones.polygons as z (z.id)}
+	// (155:4) {#each zones.polygons as z (z.id)}
 	function create_each_block_4(key_1, ctx) {
 		let first;
 		let polygon;
@@ -43767,10 +43767,10 @@
 
 		polygon = new Polygon({
 				props: {
-					latLngs: /*z*/ ctx[31].points,
+					latLngs: /*z*/ ctx[33].points,
 					options: {
-						color: /*z*/ ctx[31].color,
-						fillColor: /*z*/ ctx[31].color
+						color: /*z*/ ctx[33].color,
+						fillColor: /*z*/ ctx[33].color
 					},
 					$$slots: { default: [create_default_slot_5$1] },
 					$$scope: { ctx }
@@ -43794,14 +43794,14 @@
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
 				const polygon_changes = {};
-				if (dirty[0] & /*zones*/ 64) polygon_changes.latLngs = /*z*/ ctx[31].points;
+				if (dirty[0] & /*zones*/ 64) polygon_changes.latLngs = /*z*/ ctx[33].points;
 
 				if (dirty[0] & /*zones*/ 64) polygon_changes.options = {
-					color: /*z*/ ctx[31].color,
-					fillColor: /*z*/ ctx[31].color
+					color: /*z*/ ctx[33].color,
+					fillColor: /*z*/ ctx[33].color
 				};
 
-				if (dirty[0] & /*zones*/ 64 | dirty[1] & /*$$scope*/ 64) {
+				if (dirty[0] & /*zones*/ 64 | dirty[1] & /*$$scope*/ 256) {
 					polygon_changes.$$scope = { dirty, ctx };
 				}
 
@@ -43826,31 +43826,31 @@
 			block,
 			id: create_each_block_4.name,
 			type: "each",
-			source: "(139:4) {#each zones.polygons as z (z.id)}",
+			source: "(155:4) {#each zones.polygons as z (z.id)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (156:12) {#if marker.comment}
+	// (172:12) {#if marker.comment}
 	function create_if_block_4$2(ctx) {
 		let div;
-		let t_value = /*marker*/ ctx[28].comment + "";
+		let t_value = /*marker*/ ctx[30].comment + "";
 		let t;
 
 		const block = {
 			c: function create() {
 				div = element("div");
 				t = text(t_value);
-				add_location(div, file$d, 155, 32, 4130);
+				add_location(div, file$d, 171, 32, 4813);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
 				append_dev(div, t);
 			},
 			p: function update(ctx, dirty) {
-				if (dirty[0] & /*layers*/ 32 && t_value !== (t_value = /*marker*/ ctx[28].comment + "")) set_data_dev(t, t_value);
+				if (dirty[0] & /*layers*/ 32 && t_value !== (t_value = /*marker*/ ctx[30].comment + "")) set_data_dev(t, t_value);
 			},
 			d: function destroy(detaching) {
 				if (detaching) detach_dev(div);
@@ -43861,31 +43861,31 @@
 			block,
 			id: create_if_block_4$2.name,
 			type: "if",
-			source: "(156:12) {#if marker.comment}",
+			source: "(172:12) {#if marker.comment}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (157:12) {#if marker.state != 'pending'}
+	// (173:12) {#if marker.state != 'pending'}
 	function create_if_block_3$4(ctx) {
 		let div;
-		let t_value = /*marker*/ ctx[28].state + "";
+		let t_value = /*marker*/ ctx[30].state + "";
 		let t;
 
 		const block = {
 			c: function create() {
 				div = element("div");
 				t = text(t_value);
-				add_location(div, file$d, 156, 43, 4206);
+				add_location(div, file$d, 172, 43, 4889);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
 				append_dev(div, t);
 			},
 			p: function update(ctx, dirty) {
-				if (dirty[0] & /*layers*/ 32 && t_value !== (t_value = /*marker*/ ctx[28].state + "")) set_data_dev(t, t_value);
+				if (dirty[0] & /*layers*/ 32 && t_value !== (t_value = /*marker*/ ctx[30].state + "")) set_data_dev(t, t_value);
 			},
 			d: function destroy(detaching) {
 				if (detaching) detach_dev(div);
@@ -43896,31 +43896,31 @@
 			block,
 			id: create_if_block_3$4.name,
 			type: "if",
-			source: "(157:12) {#if marker.state != 'pending'}",
+			source: "(173:12) {#if marker.state != 'pending'}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (158:12) {#if marker.assignedTo}
+	// (174:12) {#if marker.assignedTo}
 	function create_if_block_2$6(ctx) {
 		let div;
-		let t_value = /*getAgentName*/ ctx[7](/*marker*/ ctx[28].assignedTo) + "";
+		let t_value = /*getAgentName*/ ctx[9](/*marker*/ ctx[30].assignedTo) + "";
 		let t;
 
 		const block = {
 			c: function create() {
 				div = element("div");
 				t = text(t_value);
-				add_location(div, file$d, 157, 35, 4272);
+				add_location(div, file$d, 173, 35, 4955);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
 				append_dev(div, t);
 			},
 			p: function update(ctx, dirty) {
-				if (dirty[0] & /*layers*/ 32 && t_value !== (t_value = /*getAgentName*/ ctx[7](/*marker*/ ctx[28].assignedTo) + "")) set_data_dev(t, t_value);
+				if (dirty[0] & /*layers*/ 32 && t_value !== (t_value = /*getAgentName*/ ctx[9](/*marker*/ ctx[30].assignedTo) + "")) set_data_dev(t, t_value);
 			},
 			d: function destroy(detaching) {
 				if (detaching) detach_dev(div);
@@ -43931,16 +43931,16 @@
 			block,
 			id: create_if_block_2$6.name,
 			type: "if",
-			source: "(158:12) {#if marker.assignedTo}",
+			source: "(174:12) {#if marker.assignedTo}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (154:10) <Popup>
+	// (170:10) <Popup>
 	function create_default_slot_4$1(ctx) {
-		let t0_value = /*operation*/ ctx[1].getPortal(/*marker*/ ctx[28].portalId).name + "";
+		let t0_value = /*operation*/ ctx[1].getPortal(/*marker*/ ctx[30].portalId).name + "";
 		let t0;
 		let t1;
 		let t2;
@@ -43949,9 +43949,9 @@
 		let button;
 		let t5;
 		let button_href_value;
-		let if_block0 = /*marker*/ ctx[28].comment && create_if_block_4$2(ctx);
-		let if_block1 = /*marker*/ ctx[28].state != 'pending' && create_if_block_3$4(ctx);
-		let if_block2 = /*marker*/ ctx[28].assignedTo && create_if_block_2$6(ctx);
+		let if_block0 = /*marker*/ ctx[30].comment && create_if_block_4$2(ctx);
+		let if_block1 = /*marker*/ ctx[30].state != 'pending' && create_if_block_3$4(ctx);
+		let if_block2 = /*marker*/ ctx[30].assignedTo && create_if_block_2$6(ctx);
 
 		const block = {
 			c: function create() {
@@ -43967,8 +43967,8 @@
 				t5 = text("Google Map");
 				attr_dev(button, "target", "_blank");
 				attr_dev(button, "class", "btn btn-outline-primary btn-sm");
-				attr_dev(button, "href", button_href_value = 'https://www.google.com/maps/search/?api=1&query=' + /*operation*/ ctx[1].getPortal(/*marker*/ ctx[28].portalId).latLng.lat + ',' + /*operation*/ ctx[1].getPortal(/*marker*/ ctx[28].portalId).latLng.lng);
-				add_location(button, file$d, 160, 12, 4366);
+				attr_dev(button, "href", button_href_value = 'https://www.google.com/maps/search/?api=1&query=' + /*operation*/ ctx[1].getPortal(/*marker*/ ctx[30].portalId).latLng.lat + ',' + /*operation*/ ctx[1].getPortal(/*marker*/ ctx[30].portalId).latLng.lng);
+				add_location(button, file$d, 176, 12, 5049);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, t0, anchor);
@@ -43983,9 +43983,9 @@
 				append_dev(button, t5);
 			},
 			p: function update(ctx, dirty) {
-				if (dirty[0] & /*operation, layers*/ 34 && t0_value !== (t0_value = /*operation*/ ctx[1].getPortal(/*marker*/ ctx[28].portalId).name + "")) set_data_dev(t0, t0_value);
+				if (dirty[0] & /*operation, layers*/ 34 && t0_value !== (t0_value = /*operation*/ ctx[1].getPortal(/*marker*/ ctx[30].portalId).name + "")) set_data_dev(t0, t0_value);
 
-				if (/*marker*/ ctx[28].comment) {
+				if (/*marker*/ ctx[30].comment) {
 					if (if_block0) {
 						if_block0.p(ctx, dirty);
 					} else {
@@ -43998,7 +43998,7 @@
 					if_block0 = null;
 				}
 
-				if (/*marker*/ ctx[28].state != 'pending') {
+				if (/*marker*/ ctx[30].state != 'pending') {
 					if (if_block1) {
 						if_block1.p(ctx, dirty);
 					} else {
@@ -44011,7 +44011,7 @@
 					if_block1 = null;
 				}
 
-				if (/*marker*/ ctx[28].assignedTo) {
+				if (/*marker*/ ctx[30].assignedTo) {
 					if (if_block2) {
 						if_block2.p(ctx, dirty);
 					} else {
@@ -44024,7 +44024,7 @@
 					if_block2 = null;
 				}
 
-				if (dirty[0] & /*operation, layers*/ 34 && button_href_value !== (button_href_value = 'https://www.google.com/maps/search/?api=1&query=' + /*operation*/ ctx[1].getPortal(/*marker*/ ctx[28].portalId).latLng.lat + ',' + /*operation*/ ctx[1].getPortal(/*marker*/ ctx[28].portalId).latLng.lng)) {
+				if (dirty[0] & /*operation, layers*/ 34 && button_href_value !== (button_href_value = 'https://www.google.com/maps/search/?api=1&query=' + /*operation*/ ctx[1].getPortal(/*marker*/ ctx[30].portalId).latLng.lat + ',' + /*operation*/ ctx[1].getPortal(/*marker*/ ctx[30].portalId).latLng.lng)) {
 					attr_dev(button, "href", button_href_value);
 				}
 			},
@@ -44045,14 +44045,14 @@
 			block,
 			id: create_default_slot_4$1.name,
 			type: "slot",
-			source: "(154:10) <Popup>",
+			source: "(170:10) <Popup>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (149:8) <Marker           latLng={operation.getPortal(marker.portalId).latLng}           icon={new Icon({ iconUrl: marker.icon, ...iconOpt })}           options={{ title: operation.getPortal(marker.portalId).name }}         >
+	// (165:8) <Marker           latLng={operation.getPortal(marker.portalId).latLng}           icon={new Icon({ iconUrl: marker.icon, ...iconOpt })}           options={{ title: operation.getPortal(marker.portalId).name }}         >
 	function create_default_slot_3$1(ctx) {
 		let popup;
 		let current;
@@ -44076,7 +44076,7 @@
 			p: function update(ctx, dirty) {
 				const popup_changes = {};
 
-				if (dirty[0] & /*operation, layers*/ 34 | dirty[1] & /*$$scope*/ 64) {
+				if (dirty[0] & /*operation, layers*/ 34 | dirty[1] & /*$$scope*/ 256) {
 					popup_changes.$$scope = { dirty, ctx };
 				}
 
@@ -44100,14 +44100,14 @@
 			block,
 			id: create_default_slot_3$1.name,
 			type: "slot",
-			source: "(149:8) <Marker           latLng={operation.getPortal(marker.portalId).latLng}           icon={new Icon({ iconUrl: marker.icon, ...iconOpt })}           options={{ title: operation.getPortal(marker.portalId).name }}         >",
+			source: "(165:8) <Marker           latLng={operation.getPortal(marker.portalId).latLng}           icon={new Icon({ iconUrl: marker.icon, ...iconOpt })}           options={{ title: operation.getPortal(marker.portalId).name }}         >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (148:6) {#each layer.markers as marker (marker.ID)}
+	// (164:6) {#each layer.markers as marker (marker.ID)}
 	function create_each_block_3(key_1, ctx) {
 		let first;
 		let marker;
@@ -44115,13 +44115,13 @@
 
 		marker = new Marker({
 				props: {
-					latLng: /*operation*/ ctx[1].getPortal(/*marker*/ ctx[28].portalId).latLng,
+					latLng: /*operation*/ ctx[1].getPortal(/*marker*/ ctx[30].portalId).latLng,
 					icon: new leafletSrc.Icon({
-							iconUrl: /*marker*/ ctx[28].icon,
-							.../*iconOpt*/ ctx[10]
+							iconUrl: /*marker*/ ctx[30].icon,
+							.../*iconOpt*/ ctx[11]
 						}),
 					options: {
-						title: /*operation*/ ctx[1].getPortal(/*marker*/ ctx[28].portalId).name
+						title: /*operation*/ ctx[1].getPortal(/*marker*/ ctx[30].portalId).name
 					},
 					$$slots: { default: [create_default_slot_3$1] },
 					$$scope: { ctx }
@@ -44145,18 +44145,18 @@
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
 				const marker_changes = {};
-				if (dirty[0] & /*operation, layers*/ 34) marker_changes.latLng = /*operation*/ ctx[1].getPortal(/*marker*/ ctx[28].portalId).latLng;
+				if (dirty[0] & /*operation, layers*/ 34) marker_changes.latLng = /*operation*/ ctx[1].getPortal(/*marker*/ ctx[30].portalId).latLng;
 
 				if (dirty[0] & /*layers*/ 32) marker_changes.icon = new leafletSrc.Icon({
-						iconUrl: /*marker*/ ctx[28].icon,
-						.../*iconOpt*/ ctx[10]
+						iconUrl: /*marker*/ ctx[30].icon,
+						.../*iconOpt*/ ctx[11]
 					});
 
 				if (dirty[0] & /*operation, layers*/ 34) marker_changes.options = {
-					title: /*operation*/ ctx[1].getPortal(/*marker*/ ctx[28].portalId).name
+					title: /*operation*/ ctx[1].getPortal(/*marker*/ ctx[30].portalId).name
 				};
 
-				if (dirty[0] & /*operation, layers*/ 34 | dirty[1] & /*$$scope*/ 64) {
+				if (dirty[0] & /*operation, layers*/ 34 | dirty[1] & /*$$scope*/ 256) {
 					marker_changes.$$scope = { dirty, ctx };
 				}
 
@@ -44181,14 +44181,14 @@
 			block,
 			id: create_each_block_3.name,
 			type: "each",
-			source: "(148:6) {#each layer.markers as marker (marker.ID)}",
+			source: "(164:6) {#each layer.markers as marker (marker.ID)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (174:6) {#each layer.links as link (link.ID)}
+	// (190:6) {#each layer.links as link (link.ID)}
 	function create_each_block_2$2(key_1, ctx) {
 		let first;
 		let geodesic;
@@ -44196,9 +44196,9 @@
 
 		geodesic = new Geodesic({
 				props: {
-					latLngs: /*link*/ ctx[25].getLatLngs(/*operation*/ ctx[1]),
+					latLngs: /*link*/ ctx[27].getLatLngs(/*operation*/ ctx[1]),
 					weight: 2,
-					color: /*getLinkColor*/ ctx[8](/*link*/ ctx[25]),
+					color: /*getLinkColor*/ ctx[7](/*link*/ ctx[27]),
 					opacity: 0.75
 				},
 				$$inline: true
@@ -44220,8 +44220,8 @@
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
 				const geodesic_changes = {};
-				if (dirty[0] & /*layers, operation*/ 34) geodesic_changes.latLngs = /*link*/ ctx[25].getLatLngs(/*operation*/ ctx[1]);
-				if (dirty[0] & /*layers*/ 32) geodesic_changes.color = /*getLinkColor*/ ctx[8](/*link*/ ctx[25]);
+				if (dirty[0] & /*layers, operation*/ 34) geodesic_changes.latLngs = /*link*/ ctx[27].getLatLngs(/*operation*/ ctx[1]);
+				if (dirty[0] & /*layers*/ 32) geodesic_changes.color = /*getLinkColor*/ ctx[7](/*link*/ ctx[27]);
 				geodesic.$set(geodesic_changes);
 			},
 			i: function intro(local) {
@@ -44243,31 +44243,31 @@
 			block,
 			id: create_each_block_2$2.name,
 			type: "each",
-			source: "(174:6) {#each layer.links as link (link.ID)}",
+			source: "(190:6) {#each layer.links as link (link.ID)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (195:12) {#if operation.getPortal(anchor).comment}
+	// (216:12) {#if operation.getPortal(anchor).comment}
 	function create_if_block_1$b(ctx) {
 		let div;
-		let t_value = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).comment + "";
+		let t_value = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[24]).comment + "";
 		let t;
 
 		const block = {
 			c: function create() {
 				div = element("div");
 				t = text(t_value);
-				add_location(div, file$d, 194, 53, 5540);
+				add_location(div, file$d, 215, 53, 6428);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
 				append_dev(div, t);
 			},
 			p: function update(ctx, dirty) {
-				if (dirty[0] & /*operation, layers*/ 34 && t_value !== (t_value = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).comment + "")) set_data_dev(t, t_value);
+				if (dirty[0] & /*operation, layers*/ 34 && t_value !== (t_value = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[24]).comment + "")) set_data_dev(t, t_value);
 			},
 			d: function destroy(detaching) {
 				if (detaching) detach_dev(div);
@@ -44278,31 +44278,31 @@
 			block,
 			id: create_if_block_1$b.name,
 			type: "if",
-			source: "(195:12) {#if operation.getPortal(anchor).comment}",
+			source: "(216:12) {#if operation.getPortal(anchor).comment}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (198:12) {#if operation.getPortal(anchor).hardness}
+	// (219:12) {#if operation.getPortal(anchor).hardness}
 	function create_if_block$c(ctx) {
 		let div;
-		let t_value = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).hardness + "";
+		let t_value = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[24]).hardness + "";
 		let t;
 
 		const block = {
 			c: function create() {
 				div = element("div");
 				t = text(t_value);
-				add_location(div, file$d, 197, 54, 5680);
+				add_location(div, file$d, 218, 54, 6568);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
 				append_dev(div, t);
 			},
 			p: function update(ctx, dirty) {
-				if (dirty[0] & /*operation, layers*/ 34 && t_value !== (t_value = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).hardness + "")) set_data_dev(t, t_value);
+				if (dirty[0] & /*operation, layers*/ 34 && t_value !== (t_value = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[24]).hardness + "")) set_data_dev(t, t_value);
 			},
 			d: function destroy(detaching) {
 				if (detaching) detach_dev(div);
@@ -44313,21 +44313,21 @@
 			block,
 			id: create_if_block$c.name,
 			type: "if",
-			source: "(198:12) {#if operation.getPortal(anchor).hardness}",
+			source: "(219:12) {#if operation.getPortal(anchor).hardness}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (193:10) <Popup>
+	// (214:10) <Popup>
 	function create_default_slot_2$2(ctx) {
-		let t0_value = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).name + "";
+		let t0_value = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[24]).name + "";
 		let t0;
 		let t1;
-		let show_if_1 = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).comment;
+		let show_if_1 = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[24]).comment;
 		let t2;
-		let show_if = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).hardness;
+		let show_if = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[24]).hardness;
 		let t3;
 		let button;
 		let t4;
@@ -44347,8 +44347,8 @@
 				t4 = text("Google Map");
 				attr_dev(button, "target", "_blank");
 				attr_dev(button, "class", "btn btn-outline-primary btn-sm");
-				attr_dev(button, "href", button_href_value = 'https://www.google.com/maps/search/?api=1&query=' + /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).latLng.lat + ',' + /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).latLng.lng);
-				add_location(button, file$d, 200, 12, 5779);
+				attr_dev(button, "href", button_href_value = 'https://www.google.com/maps/search/?api=1&query=' + /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[24]).latLng.lat + ',' + /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[24]).latLng.lng);
+				add_location(button, file$d, 221, 12, 6667);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, t0, anchor);
@@ -44361,8 +44361,8 @@
 				append_dev(button, t4);
 			},
 			p: function update(ctx, dirty) {
-				if (dirty[0] & /*operation, layers*/ 34 && t0_value !== (t0_value = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).name + "")) set_data_dev(t0, t0_value);
-				if (dirty[0] & /*operation, layers*/ 34) show_if_1 = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).comment;
+				if (dirty[0] & /*operation, layers*/ 34 && t0_value !== (t0_value = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[24]).name + "")) set_data_dev(t0, t0_value);
+				if (dirty[0] & /*operation, layers*/ 34) show_if_1 = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[24]).comment;
 
 				if (show_if_1) {
 					if (if_block0) {
@@ -44377,7 +44377,7 @@
 					if_block0 = null;
 				}
 
-				if (dirty[0] & /*operation, layers*/ 34) show_if = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).hardness;
+				if (dirty[0] & /*operation, layers*/ 34) show_if = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[24]).hardness;
 
 				if (show_if) {
 					if (if_block1) {
@@ -44392,7 +44392,7 @@
 					if_block1 = null;
 				}
 
-				if (dirty[0] & /*operation, layers*/ 34 && button_href_value !== (button_href_value = 'https://www.google.com/maps/search/?api=1&query=' + /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).latLng.lat + ',' + /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).latLng.lng)) {
+				if (dirty[0] & /*operation, layers*/ 34 && button_href_value !== (button_href_value = 'https://www.google.com/maps/search/?api=1&query=' + /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[24]).latLng.lat + ',' + /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[24]).latLng.lng)) {
 					attr_dev(button, "href", button_href_value);
 				}
 			},
@@ -44411,14 +44411,14 @@
 			block,
 			id: create_default_slot_2$2.name,
 			type: "slot",
-			source: "(193:10) <Popup>",
+			source: "(214:10) <Popup>",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (183:8) <Marker           latLng={operation.getPortal(anchor).latLng}           icon={new Icon({             iconUrl: 'https://cdn2.wasabee.rocks/img/markers/pin_lime.svg',             iconSize: [24, 40],             iconAnchor: [12, 40],             popupAnchor: [-1, -48],           })}           options={{ title: operation.getPortal(anchor).name }}         >
+	// (199:8) <Marker           latLng={operation.getPortal(anchor).latLng}           icon={new DivIcon({             html: Util.template(               '<svg style="fill: {color}"><use href="https://cdn2.wasabee.rocks/img/markers/pin_custom.svg#wasabee-anchor-icon"/></svg>',               {                 color: anchorColors.get(anchor) || 'black',               }             ),             iconSize: [25, 41],             iconAnchor: [12, 40],             popupAnchor: [-1, -48],           })}           options={{ title: operation.getPortal(anchor).name }}         >
 	function create_default_slot_1$2(ctx) {
 		let popup;
 		let t;
@@ -44445,7 +44445,7 @@
 			p: function update(ctx, dirty) {
 				const popup_changes = {};
 
-				if (dirty[0] & /*operation, layers*/ 34 | dirty[1] & /*$$scope*/ 64) {
+				if (dirty[0] & /*operation, layers*/ 34 | dirty[1] & /*$$scope*/ 256) {
 					popup_changes.$$scope = { dirty, ctx };
 				}
 
@@ -44470,14 +44470,14 @@
 			block,
 			id: create_default_slot_1$2.name,
 			type: "slot",
-			source: "(183:8) <Marker           latLng={operation.getPortal(anchor).latLng}           icon={new Icon({             iconUrl: 'https://cdn2.wasabee.rocks/img/markers/pin_lime.svg',             iconSize: [24, 40],             iconAnchor: [12, 40],             popupAnchor: [-1, -48],           })}           options={{ title: operation.getPortal(anchor).name }}         >",
+			source: "(199:8) <Marker           latLng={operation.getPortal(anchor).latLng}           icon={new DivIcon({             html: Util.template(               '<svg style=\\\"fill: {color}\\\"><use href=\\\"https://cdn2.wasabee.rocks/img/markers/pin_custom.svg#wasabee-anchor-icon\\\"/></svg>',               {                 color: anchorColors.get(anchor) || 'black',               }             ),             iconSize: [25, 41],             iconAnchor: [12, 40],             popupAnchor: [-1, -48],           })}           options={{ title: operation.getPortal(anchor).name }}         >",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (182:6) {#each layer.anchors as anchor (anchor)}
+	// (198:6) {#each layer.anchors as anchor (anchor)}
 	function create_each_block_1$2(key_1, ctx) {
 		let first;
 		let marker;
@@ -44485,15 +44485,17 @@
 
 		marker = new Marker({
 				props: {
-					latLng: /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).latLng,
-					icon: new leafletSrc.Icon({
-							iconUrl: 'https://cdn2.wasabee.rocks/img/markers/pin_lime.svg',
-							iconSize: [24, 40],
+					latLng: /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[24]).latLng,
+					icon: new leafletSrc.DivIcon({
+							html: leafletSrc.Util.template('<svg style="fill: {color}"><use href="https://cdn2.wasabee.rocks/img/markers/pin_custom.svg#wasabee-anchor-icon"/></svg>', {
+								color: /*anchorColors*/ ctx[8].get(/*anchor*/ ctx[24]) || 'black'
+							}),
+							iconSize: [25, 41],
 							iconAnchor: [12, 40],
 							popupAnchor: [-1, -48]
 						}),
 					options: {
-						title: /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).name
+						title: /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[24]).name
 					},
 					$$slots: { default: [create_default_slot_1$2] },
 					$$scope: { ctx }
@@ -44517,13 +44519,22 @@
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
 				const marker_changes = {};
-				if (dirty[0] & /*operation, layers*/ 34) marker_changes.latLng = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).latLng;
+				if (dirty[0] & /*operation, layers*/ 34) marker_changes.latLng = /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[24]).latLng;
+
+				if (dirty[0] & /*layers*/ 32) marker_changes.icon = new leafletSrc.DivIcon({
+						html: leafletSrc.Util.template('<svg style="fill: {color}"><use href="https://cdn2.wasabee.rocks/img/markers/pin_custom.svg#wasabee-anchor-icon"/></svg>', {
+							color: /*anchorColors*/ ctx[8].get(/*anchor*/ ctx[24]) || 'black'
+						}),
+						iconSize: [25, 41],
+						iconAnchor: [12, 40],
+						popupAnchor: [-1, -48]
+					});
 
 				if (dirty[0] & /*operation, layers*/ 34) marker_changes.options = {
-					title: /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[22]).name
+					title: /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[24]).name
 				};
 
-				if (dirty[0] & /*operation, layers*/ 34 | dirty[1] & /*$$scope*/ 64) {
+				if (dirty[0] & /*operation, layers*/ 34 | dirty[1] & /*$$scope*/ 256) {
 					marker_changes.$$scope = { dirty, ctx };
 				}
 
@@ -44548,14 +44559,14 @@
 			block,
 			id: create_each_block_1$2.name,
 			type: "each",
-			source: "(182:6) {#each layer.anchors as anchor (anchor)}",
+			source: "(198:6) {#each layer.anchors as anchor (anchor)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (147:4) {#each Object.entries(layers) as [name, layer] (name)}
+	// (163:4) {#each Object.entries(layers) as [name, layer] (name)}
 	function create_each_block$7(key_1, ctx) {
 		let first;
 		let each_blocks_2 = [];
@@ -44568,9 +44579,9 @@
 		let each2_lookup = new Map_2();
 		let each2_anchor;
 		let current;
-		let each_value_3 = /*layer*/ ctx[19].markers;
+		let each_value_3 = /*layer*/ ctx[21].markers;
 		validate_each_argument(each_value_3);
-		const get_key = ctx => /*marker*/ ctx[28].ID;
+		const get_key = ctx => /*marker*/ ctx[30].ID;
 		validate_each_keys(ctx, each_value_3, get_each_context_3, get_key);
 
 		for (let i = 0; i < each_value_3.length; i += 1) {
@@ -44579,9 +44590,9 @@
 			each0_lookup.set(key, each_blocks_2[i] = create_each_block_3(key, child_ctx));
 		}
 
-		let each_value_2 = /*layer*/ ctx[19].links;
+		let each_value_2 = /*layer*/ ctx[21].links;
 		validate_each_argument(each_value_2);
-		const get_key_1 = ctx => /*link*/ ctx[25].ID;
+		const get_key_1 = ctx => /*link*/ ctx[27].ID;
 		validate_each_keys(ctx, each_value_2, get_each_context_2$2, get_key_1);
 
 		for (let i = 0; i < each_value_2.length; i += 1) {
@@ -44590,9 +44601,9 @@
 			each1_lookup.set(key, each_blocks_1[i] = create_each_block_2$2(key, child_ctx));
 		}
 
-		let each_value_1 = /*layer*/ ctx[19].anchors;
+		let each_value_1 = /*layer*/ ctx[21].anchors;
 		validate_each_argument(each_value_1);
-		const get_key_2 = ctx => /*anchor*/ ctx[22];
+		const get_key_2 = ctx => /*anchor*/ ctx[24];
 		validate_each_keys(ctx, each_value_1, get_each_context_1$2, get_key_2);
 
 		for (let i = 0; i < each_value_1.length; i += 1) {
@@ -44651,8 +44662,8 @@
 			p: function update(new_ctx, dirty) {
 				ctx = new_ctx;
 
-				if (dirty[0] & /*operation, layers, iconOpt, getAgentName*/ 1186) {
-					each_value_3 = /*layer*/ ctx[19].markers;
+				if (dirty[0] & /*operation, layers, iconOpt, getAgentName*/ 2594) {
+					each_value_3 = /*layer*/ ctx[21].markers;
 					validate_each_argument(each_value_3);
 					group_outros();
 					validate_each_keys(ctx, each_value_3, get_each_context_3, get_key);
@@ -44660,8 +44671,8 @@
 					check_outros();
 				}
 
-				if (dirty[0] & /*layers, operation, getLinkColor*/ 290) {
-					each_value_2 = /*layer*/ ctx[19].links;
+				if (dirty[0] & /*layers, operation, getLinkColor*/ 162) {
+					each_value_2 = /*layer*/ ctx[21].links;
 					validate_each_argument(each_value_2);
 					group_outros();
 					validate_each_keys(ctx, each_value_2, get_each_context_2$2, get_key_1);
@@ -44669,8 +44680,8 @@
 					check_outros();
 				}
 
-				if (dirty[0] & /*operation, layers*/ 34) {
-					each_value_1 = /*layer*/ ctx[19].anchors;
+				if (dirty[0] & /*operation, layers, anchorColors*/ 290) {
+					each_value_1 = /*layer*/ ctx[21].anchors;
 					validate_each_argument(each_value_1);
 					group_outros();
 					validate_each_keys(ctx, each_value_1, get_each_context_1$2, get_key_2);
@@ -44737,14 +44748,14 @@
 			block,
 			id: create_each_block$7.name,
 			type: "each",
-			source: "(147:4) {#each Object.entries(layers) as [name, layer] (name)}",
+			source: "(163:4) {#each Object.entries(layers) as [name, layer] (name)}",
 			ctx
 		});
 
 		return block;
 	}
 
-	// (137:2) <LeafletMap options={{ zoom: 3, center: [0, 0] }} bind:this={map}>
+	// (153:2) <LeafletMap options={{ zoom: 3, center: [0, 0] }} bind:this={map}>
 	function create_default_slot$2(ctx) {
 		let tilelayer;
 		let t0;
@@ -44759,14 +44770,14 @@
 		tilelayer = new TileLayer({
 				props: {
 					url: tileUrl$1,
-					options: /*tileLayerOptions*/ ctx[9]
+					options: /*tileLayerOptions*/ ctx[10]
 				},
 				$$inline: true
 			});
 
 		let each_value_4 = /*zones*/ ctx[6].polygons;
 		validate_each_argument(each_value_4);
-		const get_key = ctx => /*z*/ ctx[31].id;
+		const get_key = ctx => /*z*/ ctx[33].id;
 		validate_each_keys(ctx, each_value_4, get_each_context_4, get_key);
 
 		for (let i = 0; i < each_value_4.length; i += 1) {
@@ -44777,7 +44788,7 @@
 
 		let each_value = Object.entries(/*layers*/ ctx[5]);
 		validate_each_argument(each_value);
-		const get_key_1 = ctx => /*name*/ ctx[18];
+		const get_key_1 = ctx => /*name*/ ctx[20];
 		validate_each_keys(ctx, each_value, get_each_context$7, get_key_1);
 
 		for (let i = 0; i < each_value.length; i += 1) {
@@ -44830,7 +44841,7 @@
 					check_outros();
 				}
 
-				if (dirty[0] & /*layers, operation, getLinkColor, iconOpt, getAgentName*/ 1442) {
+				if (dirty[0] & /*layers, operation, anchorColors, getLinkColor, iconOpt, getAgentName*/ 2978) {
 					each_value = Object.entries(/*layers*/ ctx[5]);
 					validate_each_argument(each_value);
 					group_outros();
@@ -44888,7 +44899,7 @@
 			block,
 			id: create_default_slot$2.name,
 			type: "slot",
-			source: "(137:2) <LeafletMap options={{ zoom: 3, center: [0, 0] }} bind:this={map}>",
+			source: "(153:2) <LeafletMap options={{ zoom: 3, center: [0, 0] }} bind:this={map}>",
 			ctx
 		});
 
@@ -44913,7 +44924,7 @@
 		let dispose;
 		let each_value_5 = /*agentList*/ ctx[4];
 		validate_each_argument(each_value_5);
-		const get_key = ctx => /*a*/ ctx[34].id;
+		const get_key = ctx => /*a*/ ctx[36].id;
 		validate_each_keys(ctx, each_value_5, get_each_context_5, get_key);
 
 		for (let i = 0; i < each_value_5.length; i += 1) {
@@ -44929,7 +44940,7 @@
 		};
 
 		leafletmap = new LeafletMap({ props: leafletmap_props, $$inline: true });
-		/*leafletmap_binding*/ ctx[16](leafletmap);
+		/*leafletmap_binding*/ ctx[17](leafletmap);
 
 		const block = {
 			c: function create() {
@@ -44948,13 +44959,13 @@
 				div = element("div");
 				create_component(leafletmap.$$.fragment);
 				attr_dev(h1, "id", "opName");
-				add_location(h1, file$d, 124, 0, 3126);
-				if (/*agent*/ ctx[2] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[15].call(select));
-				add_location(select, file$d, 127, 2, 3183);
-				add_location(label, file$d, 125, 0, 3164);
+				add_location(h1, file$d, 140, 0, 3809);
+				if (/*agent*/ ctx[2] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[16].call(select));
+				add_location(select, file$d, 143, 2, 3866);
+				add_location(label, file$d, 141, 0, 3847);
 				attr_dev(div, "id", "map");
 				attr_dev(div, "class", "svelte-1iwg3ka");
-				add_location(div, file$d, 135, 0, 3339);
+				add_location(div, file$d, 151, 0, 4022);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -44978,7 +44989,7 @@
 				current = true;
 
 				if (!mounted) {
-					dispose = listen_dev(select, "change", /*select_change_handler*/ ctx[15]);
+					dispose = listen_dev(select, "change", /*select_change_handler*/ ctx[16]);
 					mounted = true;
 				}
 			},
@@ -44998,7 +45009,7 @@
 
 				const leafletmap_changes = {};
 
-				if (dirty[0] & /*layers, operation, zones*/ 98 | dirty[1] & /*$$scope*/ 64) {
+				if (dirty[0] & /*layers, operation, zones*/ 98 | dirty[1] & /*$$scope*/ 256) {
 					leafletmap_changes.$$scope = { dirty, ctx };
 				}
 
@@ -45024,7 +45035,7 @@
 
 				if (detaching) detach_dev(t3);
 				if (detaching) detach_dev(div);
-				/*leafletmap_binding*/ ctx[16](null);
+				/*leafletmap_binding*/ ctx[17](null);
 				destroy_component(leafletmap);
 				mounted = false;
 				dispose();
@@ -45044,25 +45055,28 @@
 
 	const tileUrl$1 = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
-	function newColors(incoming) {
-		switch (incoming) {
-			case 'groupa':
-				return 'orange';
-			case 'groupb':
-				return 'yellow';
-			case 'groupc':
-				return 'lime';
-			case 'groupd':
-				return 'purple';
-			case 'groupe':
-				return 'teal';
-			case 'groupf':
-				return 'fuchsia';
-			case 'main':
-				return 'red';
-			default:
-				return incoming;
+	function convertColorToRgb(str) {
+		const r = str.match(/#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})/);
+		if (blur.length < 4) return [255, 0, 0];
+		return [+('0x' + r[1]), +('0x' + r[2]), +('0x' + r[3])];
+	}
+
+	function averageColor(colors) {
+		let [r, g, b] = [0, 0, 0];
+
+		for (const rgb of colors) {
+			r += rgb[0];
+			g += rgb[1];
+			b += rgb[2];
 		}
+
+		if (colors.length) {
+			r = Math.floor(r / colors.length);
+			g = Math.floor(g / colors.length);
+			b = Math.floor(b / colors.length);
+		}
+
+		return [r, g, b].map(v => r.toString(16).padStart(2, '0')).join('');
 	}
 
 	function instance$e($$self, $$props, $$invalidate) {
@@ -45071,7 +45085,7 @@
 
 		let $opStore,
 			$$unsubscribe_opStore = noop,
-			$$subscribe_opStore = () => ($$unsubscribe_opStore(), $$unsubscribe_opStore = subscribe(opStore, $$value => $$invalidate(14, $opStore = $$value)), opStore);
+			$$subscribe_opStore = () => ($$unsubscribe_opStore(), $$unsubscribe_opStore = subscribe(opStore, $$value => $$invalidate(15, $opStore = $$value)), opStore);
 
 		$$self.$$.on_destroy.push(() => $$unsubscribe_opStore());
 		let { $$slots: slots = {}, $$scope } = $$props;
@@ -45083,6 +45097,31 @@
 		const me = WasabeeMe.get();
 		let agent = me.id;
 		let agentList = [];
+
+		function getLinkColor(link) {
+			const color = link.color == 'main' ? operation.color : link.color;
+			if (color.startsWith('#')) return color;
+			return '#ff0000';
+		}
+
+		const anchorColorList = new Map();
+
+		for (const l of operation.links) {
+			// color
+			const from = l.fromPortalId;
+
+			const colorList = anchorColorList.get(from) || [];
+			const linkColor = convertColorToRgb(getLinkColor(l));
+			colorList.push(linkColor);
+			anchorColorList.set(from, colorList);
+		}
+
+		const anchorColors = new Map();
+
+		for (const [from, colorList] of anchorColorList) {
+			anchorColors.set(from, averageColor(colorList));
+		}
+
 		let assignments;
 		let unassigned;
 		let others;
@@ -45091,10 +45130,6 @@
 			const agent = WasabeeAgent.get(id);
 			if (agent) return agent.name;
 			return id;
-		}
-
-		function getLinkColor(link) {
-			return newColors(link.color == 'main' ? operation.color : link.color);
 		}
 
 		const tileLayerOptions = {
@@ -45120,7 +45155,7 @@
 		function select_change_handler() {
 			agent = select_value(this);
 			$$invalidate(2, agent);
-			(($$invalidate(4, agentList), $$invalidate(1, operation)), $$invalidate(14, $opStore));
+			(($$invalidate(4, agentList), $$invalidate(1, operation)), $$invalidate(15, $opStore));
 		}
 
 		function leafletmap_binding($$value) {
@@ -45135,7 +45170,9 @@
 		};
 
 		$$self.$capture_state = () => ({
+			DivIcon: leafletSrc.DivIcon,
 			Icon: leafletSrc.Icon,
+			Util: leafletSrc.Util,
 			LeafletMap,
 			Marker,
 			TileLayer,
@@ -45150,12 +45187,15 @@
 			me,
 			agent,
 			agentList,
+			convertColorToRgb,
+			getLinkColor,
+			averageColor,
+			anchorColorList,
+			anchorColors,
 			assignments,
 			unassigned,
 			others,
 			getAgentName,
-			newColors,
-			getLinkColor,
 			tileUrl: tileUrl$1,
 			tileLayerOptions,
 			iconOpt,
@@ -45170,9 +45210,9 @@
 			if ('operation' in $$props) $$invalidate(1, operation = $$props.operation);
 			if ('agent' in $$props) $$invalidate(2, agent = $$props.agent);
 			if ('agentList' in $$props) $$invalidate(4, agentList = $$props.agentList);
-			if ('assignments' in $$props) $$invalidate(11, assignments = $$props.assignments);
-			if ('unassigned' in $$props) $$invalidate(12, unassigned = $$props.unassigned);
-			if ('others' in $$props) $$invalidate(13, others = $$props.others);
+			if ('assignments' in $$props) $$invalidate(12, assignments = $$props.assignments);
+			if ('unassigned' in $$props) $$invalidate(13, unassigned = $$props.unassigned);
+			if ('others' in $$props) $$invalidate(14, others = $$props.others);
 			if ('map' in $$props) $$invalidate(3, map = $$props.map);
 			if ('layers' in $$props) $$invalidate(5, layers = $$props.layers);
 			if ('zones' in $$props) $$invalidate(6, zones = $$props.zones);
@@ -45183,7 +45223,7 @@
 		}
 
 		$$self.$$.update = () => {
-			if ($$self.$$.dirty[0] & /*$opStore*/ 16384) {
+			if ($$self.$$.dirty[0] & /*$opStore*/ 32768) {
 				$$invalidate(1, operation = $opStore);
 			}
 
@@ -45207,11 +45247,11 @@
 				}
 			}
 
-			if ($$self.$$.dirty[0] & /*operation, unassigned, agent, assignments, others*/ 14342) {
+			if ($$self.$$.dirty[0] & /*operation, unassigned, agent, assignments, others*/ 28678) {
 				{
-					$$invalidate(11, assignments = { markers: [], links: [], anchors: [] });
-					$$invalidate(12, unassigned = { markers: [], links: [], anchors: [] });
-					$$invalidate(13, others = { markers: [], links: [], anchors: [] });
+					$$invalidate(12, assignments = { markers: [], links: [], anchors: [] });
+					$$invalidate(13, unassigned = { markers: [], links: [], anchors: [] });
+					$$invalidate(14, others = { markers: [], links: [], anchors: [] });
 
 					for (const marker of operation.markers) {
 						const layer = !marker.assignedTo
@@ -45233,7 +45273,7 @@
 				}
 			}
 
-			if ($$self.$$.dirty[0] & /*assignments, others, unassigned*/ 14336) {
+			if ($$self.$$.dirty[0] & /*assignments, others, unassigned*/ 28672) {
 				$$invalidate(5, layers = {
 					Assignments: assignments,
 					Others: others,
@@ -45260,8 +45300,9 @@
 			agentList,
 			layers,
 			zones,
-			getAgentName,
 			getLinkColor,
+			anchorColors,
+			getAgentName,
 			tileLayerOptions,
 			iconOpt,
 			assignments,
@@ -59772,7 +59813,7 @@
 				p1.textContent = "Copyright © The Wasabee Team 2021. All Rights Reserved";
 				t14 = space();
 				p2 = element("p");
-				p2.textContent = "Build date: Sun, 16 Oct 2022 13:47:23 GMT";
+				p2.textContent = "Build date: Sun, 16 Oct 2022 14:49:59 GMT";
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
