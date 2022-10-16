@@ -44199,7 +44199,7 @@
 					latLngs: /*link*/ ctx[26].getLatLngs(/*operation*/ ctx[1]),
 					weight: 2,
 					color: /*getLinkColor*/ ctx[8](/*link*/ ctx[26]),
-					opacity: 0.75
+					opacity: 0.6
 				},
 				$$inline: true
 			});
@@ -44260,7 +44260,7 @@
 			c: function create() {
 				div = element("div");
 				t = text(t_value);
-				add_location(div, file$d, 219, 53, 6536);
+				add_location(div, file$d, 219, 53, 6535);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -44295,7 +44295,7 @@
 			c: function create() {
 				div = element("div");
 				t = text(t_value);
-				add_location(div, file$d, 222, 54, 6676);
+				add_location(div, file$d, 222, 54, 6675);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div, anchor);
@@ -44348,7 +44348,7 @@
 				attr_dev(button, "target", "_blank");
 				attr_dev(button, "class", "btn btn-outline-primary btn-sm");
 				attr_dev(button, "href", button_href_value = 'https://www.google.com/maps/search/?api=1&query=' + /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[23]).latLng.lat + ',' + /*operation*/ ctx[1].getPortal(/*anchor*/ ctx[23]).latLng.lng);
-				add_location(button, file$d, 225, 12, 6775);
+				add_location(button, file$d, 225, 12, 6774);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, t0, anchor);
@@ -45078,7 +45078,7 @@
 			b = Math.floor(b / colors.length);
 		}
 
-		return "#" + [r, g, b].map(v => r.toString(16).padStart(2, '0')).join('');
+		return "#" + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('');
 	}
 
 	function instance$e($$self, $$props, $$invalidate) {
@@ -59820,7 +59820,7 @@
 				p1.textContent = "Copyright © The Wasabee Team 2021. All Rights Reserved";
 				t14 = space();
 				p2 = element("p");
-				p2.textContent = "Build date: Sun, 16 Oct 2022 15:30:30 GMT";
+				p2.textContent = "Build date: Sun, 16 Oct 2022 15:33:09 GMT";
 				if (!src_url_equal(script.src, script_src_value = "https://apis.google.com/js/api.js")) attr_dev(script, "src", script_src_value);
 				script.async = true;
 				script.defer = true;
