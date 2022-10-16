@@ -8,7 +8,7 @@
   import {
     addAgentToTeamPromise,
     removeAgentFromTeamPromise,
-    setAgentTeamSquadPromise,
+    setAgentTeamCommentPromise,
   } from '../../server';
 
   const dispatch = createEventDispatcher();
@@ -48,7 +48,7 @@
     );
   }
   function agentSquadChange(agent: WasabeeAgent) {
-    setAgentTeamSquadPromise(agent.id, team.id, agent.comment).then(
+    setAgentTeamCommentPromise(agent.id, team.id, agent.comment).then(
       () => {},
       (reject) => {
         console.log(reject);
