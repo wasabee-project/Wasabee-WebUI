@@ -1,18 +1,34 @@
 import { setServer } from './config';
 import { SendAccessTokenAsync } from './server';
 
-function promiseLogin(options: gapi.auth2.AuthorizeConfig) {
+let googleClient: google.accounts.oauth2.TokenClient;
+let loginCallback: (_: google.accounts.oauth2.TokenResponse) => void;
+
+export function initGoogleLogin() {
+  googleClient = google.accounts.oauth2.initTokenClient({
+    client_id: '269534461245-rpgijdorh2v0tdalis1s95fkebok73cl.apps.googleusercontent.com',
+    scope: "email profile openid",
+    callback: (response) => {
+      if (!loginCallback) return;
+      loginCallback(response);
+      loginCallback = null;
+    },
+  });
+}
+
+function promiseLogin(options: google.accounts.oauth2.OverridableTokenClientConfig) {
   const promise = new Promise<string>((resolve, reject) => {
-    window.gapi.auth2.authorize(options, (response) => {
+    loginCallback = (response) => {
       if (response.error) {
         return reject(
           `error: ${response.error}: ${
-            response.error_subtype || (response as any).details
+            response.error_description || response.error_uri
           }`
         );
       }
       resolve(response.access_token);
-    });
+    };
+    googleClient.requestAccessToken(options);
   });
   return promise;
 }
@@ -32,11 +48,8 @@ export function setAuthBearer(jwt?: string) {
 
 export async function login(server: string, selectAccount: boolean) {
   const options = {
-    client_id:
-      '269534461245-rpgijdorh2v0tdalis1s95fkebok73cl.apps.googleusercontent.com',
     scope: 'email profile openid',
-    response_type: 'id_token permission',
-    prompt: selectAccount ? 'select_account' : 'none',
+    prompt: selectAccount ? 'select_account' : null,
   };
   let token: string;
   try {

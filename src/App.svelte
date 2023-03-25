@@ -29,7 +29,7 @@
   import { loadConfig, logoutPromise } from './server';
 
   import { WasabeeMe } from './model';
-  import { getAuthBearer, setAuthBearer } from './auth';
+  import { getAuthBearer, initGoogleLogin, setAuthBearer } from './auth';
 
   import { sendTokenToServer } from './firebase';
   import { meStore, opsStore, teamsStore } from './stores';
@@ -93,9 +93,8 @@
 
   let disabled = true;
   function loadAuth2() {
-    window.gapi.load('auth2', () => {
-      disabled = false;
-    });
+    disabled = false;
+    initGoogleLogin();
   }
   async function onLogin(ev: { detail: any }) {
     me = new WasabeeMe(ev.detail);
@@ -142,7 +141,7 @@
 
 <svelte:head>
   <script
-    src="https://apis.google.com/js/api.js"
+    src="https://accounts.google.com/gsi/client"
     async
     defer
     on:load={loadAuth2}></script>
