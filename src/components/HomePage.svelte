@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte';
 
   import { login } from '../auth';
-  import { Button, Nav, NavLink } from '@sveltestrap/sveltestrap';
+  import { Button, Nav, NavLink, Spinner } from '@sveltestrap/sveltestrap';
   import { getServers } from '../config';
   import { FlatToast, ToastContainer } from 'svelte-toasts';
   import { notifyError } from '../notify';
@@ -70,17 +70,16 @@
   </p>
   <div class="lead serverlist">
     {#each servers as server}
-      <Button
-        block={true}
-        color={disabledServer[server.url] ? 'danger' : 'success'}
-        on:click={() => loginTo(server.url)}
-      >
-        Login to {server.name}{#if connecting == server.url}<span
-            class="spinner-border spinner-border-sm"
-            role="status"
-            aria-hidden="true"
-          />{/if}
-      </Button>
+      <div>
+        <Button
+          block
+          color={disabledServer[server.url] ? 'danger' : 'success'}
+          on:click={() => loginTo(server.url)}
+        >
+          Login to {server.name}
+          {#if connecting == server.url}<Spinner size="sm" />{/if}
+        </Button>
+      </div>
     {/each}
   </div>
   <label class="form-check-inline"
@@ -96,3 +95,9 @@
     server is being used.
   </p>
 </main>
+
+<style>
+  .serverlist > div {
+    margin: 0.4rem;
+  }
+</style>
