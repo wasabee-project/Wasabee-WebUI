@@ -53,7 +53,7 @@ On success, it may returns:
 */
 
 export function loadConfig() {
-  return genericGet(`/static/wasabee-webui-config.json`);
+  return genericGet<any>(`/static/wasabee-webui-config.json`);
 }
 
 // returns a promise to /me if the access token is valid
@@ -305,7 +305,7 @@ export async function opPromise(opID: OpID) {
           : {
               'If-Modified-Since': ims,
             }
-        : null,
+        : undefined,
     });
 
     const newop = new WasabeeOp(raw);
@@ -327,7 +327,7 @@ export async function opPromise(opID: OpID) {
     switch (e.code) {
       case 304:
         //localop.server = GetWasabeeServer();
-        return localop;
+        return localop as WasabeeOp;
       case 403:
       // fallthrough
       case 410:
@@ -452,7 +452,7 @@ export function taskAssignPromise(
 ) {
   const fd = new FormData();
   for (const gid of gids) {
-    fd.append('agent[]', gid);
+    fd.append('agent', gid);
   }
   return genericPut<IServerUpdate>(
     `/api/v1/draw/${opID}/task/${taskID}/assign`,
@@ -706,6 +706,7 @@ async function generic<T>(request: {
   // use jwt instead of cookies if available
   const bearer = getAuthBearer();
   if (bearer) {
+    // @ts-ignore requestInit.headers might be undefined
     requestInit.headers['Authorization'] = `Bearer ${bearer}`;
     requestInit.credentials = 'omit';
   }
@@ -794,7 +795,7 @@ function genericPost<T>(
     url: url,
     method: 'POST',
     body: formData,
-    headers: contentType ? { 'Content-Type': contentType } : null,
+    headers: contentType ? { 'Content-Type': contentType } : undefined,
   });
 }
 

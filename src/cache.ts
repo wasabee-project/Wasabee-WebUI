@@ -23,11 +23,10 @@ export async function getMe(force = false) {
   } catch (e) {
     console.log(e);
   }
-  return null;
 }
 
 export async function getAgent(gid: GoogleID) {
-  if (!gid) return null;
+  if (!gid) return Promise.reject();
   const agent = WasabeeAgent.get(gid);
   if (agent) return agent;
 
@@ -38,13 +37,13 @@ export async function getAgent(gid: GoogleID) {
     return newagent;
   } catch (e) {
     console.log(e);
+    return Promise.reject();
   }
-  return null;
 }
 
 // 60 seconds seems too short for the default here...
 export async function getTeam(teamID: TeamID, maxAgeSeconds = 60) {
-  if (!teamID) return null;
+  if (!teamID) return Promise.reject('empty teamID');
   const cached = WasabeeTeam.get(teamID);
   if (cached) {
     const t = new WasabeeTeam(cached);
@@ -62,5 +61,4 @@ export async function getTeam(teamID: TeamID, maxAgeSeconds = 60) {
   } catch (e) {
     console.error(e);
   }
-  return null;
 }

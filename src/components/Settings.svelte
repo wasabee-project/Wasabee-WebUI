@@ -1,47 +1,14 @@
 <script lang="ts">
   import { getConfig } from '../config';
-  import { notifyInfo, notifyOnError } from '../notify';
-  import {
-    getCommJWT,
-    getCommVerify,
-    importVteams,
-    setVAPIkey,
-  } from '../server';
+  import type { WasabeeMe } from '../model';
+  import { notifyOnError } from '../notify';
+  import { importVteams, setVAPIkey } from '../server';
   import { meStore } from '../stores';
 
   let botname: string = getConfig().botname;
   let vimportmode: string = 'team';
 
-  let communityname = $meStore.communityname || '';
-  let commJWT = '';
-  let newVerification = false;
-
-  $: commMayAskProof =
-    communityname &&
-    (!$meStore.communityname || communityname !== $meStore.communityname);
-  $: me = $meStore; // shortcut
-
-  async function communityProof() {
-    if (communityname) {
-      const res = await notifyOnError(getCommJWT(communityname));
-      commJWT = res.jwt;
-    }
-  }
-
-  async function communityVerify() {
-    if (communityname) {
-      await notifyOnError(getCommVerify(communityname));
-      newVerification = true;
-      notifyInfo('Community name verified');
-      meStore.refresh();
-    }
-  }
-
-  function commJWTClick(e: Event) {
-    const textarea = e.target as HTMLTextAreaElement;
-    textarea.focus();
-    textarea.select();
-  }
+  $: me = $meStore as WasabeeMe; // shortcut
 
   function vimport() {
     notifyOnError(importVteams(vimportmode));
@@ -123,51 +90,9 @@
       </p>
       <div>
         <p>
-          <span class="font-weight-bolder">Community Name:</span>
+          <span class="font-weight-bolder">Community Name [deprecated]:</span>
           <span class="agent-name">{me.communityname}</span>
         </p>
-        <p>
-          <label>
-            <input
-              type="text"
-              pattern={'[a-zA-Z0-9]{3,}'}
-              placeholder={me.communityname || 'My Agent Name'}
-              bind:value={communityname}
-              class:unverified={commMayAskProof}
-            />
-          </label>
-          <button
-            class="btn btn-info"
-            disabled={!commMayAskProof}
-            on:click={communityProof}
-          >
-            Get proof
-          </button>
-          <button
-            class="btn btn-success"
-            disabled={!commMayAskProof}
-            on:click={communityVerify}
-          >
-            Verify activity post
-          </button>
-        </p>
-        {#if commJWT}
-          <p>
-            Post this message at <a
-              href="https://community.ingress.com/en/activity"
-              target="_new">Recent Activity</a
-            >, then press the button Verify.
-          </p>
-          <textarea readonly on:click={commJWTClick}>{commJWT}</textarea>
-        {/if}
-        {#if newVerification}
-          <p>
-            You can now delete your message from the <a
-              href="https://community.ingress.com/en/activity"
-              target="_new">Recent Activity</a
-            > thread.
-          </p>
-        {/if}
       </div>
     </div>
   </div>

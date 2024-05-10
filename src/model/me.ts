@@ -30,7 +30,7 @@ export class WasabeeMe extends WasabeeAgent {
   lockey?: string;
   vapi?: string;
 
-  Telegram: {
+  Telegram?: {
     ID: string;
     Verified: boolean;
     Authtoken: string;
@@ -90,7 +90,7 @@ export class WasabeeMe extends WasabeeAgent {
 
   static get() {
     const raw = localStorage[AGENT_INFO_KEY];
-    if (raw == null) return null;
+    if (raw == null) return undefined;
     return new WasabeeMe(JSON.parse(raw));
   }
 
@@ -104,11 +104,10 @@ export class WasabeeMe extends WasabeeAgent {
     }
   }
 
-  getTeam(id: TeamID): MeTeam {
+  getTeam(id: TeamID): MeTeam | undefined {
     for (const t of this.Teams) {
       if (t.ID == id) return t;
     }
-    return null;
   }
 }
 

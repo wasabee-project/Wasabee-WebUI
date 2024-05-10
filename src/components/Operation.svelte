@@ -22,9 +22,9 @@
   let opid = params.opid;
   let prefix = '/operation/' + opid;
 
-  let me = WasabeeMe.get();
+  let me = WasabeeMe.get() as WasabeeMe;
 
-  let opStore = writable<WasabeeOp>(null);
+  let opStore = writable<WasabeeOp | undefined>();
   let operation = WasabeeOp.load(opid);
 
   $: opStore.set(operation);

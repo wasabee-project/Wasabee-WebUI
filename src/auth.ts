@@ -2,7 +2,7 @@ import { setServer } from './config';
 import { SendAccessTokenAsync } from './server';
 
 let googleClient: google.accounts.oauth2.TokenClient;
-let loginCallback: (_: google.accounts.oauth2.TokenResponse) => void;
+let loginCallback: ((_: google.accounts.oauth2.TokenResponse) => void) | null;
 
 export function initGoogleLogin() {
   googleClient = google.accounts.oauth2.initTokenClient({
@@ -34,7 +34,7 @@ function promiseLogin(options: google.accounts.oauth2.OverridableTokenClientConf
 }
 
 const BEARER_KEY = 'wasabee-bearer';
-let bearer: string = localStorage[BEARER_KEY];
+let bearer: string | undefined = localStorage[BEARER_KEY];
 
 export function getAuthBearer() {
   return bearer;
@@ -49,9 +49,9 @@ export function setAuthBearer(jwt?: string) {
 export async function login(server: string, selectAccount: boolean) {
   const options = {
     scope: 'email profile openid',
-    prompt: selectAccount ? 'select_account' : null,
+    prompt: selectAccount ? 'select_account' : undefined,
   };
-  let token: string;
+  let token: string | undefined;
   try {
     token = await promiseLogin(options);
   } catch (e) {
@@ -87,5 +87,4 @@ export async function login(server: string, selectAccount: boolean) {
       });
     }
   }
-  return null;
 }

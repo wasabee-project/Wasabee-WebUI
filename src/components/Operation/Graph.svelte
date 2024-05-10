@@ -28,7 +28,7 @@
     if (operation) {
       const ts: Task[] = (operation.markers as Task[]).concat(operation.links);
       ts.sort((a, b) => {
-        return order.get(a.ID) - order.get(b.ID);
+        return order.get(a.ID)! - order.get(b.ID)!;
       });
       return ts;
     }
@@ -74,10 +74,10 @@
 
   function orderTaskBy(order: Map<TaskID, number>) {
     for (const m of operation.markers) {
-      m.order = order.get(m.ID);
+      m.order = order.get(m.ID)!;
     }
     for (const l of operation.links) {
-      l.order = order.get(l.ID);
+      l.order = order.get(l.ID)!;
     }
     operation.store();
     steps = steps;
@@ -147,7 +147,7 @@
         if (dfsTime.has(start)) return;
         if (!tasks.has(start)) return;
         dfsTime.set(start, time);
-        for (const t of tasks.get(start)) dfs_run(tasks, t);
+        for (const t of tasks.get(start)!) dfs_run(tasks, t);
         dfsTime.set(start, time);
         time += 1;
       }
@@ -160,11 +160,11 @@
         .sort((a, b) => b[1] - a[1])
         .map((t) => t[0]);
       const revTasks = new Map<TaskID, TaskID[]>(
-        sortedTasks.map((t) => [t, []])
+        sortedTasks.map((t) => [t, []]),
       );
       for (const [t, ts] of tasks) {
         for (const td of ts) {
-          if (revTasks.has(td)) revTasks.get(td).push(t);
+          if (revTasks.has(td)) revTasks.get(td)!.push(t);
         }
       }
 
@@ -192,9 +192,9 @@
       for (const cc of scc.reverse()) {
         let ccTime = 0;
         for (const t of cc) {
-          for (const td of tasks.get(t)) {
+          for (const td of tasks.get(t)!) {
             if (!cc.includes(td)) {
-              const time = startTime.get(td);
+              const time = startTime.get(td)!;
               if (ccTime < time + 1) ccTime = time + 1;
             }
           }
@@ -209,9 +209,9 @@
       for (const cc of scc) {
         let ccTime = maxCcTime + 1;
         for (const t of cc) {
-          for (const td of revTasks.get(t)) {
+          for (const td of revTasks.get(t)!) {
             if (!cc.includes(td)) {
-              const time = startTime.get(td);
+              const time = startTime.get(td)!;
               if (ccTime > time) ccTime = time;
             }
           }
@@ -237,7 +237,7 @@
     if (selectedTask.ID === step.ID) return 'table-warning';
     if (selectedTask.dependsOn.includes(step.ID)) return 'table-success';
     if (step.dependsOn.includes(selectedTask.ID)) return 'table-danger';
-    if (strongComponents.get(selectedTask.ID).includes(step.ID))
+    if (strongComponents.get(selectedTask.ID)!.includes(step.ID))
       return 'table-warning';
     return 'table-dark';
   }

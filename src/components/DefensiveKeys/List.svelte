@@ -15,9 +15,9 @@
   let dKeys: WDKey[] = [];
   $: dKeys = $dKeysStore;
 
-  let me = WasabeeMe.get();
+  let me = WasabeeMe.get() as WasabeeMe;
 
-  let sortBy = 'Name';
+  let sortBy: keyof WDKey = 'Name';
   let sortDesc = false;
 
   let sortedKeys: WDKey[] = [];
@@ -26,15 +26,15 @@
     switch (sortBy) {
       case 'Name':
       case 'CapID':
-        keys.sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
+        keys.sort((a, b) => a[sortBy as ('Name' | 'CapID')].localeCompare(b[sortBy as ('Name' | 'CapID')]));
         break;
       case 'GID':
         keys.sort((a, b) =>
-          getAgentName(a[sortBy]).localeCompare(getAgentName(b[sortBy]))
+          getAgentName(a['GID']).localeCompare(getAgentName(b['GID']))
         );
         break;
       case 'Count':
-        keys.sort((a, b) => a[sortBy] - b[sortBy]);
+        keys.sort((a, b) => a['Count'] - b['Count']);
         break;
       default:
         break;
@@ -43,7 +43,7 @@
     sortedKeys = keys;
   }
 
-  function sort(cat: string) {
+  function sort(cat: keyof WDKey) {
     if (cat) {
       if (cat === sortBy) sortDesc = !sortDesc;
       else {

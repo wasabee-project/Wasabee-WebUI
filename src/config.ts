@@ -1,4 +1,4 @@
-let config: { [key: string]: any } = null;
+let config: { [key: string]: any } = {};
 
 const SERVER_KEY = 'wasabee-server';
 let server: string = localStorage[SERVER_KEY] || 'https://am.wasabee.rocks';
@@ -20,7 +20,7 @@ const servers = [
 ];
 
 try {
-  const ss = JSON.parse(localStorage.getItem(SERVERS_KEY));
+  const ss = JSON.parse(localStorage.getItem(SERVERS_KEY) ?? '{}');
   for (const server of ss) {
     if (!servers.find((s) => s.url === server.url)) servers.push(server);
   }
@@ -54,7 +54,7 @@ export function getServers() {
   return servers;
 }
 
-export function setConfig(c: any) {
+export function setConfig(c: typeof config) {
   config = c;
   config._updateList = new Map();
 }

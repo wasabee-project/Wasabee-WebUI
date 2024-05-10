@@ -29,12 +29,13 @@ export default class Task implements ITask {
   order: number;
   zone: ZoneID;
   assignedTo?: GoogleID;
-  comment?: string;
-  dependsOn?: TaskID[];
-  assignments?: GoogleID[];
+  comment: string;
+  dependsOn: TaskID[];
+  assignments: GoogleID[];
   deltaminutes?: number;
 
-  _state: TaskState;
+  // @ts-ignore _state is set by setter
+  private _state: TaskState;
 
   constructor(obj: any) {
     this.ID = obj.ID || generateId();
@@ -93,7 +94,7 @@ export default class Task implements ITask {
         break;
       case 'pending':
       default:
-        this.assignedTo = null;
+        this.assignedTo = undefined;
         this._state = 'pending';
         break;
     }
@@ -107,7 +108,7 @@ export default class Task implements ITask {
     if (gid !== this.assignedTo) {
       this._state = gid ? 'assigned' : 'pending';
     }
-    this.assignedTo = gid ? gid : null;
+    this.assignedTo = gid ? gid : undefined;
   }
 
   complete() {
@@ -126,11 +127,11 @@ export default class Task implements ITask {
   }
 
   after(taskID: TaskID) {
-    if (!this.dependsOn.find((id) => id === taskID))
-      this.dependsOn.push(taskID);
+    if (!this.dependsOn?.find((id) => id === taskID))
+      this.dependsOn?.push(taskID);
   }
 
   unafter(taskID: TaskID) {
-    this.dependsOn = this.dependsOn.filter((id) => id !== taskID);
+    this.dependsOn = this.dependsOn?.filter((id) => id !== taskID);
   }
 }

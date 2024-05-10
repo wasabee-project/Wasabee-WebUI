@@ -24,7 +24,7 @@
   import type { WasabeeTeam } from '../../model/';
 
   export let teamStore: Writable<WasabeeTeam>;
-  let team: WasabeeTeam = null;
+  let team: WasabeeTeam;
   $: team = $teamStore;
 
   let map: LeafletMap;

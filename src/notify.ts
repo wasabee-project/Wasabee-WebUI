@@ -39,10 +39,11 @@ export function notifyDismiss(uid: number) {
 const updateToastID = new Map<string, number[]>();
 export function registerToast(toast: ToastProps, updateID: string) {
   if (GetUpdateList().has(updateID)) {
-    toast.remove();
+    toast.remove?.();
     return;
   }
   if (!updateToastID.has(updateID)) updateToastID.set(updateID, []);
+  // @ts-ignore updateToastID.get(updateID) might be undefined
   updateToastID.get(updateID).push(toast.uid);
 }
 

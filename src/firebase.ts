@@ -3,7 +3,7 @@ import { initializeApp } from 'firebase/app';
 import {
   getMessaging,
   getToken,
-  MessagePayload,
+  type MessagePayload,
   onMessage,
 } from 'firebase/messaging';
 // import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -44,7 +44,7 @@ const sw = navigator.serviceWorker.register(rootDir + 'sw.js', {
   scope: rootDir,
 });
 
-let firebaseToken: string = null;
+let firebaseToken: string | null = null;
 sw.then((sw) => {
   getToken(messaging, {
     serviceWorkerRegistration: sw,
@@ -268,14 +268,16 @@ async function handleLinkAssignement(
   // todo: update op
   const from = operation.getPortal(link.fromPortalId);
   const to = operation.getPortal(link.toPortalId);
-  const agent = await getAgent(link.assignedTo);
-  if (from && to && agent)
-    registerToast(
-      notifyInfo(
-        `Link from ${from.name} to ${to.name} is assigned to ${agent.name}`
-      ),
-      data.updateID
-    );
+  if (link.assignedTo) {
+    const agent = await getAgent(link.assignedTo);
+    if (from && to && agent)
+      registerToast(
+        notifyInfo(
+          `Link from ${from.name} to ${to.name} is assigned to ${agent.name}`
+        ),
+        data.updateID
+      );
+  }
 }
 
 async function handleLinkStatus(operation: WasabeeOp, data: LinkState) {
@@ -299,14 +301,16 @@ async function handleMarkerAssignement(
   );
   // todo: update op
   const portal = operation.getPortal(marker.portalId);
-  const agent = await getAgent(marker.assignedTo);
-  if (portal && agent)
-    registerToast(
-      notifyInfo(
-        `Marker ${marker.type} on ${portal.name} is assigned ${agent.name}`
-      ),
-      data.updateID
-    );
+  if (marker.assignedTo) {
+    const agent = await getAgent(marker.assignedTo);
+    if (portal && agent)
+      registerToast(
+        notifyInfo(
+          `Marker ${marker.type} on ${portal.name} is assigned ${agent.name}`
+        ),
+        data.updateID
+      );
+  }
 }
 
 async function handleMarkerStatus(operation: WasabeeOp, data: MarkerState) {

@@ -5,6 +5,9 @@ import WasabeeZone from './zone';
 import type WasabeeMe from './me';
 import type Task from './task';
 
+// WebUI Only
+const opCache: { [opId: OpID]: string } = {};
+
 export type KeyOnHand = {
   portalId: PortalID;
   gid: GoogleID;
@@ -69,26 +72,25 @@ export default class WasabeeOp {
 
   static load(opID: OpID) {
     try {
-      const raw = localStorage[opID];
-      if (raw == null)
+      const raw = opCache[opID];
+      if (!raw)
         //throw new Error("invalid operation ID");
-        return null;
+        return undefined;
       const op = new WasabeeOp(JSON.parse(raw));
       if (op == null) throw new Error('corrupted operation');
       return op;
     } catch (e) {
       console.error(e);
     }
-    return null;
   }
 
   static async delete(opID: OpID) {
-    delete localStorage[opID]; // leave for now
+    delete opCache[opID]; // leave for now
   }
 
   // CHANGED from IITC plugin
   store() {
-    localStorage[this.ID] = JSON.stringify(this);
+    opCache[this.ID] = JSON.stringify(this);
   }
 
   toServer() {
@@ -134,7 +136,7 @@ export default class WasabeeOp {
     return Array.from(this._idToOpportals.values());
   }
 
-  set opportals(_: WasabeePortal[]) {}
+  set opportals(_: WasabeePortal[]) { }
 
   buildCoordsLookupTable() {
     this._coordsToOpportals.clear();
@@ -154,9 +156,12 @@ export default class WasabeeOp {
       for (const [id, p] of this._idToOpportals) {
         const key = p.lat + '/' + p.lng;
         const preferredPortal = this._idToOpportals.get(
+          // @ts-ignore
           this._coordsToOpportals.get(key).id
         );
+        // @ts-ignore
         rename.set(id, preferredPortal.id);
+        // @ts-ignore
         if (id != preferredPortal.id) {
           toRemove.push(id);
         }
@@ -253,14 +258,14 @@ export default class WasabeeOp {
     const lats = [];
     const lngs = [];
     for (const a of this.anchors) {
-      const portal = this.getPortal(a);
-      lats.push(portal.lat);
-      lngs.push(portal.lng);
+      const portal = this.getPortal(a) as WasabeePortal;
+      lats.push(+portal.lat);
+      lngs.push(+portal.lng);
     }
     for (const m of this.markers) {
-      const portal = this.getPortal(m.portalId);
-      lats.push(portal.lat);
-      lngs.push(portal.lng);
+      const portal = this.getPortal(m.portalId) as WasabeePortal;
+      lats.push(+portal.lat);
+      lngs.push(+portal.lng);
     }
     if (!lats.length) return null;
     const minlat = Math.min.apply(null, lats);

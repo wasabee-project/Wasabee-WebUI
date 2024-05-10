@@ -21,15 +21,15 @@
 
   let teamsOps: { [teamId: TeamID]: [OpID, string][] };
 
-  let me: WasabeeMe = null;
+  let me: WasabeeMe;
   $: if ($meStore) me = $meStore; // shortcut
 
   $: {
-    const teams = {};
+    const teams: { [teamid: TeamID]: [OpID, string][] } = {};
     for (const id of $opsStore.success) {
       const op = WasabeeOp.load(id);
       if (!op || !op.teamlist) continue;
-      const pair = [op.ID, op.name];
+      const pair = [op.ID, op.name] as [OpID, string];
       for (const opteam of op.teamlist) {
         teams[opteam.teamid] = teams[opteam.teamid] || [];
         if (!teams[opteam.teamid].includes(pair))

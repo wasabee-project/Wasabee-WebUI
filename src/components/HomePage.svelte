@@ -8,7 +8,7 @@
   import { notifyError } from '../notify';
 
   export let disabled: boolean;
-  let connecting: string = null;
+  let connecting: string | null = null;
   let selectAccount = false;
 
   const dispatch = createEventDispatcher();
@@ -23,7 +23,7 @@
     try {
       const me: any = await login(url, selectAccount);
       if (me) dispatch('login', me);
-    } catch (e) {
+    } catch (e: any) {
       console.error('unable to send token to ', url, e.message);
       notifyError(`${e.reason}: ${e.message}`);
       if (e.cause === 'wasabee') {

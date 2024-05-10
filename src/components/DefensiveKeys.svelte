@@ -8,8 +8,9 @@
   import DefensiveKeysMap from './DefensiveKeys/Map.svelte';
 
   import { dKeylistPromise } from '../server';
+    import { Button } from '@sveltestrap/sveltestrap';
 
-  let dKeysStore = writable<WDKey[]>(null);
+  let dKeysStore = writable<WDKey[]>(undefined);
   let dKeys: WDKey[] = [];
 
   $: dKeysStore.set(dKeys);

@@ -22,7 +22,7 @@
   const dispatch = createEventDispatcher();
 
   export let teamStore: Writable<WasabeeTeam>;
-  let team: WasabeeTeam = null;
+  let team: WasabeeTeam;
   $: team = $teamStore;
 
   function refresh(force = true) {
@@ -42,7 +42,7 @@
       },
       (reject) => {
         console.log(reject);
-      }
+      },
     );
   }
   function deleteTeam() {
@@ -52,7 +52,7 @@
       },
       (reject) => {
         console.log(reject);
-      }
+      },
     );
   }
   function generateJoinLink() {
@@ -62,7 +62,7 @@
       },
       (reject) => {
         console.log(reject);
-      }
+      },
     );
   }
   function removeJoinLink() {
@@ -72,7 +72,7 @@
       },
       (reject) => {
         console.log(reject);
-      }
+      },
     );
   }
   function updateRocks() {
@@ -80,7 +80,7 @@
       () => {},
       (reject) => {
         console.log(reject);
-      }
+      },
     );
   }
   function getRocks() {
@@ -90,7 +90,7 @@
       },
       (reject) => {
         console.log(reject);
-      }
+      },
     );
   }
   async function updateV() {
@@ -107,7 +107,7 @@
       },
       (reject) => {
         console.log(reject);
-      }
+      },
     );
   }
   function sendAnnouncement() {
@@ -122,7 +122,7 @@
       (reject) => {
         newOwner = '';
         console.log(reject);
-      }
+      },
     );
   }
 </script>

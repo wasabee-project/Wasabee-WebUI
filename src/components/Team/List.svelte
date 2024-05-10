@@ -4,7 +4,7 @@
   import Agent from '../Agent.svelte';
 
   export let teamStore: Writable<WasabeeTeam>;
-  let team: WasabeeTeam = null;
+  let team: WasabeeTeam;
   $: team = $teamStore;
 
   let checkmark = 'https://cdn2.wasabee.rocks/img/checkmark.png';

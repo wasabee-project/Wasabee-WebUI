@@ -16,16 +16,13 @@
   import PortalLink from './PortalLink.svelte';
 
   import {
-    assignLinkPromise,
-    assignMarkerPromise,
-    setLinkComment,
-    setMarkerComment,
-    setLinkZone,
-    setMarkerZone,
-    setAssignmentStatus,
     reverseLinkDirection,
     updateOpPromise,
     taskCompletePromise,
+    taskAssignPromise,
+    taskDeleteAssignPromise,
+    taskCommentPromise,
+    taskZonePromise,
   } from '../../server';
   import { notifyOnError } from '../../notify';
 
@@ -35,7 +32,7 @@
   }
 
   export let opStore: Writable<WasabeeOp>;
-  let operation: WasabeeOp = null;
+  let operation: WasabeeOp;
   $: operation = $opStore;
 
   let agents: WasabeeAgent[] = [];
@@ -51,7 +48,7 @@
     }
     agents = [];
     for (const a of agentset) {
-      agents.push(WasabeeAgent.get(a));
+      agents.push(WasabeeAgent.get(a)!);
     }
     agents = agents;
   }
@@ -84,11 +81,7 @@
   }
   async function setComment(step: Task) {
     try {
-      if (step instanceof WasabeeLink) {
-        await setLinkComment(operation.ID, step.ID, step.comment);
-      } else {
-        await setMarkerComment(operation.ID, step.ID, step.comment);
-      }
+      await taskCommentPromise(operation.ID, step.ID, step.comment);
       refresh();
     } catch (e) {
       console.log(e);
@@ -96,13 +89,11 @@
   }
   async function setAssign(step: Task) {
     try {
-      if (step instanceof WasabeeLink) {
-        await assignLinkPromise(operation.ID, step.ID, step.assignedTo);
-      } else {
-        await assignMarkerPromise(operation.ID, step.ID, step.assignedTo);
-      }
-      if (step.state === 'pending')
-        await taskCompletePromise(operation.ID, step.ID, false);
+      if (step.assignedTo)
+        await taskAssignPromise(operation.ID, step.ID, [step.assignedTo]);
+      else await taskDeleteAssignPromise(operation.ID, step.ID);
+      // if (step.state === 'pending')
+      //   await taskCompletePromise(operation.ID, step.ID, false);
       refresh();
     } catch (e) {
       console.log(e);
@@ -110,11 +101,7 @@
   }
   async function setZone(step: Task) {
     try {
-      if (step instanceof WasabeeLink) {
-        await setLinkZone(operation.ID, step.ID, step.zone);
-      } else {
-        await setMarkerZone(operation.ID, step.ID, step.zone);
-      }
+      await taskZonePromise(operation.ID, step.ID, step.zone);
       refresh();
     } catch (e) {
       console.log(e);
@@ -129,13 +116,13 @@
     }
   }
   function complete(step: Task) {
-    setAssignmentStatus(operation, step, step.completed).then(
+    taskCompletePromise(operation.ID, step.ID, step.completed).then(
       () => {
         operation.store();
       },
       (reject) => {
         console.log(reject);
-      }
+      },
     );
   }
 

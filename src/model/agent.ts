@@ -9,7 +9,7 @@ interface BaseAgent {
   pic?: string;
   lat: number;
   lng: number;
-  date: string;
+  date?: string;
 }
 
 interface RockAgent extends BaseAgent {
@@ -70,7 +70,7 @@ export default class WasabeeAgent implements Agent {
   pic?: string;
   lat: number;
   lng: number;
-  date: string;
+  date?: string;
 
   // V
   enlid?: string;
@@ -93,7 +93,7 @@ export default class WasabeeAgent implements Agent {
 
   constructor(obj: Agent) {
     if ('shareWD' in obj || 'squad' in obj) {
-      obj = serverAgentToAgent(obj);
+      obj = serverAgentToAgent(obj as ServerAgent);
     }
     // things which are stable across all teams
     this.id = obj.id;
@@ -101,12 +101,12 @@ export default class WasabeeAgent implements Agent {
     this.intelname = obj.intelname !== 'unset' ? obj.intelname : '';
     this.intelfaction = obj.intelfaction;
     this.communityname = obj.communityname || '';
-    this.pic = obj.pic ? obj.pic : null;
+    this.pic = obj.pic ? obj.pic : undefined;
     this.lat = obj.lat ? obj.lat : 0;
     this.lng = obj.lng ? obj.lng : 0;
-    this.date = obj.date ? obj.date : null; // last location sub, not fetched
+    this.date = obj.date ? obj.date : undefined; // last location sub, not fetched
     // V
-    this.enlid = obj.enlid ? obj.enlid : null;
+    this.enlid = obj.enlid ? obj.enlid : undefined;
     this.vname = obj.vname;
     this.Vverified = !!obj.Vverified;
     this.level = obj.level ? Number(obj.level) : 0;
@@ -150,6 +150,5 @@ export default class WasabeeAgent implements Agent {
     if (agentCache.has(gid)) {
       return agentCache.get(gid);
     }
-    return null;
   }
 }

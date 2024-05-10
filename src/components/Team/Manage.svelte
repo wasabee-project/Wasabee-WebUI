@@ -14,10 +14,10 @@
   const dispatch = createEventDispatcher();
 
   export let teamStore: Writable<WasabeeTeam>;
-  let team: WasabeeTeam = null;
+  let team: WasabeeTeam;
   $: team = $teamStore;
 
-  let me = WasabeeMe.get();
+  let me = WasabeeMe.get() as WasabeeMe;
 
   let checkmark = 'https://cdn2.wasabee.rocks/img/checkmark.png';
 
@@ -34,7 +34,7 @@
       },
       (reject) => {
         console.log(reject);
-      }
+      },
     );
   }
   function removeAgent(agent: WasabeeAgent) {

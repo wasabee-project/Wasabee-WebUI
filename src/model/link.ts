@@ -65,6 +65,8 @@ export default class WasabeeLink extends Task {
 
   length(operation: WasabeeOp) {
     const latlngs = this.getLatLngs(operation);
-    return L.latLng(latlngs[0]).distanceTo(latlngs[1]);
+    if (latlngs)
+      return L.latLng(latlngs[0]).distanceTo(latlngs[1]);
+    return NaN;
   }
 }

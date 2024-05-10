@@ -15,13 +15,13 @@
   }
 
   export let opStore: Writable<WasabeeOp>;
-  let operation: WasabeeOp = null;
+  let operation: WasabeeOp;
   $: operation = $opStore;
 
-  const me = WasabeeMe.get();
+  const me = WasabeeMe.get() as WasabeeMe;
 
-  let teamID: TeamID = null;
-  let teamRole: 'read' | 'write' | 'assignonly' = null;
+  let teamID: TeamID;
+  let teamRole: 'read' | 'write' | 'assignonly';
   let teamZone = 0;
 
   $: isOwner = me.id == operation.creator;
@@ -75,7 +75,7 @@
 
     try {
       await notifyOnError(
-        addPermPromise(operation.ID, teamID, teamRole, teamZone)
+        addPermPromise(operation.ID, teamID, teamRole, teamZone),
       );
       refresh();
     } catch (e) {

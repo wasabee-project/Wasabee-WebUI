@@ -17,12 +17,12 @@
   import { notifyOnError } from '../../notify';
 
   export let opStore: Writable<WasabeeOp>;
-  let operation: WasabeeOp = null;
+  let operation: WasabeeOp;
   $: operation = $opStore;
 
   export let assignmentsOnly: boolean = false;
 
-  const me = WasabeeMe.get();
+  const me = WasabeeMe.get() as WasabeeMe;
   $: canWrite = operation ? operation.mayWrite(me) : false;
 
   let agent = me.id;
@@ -53,7 +53,7 @@
     return Math.pow(Math.E, Math.log(a) / 4.0);
   }
 
-  function getAgentName(id: GoogleID) {
+  function getAgentName(id?: GoogleID) {
     if (!id) return '';
     const agent = WasabeeAgent.get(id);
     if (agent) return agent.name;
@@ -73,7 +73,7 @@
     try {
       console.log('setting marker acknowledge');
       await notifyOnError(
-        SetMarkerState(operation.ID, step.ID, 'acknowledged')
+        SetMarkerState(operation.ID, step.ID, 'acknowledged'),
       );
       step.state = 'acknowledged';
       operation.store();

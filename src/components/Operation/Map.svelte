@@ -21,14 +21,14 @@
   } from '../../model';
 
   export let opStore: Writable<WasabeeOp>;
-  let operation: WasabeeOp = null;
+  let operation: WasabeeOp;
   $: operation = $opStore;
 
-  const me = WasabeeMe.get();
+  const me = WasabeeMe.get() as WasabeeMe;
 
   $: zones = {
     polygons: operation.zones.filter(
-      (z) => z.points && z.points.length > 2
+      (z) => z.points && z.points.length > 2,
     ) as WasabeeZone[],
   };
 
@@ -47,7 +47,7 @@
 
   function convertColorToRgb(str: string): [number, number, number] {
     const r = str.match(/#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})/);
-    if (r.length < 4) return [0xbb, 0, 0];
+    if (!r || r.length < 4) return [0xbb, 0, 0];
     return [+('0x' + r[1]), +('0x' + r[2]), +('0x' + r[3])];
   }
 
@@ -120,16 +120,16 @@
       const layer = !marker.assignedTo
         ? unassigned
         : marker.assignedTo === agent
-        ? assignments
-        : others;
+          ? assignments
+          : others;
       layer.markers.push(marker);
     }
     for (const link of operation.links) {
       const layer = !link.assignedTo
         ? unassigned
         : link.assignedTo === agent
-        ? assignments
-        : others;
+          ? assignments
+          : others;
       layer.links.push(link);
       if (!layer.anchors.includes(link.fromPortalId))
         layer.anchors.push(link.fromPortalId);

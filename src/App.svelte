@@ -34,7 +34,7 @@
   import { sendTokenToServer } from './firebase';
   import { meStore, opsStore, teamsStore } from './stores';
 
-  let me: WasabeeMe | null;
+  let me: WasabeeMe | undefined;
 
   let loading = false;
 
@@ -43,7 +43,7 @@
     loading = true;
     loadConfig()
       .then((config) => {
-        setConfig(config);
+        setConfig(config as any);
         loadMeAndOps()
           .then(async () => {
             me = WasabeeMe.get();
@@ -88,7 +88,7 @@
     delete localStorage['sentToServer'];
     //window.location.href = '/';
     meStore.reset();
-    me = null;
+    me = undefined;
   }
 
   let disabled = true;
@@ -122,11 +122,12 @@
     } catch {
       // clear auth on failure
       meStore.reset();
-      me = null;
+      me = undefined;
       setAuthBearer();
       delete localStorage['sentToServer'];
       return;
     }
+    if (!me) return;
     me.store();
 
     if (!($location in routes)) replace('/teams');

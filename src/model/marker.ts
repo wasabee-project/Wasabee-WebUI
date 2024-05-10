@@ -130,10 +130,23 @@ export default class WasabeeMarker extends Task {
     );
   }
 
+  isPhaseStart() {
+    if (!this.isPhaseMarker()) return false;
+    return !!this.attributes?.find(
+      (a) => a.name === 'subtype' && a.value === 'start'
+    );
+  }
+
+  isPhaseEnd() {
+    if (!this.isPhaseMarker()) return false;
+    return !!this.attributes?.find(
+      (a) => a.name === 'subtype' && a.value === 'end'
+    );
+  }
+
   getPairedMarkerID() {
     if (this.isPhaseMarker()) {
-      return this.attributes.find((a) => a.name === 'pair').value;
+      return this.attributes?.find((a) => a.name === 'pair')?.value;
     }
-    return null;
   }
 }

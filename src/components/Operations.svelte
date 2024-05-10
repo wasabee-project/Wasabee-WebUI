@@ -8,10 +8,10 @@
   import { meStore, opsStore } from '../stores';
 
   let toDelete: OpID | null = null;
-  let me: WasabeeMe = null;
+  let me: WasabeeMe;
   $: if ($meStore) me = $meStore; // shortcut
 
-  opsStore.updateFromMe($meStore);
+  if ($meStore) opsStore.updateFromMe($meStore);
 
   type Op = {
     ID: OpID;

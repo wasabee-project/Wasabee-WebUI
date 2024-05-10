@@ -4,7 +4,7 @@ import { WasabeeAgent, WasabeeMe, WasabeeOp, WasabeeTeam } from './model';
 import { opPromise } from './server';
 
 function MeStore() {
-  const { subscribe, set } = writable<WasabeeMe>(null);
+  const { subscribe, set } = writable<WasabeeMe | undefined>(undefined);
   return {
     subscribe,
     set,
@@ -14,7 +14,7 @@ function MeStore() {
       set(me);
       return me;
     },
-    reset: () => set(null),
+    reset: () => set(undefined),
   };
 }
 

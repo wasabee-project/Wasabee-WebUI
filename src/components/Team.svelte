@@ -20,10 +20,10 @@
   let teamid = params.teamid;
   let prefix = '/team/' + teamid;
 
-  let me = WasabeeMe.get();
+  let me = WasabeeMe.get() as WasabeeMe;
 
-  let teamStore = writable<WasabeeTeam>(null);
-  let team: WasabeeTeam = null;
+  let teamStore = writable<WasabeeTeam | undefined>();
+  let team: WasabeeTeam | undefined = undefined;
 
   $: teamStore.set(team);
 

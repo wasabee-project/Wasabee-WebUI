@@ -18,16 +18,16 @@
   }
 
   export let opStore: Writable<WasabeeOp>;
-  let operation: WasabeeOp = null;
+  let operation: WasabeeOp;
   $: operation = $opStore;
 
-  const me = WasabeeMe.get();
+  const me = WasabeeMe.get() as WasabeeMe;
 
   let sortBy = 'name';
   let sortDesc = false;
   let agent = '';
 
-  let agentList = [];
+  let agentList: { id: GoogleID; name: string }[] = [];
 
   $: {
     const map = new Map();
@@ -61,7 +61,7 @@
 
       const k = {
         id: a,
-        name: operation.getPortal(a).name,
+        name: operation.getPortal(a)?.name,
         required: links.length,
         agentRequired: links.filter((l) => l.assignedTo == agent).length,
         onHand: 0,
@@ -72,12 +72,12 @@
     }
 
     for (const p of operation.markers.filter(
-      (m) => m.type == 'GetKeyPortalMarker'
+      (m) => m.type == 'GetKeyPortalMarker',
     )) {
       if (!kmap.has(p.portalId)) {
         const k = {
           id: p.portalId,
-          name: operation.getPortal(p.portalId).name,
+          name: operation.getPortal(p.portalId)?.name,
           required: 0,
           agentRequired: 0,
           onHand: 0,
@@ -139,24 +139,26 @@
       sortDesc = false;
     }
   }
-  async function keyChangeCount(key: KoHItem, target: EventTarget) {
+  async function keyChangeCount(key: KoHItem, target?: EventTarget) {
+    if (!target) return;
     const input = <HTMLInputElement>target;
     try {
       await notifyOnError(
-        opKeyPromise(operation.ID, key.id, +input.value, key.capsule)
+        opKeyPromise(operation.ID, key.id, +input.value, key.capsule),
       );
       refresh();
     } catch (e) {
       console.log(e);
     }
   }
-  async function keyChangeCapsule(key: KoHItem, target: EventTarget) {
+  async function keyChangeCapsule(key: KoHItem, target?: EventTarget) {
+    if (!target) return;
     const input = <HTMLInputElement>target;
     try {
       // delete old entry
       await notifyOnError(opKeyPromise(operation.ID, key.id, 0, key.capsule));
       await notifyOnError(
-        opKeyPromise(operation.ID, key.id, key.iHave, input.value)
+        opKeyPromise(operation.ID, key.id, key.iHave, input.value),
       );
       refresh();
     } catch (e) {
@@ -169,11 +171,13 @@
     return id;
   }
 
-  let selectedKey: string = null;
-  $: keyPortal = operation.getPortal(selectedKey);
+  let selectedKey: string | undefined;
+  $: keyPortal = selectedKey ? operation.getPortal(selectedKey) : undefined;
   let keyTotalRequired: number;
-  let keySummary: { [agentID: GoogleID]: { onHand: number; required: number } };
-  $: {
+  let keySummary: {
+    [agentID: GoogleID]: { onHand: number; required: number };
+  } = {};
+  $: if (selectedKey) {
     const keyRequired = operation.keysRequiredForPortalPerAgent(selectedKey);
     keyTotalRequired = Object.values(keyRequired).reduce((a, b) => a + b, 0);
     const keyOnHand = operation.keysOnHandForPortalPerAgent(selectedKey);
