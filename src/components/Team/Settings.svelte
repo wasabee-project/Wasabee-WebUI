@@ -18,6 +18,12 @@
 
   import type { WasabeeTeam } from '../../model/';
   import { getServer } from '../../config';
+  import {
+    Button,
+    Input,
+    InputGroup,
+    InputGroupText,
+  } from '@sveltestrap/sveltestrap';
 
   const dispatch = createEventDispatcher();
 
@@ -142,14 +148,14 @@
             team.jlt}>Copy this link</a
         >
         to share with agents
-        <button class="btn btn-sm btn-danger" on:click={removeJoinLink}
-          >remove</button
+        <Button color="danger" size="sm" on:click={removeJoinLink}
+          >remove</Button
         >
       </div>
     {:else}
       <div class="card-body">
-        <button class="btn btn-info" on:click={generateJoinLink}
-          >Generate Join Link</button
+        <Button color="info" on:click={generateJoinLink}
+          >Generate Join Link</Button
         >
       </div>
     {/if}
@@ -158,18 +164,18 @@
     <div class="card-header">Admin Functions</div>
     <div class="card-body">
       <div>
-        <label
-          >Rename Team <input
-            on:change={renameTeam}
-            bind:value={teamName}
-          /></label
+        <InputGroup
+          ><InputGroupText>Rename Team</InputGroupText>
+          <Input on:change={renameTeam} bind:value={teamName} /></InputGroup
         >
       </div>
       <div>
         <hr />
-        <label
-          >Delete this team <button on:click={deleteTeam}>Delete</button></label
-        >
+        <InputGroup>
+          <InputGroupText>Delete this team</InputGroupText><Button
+            on:click={deleteTeam}>Delete</Button
+          >
+        </InputGroup>
       </div>
     </div>
   </div>
@@ -178,24 +184,27 @@
     <div class="card-header">enlightened.rocks Integration</div>
     <div class="card-body">
       <div>
-        Rocks Community Identifier:
-        <input
-          type="text"
-          bind:value={team.rc}
-          placeholder="afdviaren.com"
-          on:change={updateRocks}
-        />
-        <span class="dim small">Typically looks like "randomstring.com"</span>
+        <InputGroup>
+          <InputGroupText>Rocks Community Identifier:</InputGroupText>
+          <Input
+            type="text"
+            bind:value={team.rc}
+            placeholder="afdviaren.com"
+            on:change={updateRocks}
+          /></InputGroup
+        >
       </div>
       <div>
-        Rocks Community API Key:
-        <input
-          type="text"
-          bind:value={team.rk}
-          placeholder="VnNfDerpL1nKsppMerZvwaXX"
-          on:change={updateRocks}
-        />
-        <span class="dim small">24 letter string</span>
+        <InputGroup>
+          <InputGroupText>Rocks Community API Key:</InputGroupText>
+          <Input
+            type="text"
+            bind:value={team.rk}
+            placeholder="VnNfDerpL1nKsppMerZvwaXX"
+            on:change={updateRocks}
+          />
+          <span class="dim small">24 letter string</span></InputGroup
+        >
       </div>
       <div class="dim small">
         If you want this team to have its membership populated from an .rocks
@@ -203,81 +212,90 @@
         community's settings and add them here. Do not do this unless you trust
         the enl.rocks community.
       </div>
-      <button on:click={getRocks}>
+      <Button on:click={getRocks}>
         Pull associated enl.rocks community members onto this team
-      </button>
+      </Button>
     </div>
   </div>
   <div class="card mb-2">
     <div class="card-header">V integration</div>
     <div class="card-body">
       <div>
-        V Team ID #:
-        <input
-          type="text"
-          bind:value={team.vt}
-          on:change={updateV}
-          placeholder="1234"
-        />
+        <InputGroup
+          ><InputGroupText>V Team ID #:</InputGroupText>
+          <Input
+            type="text"
+            bind:value={team.vt}
+            on:change={updateV}
+            placeholder="1234"
+          /></InputGroup
+        >
       </div>
       <div>
-        V Team Role:
-        <select id="vrole" bind:value={team.vr} on:change={updateV}>
-          <option value="0">All</option>
-          <option value="1">Planner</option>
-          <option value="2">Operator</option>
-          <option value="3">Linker</option>
-          <option value="4">Keyfarming</option>
-          <option value="5">Cleaner</option>
-          <option value="6">Field Agent</option>
-          <option value="7">Item Sponsor</option>
-          <option value="8">Key Transport</option>
-          <option value="9">Recharging</option>
-          <option value="10">Software Support</option>
-          <option value="11">Anomaly TL</option>
-          <option value="12">Team Lead</option>
-          <option value="13">Other</option>
-          <option value="100">Team-0</option>
-          <option value="101">Team-1</option>
-          <option value="102">Team-2</option>
-          <option value="103">Team-3</option>
-          <option value="104">Team-4</option>
-          <option value="105">Team-5</option>
-          <option value="106">Team-6</option>
-          <option value="107">Team-7</option>
-          <option value="108">Team-8</option>
-          <option value="109">Team-9</option>
-          <option value="110">Team-10</option>
-          <option value="111">Team-11</option>
-          <option value="112">Team-12</option>
-          <option value="113">Team-13</option>
-          <option value="114">Team-14</option>
-          <option value="115">Team-15</option>
-          <option value="116">Team-16</option>
-          <option value="117">Team-17</option>
-          <option value="118">Team-18</option>
-          <option value="119">Team-19</option>
-        </select>
+        <InputGroup>
+          <InputGroupText>V Team Role:</InputGroupText>
+          <Input
+            type="select"
+            id="vrole"
+            bind:value={team.vr}
+            on:change={updateV}
+          >
+            <option value="0">All</option>
+            <option value="1">Planner</option>
+            <option value="2">Operator</option>
+            <option value="3">Linker</option>
+            <option value="4">Keyfarming</option>
+            <option value="5">Cleaner</option>
+            <option value="6">Field Agent</option>
+            <option value="7">Item Sponsor</option>
+            <option value="8">Key Transport</option>
+            <option value="9">Recharging</option>
+            <option value="10">Software Support</option>
+            <option value="11">Anomaly TL</option>
+            <option value="12">Team Lead</option>
+            <option value="13">Other</option>
+            <option value="100">Team-0</option>
+            <option value="101">Team-1</option>
+            <option value="102">Team-2</option>
+            <option value="103">Team-3</option>
+            <option value="104">Team-4</option>
+            <option value="105">Team-5</option>
+            <option value="106">Team-6</option>
+            <option value="107">Team-7</option>
+            <option value="108">Team-8</option>
+            <option value="109">Team-9</option>
+            <option value="110">Team-10</option>
+            <option value="111">Team-11</option>
+            <option value="112">Team-12</option>
+            <option value="113">Team-13</option>
+            <option value="114">Team-14</option>
+            <option value="115">Team-15</option>
+            <option value="116">Team-16</option>
+            <option value="117">Team-17</option>
+            <option value="118">Team-18</option>
+            <option value="119">Team-19</option>
+          </Input>
+        </InputGroup>
       </div>
       <div class="dim small">
         You must set a valid V API token in your settings tab.
       </div>
-      <button on:click={getV}>
+      <Button on:click={getV}>
         Pull associated V team/role members onto this team
-      </button>
+      </Button>
     </div>
   </div>
   <div class="card mb-2">
     <div class="card-header">Send Announcement</div>
     <div class="card-body">
-      <textarea bind:value={announcement} />
-      <button on:click={sendAnnouncement}>Send</button>
+      <Input type="textarea" bind:value={announcement} />
+      <Button on:click={sendAnnouncement}>Send</Button>
     </div>
   </div>
   <div class="card mb-2">
     <div class="card-header">Change Ownership</div>
     <div class="card-body">
-      <input
+      <Input
         type="text"
         placeholder="new owner"
         bind:value={newOwner}

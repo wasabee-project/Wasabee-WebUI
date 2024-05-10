@@ -6,6 +6,7 @@
 
   import { loadMeAndOps } from '../sync';
   import { meStore, opsStore } from '../stores';
+  import { Button } from '@sveltestrap/sveltestrap';
 
   let toDelete: OpID | null = null;
   let me: WasabeeMe;
@@ -53,7 +54,7 @@
 
   function filterTeamsID(teams: OpPermItem[]) {
     return Array.from(
-      new Set(teams.map((t) => t.teamid).filter((id) => teamMap.has(id)))
+      new Set(teams.map((t) => t.teamid).filter((id) => teamMap.has(id))),
     );
   }
   function getTeamName(id: TeamID) {
@@ -78,7 +79,7 @@
     <div class="col">
       <h1>
         Operations
-        <button on:click={refresh} class="btn btn-primary">↻</button>
+        <Button on:click={refresh}>↻</Button>
       </h1>
       <table class="table table-striped">
         <thead class="thead">
@@ -98,7 +99,8 @@
               <td>{op.comment}</td>
               <td>
                 {#each filterTeamsID(op.teamlist) as teamid, i (teamid)}
-                  {#if i > 0}, {/if}
+                  {#if i > 0},
+                  {/if}
                   <a href={'#/team/' + teamid + '/list'}>
                     {getTeamName(teamid)}
                   </a>
@@ -106,16 +108,17 @@
               </td>
               <td>
                 {#if op.own}
-                  <button
+                  <Button
                     on:click={() => deleteOp(op)}
-                    class="btn btn-danger btn-sm"
+                    color="danger"
+                    size="sm"
                   >
                     {#if toDelete === op.ID}
                       <span>Confirm?</span>
                     {:else}
                       <span>Delete</span>
                     {/if}
-                  </button>
+                  </Button>
                 {/if}
               </td>
             </tr>

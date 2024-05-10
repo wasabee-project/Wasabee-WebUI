@@ -8,7 +8,7 @@
   import DefensiveKeysMap from './DefensiveKeys/Map.svelte';
 
   import { dKeylistPromise } from '../server';
-    import { Button } from '@sveltestrap/sveltestrap';
+  import { Button } from '@sveltestrap/sveltestrap';
 
   let dKeysStore = writable<WDKey[]>(undefined);
   let dKeys: WDKey[] = [];
@@ -52,7 +52,7 @@
   <li class="nav-item">
     <a class="nav-link" use:active href="#/defensivekeys/map">Map</a>
   </li>
-  <button class="btn btn-primary" on:click={() => refresh()}>↻</button>
+  <Button on:click={() => refresh()}>↻</Button>
 </ul>
 
 <div class="container">

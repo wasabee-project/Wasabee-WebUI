@@ -13,6 +13,7 @@
     opPromise,
   } from '../../server';
   import { notifyOnError } from '../../notify';
+  import { Button } from '@sveltestrap/sveltestrap';
 
   export let opStore: Writable<WasabeeOp>;
   $: operation = $opStore;
@@ -248,27 +249,15 @@
 <div class="card mb-2">
   <div class="card-header" id="opName">
     {operation.name}
-    <button class="btn btn-primary" on:click={() => (showGraph = !showGraph)}
-      >Toggle diagram</button
-    >
-    <button class="btn btn-primary" on:click={() => resetDepends()}
-      >Reset depends</button
-    >
-    <button class="btn btn-primary" on:click={() => guessDepends()}
-      >Guess from order</button
-    >
-    <button class="btn btn-primary" on:click={() => orderTaskBy(order)}
-      >Order strict</button
-    >
-    <button class="btn btn-primary" on:click={() => orderTaskBy(graphStartTime)}
-      >Order by start</button
-    >
-    <button class="btn btn-primary" on:click={() => orderTaskBy(graphEndTime)}
-      >Order by end</button
-    >
-    <button class="btn btn-primary" on:click={() => uploadOrderAnDepends()}
-      >Upload order</button
-    >
+  </div>
+  <div class="card-body">
+    <Button on:click={() => (showGraph = !showGraph)}>Toggle diagram</Button>
+    <Button on:click={() => resetDepends()}>Reset depends</Button>
+    <Button on:click={() => guessDepends()}>Guess from order</Button>
+    <Button on:click={() => orderTaskBy(order)}>Order strict</Button>
+    <Button on:click={() => orderTaskBy(graphStartTime)}>Order by start</Button>
+    <Button on:click={() => orderTaskBy(graphEndTime)}>Order by end</Button>
+    <Button on:click={() => uploadOrderAnDepends()}>Upload order</Button>
   </div>
 </div>
 
@@ -330,10 +319,8 @@
           {#each steps as step (step.ID)}
             <tr
               class:table-warning={selectedTask &&
-                strongComponents.has(selectedTask.ID) &&
-                strongComponents.get(selectedTask.ID).includes(step.ID)}
-              class:table-success={selectedTask &&
-                selectedTask.dependsOn.includes(step.ID)}
+                strongComponents?.get(selectedTask.ID)?.includes(step.ID)}
+              class:table-success={selectedTask?.dependsOn.includes(step.ID)}
               class:table-danger={selectedTask &&
                 step.dependsOn.includes(selectedTask.ID)}
               on:click={() => toggleDepend(step.ID)}
@@ -398,7 +385,9 @@
     margin-bottom: 0.4em;
     padding-top: 0;
     padding-bottom: 0;
-    transition: width 0.5s, margin-left 0.5s;
+    transition:
+      width 0.5s,
+      margin-left 0.5s;
   }
 
   .steps,

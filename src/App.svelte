@@ -11,7 +11,9 @@
     NavItem,
     NavLink,
     Input,
-  } from 'sveltestrap';
+    Styles,
+    NavbarBrand,
+  } from '@sveltestrap/sveltestrap';
 
   import Help from './components/Help.svelte';
   import HomePage from './components/HomePage.svelte';
@@ -145,7 +147,9 @@
     src="https://accounts.google.com/gsi/client"
     async
     defer
-    on:load={loadAuth2}></script>
+    on:load={loadAuth2}
+  ></script>
+  <Styles theme="auto" />
 </svelte:head>
 
 {#if !$meStore}
@@ -166,20 +170,22 @@
           <NavItem
             ><NavLink href="#/" on:click={logout}>Log out</NavLink></NavItem
           >
+          <NavItem>
+            <Input
+              type="select"
+              name="select"
+              value={getServer()}
+              on:change={serverChangeEvent}
+            >
+              {#each getServers() as server}
+                <option value={server.url}>
+                  {server.name}
+                </option>
+              {/each}
+            </Input>
+          </NavItem>
         </Nav>
       </Collapse>
-      <Input
-        type="select"
-        name="select"
-        value={getServer()}
-        on:change={serverChangeEvent}
-      >
-        {#each getServers() as server}
-          <option value={server.url}>
-            {server.name}
-          </option>
-        {/each}
-      </Input>
     </Navbar>
   </header>
   <main in:fade={{ duration: 500 }}>

@@ -29,7 +29,7 @@ function userscriptAsset() {
           {
             stdio: ['ignore', out, 'inherit'],
             shell: true,
-          }
+          },
         );
       });
     },

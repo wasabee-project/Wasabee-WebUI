@@ -15,6 +15,12 @@
   import type { MeTeam, WasabeeMe } from '../model/me';
 
   import { agentsStore, meStore, opsStore } from '../stores';
+  import {
+    Button,
+    Input,
+    InputGroup,
+    InputGroupText,
+  } from '@sveltestrap/sveltestrap';
 
   let newTeamName: string = '';
   let toDelete: TeamID | null = null;
@@ -114,7 +120,7 @@
 <div class="container">
   <div class="row">
     <h1>
-      Teams <button class="btn btn-primary" on:click={refresh}>↻</button>
+      Teams <Button on:click={refresh}>↻</Button>
     </h1>
     <table class="table table-striped">
       <thead class="thead">
@@ -150,21 +156,21 @@
                   : team.Owner}
               </td>
               <td>
-                <input
+                <Input
                   type="checkbox"
                   bind:checked={team.State}
                   on:change={() => setTeamState(team)}
                 />
               </td>
               <td>
-                <input
+                <Input
                   type="checkbox"
                   bind:checked={team.ShareWD}
                   on:change={() => setTeamShareWD(team)}
                 />
               </td>
               <td>
-                <input
+                <Input
                   type="checkbox"
                   bind:checked={team.LoadWD}
                   on:change={() => setTeamLoadWD(team)}
@@ -173,7 +179,8 @@
               <td>
                 {#if teamsOps[team.ID]}
                   {#each teamsOps[team.ID] as [opID, opName], i (opID)}
-                    {#if i > 0}, {/if}
+                    {#if i > 0},
+                    {/if}
                     <a href={'#/operation/' + opID + '/list'}>
                       {opName}
                     </a>
@@ -182,21 +189,23 @@
               </td>
               <td>
                 {#if isOwner(team)}
-                  <button
+                  <Button
                     on:click={() => deleteTeam(team)}
-                    class="btn btn-danger btn-sm"
+                    color="danger"
+                    size="sm"
                   >
                     {#if toDelete === team.ID}<span>Confirm?</span>
                     {:else}<span>Delete</span>{/if}
-                  </button>
+                  </Button>
                 {:else}
-                  <button
+                  <Button
                     on:click={() => leaveTeam(team)}
-                    class="btn btn-warning btn-sm"
+                    color="warning"
+                    size="sm"
                   >
                     {#if toDelete === team.ID}<span>Confirm?</span>
                     {:else}<span>Leave</span>{/if}
-                  </button>
+                  </Button>
                 {/if}
               </td>
             </tr>
@@ -205,21 +214,17 @@
       </tbody>
     </table>
     <div class="col">
-      <label
-        >New Team:
-        <input
-          type="text"
-          placeholder="New Team"
-          bind:value={newTeamName}
-        /></label
-      >
-      <button class="btn btn-info" on:click={createTeam}>New Team</button>
+      <InputGroup>
+        <InputGroupText>New Team:</InputGroupText>
+        <Input type="text" placeholder="New Team" bind:value={newTeamName} />
+        <Button color="info" on:click={createTeam}>New Team</Button>
+      </InputGroup>
     </div>
   </div>
 </div>
 
 <style>
-  #teams button {
+  /* #teams button {
     width: 100%;
-  }
+  } */
 </style>

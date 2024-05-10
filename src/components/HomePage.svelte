@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte';
 
   import { login } from '../auth';
-  import { Nav, NavLink } from 'sveltestrap';
+  import { Button, Nav, NavLink } from '@sveltestrap/sveltestrap';
   import { getServers } from '../config';
   import { FlatToast, ToastContainer } from 'svelte-toasts';
   import { notifyError } from '../notify';
@@ -50,7 +50,7 @@
   </Nav>
 </header>
 
-<main role="main" class="cover-container text-center mx-auto">
+<main class="cover-container text-center mx-auto">
   <ToastContainer let:data>
     <FlatToast {data} />
   </ToastContainer>
@@ -70,17 +70,17 @@
   </p>
   <div class="lead serverlist">
     {#each servers as server}
-      <button
+      <Button
+        block={true}
+        color={disabledServer[server.url] ? 'danger' : 'success'}
         on:click={() => loginTo(server.url)}
-        class={'btn btn-block ' +
-          (disabledServer[server.url] ? 'btn-danger' : 'btn-success')}
       >
         Login to {server.name}{#if connecting == server.url}<span
             class="spinner-border spinner-border-sm"
             role="status"
             aria-hidden="true"
           />{/if}
-      </button>
+      </Button>
     {/each}
   </div>
   <label class="form-check-inline"

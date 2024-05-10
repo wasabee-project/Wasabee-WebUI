@@ -19,6 +19,12 @@
     WasabeeOp,
     WasabeeZone,
   } from '../../model';
+  import {
+    Button,
+    Input,
+    InputGroup,
+    InputGroupText,
+  } from '@sveltestrap/sveltestrap';
 
   export let opStore: Writable<WasabeeOp>;
   let operation: WasabeeOp;
@@ -173,16 +179,16 @@
 </script>
 
 <h1 id="opName">{operation.name}</h1>
-<label>
-  Agent:
-  <select bind:value={agent}>
+<InputGroup>
+  <InputGroupText>Agent</InputGroupText>
+  <Input type="select" bind:value={agent}>
     {#each agentList as a (a.id)}
       <option value={a.id}>
         {a.name}
       </option>
     {/each}
-  </select>
-</label>
+  </Input>
+</InputGroup>
 <div id="map">
   <LeafletMap options={{ zoom: 3, center: [0, 0] }} bind:this={map}>
     <TileLayer url={tileUrl} options={tileLayerOptions} />
@@ -208,16 +214,17 @@
             {#if marker.assignedTo}<div>
                 {getAgentName(marker.assignedTo)}
               </div>{/if}
-            <button
+            <Button
               target="_blank"
-              class="btn btn-outline-primary btn-sm"
+              outline
+              size="sm"
               href={'https://www.google.com/maps/search/?api=1&query=' +
                 operation.getPortal(marker.portalId).latLng.lat +
                 ',' +
                 operation.getPortal(marker.portalId).latLng.lng}
             >
               Google Map
-            </button>
+            </Button>
           </Popup>
         </Marker>
       {/each}
@@ -238,7 +245,7 @@
               '<svg width="100%" height="100%" style="fill: {color}"><use href="/img/pin_custom.svg#wasabee-anchor-icon"/></svg>',
               {
                 color: anchorColors.get(anchor) || 'black',
-              }
+              },
             ),
             iconSize: [25, 41],
             iconAnchor: [12, 40],
@@ -255,16 +262,17 @@
             {#if operation.getPortal(anchor).hardness}<div>
                 {operation.getPortal(anchor).hardness}
               </div>{/if}
-            <button
+            <Button
               target="_blank"
-              class="btn btn-outline-primary btn-sm"
+              outline
+              size="sm"
               href={'https://www.google.com/maps/search/?api=1&query=' +
                 operation.getPortal(anchor).latLng.lat +
                 ',' +
                 operation.getPortal(anchor).latLng.lng}
             >
               Google Map
-            </button>
+            </Button>
           </Popup>
         </Marker>
       {/each}

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Button, Input, InputGroup } from '@sveltestrap/sveltestrap';
   import { getConfig } from '../config';
   import type { WasabeeMe } from '../model';
   import { notifyOnError } from '../notify';
@@ -32,10 +33,8 @@
         <a href="https://v.enl.one/" target="_new">V Status</a>:
         <span id="vstatus">
           {#if me.Vverified}
-            <a
-              v-if="me.Vverified"
-              href={'https://v.enl.one/profile/' + me.enlid}
-              target="_new">verified</a
+            <a href={'https://v.enl.one/profile/' + me.enlid} target="_new"
+              >verified</a
             >
           {:else}
             unverified
@@ -159,12 +158,12 @@
     <div class="card-header">V API token</div>
     <div class="card-body">
       <div id="vapidiv">
-        <input
+        <Input
           type="text"
           id="vapi"
           placeholder="0123456789abcdef0123456789abcdef0123456789"
           bind:value={me.vapi}
-          on:change={() => setVAPIkey(me.vapi)}
+          on:change={() => setVAPIkey(me.vapi || '')}
         />
       </div>
       <div class="small dim">
@@ -176,18 +175,17 @@
     <div class="card-header">V team import</div>
     <div class="card-body">
       <div id="vapidiv">
-        <select name="vimportmode" bind:value={vimportmode}>
-          <option value="team">Create one Wasabee team per V team</option>
-          <option value="role">
-            Create one Wasabee team per V team/role pair
-          </option>
-        </select>
-        <input
-          type="button"
-          id="vimport"
-          value="V team import"
-          on:click={vimport}
-        />
+        <InputGroup>
+          <Input type="select" name="vimportmode" bind:value={vimportmode}>
+            <option value="team">Create one Wasabee team per V team</option>
+            <option value="role">
+              Create one Wasabee team per V team/role pair
+            </option>
+          </Input>
+          <Button id="vimport" value="V team import" on:click={vimport}
+            >V team import</Button
+          ></InputGroup
+        >
       </div>
       <div class="small dim">
         This can potentially create a large number of Wasabee teams at once.
@@ -198,14 +196,6 @@
 </div>
 
 <style>
-  input.unverified {
-    box-shadow: 0 0 1px 3px red;
-  }
-
-  textarea {
-    width: 100%;
-  }
-
   #ott {
     font-size: 100%;
   }

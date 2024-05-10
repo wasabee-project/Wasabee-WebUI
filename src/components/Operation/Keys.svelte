@@ -11,6 +11,12 @@
   import { WasabeeAgent, WasabeeMe, WasabeeTeam } from '../../model';
   import { opKeyPromise } from '../../server';
   import { notifyOnError } from '../../notify';
+  import {
+    Button,
+    Input,
+    InputGroup,
+    InputGroupText,
+  } from '@sveltestrap/sveltestrap';
 
   const dispatch = createEventDispatcher();
   function refresh() {
@@ -222,16 +228,18 @@
         <tr>
           <th on:click={() => sort('name')}>Portal</th>
           <th on:click={() => sort('required')}>Required</th>
-          <th>
+          <th on:click={() => sort('agentRequired')}>
             <!-- svelte-ignore a11y-label-has-associated-control -->
-            <label on:click={() => sort('agentRequired')}>For</label>
-            <select bind:value={agent}>
-              {#each agentList as a (a.id)}
-                <option value={a.id}>
-                  {a.name}
-                </option>
-              {/each}
-            </select>
+            <InputGroup>
+              <InputGroupText>For</InputGroupText>
+              <Input type="select" bind:value={agent}>
+                {#each agentList as a (a.id)}
+                  <option value={a.id}>
+                    {a.name}
+                  </option>
+                {/each}
+              </Input>
+            </InputGroup>
           </th>
           <th on:click={() => sort('onHand')}>Total</th>
           <th on:click={() => sort('iHave')}>Agent Count</th>
@@ -250,8 +258,8 @@
             <td>{key.agentRequired}</td>
             <td>{key.onHand}</td>
             <td>
-              <input
-                size="3"
+              <Input
+                size={3}
                 on:change={(e) => keyChangeCount(key, e.target)}
                 value={key.iHave}
                 type="number"
@@ -259,8 +267,8 @@
               />
             </td>
             <td>
-              <input
-                size="10"
+              <Input
+                size={10}
                 on:change={(e) => keyChangeCapsule(key, e.target)}
                 value={key.capsule}
                 disabled={agent != me.id}
@@ -316,9 +324,7 @@
               </tr>
             {/if}
           </table>
-          <button class="btn btn-primary" on:click={() => (selectedKey = null)}
-            >Close</button
-          >
+          <Button on:click={() => (selectedKey = undefined)}>Close</Button>
         </div>
       </div>
     </div>

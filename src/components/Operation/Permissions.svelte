@@ -8,6 +8,12 @@
   import WasabeeMe from '../../model/me';
   import { addPermPromise, delPermPromise } from '../../server';
   import { notifyOnError } from '../../notify';
+  import {
+    Button,
+    Input,
+    InputGroup,
+    InputGroupText,
+  } from '@sveltestrap/sveltestrap';
 
   const dispatch = createEventDispatcher();
   function refresh() {
@@ -104,9 +110,8 @@
         <td>{t.zoneName}</td>
         {#if isOwner}
           <td>
-            <button
-              class="btn btn-secondary btn-sm"
-              on:click={() => removePerm(t)}>Remove</button
+            <Button color="secondary" size="sm" on:click={() => removePerm(t)}
+              >Remove</Button
             >
           </td>
         {/if}
@@ -116,31 +121,31 @@
 </table>
 {#if isOwner}
   <div>
-    <label>
-      Add Team:
-      <select bind:value={teamID}>
+    <InputGroup>
+      <InputGroupText>Add Team:</InputGroupText>
+      <Input type="select" bind:value={teamID}>
         <option disabled>Team name:</option>
         {#each me.Teams as t (t.ID)}
           <option value={t.ID}>
             {t.Name}
           </option>
         {/each}
-      </select>
-      <select bind:value={teamRole}>
+      </Input>
+      <Input type="select" bind:value={teamRole}>
         <option disabled>Role:</option>
         <option value="read">Read</option>
         <option value="write">Write</option>
         <option value="assignedonly">Assigned only</option>
-      </select>
-      <select bind:value={teamZone}>
+      </Input>
+      <Input type="select" bind:value={teamZone}>
         <option value="0">All zones</option>
         {#each operation.zones as z (z.id)}
           <option value={z.id}>
             {z.name}
           </option>
         {/each}
-      </select>
-    </label>
-    <button class="btn btn-info" on:click={addPerm}>Add</button>
+      </Input>
+      <Button color="info" on:click={addPerm}>Add</Button>
+    </InputGroup>
   </div>
 {/if}

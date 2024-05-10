@@ -17,6 +17,7 @@
   import WasabeeOp from '../model/operation';
 
   import { opPromise } from '../server';
+  import { Button } from '@sveltestrap/sveltestrap';
 
   export let params: any = {};
   let opid = params.opid;
@@ -150,7 +151,7 @@
       >Permissions</a
     >
   </li>
-  <button class="btn btn-primary" on:click={() => refresh()}>↻</button>
+  <Button on:click={() => refresh()}>↻</Button>
 </ul>
 
 <div class="container-fluid">

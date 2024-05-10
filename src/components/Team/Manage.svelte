@@ -10,6 +10,12 @@
     removeAgentFromTeamPromise,
     setAgentTeamCommentPromise,
   } from '../../server';
+  import {
+    Button,
+    Input,
+    InputGroup,
+    InputGroupText,
+  } from '@sveltestrap/sveltestrap';
 
   const dispatch = createEventDispatcher();
 
@@ -44,30 +50,30 @@
       },
       (reject) => {
         console.log(reject);
-      }
+      },
     );
   }
   function agentSquadChange(agent: WasabeeAgent) {
-    setAgentTeamCommentPromise(agent.id, team.id, agent.comment).then(
+    setAgentTeamCommentPromise(agent.id, team.id, agent.comment || '').then(
       () => {},
       (reject) => {
         console.log(reject);
-      }
+      },
     );
   }
 </script>
 
 {#if team}
   <h1 id="teamName">{team.name}</h1>
-  <label
-    >Add Agent:
-    <input
+  <InputGroup
+    ><InputGroupText>Add Agent:</InputGroupText>
+    <Input
       type="text"
       placeholder="GoogleID or Agent Name"
       bind:value={agentName}
     />
-  </label>
-  <button on:click={addAgent}>Add</button>
+    <Button on:click={addAgent}>Add</Button>
+  </InputGroup>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -102,19 +108,20 @@
             {/if}
           </td>
           <td>
-            <input
+            <Input
               bind:value={agent.comment}
               on:change={() => agentSquadChange(agent)}
             />
           </td>
           <td>
             {#if agent.id != me.id}
-              <button
+              <Button
+                color="danger"
+                size="sm"
                 on:click={() => removeAgent(agent)}
-                class="btn btn-danger btn-sm"
               >
                 Remove
-              </button>
+              </Button>
             {/if}
           </td>
         </tr>

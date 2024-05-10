@@ -15,6 +15,15 @@
 
   import { SetMarkerState, setAssignmentStatus } from '../../server';
   import { notifyOnError } from '../../notify';
+  import {
+    Button,
+    FormCheck,
+    FormGroup,
+    Input,
+    InputGroup,
+    InputGroupText,
+    Label,
+  } from '@sveltestrap/sveltestrap';
 
   export let opStore: Writable<WasabeeOp>;
   let operation: WasabeeOp;
@@ -124,16 +133,16 @@
       <!-- <li class="list-group-item"><a :href="'/api/v1/draw/' + operation.ID + '/stock'">Stock Intel Link</a></li> -->
       {#if assignmentsOnly}
         <li class="list-group-item">
-          <label
-            >Agent:
-            <select bind:value={agent}>
+          <InputGroup
+            ><InputGroupText>Agent</InputGroupText>
+            <Input type="select" bind:value={agent}>
               {#each agentList as a (a.id)}
                 <option value={a.id}>
                   {a.name}
                 </option>
               {/each}
-            </select>
-          </label>
+            </Input>
+          </InputGroup>
         </li>
       {/if}
     </ul>
@@ -180,18 +189,15 @@
         <td>
           {getAgentName(step.assignedTo)}
           {#if needAck(step)}
-            <button
-              on:click={() => ackMarker(step)}
-              class="btn btn-warning btn-sm"
-            >
+            <Button on:click={() => ackMarker(step)} color="warning" size="sm">
               ack
-            </button>
+            </Button>
           {/if}
         </td>
         <td>{step.comment}</td>
         <td>{getZoneName(step.zone)}</td>
         <td class="text-center">
-          <input
+          <Input
             type="checkbox"
             bind:checked={step.completed}
             disabled={!canWrite && step.assignedTo != me.id}

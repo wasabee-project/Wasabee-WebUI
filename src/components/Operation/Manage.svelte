@@ -2,7 +2,7 @@
   import type { Writable } from 'svelte/store';
   import { createEventDispatcher } from 'svelte';
   import { flip } from 'svelte/animate';
-  import { dndzone, Item } from 'svelte-dnd-action';
+  import { dndzone, type Item } from 'svelte-dnd-action';
 
   import type { WasabeeOp } from '../../model';
   import {
@@ -25,6 +25,7 @@
     taskZonePromise,
   } from '../../server';
   import { notifyOnError } from '../../notify';
+  import { Button, FormCheck, Input } from '@sveltestrap/sveltestrap';
 
   const dispatch = createEventDispatcher();
   function refresh() {
@@ -183,26 +184,18 @@
   <div class="card-header" id="opName">{operation.name}</div>
   <div class="card-body">
     <ul class="list-group list-group-flush">
-      <textarea bind:value={operation.comment} class="form-control" />
+      <Input type="textarea" bind:value={operation.comment} />
     </ul>
-    <button on:click={incrOrder} class="btn btn-success">Order +1</button>
-    <button on:click={decrOrder} class="btn btn-danger">Order -1</button>
+    <Button on:click={incrOrder} class="btn btn-success">Order +1</Button>
+    <Button on:click={decrOrder} class="btn btn-danger">Order -1</Button>
   </div>
 </div>
 
 <table class="table table-striped" id="optable">
   <thead>
     <tr>
-      <th class="pl-0 pr-0" scope="col"
-        ><div class="custom-control custom-switch">
-          <input
-            type="checkbox"
-            class="custom-control-input"
-            bind:checked={toggleDrag}
-            id="enableDrag"
-          />
-          <label class="custom-control-label" for="enableDrag" />
-        </div></th
+      <th class="pl-0 pr-0" scope="col">
+        <Input type="switch" bind:checked={toggleDrag} id="enableDrag" /></th
       >
       <th scope="col">Order</th>
       <th scope="col">Portal</th>
@@ -245,13 +238,18 @@
             <PortalLink portalId={step.task.fromPortalId} {operation} />
           </td>
           <td>
-            <img
+            <Button
               on:click={() => reverseLink(step.task)}
-              src="https://cdn2.wasabee.rocks/img/swap.svg"
-              height="16"
-              alt="swap"
-              class="dark-filter-invert"
-            />
+              size="sm"
+              color="light"
+            >
+              <img
+                src="https://cdn2.wasabee.rocks/img/swap.svg"
+                height="16"
+                alt="swap"
+                class="dark-filter-invert"
+              />
+            </Button>
           </td>
           <td>
             <PortalLink portalId={step.task.toPortalId} {operation} />
@@ -261,7 +259,8 @@
           </td>
         {/if}
         <td>
-          <select
+          <Input
+            type="select"
             bind:value={step.task.zone}
             on:change={() => setZone(step.task)}
           >
@@ -271,29 +270,30 @@
                 {z.name}
               </option>
             {/each}
-          </select>
+          </Input>
         </td>
         <td>
-          <select
+          <Input
+            type="select"
             bind:value={step.task.assignedTo}
             on:change={() => setAssign(step.task)}
           >
             <option value="">Unassigned</option>
             {#each agents as a (a.id)}
-              <option value={a.id}>
+              <option value={a.id} selected={a.id === step.task.assignedTo}>
                 {a.name}
               </option>
             {/each}
-          </select>
+          </Input>
         </td>
         <td>
-          <input
+          <Input
             bind:value={step.task.comment}
             on:change={() => setComment(step.task)}
           />
         </td>
         <td class="text-center">
-          <input
+          <Input
             type="checkbox"
             bind:checked={step.task.completed}
             on:change={() => complete(step.task)}

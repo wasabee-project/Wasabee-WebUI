@@ -5,6 +5,7 @@
   import { WasabeeAgent, WasabeeMe } from '../../model';
 
   import { dKeyPromise } from '../../server';
+  import { Input } from '@sveltestrap/sveltestrap';
 
   const dispatch = createEventDispatcher();
   function refresh() {
@@ -26,11 +27,15 @@
     switch (sortBy) {
       case 'Name':
       case 'CapID':
-        keys.sort((a, b) => a[sortBy as ('Name' | 'CapID')].localeCompare(b[sortBy as ('Name' | 'CapID')]));
+        keys.sort((a, b) =>
+          a[sortBy as 'Name' | 'CapID'].localeCompare(
+            b[sortBy as 'Name' | 'CapID'],
+          ),
+        );
         break;
       case 'GID':
         keys.sort((a, b) =>
-          getAgentName(a['GID']).localeCompare(getAgentName(b['GID']))
+          getAgentName(a['GID']).localeCompare(getAgentName(b['GID'])),
         );
         break;
       case 'Count':
@@ -85,8 +90,8 @@
           <td>{key.Name}</td>
           <td>{getAgentName(key.GID)}</td>
           <td>
-            <input
-              size="3"
+            <Input
+              size={3}
               type="number"
               on:change={() => keyChange(key)}
               bind:value={key.Count}
@@ -94,8 +99,8 @@
             />
           </td>
           <td>
-            <input
-              size="10"
+            <Input
+              size={10}
               on:change={() => keyChange(key)}
               bind:value={key.CapID}
               disabled={key.GID != me.id}
