@@ -212,7 +212,7 @@
       <a href="/privacy">Privacy Policy</a> for more information.
     </p>
     <p class="text-muted text-right small">
-      Copyright &copy; The Wasabee Team 2021. All Rights Reserved
+      Copyright &copy; The Wasabee Team 2025. All Rights Reserved
     </p>
     <p class="text-muted text-right small">Build date: __buildDate__</p>
   </div>
