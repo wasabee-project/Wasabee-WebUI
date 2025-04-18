@@ -72,7 +72,7 @@ export default class WasabeeAgent implements Agent {
   lng: number;
   date?: string;
 
-  // V
+  // V: deprecated
   enlid?: string;
   vname?: string;
   Vverified: boolean;
@@ -105,7 +105,7 @@ export default class WasabeeAgent implements Agent {
     this.lat = obj.lat ? obj.lat : 0;
     this.lng = obj.lng ? obj.lng : 0;
     this.date = obj.date ? obj.date : undefined; // last location sub, not fetched
-    // V
+    // V: deprecated
     this.enlid = obj.enlid ? obj.enlid : undefined;
     this.vname = obj.vname;
     this.Vverified = !!obj.Vverified;

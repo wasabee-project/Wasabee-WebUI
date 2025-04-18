@@ -36,7 +36,7 @@ export default class WasabeeTeam implements Team {
   // Rocks
   rc: string;
   rk: string;
-  // V
+  // V: deprecated
   vt: string;
   vr: string;
 

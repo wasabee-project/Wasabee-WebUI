@@ -86,16 +86,6 @@ export function mePromise() {
   return genericGet<WasabeeMe>('/api/v1/me');
 }
 
-export function getCommJWT(name: string) {
-  return genericGet<IServerStatus & { jwt: string }>(
-    `/api/v1/me/commproof?name=${name}`
-  );
-}
-
-export function getCommVerify(name: string) {
-  return genericGet<IServerStatus>(`/api/v1/me/commverify?name=${name}`);
-}
-
 // returns a promise to a list of defensive keys for all enabled teams
 export function dKeylistPromise() {
   return genericGet<{
@@ -190,38 +180,6 @@ export function sendAnnounce(teamID: TeamID, message: string) {
 
 export function pullRocks(teamID: TeamID) {
   return genericGet(`/api/v1/team/${teamID}/rocks`);
-}
-
-export function setVAPIkey(v: string) {
-  const fd = new FormData();
-  fd.append('v', v);
-  return genericPost('/api/v1/me/VAPIkey', fd);
-}
-
-export function pullV(teamID: TeamID) {
-  return genericGet(`/api/v1/team/${teamID}/v`);
-}
-
-export function configV(
-  teamID: TeamID,
-  vteam: string | number,
-  role: string | number
-) {
-  vteam = Number(vteam);
-  role = Number(role);
-  if (role < 0 || role > 200) {
-    role = 0;
-  }
-  console.log(teamID, vteam, role);
-
-  const fd = new FormData();
-  fd.append('vteam', `${vteam}`);
-  fd.append('role', `${role}`);
-  return genericPost(`/api/v1/team/${teamID}/v`, fd);
-}
-
-export function importVteams(mode: string) {
-  return genericGet(`/api/v1/team/vbulkimport?mode=${mode}`);
 }
 
 // local change: none // cache: none

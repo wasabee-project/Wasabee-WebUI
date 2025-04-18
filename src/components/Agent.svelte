@@ -34,16 +34,6 @@
           <span class="agent-name">{agent.communityname}</span>
         </div>
       {/if}
-      {#if agent.vname}
-        <div>
-          <span class="font-weight-bolder">V Name:</span>
-          <a
-            target="_new"
-            href={'https://v.enl.one/profile/' + agent.enlid}
-            class="agent-name">{agent.vname} {agent.Vverified ? '✅' : '❌'}</a
-          >
-        </div>
-      {/if}
       {#if agent.rocksname}
         <div>
           <span class="font-weight-bolder">Rocks Name:</span>

@@ -208,7 +208,6 @@
         >only</strong
       >
       with members of your teams. Your ENL information is verified with
-      <a href="https://v.enl.one/">V</a> and
       <a href="https://enl.rocks">.rocks</a>. Please see the
       <a href="/privacy">Privacy Policy</a> for more information.
     </p>
