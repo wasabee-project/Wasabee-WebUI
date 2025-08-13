@@ -12,7 +12,12 @@
   const leave = () => (hovering = false);
 </script>
 
-<div class="relative" on:mouseenter={enter} on:mouseleave={leave}>
+<div
+  class="relative"
+  on:mouseenter={enter}
+  on:mouseleave={leave}
+  role="tooltip"
+>
   {agent.name}
 
   {#if hovering}
@@ -23,6 +28,16 @@
       <h3 class="font-weight-bolder">
         {agent.name}
       </h3>
+
+      {#if agent.isSmurf()}
+        <h4>⚠️ SMURF ⚠️</h4>
+        <p>Reported from :</p>
+        <ul class='list-group'>
+          {#if agent.smurf}<li class='list-group-item'>Rocks</li>{/if}
+          {#if agent.blacklisted}<li class='list-group-item'>V</li>{/if}
+          {#if agent.intelfaction == 'RESISTANCE'}<li class='list-group-item'>Intel</li>{/if}
+        </ul>
+      {/if}
 
       <div>
         <span class="font-weight-bolder">Wasabee Name:</span>

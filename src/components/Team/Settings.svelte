@@ -10,8 +10,6 @@
     deleteJoinLinkPromise,
     rocksPromise,
     pullRocks,
-    configV,
-    pullV,
     sendAnnounce,
     changeTeamOwnerPromise,
   } from '../../server';

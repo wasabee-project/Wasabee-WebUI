@@ -27,21 +27,25 @@
     </thead>
     <tbody id="teamTable">
       {#each agents as agent (agent.id)}
-        <tr>
+        <tr class:table-danger={agent.isSmurf()}>
           <td><img src={agent.pic} height="50" width="50" alt="agent pic" /></td
           >
           <td><Agent {agent} /></td>
-          <td>
-            {[
-              [agent.Vverified, 'V'],
-              [agent.rocks, 'Rocks'],
-              [agent.communityname, 'Community'],
-              [agent.intelname, 'Intel'],
-            ]
-              .filter((a) => a[0])
-              .map((a) => a[1])
-              .join(' ')}
-          </td>
+          {#if agent.isSmurf()}
+            <td>⚠️ SMURF ⚠️</td>
+          {:else}
+            <td>
+              {[
+                [agent.Vverified, 'V'],
+                [agent.rocks, 'Rocks'],
+                [agent.communityname, 'Community'],
+                [agent.intelname, 'Intel'],
+              ]
+                .filter((a) => a[0])
+                .map((a) => a[1])
+                .join(' ')}
+            </td>
+          {/if}
           <td>
             {#if agent.shareLocation}
               <img src={checkmark} alt="sharing location" />

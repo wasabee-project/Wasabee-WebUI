@@ -15,6 +15,7 @@ interface BaseAgent {
 interface RockAgent extends BaseAgent {
   rocksname?: string;
   rocks: boolean;
+  smurf: boolean;
 }
 
 interface VAgent extends BaseAgent {
@@ -82,6 +83,7 @@ export default class WasabeeAgent implements Agent {
   // rocks
   rocksname?: string;
   rocks: boolean;
+  smurf: boolean;
 
   // per team data
   shareWDKeys?: boolean;
@@ -114,6 +116,7 @@ export default class WasabeeAgent implements Agent {
     // rocks
     this.rocksname = obj.rocksname;
     this.rocks = !!obj.rocks;
+    this.smurf = !!obj.smurf;
 
     if (this.communityname) this.name = this.communityname;
     else if (this.Vverified) this.name = this.vname || this.name;
@@ -144,6 +147,10 @@ export default class WasabeeAgent implements Agent {
   get latLng() {
     if (this.lat || this.lng) return new L.LatLng(this.lat, this.lng);
     return null;
+  }
+
+  isSmurf() {
+    return this.smurf || this.blacklisted || this.intelfaction == 'RESISTANCE';
   }
 
   static get(gid: GoogleID) {

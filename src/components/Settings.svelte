@@ -107,10 +107,7 @@
         </div>
       {:else}
         <div>
-          Tell the bot (<a href={'tg://resolve?domain=' + botname}
-            >{{
-              botname,
-            }}</a
+          Tell the bot (<a href={'tg://resolve?domain=' + botname}>{botname}</a
           >)
           <a href={'https://telegram.me/' + botname + '?start=' + me.lockey}
             >{me.lockey}</a
