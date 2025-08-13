@@ -14,7 +14,7 @@
 
   import type { MeTeam, WasabeeMe } from '../model/me';
 
-  import { agentsStore, meStore, opsStore } from '../stores';
+  import { agentsStore, meStore, opsStore, teamsStore } from '../stores';
   import {
     Button,
     Input,
@@ -144,7 +144,10 @@
           </tr>
         {:else}
           {#each me.Teams as team (team.ID)}
-            <tr>
+            <tr
+              class:table-danger={$teamsStore[team.ID] &&
+                $teamsStore[team.ID].isUnsafe()}
+            >
               <td>
                 <a href={'#/team/' + team.ID + '/list'}>
                   {team.Name}

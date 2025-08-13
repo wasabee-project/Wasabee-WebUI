@@ -58,6 +58,10 @@ export default class WasabeeTeam implements Team {
     teamCache.set(this.id, this);
   }
 
+  isUnsafe() {
+    return this.agents.some((a) => a.isSmurf());
+  }
+
   static get(teamID: TeamID) {
     const cached = teamCache.get(teamID);
     if (cached) {
