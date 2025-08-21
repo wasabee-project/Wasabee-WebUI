@@ -45,12 +45,6 @@
         <span class="font-weight-bolder">Wasabee Name:</span>
         <span class="agent-name">{agent.name}</span>
       </div>
-      {#if agent.communityname}
-        <div>
-          <span class="font-weight-bolder">Community Name:</span>
-          <span class="agent-name">{agent.communityname}</span>
-        </div>
-      {/if}
       {#if agent.rocksname}
         <div>
           <span class="font-weight-bolder">Rocks Name:</span>

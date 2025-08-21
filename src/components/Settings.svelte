@@ -42,8 +42,6 @@
         <span class="agent-name">{me.id}</span>
       </div>
       <div>
-        <span class="font-weight-bolder">Level:</span>
-        <span class="agent-name">{me.level}</span>
         <p>
           <em
             >This information comes from
@@ -62,12 +60,6 @@
           for authorization.</em
         >
       </p>
-      <div>
-        <p>
-          <span class="font-weight-bolder">Community Name [deprecated]:</span>
-          <span class="agent-name">{me.communityname}</span>
-        </p>
-      </div>
     </div>
   </div>
   <div class="card mb-2">
